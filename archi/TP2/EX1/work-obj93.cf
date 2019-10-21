@@ -1,0 +1,10 @@
+v 4
+file . "adder_4bit.vhd" "262404e1f7e4a791fe1c56e22df7ef6c69d9f0d5" "20191021132322.196":
+  entity adder_4bit at 1( 0) + 0 on 35;
+  architecture struct_4b of adder_4bit at 12( 214) + 0 on 36;
+file . "full_adder.vhd" "c59191edcfd0a128028c4f9241535eaca3a98eec" "20191021132319.091":
+  entity full_adder at 1( 0) + 0 on 33;
+  architecture fdd_fa of full_adder at 9( 143) + 0 on 34;
+file . "testbench_4B.vhd" "21ad2cea7d8e80f8b52238083854658cdc056526" "20191021132326.862":
+  entity test_4b at 1( 0) + 0 on 37;
+  architecture arc of test_4b at 8( 101) + 0 on 38;
