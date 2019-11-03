@@ -79,7 +79,7 @@ bool pile_pleine(const pile_t *p){
  */
 void afficher_pile(const pile_t *p){
   for (int i = 0; i <= p->som ;i++){
-    printf("%d ", p->elts[p->som]);
+    printf("%d ", p->elts[i]);
   }
   printf("\n");
 }

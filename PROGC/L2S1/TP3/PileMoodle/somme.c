@@ -30,10 +30,26 @@ int somme_rec(char *p, int s) {
  * @return		Résultat de la somme.
  */
 int somme_iter(char *c) {
-	
-	/* A compléter */
-	
-	return 0;
+	pile_t p;
+	init_pile(&p);
+
+	empiler(&p, 0);	
+
+	while (*c != '\0'){
+		if (*c == '+'){
+
+			empiler(&p, 0);
+		} else {
+			p.elts[p.som] = p.elts[p.som] * 10 + *c - '0';
+		}
+	c += 1;
+	}
+	int s = 0;
+	while (!pile_vide(&p)){
+		s += sommet(&p);
+		depiler(&p);
+	}
+	return s;
 }
 
 int main() {

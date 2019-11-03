@@ -3,16 +3,15 @@
 
 #include "pile.h"
 
-typedef pile_t Jeu[3]
+typedef pile_t Jeu[3];
 
 void initialiserJeu(int n, Jeu tours);
-  for (int i = 0; i < 3; i++){
-    init_pile(tours + i);
-  }
 
-  for (int i = n; > -1; i--){
-    empiler(tours + i, i);
-  }
-}
+void deplacerAnneau(Jeu tours, int depart, int arrivee);
+
+bool deplacementPossible(Jeu tours, int depart, int arrivee);
+
+void afficherJeu(Jeu tours);
+
 
 #endif

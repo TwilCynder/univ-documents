@@ -1,13 +1,13 @@
-#makefile pile dynamique
+
 CC = cc
 CFLAGS =-Wall -g
 
-EXECS = exo1
 
-
-exo1: exo1.o
+exo2: exo2.o pile.o
 	$(CC) -o $@ $^ $(CFLAGS)
 
+exo1: exo1.o hanoi.o pile.o
+	$(CC) -o $@ $^ $(CFLAGS)
 
 pile.o: pile.h
 hanoi.o : hanoi.h pile.h

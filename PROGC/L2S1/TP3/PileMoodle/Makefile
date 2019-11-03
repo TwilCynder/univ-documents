@@ -21,6 +21,9 @@ verif-parent: verif-parent.o pile.o
 somme: somme.o pile.o
 	$(CC) -o $@ $^ $(CFLAGS)
 
+polonaise: polonaise.o pile.o
+	$(CC) -o $@ $^ $(CFLAGS)	
+
 pile.o: pile.h
 main.o: pile.h test.h
 
