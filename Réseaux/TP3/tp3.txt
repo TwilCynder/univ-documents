@@ -1,0 +1,72 @@
+1.1) Le protocole DNS appartient à la couche application
+
+1.2)
+- le navigateur envoie une requête à un serveur DNS avec le nom de domaine demandé (http://www.univ-tlse3.fr)
+- le serveur DNS récupère l'adresse IP correspondant à ce nom de domaine (195.220.45.53), en passant notament par un serveur d'authentification
+- il envoie une réponse à la requête avec cette adresse IP (entre autres)
+- le navigateur envoie ensuite une requête HTTP /GET au serveur HTTP à cette adresse
+- en fonction de l'URL exacte de la requête, le serveur envoie une réposne à la requête /GET contenant la page web (l'URL de la request étant constituée uniquement du nom de domaine il s'agira de la page d'accueil du site de l'université)
+
+1.3) Le serveur DNS configuré sur ma machine a pour adresse 130.120.8.15
+
+1.4) l'adresse de la machine lifou-www-nom-ups.cict.fr est 195.220.59.62
+l'adresse de la machine www.univ-tlse3.fr est 195.220.45.53, ce qui est cohérent avec la question 1.1
+
+2.1) Un nom de domaine est constitué d'un domaine (ou nom du domaine) puis d'un domaine de tête (top level domain). Il peut enfin contenir un ou plusieurs sous-domaines (avant le nom du domaine).
+Tous ces champs (labels) sont séparés par des points.
+Un TLD est un domaine représentant une catégorie de nom de domaine, il doit donc être choisi parmi la liste des TLD existants.
+Les deux grandes catégories de TLD sont :
+- les TLD nationaux, représentant un pays/étant (.fr, .be, etc)
+- les TLD génériques (.com, .net, .biz, etc)
+
+2.2)
+Organisation chargée de la gestion des noms de domaine :
+- du royaume-uni : Nominet UK
+- de grèce : ICS-FORTH GR
+- du japon : Japan Registry Services Co., Ltd
+
+2.3) L'oganisation gérant les noms de domaines dont le TLD est .fr est l'AFNIC (Association Française pour le Nommage Internet en Coopération)
+Il existe de nombreuses restrictions quant aux noms de domaine enregistrés avec ce TLD, indiquées par cette charte de nommage : https://www.afnic.fr/medias/documents/Cadre_legal/Charte_de_nommage_25052018_VF.pdf
+
+2.4) Un registrar est une entreprise gérant l'enregistrement des noms de domaines. Elles sont accréditées par une ou plusieurs organisations gérant un TLD, afin
+de pouvoir délivrer (vendre) des noms de domaine sous ce TLD.
+Après recherche auprès du regirstrar IONOS, l'adresse tinarrage.com semble disponible.
+
+3.1) Le numéro de port du service HTTP est 80.
+Le numéro de port du service FTP (transfert de fichiers) est 21
+Celui du service SMTP (transfert de messages) est 25.
+
+3.2) Une URL (uniform ressource locator) est un chaîne de caractère permettant d'identifier une ressource, généralement accessible via internet.
+Elle contient de nombreuses informations permettant l'accès à cette ressources, notamment le nom de domaine du serveur sur laquelle la ressource se trouve,
+le protocole utilisé pour y accéder (exemple : http, indiqué par "http:" au début de l'URL, pour une page web), et le numéro de port de l'application fournissant la ressource.
+
+La structure générale est :
+protocole:adresse:port/informations_complémenaires
+
+L'adresse peut être remplacée par un nom de domaine correspondant.
+Le port est souvent omis, notament pour une requête HTTP qui utilisera presque toujours le port 80 (ou HTTPS, 81).
+
+3.3)
+- https://www.univ-toulouse.fr/
+Le protocole est http, l'IP correspondant à ce nom de domaine est 195.220.45.53. Le port utilisé est le port par défaut pour le protocole https, 81.
+
+- http://mars.univ-toulouse.fr/
+Le protocole est http. L'IP n'a pas été trouvée (le sous domaine "mars" n'existe apparemment pas sur le serveur au nom de domaine univ-toulouse.fr), la requête a donc échoué.
+
+- https://www.irit.fr/
+Le protocole est http, l'IP correspondant à ce nom de domaine est 141.115.28.2. Le port utilisé est le port par défaut pour le protocole https, 81.
+
+- https://141.115.28.2/
+Le protocole est http. Il est possible d'accéder à l'IP directement mais la requête ne passant pas par le protocole DNS et donc le processus d'authentification, le navigateur indique une erreur de sécurité.
+
+- http://ftp.lip6.fr/
+Le protocole est http (donc port 80, par défaut). Le navigateur reçoit une page web.
+
+- ftp://ftp.lip6.fr/
+Le protocole est ftp (donc port 21) En accédant à la même adresse mais avec un protocole et surtout un port différents, un résultat différent se produit : le navigateur peut accéder aux fichiers par le serveur FTP à cette adresse.
+
+- ftp://ftp.lip6.fr:80/
+Le protocole est ftp. Une erreur se produit : en effet, on essaie d'accéder au port 80, qui est celui du serveur HTTP, avec le mauvais protocole.
+
+- ftp://ftp.lip6.fr:21/
+Le protocole est FTP. Il se produit le même résultat qu'avec ftp://ftp.lip6.fr/, puisque 21 est le port par défaut du protocole FTP.

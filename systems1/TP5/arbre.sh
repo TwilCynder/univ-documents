@@ -14,11 +14,11 @@ fi
 
 if [ $# -eq 1 ]
 then
+    echo `basename $1`
     "$0" "$1" ""
     exit 0
 fi
 
-echo "$2`basename $1`"
 
 i=0
 for f in `ls $1`
@@ -35,6 +35,7 @@ do
   path="$1/$f"
   if [ -d "$path" -a -x "$path" ]
   then
+    echo "$2+- `basename $path`"
     if [ $i -eq 1 ]
     then
       "$0" "$path" "$2   "

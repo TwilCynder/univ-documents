@@ -1,2 +1,2 @@
 clear
-gcc -Wall -Wextra $1 -o $2
+gcc -Wall -Wextra $1.c -o $1

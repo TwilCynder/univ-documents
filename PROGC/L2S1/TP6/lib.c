@@ -1,6 +1,7 @@
+#include "lib.h"
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include <time.h>
 #include <assert.h>
 
@@ -8,6 +9,19 @@
 #define VAL_MAX 20
 
 typedef int tableau[N];
+
+void init_tab(tableau T){
+  for (int i = 0; i < N; i++){
+    T[i] = rand() % VAL_MAX;
+  }
+}
+
+void aff_tableau(tableau T){
+  for (int i = 0; i < N; i++){
+    printf("%d ", T[i]);
+  }
+  printf("\n");
+}
 
 void swap(int* a, int* b){
   int c = *a;
@@ -26,6 +40,7 @@ bool verif_partition(tableau T, int ind_premier, int ind_pivot, int j, int ind_d
       return false;
     }
   }
+  return true;
 }
 
 bool verif_precondition(tableau T, int ind_premier, int ind_pivot, int j, int ind_dernier){
@@ -59,38 +74,4 @@ int partitionnerInv(tableau T, int ind_premier, int ind_dernier){
   assert(verif_postcondition(T, ind_premier, ind_pivot, j, ind_dernier));
   return ind_pivot;
 
-}
-
-void tri_rapide(tableau T, int ind_premier, int ind_dernier){
-  int ind_pivot;
-  if (ind_premier < ind_dernier){
-    ind_pivot = partitionnerInv(T, ind_premier, ind_dernier);
-    tri_rapide(T, ind_premier, ind_pivot - 1);
-    tri_rapide(T, ind_pivot + 1, ind_dernier);
-  }
-}
-
-void init_tab(tableau T){
-  for (int i = 0; i < N; i++){
-    T[i] = rand() % VAL_MAX;
-  }
-}
-
-void aff_tableau(tableau T){
-  for (int i = 0; i < N; i++){
-    printf("%d ", T[i]);
-  }
-  printf("\n");
-}
-
-int main(int argc, char const *argv[]) {
-  srand(time(NULL));
-
-  tableau T;
-  init_tab(T);
-  aff_tableau(T);
-  tri_rapide(T, 0, N - 1);
-  //partitionnerInv(T, 0, N - 1);
-  aff_tableau(T);
-  return 0;
 }
