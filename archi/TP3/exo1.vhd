@@ -9,7 +9,7 @@ entity reg8b IS
 END ENTITY;
 
 architecture arc OF reg8b IS 
-	signal reg : STD_LOGIC_VECTOR(7 downto 0);
+	signal reg : STD_LOGIC_VECTOR(7 downto 0) := "00000000";
 begin
 	process (wr)
 	begin
@@ -21,6 +21,6 @@ begin
 	with rd select
 	dataOut <= 	reg 		WHEN '1',
 			"ZZZZZZZZ"	WHEN '0',
-			"UUUUUUUU"	WHEN others;			
+			"UUUUUUUU"	WHEN others;		
 
 end architecture;
