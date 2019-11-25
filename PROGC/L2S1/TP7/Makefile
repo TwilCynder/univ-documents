@@ -11,7 +11,7 @@ merge-recursive: mergeRecursive.o mergeSort.o
 	$(CC) -o $@ $^ $(CFLAGS)
 
 merge-iterative: mergeIterative.o mergeSort.o pile.o
-		$(CC) -o $@ $^ $(CFLAGS)
+	$(CC) -o $@ $^ $(CFLAGS)
 
 
 mergeSort.o: mergeSort.h
