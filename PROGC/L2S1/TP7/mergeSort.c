@@ -55,11 +55,6 @@ void merge(int T[], int p1, int d1, int p2, int d2, int M[]){
     return;
 }
 
-
-void mergeSortiterative(int T[], int size, int M[]){
-
-}
-
 void randomizeTab(int T[], int size, int maxVal){
     for (int i = 0; i < size; i++){
         T[i] = rand() % maxVal;
