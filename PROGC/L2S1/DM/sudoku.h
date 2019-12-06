@@ -3,10 +3,6 @@
 #include <stdio.h>
 #include <assert.h>
 
-
-
-
-
 typedef struct
 {
   int val; /* Valeur de la case (0 si vide) */
