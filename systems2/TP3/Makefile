@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -Werror -g
 
-EXECS = exo4 exo5 exo6
+EXECS = exo4 exo5 exo6 exo7
 
 all : $(EXECS)
 

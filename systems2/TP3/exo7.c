@@ -30,34 +30,50 @@ void clear(char* s, int players){
   }
 }
 
-void printf_pos(char*s, int x, int y){
-  printf ("\033[%d;%dH%s", y, x, s);
+void printf_pos(char c, int x, int y){
+  printf ("\033[%d;%dH%c", y, x, c);
   fflush (stdout);
 }
 
-void joueur(char my_char, int ligne, int distance, int monitor_file){
+void joueur(char my_char, int ligne, char distance, int monitor_file){
   char c;
-  int pos = 1;
+  char pos = 1;
 
   ssize_t rd = 0;
-
-  printf_pos(&my_char, pos, ligne);
 
   do{
     rd = read(STDIN_FILENO, &c, 1);
     if (rd != -1 && c == my_char){
       pos += 1;
-      lseek(monitor_file, sizeof(int) * ligne, SEEK_SET);
-      write(monitor_file, &pos, sizeof(int));
+      lseek(monitor_file, sizeof(char) * ligne, SEEK_SET);
+      write(monitor_file, &pos, sizeof(char));
     }
     pause_miscroseconde();
   } while (c != 'f' && pos < distance + 1);
 }
 
-void monitor(int monitor_file){
-  int playerPos[4];
-  while (true){
-    read();
+void monitor(int monitor_file, int nplayers, char* playerChars){
+  char playerPos[nplayers];
+  char prevPlayerPos[nplayers];
+
+  for (int i = 0; i < nplayers; i++){
+    printf_pos(playerChars[i], 1, i + 1);
+  }
+
+  for (int i = 0; i < nplayers; i++){
+    prevPlayerPos[i] = 0;
+  }
+
+  while (1){
+    lseek(monitor_file, 0, SEEK_SET);
+    read(monitor_file, playerPos, sizeof(char) * nplayers);
+    for (int i = 0; i < nplayers; i++){
+      if (playerPos[i] != prevPlayerPos[i]){
+        printf_pos(' ', prevPlayerPos[i], i + 1);
+        prevPlayerPos[i] = playerPos[i];
+        printf_pos(playerChars[i], playerPos[i], i + 1);
+      }
+    }
     pause_miliseconde();
   }
 }
@@ -100,20 +116,26 @@ int main(int argc, char const *argv[])
   bg_string[distance] = '|';
   bg_string[distance + 1] = 0;
 
-  int monitor_file = creat(filename, S_IRWXU);
+  int monitor_file = open("monitor",O_CREAT|O_RDWR|O_TRUNC, S_IRWXU);
 
   clear(bg_string, nplayers);
 
-  void* buf = malloc(sizeof(int) * nplayers);
-  write(monitor_file, buf, sizeof(int) * nplayers);
+  char* buf = malloc(sizeof(char) * nplayers);
+  for (int i = 0; i < nplayers; i++) buf[i] = 1;
+  write(monitor_file, buf, sizeof(char) * nplayers);
   free(buf);
 
   for (int i = 0; i < nplayers; i++){
     pid = fork();
     if (!pid){
-      joueur(playerChars[i], i, distance);
+      joueur(playerChars[i], i, distance, monitor_file);
       exit(i);
     }
+  }
+
+  pid = fork();
+  if (!pid){
+    monitor(monitor_file, nplayers, playerChars);
   }
 
   for (int i = 0; i < nplayers; i++){
