@@ -12,10 +12,12 @@ void pause_miscroseconde(){
   nanosleep( &micro_pause, NULL);
 }
 
-void clear(){
+void clear(char* s, int players){
   printf("\033[H\033[J");
   fflush(stdout);
-  printf("           |\n           |\n");
+  for (int i = 0; i < players; i++){
+    printf("%s\n", s);
+  }
 }
 
 void printf_pos(char*s, int x, int y){
@@ -39,35 +41,64 @@ void joueur(char my_char, int ligne, int distance){
       printf_pos(&my_char, pos, ligne);
     }
     pause_miscroseconde();
-  } while (c != 'f' && pos < 12); 
+  } while (c != 'f' && pos < distance + 1); 
+}
+
+void arg_error(){
+  printf("Usage : exo6 nb_joueurs distance\n");
+  Term_canonique();
+  exit(1);
 }
 
 int main(int argc, char const *argv[])
 {
   Term_non_canonique();
   printf("\033[?25l");
-  clear();
 
   pid_t pid;
-  char* playerChars = "am";
+  char* playerChars = "amyc";
+  int nplayers;
+  int distance;
+  char* bg_string;
   int result[2];
   int circonstance;
+  
+  if (argc < 3){
+    arg_error();
+  }
 
-  for (int i = 0; i < 2; i++){
+  nplayers = atoi(argv[1]);
+  distance = atoi(argv[2]);
+  if (nplayers < 1 || distance < 1){
+    arg_error();
+  }
+
+  if (nplayers > 4) nplayers = 4;
+
+  bg_string = (char*)malloc(sizeof(char) * distance + 3);
+  for (int i = 0; i < distance; i++){
+    bg_string[i] = ' ';
+  }
+  bg_string[distance] = '|';
+  bg_string[distance + 1] = 0;
+
+  clear(bg_string, nplayers);
+
+  for (int i = 0; i < nplayers; i++){
     pid = fork();
     if (!pid){
-      joueur(playerChars[i], i + 1, 10);
+      joueur(playerChars[i], i + 1, distance);
       exit(i);
     }
   }
 
-  for (int i = 0; i < 2; i++){
+  for (int i = 0; i < nplayers; i++){
     wait(&circonstance);
     result[i] = WEXITSTATUS(circonstance);
   }
  
   printf("\n");
-  for (int i = 0; i < 2; i++){
+  for (int i = 0; i < nplayers; i++){
     printf("%d : Joueur %d\n", i + 1, result[i] + 1);
   }
 

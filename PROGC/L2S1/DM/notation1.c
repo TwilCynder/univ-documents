@@ -21,6 +21,7 @@ int comparerSudokus(T_sudoku* s1, T_sudoku* s2){
   int i,j;
   for(i=0;i<81;i++){
     if((s1->grille[i]).val != (s2->grille[i]).val){
+	printf("\n%d %d\n", (s1->grille[i]).val, (s2->grille[i]).val);
       printf("\nErreur de valeur\n");
       return i;
     }
