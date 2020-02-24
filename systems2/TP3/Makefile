@@ -14,5 +14,8 @@ exo5: exo5.c term_mode.o
 exo6: exo6.c term_mode.o
 	$(CC) -o $@ $^ $(CFLAGS)
 
+exo7: exo7.c term_mode.o
+	$(CC) -o $@ $^ $(CFLAGS)
+
 %.o: %.c
 	$(CC) -c $< -o $@ $(CFLAGS)
