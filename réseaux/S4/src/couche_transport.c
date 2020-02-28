@@ -32,3 +32,14 @@ int dans_fenetre(unsigned int inf, unsigned int pointeur, int taille) {
         /* pointeur <= sup < inf */
         ( sup < inf && pointeur <= sup);
 }
+
+void generer_controle(&paquet_t package){
+	int sum = package->type;
+	sum ^= package->num_seq;
+	sum ^= package->lg_info;
+	
+	for (int i = 0; i < package.lg_info; i++){
+		sum ^= package->info[i];
+	};
+	package->control = somme_ctrl;
+}

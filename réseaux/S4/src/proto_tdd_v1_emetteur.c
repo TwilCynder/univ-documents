@@ -42,6 +42,8 @@ int main(int argc, char* argv[])
 
         /* remise à la couche reseau */
         vers_reseau(&paquet);
+		de_reseau(&paquet);
+
 
         /* lecture des donnees suivantes de la couche application */
         de_application(message, &taille_msg);
