@@ -1,6 +1,6 @@
-#include "creation.h"
+#include "consultation.h"
 
 int main(int argc, char const *argv[]) {
-  creation("data");
+  consultation("data");
   return 0;
 }
