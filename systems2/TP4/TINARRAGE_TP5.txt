@@ -1,0 +1,184 @@
+//Fichiers concaténés à cause de la limitation du dépot moodle
+
+//-------Info.h
+#ifndef INFO_H
+#define INFO_H
+
+#define MAX_NAME_LEN 20
+typedef struct {
+  char name[MAX_NAME_LEN + 1];
+  unsigned age;
+  unsigned nChildren;
+} Infos;
+
+#endif
+
+//------creation.h
+#include "info.h"
+int creation(char* filename);
+
+//------consultation.h
+#include "info.h"
+int consultation(char* filename);
+
+//------creation.c
+#include "creation.h"
+#include <stdio.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+
+char* gets(char*);
+
+void addPerson(Infos* p){
+  printf("\nNom : ");
+  scanf("%s", p->name);
+  printf("Age : ");
+  scanf("%d", &p->age);
+  printf("Nombre d'enfants : ");
+  scanf("%d", &p->nChildren);
+}
+
+int creation(char* filename){
+  Infos info;
+  int fd = creat(filename, S_IRWXU | S_IROTH);
+  char t;
+
+  do{
+    addPerson(&info);
+    write(fd, &info, sizeof(info));
+    printf("Ajouter une autre fiche ? (y/n)");
+    scanf("\n%c", &t);
+  } while (t == 'y');
+
+  close(fd);
+
+  return 0;
+}
+
+//------consultation.c
+#include "consultation.h"
+#include <stdio.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+
+void viewPerson(Infos* p){
+  printf("Nom : %s\n", p->name);
+  printf("Age : %d\n", p->age);
+  printf("Nombre d'enfants : %d\n", p->nChildren);
+}
+
+int consultation(char* filename){
+  Infos info;
+  int nInfos = 0;
+
+  int fd = open(filename, O_RDONLY);
+  int ans;
+
+  if (fd == -1){
+    perror("Impossible d'ouvrir' le fichier");
+    exit(1);
+  }
+
+  while (read(fd, &info, sizeof(Infos)) != 0){
+    ++nInfos;
+  }
+
+  printf("Nombre de fiches : %d\n", nInfos);
+
+  printf("N° de la fiche a afficher (-1 pour quitter): ");
+  scanf("%d", &ans);
+
+  while (ans >= 0){
+    if (ans >= nInfos) {
+      printf("Numéro de fiche trop élevé\n");
+    } else {
+      lseek(fd, ans * sizeof(Infos), SEEK_SET);
+      read(fd, &info, sizeof(Infos));
+      viewPerson(&info);
+    }
+    printf("N° de la fiche a afficher (-1 pour quitter): ");
+    scanf("%d", &ans);
+  }
+
+  close(fd);
+
+  return 0;
+}
+
+//------exo8.c
+#include "creation.h"
+
+int main(int argc, char const *argv[]) {
+  creation("data");
+  return 0;
+}
+
+//------exo9.c
+#include "consultation.h"
+
+int main(int argc, char const *argv[]) {
+  consultation("data");
+  return 0;
+}
+
+//------exo10.c
+#include "creation.h"
+#include "consultation.h"
+#include <stdio.h>
+
+void promptCreate(){
+  char filename[30];
+  printf("Fichier à créer : ");
+  scanf("%s", filename);
+  creation(filename);
+}
+
+void promptConsult(){
+  char filename[30];
+  printf("Fichier à ouvrir : ");
+  scanf("%s", filename);
+  consultation(filename);
+}
+
+int main(int argc, char const *argv[]) {
+  char ans;
+  printf("Sélectionner une action : \nn : créer fichier \no : consulter fichier \nautre : quitter");
+  scanf("%c", &ans);
+
+  while (ans == 'n' || ans == 'o'){
+    if (ans == 'n'){
+      promptCreate();
+    } else {
+      promptConsult();
+    }
+    printf("Sélectionner une action : \nn : créer fichier \no : consulter fichier \nautre : quitter");
+    scanf("\n%c", &ans);
+  }
+
+  return 0;
+}
+
+//------Makefile
+CC = gcc
+CFLAGS = -Wall -Werror -g
+
+EXECS = exo8 exo9 exo10
+
+all : $(EXECS)
+
+exo8: exo8.o creation.o
+	$(CC) -o $@ $^ $(CFLAGS)
+
+exo9: exo9.o consultation.o
+	$(CC) -o $@ $^ $(CFLAGS)
+
+exo10: exo10.o creation.o consultation.o
+	$(CC) -o $@ $^ $(CFLAGS)
+
+%.o: %.c
+	$(CC) -c $< -o $@ $(CFLAGS)
