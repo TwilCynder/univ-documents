@@ -20,7 +20,6 @@ void queueDumpCallback(FILE* f, void* e){
 
 /** Converts a string into a queue of symbols.
 	*returns a pointer to a queue in case of success
-	*or NULL if the queue is empty (no symbol in the string)
  */
 Queue *stringToTokenQueue(const char *expression){
 	ptrQueue q = createQueue();
@@ -52,12 +51,48 @@ Queue *stringToTokenQueue(const char *expression){
 Queue *shuntingYard(Queue* infix){
 	Token* t;
 	Queue* q = createQueue();
+	Stack* opStack = createStack(32);
 	while (!queueEmpty(infix)){
 		t = (Token*)queueTop(infix);
+		queuePop(infix);
 		if (tokenIsNumber(t)) {
 			queuePush(q, t);
-		} else if ()
+		} else if (tokenIsOperator(t)) {
+			while(
+				!stackEmpty(opStack) &&
+				((tokenGetOperatorPriority(t) < tokenGetOperatorPriority(stackTop(opStack)) ||
+				(tokenGetOperatorPriority(t) == tokenGetOperatorPriority(stackTop(opStack)) && tokenOperatorIsLeftAssociative(t))) &&
+				!(tokenIsParenthesis(stackTop(opStack)) && tokenGetParenthesisSymbol(stackTop(opStack)) == '(')
+				)
+			){
+				queuePush(q, stackTop(opStack));
+				stackPop(opStack);
+			}
+			stackPush(opStack, t);
+		} else if (tokenIsParenthesis(t)){
+			if (tokenGetParenthesisSymbol(t) == '('){
+				stackPush(opStack, t);
+			} else {
+				while (! (stackEmpty(opStack) || (tokenIsParenthesis(stackTop(opStack)) && tokenGetParenthesisSymbol(stackTop(opStack)) == '('))){
+					queuePush(q, stackTop(opStack));
+					stackPop(opStack);
+				}
+				stackPop(opStack);
+			}
+		}
 	}
+
+	while(!stackEmpty(opStack)){
+		if (tokenIsParenthesis(stackTop(opStack))){
+			printf("Erreur de parentheses");
+			break;
+		}
+		queuePush(q, stackTop(opStack));
+		stackPop(opStack);
+	}
+
+	deleteStack(&opStack);
+	return q;
 }
 
 void computeExpressions(FILE *input){
@@ -65,22 +100,31 @@ void computeExpressions(FILE *input){
 	char* line = NULL;
 	size_t n;
 	Queue* q;
+	Queue* outputQ;
+	Token* t;
+
 
 	while (!feof(input)){
 		getline(&line, &n, input);
 		q = stringToTokenQueue(line);
-		queueDump(stdout, q, &queueDumpCallback);
-		printf("\n");
+		if (!queueEmpty(q)){
+			printf("Infix : ");
+			queueDump(stdout, q, &queueDumpCallback);
+			printf("\nPostfix : ");
+			outputQ = shuntingYard(q);
+			queueDump(stdout, outputQ, &queueDumpCallback);
+			printf("\n");
+		}
+
+		while(!queueEmpty(q)){
+			t = (Token*) queueTop(q);
+			deleteToken(&t);
+			queuePop(q);
+		}
+		deleteQueue(&q);
 	}
 
 	free(line);
-	Token* t;
-
-	while(!queueEmpty(q)){
-		t = (Token*) queueTop(q);
-		deleteToken(&t);
-	}
-	deleteQueue(&q);
 }
 
 /** Main function for testing.
