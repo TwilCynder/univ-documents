@@ -1,7 +1,7 @@
 # Hey Emacs, this is a -*- makefile -*-
 
 # Nom du fichier executable
-TARGET = exo2
+TARGET = exo1
 
 # Prefixe de la chaine de compilation
 TCHAIN = arm-none-eabi
@@ -35,7 +35,7 @@ RUN_MODE=RAM_RUN
 # Even though the DOS/Win* filesystem matches both .S and .s the same,
 # it will preserve the spelling of the filenames, and gcc itself does
 # care about how the name is spelled on its command-line.
-ASRC = TP3/$(TARGET).s
+ASRC = TP4/$(TARGET).s
 
 # Ajouter vos sources assembleur ici (par defaut main.s)
 # Par exemple pour ajouter truc.s et truc2.s situés dans le répertoire src/
