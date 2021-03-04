@@ -10,55 +10,53 @@
 #include "queue.h"
 #include "stack.h"
 
+
+bool isWhiteSpace(char c){
+	return (c == ' ' || c == '\n' || c == 9);
+}
+
 bool isSymbol(char c){
 	return (c > 39 && c < 44) || c == 45 || c == 47 || c == 94;
 }
 
-void queueDumpCallback(FILE* f, void* e){
-	tokenDump(f, (Token*)e);
-}
-
-/** Converts a string into a queue of symbols.
-	*returns a pointer to a queue in case of success
- */
-Queue *stringToTokenQueue(const char *expression){
+Queue* stringToTokenQueue(const char* expr){
 	ptrQueue q = createQueue();
-	const char* cursor = expression;
-	const char* nStart = 0;
 
-	while (*cursor != 0){
-		if (*cursor != '\n' && *cursor != ' '){
+	const char* cursor = expr;
+	const char* numberStart = 0; //when numberstart != 0, a number is being read
+
+	while (*cursor != '\0'){
+		if (!isWhiteSpace(*cursor)){
 			if (isSymbol(*cursor)){
-				if (nStart) {
-					queuePush(q, createTokenFromString(nStart, cursor - nStart));
-					nStart = 0;
+				if (numberStart){
+					queuePush(q, createTokenFromString(numberStart, cursor - numberStart));
 				}
+				numberStart = 0;
 				queuePush(q, createTokenFromString(cursor, 1));
-			} else {
-				nStart = cursor;
+			} else if (!numberStart) {
+				numberStart = cursor;
 			}
 		}
-		++cursor;
+		cursor++;
 	}
-	if (nStart) {
-		queuePush(q, createTokenFromString(nStart, cursor - nStart));
-		nStart = 0;
-	}
-	return q;
 
+	if (numberStart) {
+		queuePush(q, createTokenFromString(numberStart, cursor - numberStart));
+	}
+
+	return q;
 }
 
-Queue *shuntingYard(Queue* infix){
+Queue* ShuntingYard(Queue* infix){
 	Token* t;
-	Queue* q = createQueue();
+	Queue* rpn = createQueue();
 	Stack* opStack = createStack(32);
-	
+
 	while (!queueEmpty(infix)){
 		t = (Token*)queueTop(infix);
-		queuePop(infix);
-		if (tokenIsNumber(t)) {
-			queuePush(q, t);
-		} else if (tokenIsOperator(t)) {
+		if (tokenIsNumber(t)){
+			queuePush(rpn, t);
+		} else if (tokenIsOperator(t)){
 			while(
 				!stackEmpty(opStack) &&
 				((tokenGetOperatorPriority(t) < tokenGetOperatorPriority(stackTop(opStack)) ||
@@ -66,7 +64,7 @@ Queue *shuntingYard(Queue* infix){
 				!(tokenIsParenthesis(stackTop(opStack)) && tokenGetParenthesisSymbol(stackTop(opStack)) == '(')
 				)
 			){
-				queuePush(q, stackTop(opStack));
+				queuePush(rpn, stackTop(opStack));
 				stackPop(opStack);
 			}
 			stackPush(opStack, t);
@@ -75,7 +73,7 @@ Queue *shuntingYard(Queue* infix){
 				stackPush(opStack, t);
 			} else {
 				while (! (stackEmpty(opStack) || (tokenIsParenthesis(stackTop(opStack)) && tokenGetParenthesisSymbol(stackTop(opStack)) == '('))){
-					queuePush(q, stackTop(opStack));
+					queuePush(rpn, stackTop(opStack));
 					stackPop(opStack);
 				}
 				stackPop(opStack);
@@ -92,37 +90,36 @@ Queue *shuntingYard(Queue* infix){
 		stackPop(opStack);
 	}
 
-	deleteStack(&opStack);
+	deleteStack(opStack);
 	return q;
 }
 
-void computeExpressions(FILE *input){
-	//?? output (ligne vide)
+void printToken(FILE* file, void* t){
+	tokenDump(file, (Token*) t);
+}
+
+void fullDeleteQueue(Queue* q){
+	Token* t;
+	while(!queueEmpty(q)){
+		t = (Token*) queueTop(q);
+		deleteToken(&t);
+		queuePop(q);
+	}
+	deleteQueue(&q);
+}
+
+void computeExpressions(FILE* stream){
 	char* line = NULL;
 	size_t n;
 	Queue* q;
-	Queue* outputQ;
-	Token* t;
 
-
-	while (!feof(input)){
-		getline(&line, &n, input);
+	while (!feof(stream)){
+		getline(&line, &n, stream);
+		printf(line);
 		q = stringToTokenQueue(line);
-		if (!queueEmpty(q)){
-			printf("Infix : ");
-			queueDump(stdout, q, &queueDumpCallback);
-			printf("\nPostfix : ");
-			outputQ = shuntingYard(q);
-			queueDump(stdout, outputQ, &queueDumpCallback);
-			printf("\n");
-		}
-
-		while(!queueEmpty(q)){
-			t = (Token*) queueTop(q);
-			deleteToken(&t);
-			queuePop(q);
-		}
-		deleteQueue(&q);
+		queueDump(stdout, q, &printToken);
+		printf("\n");
+		fullDeleteQueue(q);
 	}
 
 	free(line);
@@ -137,12 +134,12 @@ void computeExpressions(FILE *input){
  */
 int main(int argc, char **argv){
 	FILE *input;
-
+	
 	if (argc<2) {
 		fprintf(stderr,"usage : %s filename\n", argv[0]);
 		return 1;
 	}
-
+	
 	input = fopen(argv[1], "r");
 
 	if ( !input ) {
@@ -155,3 +152,4 @@ int main(int argc, char **argv){
 	fclose(input);
 	return 0;
 }
+ 
