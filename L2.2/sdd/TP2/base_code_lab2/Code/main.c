@@ -54,6 +54,7 @@ Queue* ShuntingYard(Queue* infix){
 
 	while (!queueEmpty(infix)){
 		t = (Token*)queueTop(infix);
+		queuePop(infix);
 		if (tokenIsNumber(t)){
 			queuePush(rpn, t);
 		} else if (tokenIsOperator(t)){
@@ -86,16 +87,93 @@ Queue* ShuntingYard(Queue* infix){
 			printf("Erreur de parentheses");
 			break;
 		}
-		queuePush(q, stackTop(opStack));
+		queuePush(rpn, stackTop(opStack));
 		stackPop(opStack);
 	}
 
-	deleteStack(opStack);
-	return q;
+	deleteStack(&opStack);
+	return rpn;
 }
 
 void printToken(FILE* file, void* t){
 	tokenDump(file, (Token*) t);
+}
+
+void onWrongOperandToken(Token* operator, Token* operand){
+	fprintf(stderr, "Error : malformed RPN : expected number token for operation ");
+	tokenDump(stderr, operator);
+	fprintf(stderr, " but got ");
+	tokenDump(stderr, operand);
+	exit(1);
+}
+
+Token* evaluateOperator(Token* op, Token* left_token, Token* right_token){
+	if (!tokenIsNumber(left_token)) onWrongOperandToken(op, left_token);
+	if (!tokenIsNumber(right_token)) onWrongOperandToken(op, right_token);
+
+	float lhv = tokenGetValue(left_token);
+	float rhv = tokenGetValue(right_token);
+
+	switch (tokenGetOperatorSymbol(op)){
+		case '+': return createTokenFromValue(lhv + rhv);
+		case '-': return createTokenFromValue(lhv - rhv);
+		case '*': return createTokenFromValue(lhv * rhv);
+		case '/': return createTokenFromValue(lhv / rhv);
+		case '^': return createTokenFromValue(pow(lhv, rhv));
+		default :
+			fprintf(stderr, "Error : unsupported operator : got operator token with symbol %c\n", tokenGetOperatorSymbol(op));
+			exit(2);
+	}
+}
+
+Token* tryPopOperand(Stack* stack){
+	if (stackEmpty(stack)){
+		fprintf(stderr, "Error : malformed rpn : an operator was read but no operands left\n");
+		exit(3);
+	}
+	Token* res = (Token*)stackTop(stack);
+	stackPop(stack);
+	return res;
+}
+
+float evaluateExpression(Queue* rpn){
+	Stack* valueStack = createStack(32);
+	Token* t;
+	float result;
+	Token *lhv, *rhv;
+
+	while (!queueEmpty(rpn)){
+		t = (Token*)queueTop(rpn);
+		queuePop(rpn);
+
+		if (tokenIsOperator(t)){
+			lhv = tryPopOperand(valueStack);
+			rhv = tryPopOperand(valueStack);
+			stackPush(valueStack, evaluateOperator(t, lhv, rhv));
+		} else if (tokenIsNumber(t)){
+			stackPush(valueStack, t);
+		} else {
+			fprintf(stderr, "Error : malformed rpn : found token that was neither number or operator : ");
+			tokenDump(stderr, t);
+			exit(4);
+		}
+	}
+
+	if (stackEmpty(valueStack)){
+		fprintf(stderr, "Error : rpn evaluation : no value left on the stack after evaluation\n");
+		exit(5);
+	}
+
+	result = tokenGetValue(stackTop(valueStack));
+
+	if (!stackEmpty(valueStack)){
+		fprintf(stderr, "Error : rpn evaluation : more than one value left on the stack after evaluation");
+		exit(6);
+	}
+
+	deleteStack(&valueStack);
+
+	return result;
 }
 
 void fullDeleteQueue(Queue* q){
@@ -111,15 +189,24 @@ void fullDeleteQueue(Queue* q){
 void computeExpressions(FILE* stream){
 	char* line = NULL;
 	size_t n;
-	Queue* q;
+	Queue* infixQ;
+	Queue* rpnQ;
 
 	while (!feof(stream)){
 		getline(&line, &n, stream);
 		printf(line);
-		q = stringToTokenQueue(line);
-		queueDump(stdout, q, &printToken);
-		printf("\n");
-		fullDeleteQueue(q);
+		infixQ = stringToTokenQueue(line);
+		if (!queueEmpty(infixQ)){
+			queueDump(stdout, infixQ, &printToken);
+			printf("\n");
+			rpnQ = ShuntingYard(infixQ);
+			queueDump(stdout, rpnQ, &printToken);
+			printf("\n");
+
+
+			fullDeleteQueue(infixQ);
+			fullDeleteQueue(rpnQ);
+		}
 	}
 
 	free(line);

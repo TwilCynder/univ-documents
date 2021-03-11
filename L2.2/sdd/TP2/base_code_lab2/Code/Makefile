@@ -10,7 +10,7 @@ else
 	LDFLAGS +=
 endif
 
-EXEC=expr_ex1
+EXEC=parser
 OBJ= main.o staticstack.o queue.o token.o
 
 all: 
