@@ -1,0 +1,1 @@
+Q3) On pourrait ajouter des contraintes sur les prix, afin qu'ils restent positifs
