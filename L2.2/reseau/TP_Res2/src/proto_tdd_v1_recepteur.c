@@ -11,6 +11,7 @@
 #include "application.h"
 #include "couche_transport.h"
 #include "services_reseau.h"
+#include "controle.h"
 
 /* =============================== */
 /* Programme principal - récepteur */
@@ -44,7 +45,6 @@ int main(int argc, char* argv[])
             }
             /* remise des données à la couche application */
             fin = vers_application(message, paquet.lg_info);
-
             paquet_ack.type = ACK;
         } else {
             paquet_ack.type = NACK;
