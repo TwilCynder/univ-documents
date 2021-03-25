@@ -20,6 +20,7 @@ ifeq ($(DEBUG),yes)
 else
 	@echo "Generating in release mode"
 endif
+	@clear
 	@$(MAKE) $(EXEC)
 
 $(EXEC): $(OBJ)

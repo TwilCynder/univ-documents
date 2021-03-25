@@ -7,7 +7,6 @@
  */
 /*-----------------------------------------------------------------*/
 #include <stdio.h>
-#
 #include <stdlib.h>
 #include <assert.h>
 
@@ -27,6 +26,15 @@ struct s_List {
 	int size;
 };
 
+///Q6.1
+///Cette structure doit être déclarée dans le .c et pas dans le .h, 
+///car laisser l'utilisateur manipuler ses membres n'est pas pertinent, et ne peut que mener à des bugs des fonctions utilisant cette struct
+
+typedef struct s_SubList {
+	int size;
+	LinkedElement* head;
+	LinkedElement* tail;
+} SubList;
 
 /*-----------------------------------------------------------------*/
 
@@ -147,8 +155,18 @@ LinkedElement* find(List*l, int p){
 	return it;
 }
 
-List *list_insert_at(List *l, int p, int v) {
+void list_dump_adresses(List* l){
+	printf("=====List adress dump=====\n");
+	printf("Sentinel : %p\n", (void*)l->sentinel);
+	LinkedElement* elem = l->sentinel->previous;
+	while(elem != l->sentinel){
+		printf("Adress : %p | Previous : %p | Next %p\n", (void*)elem, (void*)elem->previous, (void*)elem->next);
+		elem = elem->previous;
+	}
+	printf("==========================\n");
+}
 
+List *list_insert_at(List *l, int p, int v) {
 	if (p < 0 ||  p > l->size){
 		fprintf(stderr, "Erreur : tentative d'insertion hors des limites de la liste");
 	}
@@ -158,10 +176,10 @@ List *list_insert_at(List *l, int p, int v) {
 	elem->value = v;
 	elem->next = it;
 	elem->previous = it->previous;
-	it->previous = elem;
 	it->previous->next = elem;
+	it->previous = elem;
 	l->size++;
-
+	//list_dump_adresses(l);
 	return l;
 }
 
@@ -177,7 +195,6 @@ List *list_remove_at(List *l, int p) {
 	it->previous->next = it->next;
 	free(it);
 	l->size--;
-
 	return l;
 }
 
@@ -225,8 +242,30 @@ List *list_reduce(List *l, ReduceFunctor f, void *userData) {
 
 /*-----------------------------------------------------------------*/
 
-List *list_sort(List *l, OrderFunctor f) {
-	(void)f;
-	return l;
+SubList list_split(SubList sl){
+	SubList res;
+	res.head = sl.head;
+	res.tail = sl.tail;
+
+	if (res.tail == res.head) return res;
+
+	while (res.head->next != res.tail){
+		res.head = res.head->next;
+		if (res.head->next == res.tail){
+			return res;
+		}
+		res.tail = res.tail->previous;
+	}
+	return res;
 }
 
+//mergesort 
+
+SubList list_merge(SubList leftlist, SubList rightlist,OrderFunctor f){
+	
+}
+
+List *list_sort(List *l, OrderFunctor f) {
+	
+	return l;
+}
