@@ -174,6 +174,7 @@ void init_reseau(int reception)
         perte_deconnexion = conf_perte_connexion(PERTE_DECONNEXION);
         port_local = (short)(uid % 60000 + 3000);
         port_distant = (short)(uid % 60000 + 2000);
+        printf("PROBA ERREUR : %f", proba_erreur);
     }
 
     printf("[PHY] On utilise le port local %d et le port distant %d\n",
@@ -342,7 +343,7 @@ void de_reseau(paquet_t *paquet)
 #endif
         exit(1);
     }
-    printf("[PHY] paquet recu\n");
+    printf("[PHY] paquet recu : %d\n", paquet->num_seq);
 }
 
 /*******************************************************************************
@@ -409,7 +410,7 @@ void vers_reseau(paquet_t *paquet)
     /* erreur ? */
     if (rand() / (float)RAND_MAX < physique_proba_erreur)
     {
-        printf("%s[PHY] generation d'une erreur dans la paquet%s\n", RED, NRM);
+        printf("%s[PHY] generation d'une erreur dans le paquet%s\n", RED, NRM);
         /* Complement à 1 du 1er octet du champ info : */
         new_paquet->info[0] = ~(new_paquet->info[0]);
         /* +1 sur le num_seq : */
@@ -463,7 +464,7 @@ void vers_reseau(paquet_t *paquet)
         exit(1);
     }
     free(new_paquet);
-    printf("[PHY] paquet envoyé\n");
+    printf("[PHY] paquet envoyé : %d\n", paquet->num_seq);
 }
 
 /**************************************************************************

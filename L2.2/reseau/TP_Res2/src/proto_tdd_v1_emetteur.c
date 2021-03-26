@@ -18,6 +18,7 @@
 /* =============================== */
 int main(int argc, char* argv[])
 {
+
     unsigned char message[MAX_INFO]; /* message de l'application */
     int taille_msg; /* taille du message */
     paquet_t paquet; /* paquet utilisé par le protocole */
@@ -41,13 +42,14 @@ int main(int argc, char* argv[])
         }
         paquet.lg_info = taille_msg;
         paquet.type = DATA;
+        paquet.num_seq = 0;
         paquet.somme_ctrl = generer_controle(&paquet);
 
         /* remise à la couche reseau */
         do {
             vers_reseau(&paquet);
             de_reseau(&paquet_ack);
-        } while (paquet_ack.type == ACK);
+        } while (paquet_ack.type == NACK);
 
         /* lecture des donnees suivantes de la couche application */
         de_application(message, &taille_msg);
