@@ -3,7 +3,7 @@
 
 # Fichiers pour application
 #---------------------------
-FICHIER_IN in.txt
+FICHIER_IN fichiers/in.txt
 FICHIER_OUT fichiers/out.txt
 
 # Initialisation reseau
