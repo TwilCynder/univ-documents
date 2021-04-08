@@ -17,6 +17,14 @@ struct s_SkipList{
 	RNG rng;
 };
 
+void print_element_details(Element e, SkipList l){
+	printf("Value : %d\n", e->value);
+	printf("Level : %d\n", e->level);
+	for (int i = e->level - 1; i >= 0; --i){
+		printf("Prev[%d] : %16p | Next[%d] : %16p", i, (void*)e->prev[i], i, e->next[i]);
+	}
+}
+
 Element create_element(int value, int level){
 	size_t link_array_size = sizeof(void*) * level;
 
