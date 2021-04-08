@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-std=c99 -Wextra -Wall -Werror -pedantic
+CFLAGS=-std=c99 -Wextra -Werror -pedantic
 LDFLAGS=-lm
 
 ifeq ($(DEBUG),yes)

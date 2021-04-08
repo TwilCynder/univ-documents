@@ -63,17 +63,17 @@ SkipList buildlist(int num) {
 	unsigned int level;
 	unsigned int nb_values;
 	int value;
-	
+
 	char *constructfromfile = gettestfilename("construct", num);
 	input = fopen(constructfromfile, "r");
 	if (input!=NULL) {
 		
-		fscanf(input, "%u", &level);
-		d = skiplist_create(level);
-		
-		fscanf(input, "%u", &nb_values);
+		int res; //pour récupérer la valeur de retour de fscanf, afin que gcc ne me fasse pas chier
+		res = fscanf(input, "%u", &level);
+		d = skiplist_create(level);	
+		res = fscanf(input, "%u", &nb_values);
 		for (unsigned int i=0;i< nb_values; ++i) {
-			fscanf(input, "%d", &value);
+			res = fscanf(input, "%d", &value);
 			d = skiplist_insert(d, value);
 		}
 	} else {
@@ -81,6 +81,8 @@ SkipList buildlist(int num) {
 		free(constructfromfile);
 		exit (1);
 	}
+
+
 	free(constructfromfile);
 	fclose(input);
 	return d;
@@ -91,8 +93,15 @@ SkipList buildlist(int num) {
 /** Exercice 1.
  	Programming and test of skiplist construction.
  */
+
+void print(int i, void* u){
+	printf("%d ", i);
+}
+
 void test_construction(int num){
-	(void) num;
+	SkipList l = buildlist(num);
+	printf("Skiplist (%d)\n", skiplist_size(l));
+	skiplist_map(l, &print, NULL);
 }
 
 /** Exercice 2.

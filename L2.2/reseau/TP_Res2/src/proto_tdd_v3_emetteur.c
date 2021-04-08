@@ -13,17 +13,21 @@
 #include "services_reseau.h"
 #include "controle.h"
 
+#define MODULO 8
+
 int main(int argc, char *argv[])
 {
     unsigned char message[MAX_INFO]; /* message de l'application */
     int taille_msg;                  /* taille du message */
-    paquet_t paquet;                 /* paquet utilisé par le protocole */
     paquet_t paquet_ack;             /* paquet de controle */
+
+    paquet_t fenetre[MODULO - 1];                 /* paquets utilisés par le protocole */
+    int borne_inf = 0;
+    int curseur = 0;
 
     int n_retransmission;
     int code_retour;
     int num_sequence = 0;
-
 
     init_reseau(EMISSION);
 
@@ -34,8 +38,13 @@ int main(int argc, char *argv[])
     de_application(message, &taille_msg);
 
     /* tant que l'application a des données à envoyer */
-    while (taille_msg != 0)
+    while (taille_msg != 0 || borne_inf != curseur)
     {
+
+        if (dans_fenetre(borne_inf, curseur, MODULO - 1)){
+            
+        }
+
         n_retransmission = 0;
 
         /* construction paquet */
