@@ -93,17 +93,18 @@ void bstree_add(ptrBinarySearchTree *t, int v) {
     (*current)->parent = parent;
 }
 
-bool bstree_search(const BinarySearchTree *t, int v) {
-    const BinarySearchTree* current = t;
+BinarySearchTree* bstree_find(BinarySearchTree *t, int v){
+    BinarySearchTree* current = t;
 
-    while (current != NULL){
-
-        if (bstree_root(current) == v) return true;
+    while (current != NULL && bstree_root(current) != v){
 
         current = (bstree_root(current) < v) ? bstree_right(current) : bstree_left(current);
     }
+    return current;
+}
 
-    return false;
+bool bstree_search(const BinarySearchTree *t, int v) {
+    return bstree_find((BinarySearchTree *)t, v) != NULL; //faire cette fonction n'était pas nécessaire pour search, mais évite de la duplication de code pour remove
 }
 
 BinarySearchTree *bstree_successor(const BinarySearchTree *x) {
@@ -148,6 +149,9 @@ BinarySearchTree *bstree_predecessor(const BinarySearchTree *x) {
 
 void bstree_swap_nodes(ptrBinarySearchTree *tree, ptrBinarySearchTree from, ptrBinarySearchTree to) {
     assert(!bstree_empty(*tree) && !bstree_empty(from) && !bstree_empty(to));
+
+    //Après deux séances passées à tenter de comprendre cette fonction, j'ai fini par abandonner
+
     (void)tree;
     (void)from;
     (void)to;
@@ -156,11 +160,31 @@ void bstree_swap_nodes(ptrBinarySearchTree *tree, ptrBinarySearchTree from, ptrB
 // t -> the tree to remove from, current -> the node to remove
 void bstree_remove_node(ptrBinarySearchTree *t, ptrBinarySearchTree current) {
     assert(!bstree_empty(*t) && !bstree_empty(current));
-    (void)t; (void)current;
+
+
+    if (current->left && current->right){ //le noeud a 2 fils
+        //Nécessite swap_nodes, donc abandonné
+    } else { //cas de un enfant et aucun enfant traités de la même manière
+        ptrBinarySearchTree child = (current->left != NULL) ? current->left : current->right; //child null si aucun enfant donc
+        if (*t == current) *t = child;
+
+        if (current->parent){
+            if (current == current->parent->left){
+                current->parent->left = child;
+            } else {
+                current->parent->right = child;
+            }
+        }
+
+        if (child){
+            child->parent = current->parent;
+        }
+    }
+    free(current);
 }
 
 void bstree_remove(ptrBinarySearchTree *t, int v) {
-    (void)t; (void)v;
+    bstree_remove_node(t, bstree_find(*t, v));
 }
 
 /*------------------------  BSTreeVisitors  -----------------------------*/

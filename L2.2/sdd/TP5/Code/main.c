@@ -169,6 +169,7 @@ int main(int argc, char **argv) {
     }
     printf("\nDone.\n");
     */
+
 #ifdef EXERCICE_6
     /* Exercice 6 : Iterate in descenfing order on the tree */
     printf("Iterate descending onto the tree.\n\tvalues : ");
