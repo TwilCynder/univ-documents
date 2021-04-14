@@ -44,7 +44,7 @@ function test_search {
 #		echo "Erreur  : " $DIFF
 		RET=1
 	fi
-	rm -f $TESTFILES/result_search_$1.txt
+	#rm -f $TESTFILES/result_search_$1.txt
     else
 	echo "Command $BASE/$COMMAND not found"
 	RET=2

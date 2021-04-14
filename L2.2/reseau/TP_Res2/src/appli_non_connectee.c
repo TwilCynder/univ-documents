@@ -32,7 +32,7 @@ void de_application(unsigned char *message, int *taille_msg)
         conf_fichier_emission(nom_fichier);
         fichier = fopen(nom_fichier, "r");
         if (fichier == NULL) {
-            fprintf(stderr, "FICHIER : fichiers/in.txt\n");
+            fprintf(stderr, "FICHIER : ../fichiers/in.txt\n");
             perror("[APP] Problème fichier en lecture !\n");
             exit(1);
         }

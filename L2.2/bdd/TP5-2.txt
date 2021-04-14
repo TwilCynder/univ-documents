@@ -1,0 +1,256 @@
+A)
+INSERT INTO employe (NumE, NomE, PrenomE, DateNaissance) VALUES 
+    (13, 'Tinarrage', 'Téo', To_Date('23/05/2000', 'DD/MM/YYYY'));
+
+B)
+SELECT * FROM employe;
+--------------------------------------
+NumE	NomE	PrenomE	DateNaissance
+12	Toivite	Marie	03/06/92
+10	Ingiain	Carole	09/07/92
+9	Dument	Henriette	19/08/93
+11	Mansoif	Gérard	12/02/88
+4	Manfin	Gérard	22/02/90
+1	Honette	Marie	02/03/94
+5	Fassol	Rémi	12/05/91
+2	Trovite	Julie	11/06/93
+3	Assin	Marc	04/04/92
+8	Golent	Henri	13/09/92
+7	Hic	Pierre	21/10/94
+6	Neymar	Jean	20/11/91
+13	Tinarrage	Téo	23/05/00
+
+C)
+SELECT * FROM produit WHERE 
+    categorie = 'sucr�';
+----------------------------------------
+NumP	Description	type	categorie
+16	Salade de fruits	végétarien	sucré
+11	Donut nutella	végétarien	sucré
+15	Salade exotique	végétarien	sucré
+3	Donut fraise	végétarien	sucré
+4	Cookie chocolat	végétarien	sucré
+
+D)
+SELECT * FROM fournir WHERE 
+    quantite < 600;
+--------------------------------------------------
+NumP	NumS	NumF 	DateL	Quantite	PrixUnitaire
+6	3	1	18/06/18	500	3
+6	4	1	06/07/18	500	3
+5	3	2	22/06/18	500	0,3
+6	6	5	02/07/18	500	3
+1	7	1	30/06/18	500	3,1
+6	1	1	06/07/18	500	3
+6	3	1	24/06/18	500	3
+6	5	1	02/07/18	500	3
+6	2	1	26/06/18	500	3,1
+6	3	1	04/07/18	500	3
+5	1	2	04/07/18	500	0,3
+
+E)
+SELECT Equipe1, Equipe2, NomS FROM match_, stade WHERE match_.nums = stade.nums;
+---------------------------------------------------
+Equipe1	Equipe2	NomS
+BO	TFC	Complexe sportif Andromède
+BFC	BO	Complexe sportif Grand Noble
+FC	BO	Stade André Roux
+BFC	FC	Complexe sportif Grand Noble
+TFC	AFC	Stadium
+FC	BFC	Stade André Roux
+FC	AFC	Stade André Roux
+AFC	FC	Stade Ranteil
+AFC	BFC	Stade de Caussels
+BFC	TFC	Complexe sportif Grand Noble
+AFC	TFC	Stade Ranteil
+BO	BFC	Complexe sportif Andromède
+TFC	BFC	Complexe Struxiano
+BO	AFC	Complexe sportif Grand Noble
+AFC	BO	Stade Ranteil
+AFC	BO	Stade de Caussels
+BO	FC	Complexe sportif Andromède
+TFC	FC	Stadium
+TFC	BO	Stadium
+FC	TFC	Stade André Roux
+BFC	AFC	Complexe sportif Andromède
+
+F)
+SELECT DISTINCT Description FROM produit, fournir WHERE 
+    fournir.nump = produit.nump;
+-----------------------------------------------------
+Description
+Sandwich jambon beurre
+Pizza reine
+Salade caesar
+Cola
+Sandwich tomate mozza
+Taboulé poulet
+Wrap poulet
+Sandwich chèvre miel
+Pizza 4 saisons
+Cookie chocolat
+Sandwich poulet mayo
+Taboulé oriental
+Donut fraise
+Donut nutella
+Salade exotique
+
+G)
+SELECT * FROM match_ WHERE 
+    datem = to_date('16/06/2018', 'DD/MM/YYYY');
+---------------------------------------------------------
+NumM	Equipe1	Equipe2	DateM	HeureM	NumS
+1	BFC	TFC	16/06/18	20:00	7
+2	BO	FC	16/06/18	20:00	6
+
+H)
+SELECT NomS, Emplacement, NomE, PrenomE FROM Stade, Buvette, Employe, Travailler WHERE 
+    stade.nums = buvette.nums and 
+    travailler.numb = buvette.numb and 
+    employe.nume = travailler.nume;
+---------------------------------------------------------
+NomS	Emplacement	NomE 	PrenomE
+Stade Ranteil	Entrée Nord	Ingiain	Carole
+Stade de Caussels	Entrée	Ingiain	Carole
+Stade Ranteil	Entrée Nord	Ingiain	Carole
+Stade Ranteil	Entrée Nord	Ingiain	Carole
+Stade Ranteil	Entrée Sud	Dument	Henriette
+Stade de Caussels	Entrée	Dument	Henriette
+Stade Ranteil	Entrée Sud	Dument	Henriette
+Stade Ranteil	Entrée Sud	Dument	Henriette
+Stadium	Aile Est	Manfin	Gérard
+Stadium	Aile Est	Manfin	Gérard
+Stadium	Aile Sud	Honette	Marie
+Complexe sportif Andromède	Entrée	Honette	Marie
+Stadium	Aile Sud	Honette	Marie
+Complexe sportif Andromède	Entrée	Honette	Marie
+Complexe Struxiano	Entrée principale	Honette	Marie
+Complexe sportif Andromède	Entrée	Honette	Marie
+Stadium	Aile Nord	Honette	Marie
+Stadium	Aile Sud	Honette	Marie
+Complexe sportif Andromède	Entrée	Honette	Marie
+Complexe sportif Grand Noble	Tribunes	Fassol	Rémi
+Stadium	Aile Nord	Trovite	Julie
+Complexe sportif Andromède	Tribune	Trovite	Julie
+Stadium	Aile Nord	Trovite	Julie
+Complexe sportif Andromède	Tribune	Trovite	Julie
+Complexe sportif Andromède	Tribune	Trovite	Julie
+Stadium	Aile Nord	Trovite	Julie
+Stadium	Aile Sud	Trovite	Julie
+Complexe sportif Andromède	Tribune	Trovite	Julie
+Stadium	Aile Ouest	Assin	Marc
+Stadium	Aile Ouest	Assin	Marc
+Complexe sportif Grand Noble	Tribunes	Assin	Marc
+Complexe sportif Grand Noble	Tribunes	Assin	Marc
+Stadium	Aile Ouest	Assin	Marc
+Complexe sportif Grand Noble	Tribunes	Assin	Marc
+Stade André Roux	Tribune Ouest	Golent	Henri
+Stade André Roux	Tribune Ouest	Golent	Henri
+Stade André Roux	Tribune Ouest	Golent	Henri
+Stade André Roux	Tribune Est	Hic	Pierre
+Stade André Roux	Tribune Est	Hic	Pierre
+Stade André Roux	Tribune Est	Hic	Pierre
+Stade André Roux	Tribune Est	Hic	Pierre
+Stade André Roux	Entrée	Neymar	Jean
+Stade André Roux	Entrée	Neymar	Jean
+Stade André Roux	Entrée	Neymar	Jean
+Stade André Roux	Entrée	Neymar	Jean
+
+I)
+SELECT DISTINCT fournisseur.numf, nomf FROM fournisseur, fournir, produit WHERE 
+    fournir.numf = fournisseur.numf and 
+    fournir.nump = produit.nump and 
+    produit.type = 'viande';
+---------------------------------------------------------
+NumF    NomF
+3	SoMiam
+5	SpeedResto
+2	RapidResto
+1	PrestaMiam
+
+J) 
+SELECT DISTINCT employe.nume, nome, prenome FROM employe, travailler, match_ WHERE
+    employe.nume = travailler.nume and
+    travailler.numm = match_.numm and
+    match_.datem = to_date('20/06/2018', 'DD/MM/YYYY') and
+    to_date(travailler.heuredeb, 'HH24:MI') >= to_date('21:00', 'HH24:MI');
+---------------------------------------------------------
+NumE    NomE    PrenomE
+2	Trovite	Julie
+1	Honette	Marie
+
+K)
+SELECT DISTINCT produit.* FROM produit, fournir WHERE
+    produit.nump = fournir.nump and
+    fournir.prixunitaire >= 3.50;
+---------------------------------------------------------
+NUMP        DESCRIPTION                                        TYPE                 CATEGORIE           
+        15 Salade exotique                                    v�g�tarien           sucr�               
+        14 Taboul� poulet                                     viande               sal�                
+        12 Salade caesar                                      viande               sal�                
+         7 Wrap poulet                                        viande               sal�                
+        13 Taboul� oriental                                   v�g�tarien           sal�                
+
+L)
+SELECT DISTINCT * from employe WHERE
+    datenaissance >= to_date('01/01/1994', 'DD/MM/YYYY') and
+    datenaissance < to_date('01/01/1995', 'DD/MM/YYYY');
+---------------------------------------------------------
+NumE    NomE    PrenomE DateNaissance
+1	Honette	Marie	02/03/94
+7	Hic	Pierre	21/10/94
+
+M)
+Select DISTINCt match_.* from match_, stade where
+    match_.nums = stade.nums and
+    (stade.nums = 2 or stade.nums = 3);
+---------------------------------------------------------
+NumM    Equipe1 Equipe2 DateM   HeureM  NumS
+18	FC	BO	04/07/18	20:00	3
+4	FC	BFC	18/06/18	20:00	3
+8	FC	AFC	24/06/18	18:00	3
+10	TFC	BFC	26/06/18	17:00	2
+7	FC	TFC	22/06/18	20:00	3
+
+
+N)
+SELECT Emp1.nume, Emp1.nomE, Emp1.PrenomE, Emp2.numE, Emp2.nomE, Emp2.PrenomE FROM employe Emp1, employe Emp2 WHERE 
+    Emp1.nume <> emp2.nume and 
+    emp1.prenomE = emp2.prenomE and 
+    emp1.nume < emp2.nume;
+---------------------------------------------------------
+NumE1 	NomE1	PrenomE1	NumE2	NomE2	PrenomE2
+1	Honette	Marie	12	Toivite	Marie
+4	Manfin	Gérard	11	Mansoif	Gérard
+
+O)
+SELECT COUNT (*) FROM match_ m1, match_ m2 WHERE m1.numm <> m2.numm and m1.datem < to_date ('28/06/2018', 'DD/MM/YY') and m2.datem < to_date ('28/06/2018', 'DD/MM/YY') and 
+    ((m1.equipe1 = m2.equipe1 and m1.equipe2 = m2.equipe2) or (m1.equipe1 = m2.equipe2 and m1.equipe2 = m2.equipe1));
+----------------------------------------------------------
+4	
+
+P)
+Select distinct employe.* from employe, Travailler t1, Travailler t2 where
+    t1.nume = t2.nume and
+    t1.nume = employe.nume and
+    t1.numb <> t2.numb;
+----------------------------------------------------------
+NumE    NomE    PrenomE DateNaissance
+9	Dument	Henriette	19/08/93
+10	Ingiain	Carole	09/07/92
+1	Honette	Marie	02/03/94
+2	Trovite	Julie	11/06/93
+3	Assin	Marc	04/04/92
+
+Q)
+Select distinct employe.* from employe, Travailler t1, Travailler t2 where
+    t1.nume = t2.nume and
+    t1.nume = employe.nume and
+    t1.numb <> t2.numb and
+    t1.numm = t2.numm;
+    
+----------------------------------------------------------
+NumE    NomE    PrenomE DateNaissance
+
+1	Honette	Marie	02/03/94
+2	Trovite	Julie	11/06/93

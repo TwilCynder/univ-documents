@@ -243,7 +243,7 @@ List *list_reduce(List *l, ReduceFunctor f, void *userData) {
 /*-----------------------------------------------------------------*/
 
 SubList list_split(SubList sl){
-	SubList res;
+	/*SubList res;
 	res.head = sl.head;
 	res.tail = sl.tail;
 
@@ -256,16 +256,22 @@ SubList list_split(SubList sl){
 		}
 		res.tail = res.tail->previous;
 	}
-	return res;
+	return res;*/
+	(void)sl;
+	return sl;
 }
 
 //mergesort 
 
 SubList list_merge(SubList leftlist, SubList rightlist,OrderFunctor f){
-	
+	(void)leftlist;
+	(void)rightlist;
+	(void)f;
+	return leftlist;
 }
 
 List *list_sort(List *l, OrderFunctor f) {
-	
+	(void)l;
+	(void)f;
 	return l;
 }

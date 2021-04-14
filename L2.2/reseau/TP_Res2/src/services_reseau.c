@@ -174,7 +174,6 @@ void init_reseau(int reception)
         perte_deconnexion = conf_perte_connexion(PERTE_DECONNEXION);
         port_local = (short)(uid % 60000 + 3000);
         port_distant = (short)(uid % 60000 + 2000);
-        printf("PROBA ERREUR : %f", proba_erreur);
     }
 
     printf("[PHY] On utilise le port local %d et le port distant %d\n",

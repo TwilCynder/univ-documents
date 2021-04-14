@@ -140,6 +140,7 @@ bool skiplist_search(SkipList d, int value, unsigned int *nb_operations);
  */
 void skiplist_map(SkipList d, ScanOperator f, void *user_data);
 
+void dump_list_details(const SkipList l);
 
 
 /*-----------------------*/

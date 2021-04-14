@@ -27,11 +27,16 @@ typedef struct paquet_s {
 /* Capacite de numerotation */
 #define SEQ_NUM_SIZE 8
 
+#define NB_RETRANS 16
+
 /* ************************************** */
 /* Fonctions utilitaires couche transport */
 /* ************************************** */
 
-// TODO...
+uint8_t generer_controle(paquet_t* paquet);
+int verifier_controle(paquet_t* paquet);
+
+int inc(int);
 
 /*--------------------------------------*
  * Fonction d'inclusion dans la fenetre *

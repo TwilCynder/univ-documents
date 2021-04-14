@@ -12,9 +12,8 @@ OBJ_CONF   = config.o
 OBJ_NET    = services_reseau.o
 OBJ_TRP    = couche_transport.o
 OBJ_APP_NC = appli_non_connectee.o
-OBJ_CTRL   = controle.o
 
-OBJ_COMMON = $(OBJ_CONF) $(OBJ_NET) $(OBJ_TRP) $(OBJ_CTRL)
+OBJ_COMMON = $(OBJ_CONF) $(OBJ_NET) $(OBJ_TRP)
 
 OBJ_TDD0_E = proto_tdd_v0_emetteur.o
 OBJ_TDD0_R = proto_tdd_v0_recepteur.o

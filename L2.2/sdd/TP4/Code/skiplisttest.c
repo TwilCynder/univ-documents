@@ -67,7 +67,7 @@ SkipList buildlist(int num) {
 	char *constructfromfile = gettestfilename("construct", num);
 	input = fopen(constructfromfile, "r");
 	if (input!=NULL) {
-		
+
 		int res; //pour récupérer la valeur de retour de fscanf, afin que gcc ne me fasse pas chier
 		res = fscanf(input, "%u", &level);
 		d = skiplist_create(level);	
@@ -102,27 +102,140 @@ void test_construction(int num){
 	SkipList l = buildlist(num);
 	printf("Skiplist (%d)\n", skiplist_size(l));
 	skiplist_map(l, &print, NULL);
+	printf("\n");
 }
 
 /** Exercice 2.
  Programming and test of skiplist search operator.
  */
 void test_search(int num){
-	(void) num;
+	SkipList l = buildlist(num);
+	unsigned int nb;
+	int value;
+	unsigned int nb_operations;
+	int found = 0;
+	unsigned int min = 65536, max = 0, mean, total = 0; //on se doute bien qu'il y aura bien une recherche qui prendra moins de 2^16 opérations hein
+
+	int res; //pour récupérer la valeur de retour de fscanf, afin que gcc ne me fasse pas chier
+	char *searchfromfile = gettestfilename("search", num);
+	FILE *input = fopen(searchfromfile, "r");
+	res = fscanf(input, "%u", &nb);
+	for (unsigned int i = 0; i < nb; ++i) {
+		res = fscanf(input, "%d", &value);
+		if (skiplist_search(l, value, &nb_operations)){
+			printf("%d -> true\n", value);
+			found++;
+		} else {
+			printf("%d -> false\n", value);
+		}
+
+		if (nb_operations < min){
+			min = nb_operations;
+		}
+		if (nb_operations > max){
+			max = nb_operations;
+		}
+		total += nb_operations;
+
+	}
+	mean = total / nb;
+
+	printf("Statistics : \n");
+	printf("    Size of the list : %d\n", skiplist_size(l));
+	printf("Search %d values : \n", nb);
+	printf("    Found %d\n", found);
+	printf("    Not found %d\n", nb-found);
+	printf("    Min number of operations : %d\n", min);
+	printf("    Max number of operations : %d\n", max);
+	printf("    Mean number of operations : %d\n", mean);
 }
 
 /** Exercice 3.
  Programming and test of naïve search operator using iterators.
  */
+
+bool naive_search(SkipListIterator it, int value, unsigned int* nb_operations){
+	*nb_operations = 0;
+	for (it = skiplist_iterator_begin(it) ; !skiplist_iterator_end(it) ; it = skiplist_iterator_next(it)){
+		++*nb_operations;
+		if (skiplist_iterator_value(it) == value){
+			return true;
+		}
+	}
+	return false;
+}
+
 void test_search_iterator(int num){
-	(void) num;
+	SkipList l = buildlist(num);
+	unsigned int nb;
+	int value;
+	unsigned int nb_operations;
+	int found = 0;
+	unsigned int min = 65536, max = 0, mean, total = 0; //on se doute bien qu'il y aura bien une recherche qui prendra moins de 2^16 opérations hein
+
+	SkipListIterator it = skiplist_iterator_create(l, FORWARD_ITERATOR);
+
+
+	int res; //pour récupérer la valeur de retour de fscanf, afin que gcc ne me fasse pas chier
+	char *searchfromfile = gettestfilename("search", num);
+	FILE *input = fopen(searchfromfile, "r");
+	res = fscanf(input, "%u", &nb);
+	for (unsigned int i = 0; i < nb; ++i) {
+		res = fscanf(input, "%d", &value);
+
+		if (naive_search(it, value, &nb_operations)){
+			printf("%d -> true\n", value);
+			found++;
+		} else {
+			printf("%d -> false\n", value);
+		}
+
+		if (nb_operations < min){
+			min = nb_operations;
+		}
+		if (nb_operations > max){
+			max = nb_operations;
+		}
+		total += nb_operations;
+	}
+	mean = total / nb;
+
+	printf("Statistics : \n");
+	printf("    Size of the list : %d\n", skiplist_size(l));
+	printf("Search %d values : \n", nb);
+	printf("    Found %d\n", found);
+	printf("    Not found %d\n", nb-found);
+	printf("    Min number of operations : %d\n", min);
+	printf("    Max number of operations : %d\n", max);
+	printf("    Mean number of operations : %d\n", mean);
 }
 
 /** Exercice 4.
  Programming and test of skiplist remove operator.
  */
 void test_remove(int num){
-	(void) num;
+	int value;
+	unsigned int nb;
+	SkipList l = buildlist(num);
+	
+	int res; //pour récupérer la valeur de retour de fscanf, afin que gcc ne me fasse pas chier
+	char *searchfromfile = gettestfilename("remove", num);
+	FILE *input = fopen(searchfromfile, "r");
+	res = fscanf(input, "%u", &nb);
+	for (unsigned int i = 0; i < nb; ++i) {
+		res = fscanf(input, "%d", &value);
+		skiplist_remove(l, value);
+	}
+
+	printf("Skiplist (%d)\n", skiplist_size(l));
+	
+	SkipListIterator it = skiplist_iterator_create(l, BACKWARD_ITERATOR);
+	
+	for (it = skiplist_iterator_begin(it) ; !skiplist_iterator_end(it) ; it = skiplist_iterator_next(it)){
+		printf("%d ", skiplist_iterator_value(it));
+	}
+
+	printf("\n");
 }
 
 /** Function you ca use to generate dataset for testing.

@@ -11,6 +11,25 @@
  * (generer_controle, verifier_controle...)
  */
 
+uint8_t generer_controle(paquet_t* paquet){
+    uint8_t controle = 0;
+    controle = paquet->type ^ paquet->num_seq ^ paquet->lg_info;
+
+    for (int i = 0; i < paquet->lg_info; i++){
+        controle ^= paquet->info[i];
+    }
+
+    return controle;
+}
+
+int verifier_controle(paquet_t* paquet){
+    return generer_controle(paquet) == paquet->somme_ctrl;
+}
+
+int inc(int v){
+    return (v + 1) % SEQ_NUM_SIZE;
+}
+
 /* ======================================================================= */
 /* =================== Fenêtre d'anticipation ============================ */
 /* ======================================================================= */
