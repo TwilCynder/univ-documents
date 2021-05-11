@@ -1,0 +1,1 @@
+Malgré bien trop de temps passé à essayer de comprendre le fonctionnement précis de `bstree_swap_nodes`, j'ai fini par l'abandonner. La fonction `bstree_remove_node`, qui en dépend, est donc incomplète : elle ne fonctionne pas si le noeud à supprimer possède deux fils. Elle semble fonctionner pour les autres cas (feuille/un seul fils).  

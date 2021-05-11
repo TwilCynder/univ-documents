@@ -9,11 +9,14 @@ void bstree_remove_node(ptrBinarySearchTree *t, ptrBinarySearchTree current);
 
 /*------------------------  BSTreeType  -----------------------------*/
 
+typedef enum {RED, BLACK} NodeColor;
+
 struct _bstree {
     BinarySearchTree *parent;
     BinarySearchTree *left;
     BinarySearchTree *right;
     int root;
+    NodeColor color;
 };
 
 /*------------------------  BaseBSTree  -----------------------------*/
@@ -36,6 +39,7 @@ BinarySearchTree *bstree_cons(BinarySearchTree *left, BinarySearchTree *right, i
     if (t->right != NULL)
         t->right->parent = t;
     t->root = root;
+    t->color = RED;
     return t;
 }
 
@@ -74,6 +78,199 @@ BinarySearchTree *bstree_parent(const BinarySearchTree *t) {
     return t->parent;
 }
 
+bool isLeftChild(const BinarySearchTree *t){
+    return t == t->parent->left;
+}
+
+/*-------------------RBTree----------------------------*/
+
+NodeColor rbtree_color(const BinarySearchTree *t){
+    assert(!bstree_empty(t));
+    return t->color;
+}
+
+void leftrotate(BinarySearchTree *x){
+    BinarySearchTree* y = x->right;
+
+    y->parent = x->parent;
+    
+    if (x->parent){
+        if (x == x->parent->left){
+            x->parent->left = y;
+        } else {
+            x->parent->right = y;
+        }
+    }
+
+    x->parent = y;
+
+    x->right = y->left;
+    if (y->left)
+        y->left->parent = x;
+    y->left = x;
+
+}
+
+void rightrotate(BinarySearchTree *y){
+    BinarySearchTree* x = y->left;
+
+    x->parent = y->parent;
+
+    if (y->parent){
+        if (y == y->parent->left){
+            y->parent->left = x;
+        } else {
+            y->parent->right = x;
+        }
+    }
+
+    y->parent = x;
+
+    y->left = x->right;
+    if (x->right)
+    x->right->parent = y;
+    x->right = y;
+}
+
+void  testrotateleft(BinarySearchTree *t) {
+    leftrotate(t);
+}
+
+/**
+ * @brief Returns whether t is the left child of its parent
+ * Assumes that the parent is not null, this verification must be done by the caller
+ * @param t a BST
+ */
+void  testrotateright(BinarySearchTree *t) {
+    rightrotate(t);
+}
+
+BinarySearchTree* grandparent(BinarySearchTree* t){
+    return (t->parent != NULL) ? t->parent->parent : NULL;
+}
+
+//assumes that t has a parent
+BinarySearchTree* uncle(BinarySearchTree* t){
+    BinarySearchTree* pp = grandparent(t);
+
+    return (isLeftChild(t->parent)) ? pp->right : pp->left;
+}
+
+bool isBlack(BinarySearchTree* t){
+    return t == NULL || t->color ==  BLACK;
+}
+
+//forward declaring this one, since i don't want to add it to the header and fixredblack_insert_case2 calls it.
+BinarySearchTree* fixredblack_insert(BinarySearchTree* x);
+
+BinarySearchTree* fixredblack_insert_case2_left(BinarySearchTree* x){
+    BinarySearchTree* pp = grandparent(x);
+    if (!isLeftChild(x)){
+        leftrotate(x->parent);
+
+    }
+    //x should be the left child of pp
+
+    rightrotate(pp);
+
+    pp->parent->color = BLACK;
+    pp->color = RED;
+
+    return x;
+}
+
+BinarySearchTree* fixredblack_insert_case2_right(BinarySearchTree* x){
+    BinarySearchTree* pp = grandparent(x);
+    if (isLeftChild(x)){
+        rightrotate(x->parent);
+
+    }
+    //x should be the right child of pp
+
+    leftrotate(pp);
+
+    pp->parent->color = BLACK;
+    pp->color = RED;
+
+    return x;
+}
+
+BinarySearchTree* fixredblack_insert_case2(BinarySearchTree* x){
+    if (isLeftChild(x->parent)){
+        return fixredblack_insert_case2_left(x);
+    } else {
+        return fixredblack_insert_case2_right(x);
+    }
+}
+
+//assumes that x has a parent and a grandparent
+BinarySearchTree* fixredblack_insert_case1(BinarySearchTree* x){
+    BinarySearchTree* f = uncle(x);
+
+    if (isBlack(f)) return fixredblack_insert_case2(x);
+
+    f->color = BLACK;
+    x->parent->color = BLACK;
+    grandparent(x)->color = RED;
+    return fixredblack_insert(grandparent(x));
+}
+
+//Assumes that x has a parent
+BinarySearchTree* fixredblack_insert_case0(BinarySearchTree* x){
+    if (grandparent(x) == NULL){
+        x->parent->color = BLACK;
+        return x;
+    }
+    return fixredblack_insert_case1(x);
+}
+
+/**
+ * @brief Fixes the coloration of a tree after insertion of a node
+ * Assumes that the inserted node is red.
+ * @param x the inserted node.
+ * @return BinarySearchTree* the node where the correction ended.
+ */
+BinarySearchTree* fixredblack_insert(BinarySearchTree* x){
+    if (x->parent == NULL || x->parent->color == BLACK) return x;
+
+    return fixredblack_insert_case0(x);
+}
+
+
+char* color_string(NodeColor c){
+    return (c == RED) ? "red" : "grey";
+}
+
+void printNode(const BinarySearchTree *t, void *userData){
+    FILE *file = (FILE *) userData;
+
+    fprintf(file, "\tn%d [fillcolor=%s, style=filled, label=\"{{<parent>}|%d|{<left>|<right>}}\"];\n",
+            bstree_root(t),color_string(rbtree_color(t)), bstree_root(t));
+
+    if (bstree_left(t)) {
+        fprintf(file, "\tn%d:left:c -> n%d:parent:c [headclip=false, tailclip=false]\n",
+                bstree_root(t), bstree_root(bstree_left(t)));
+    } else {
+        fprintf(file, "\tlnil%d [style=filled, fillcolor=grey, label=\"NIL\"];\n", bstree_root(t));
+        fprintf(file, "\tn%d:left:c -> lnil%d:n [headclip=false, tailclip=false]\n",
+                bstree_root(t), bstree_root(t));
+    }
+    if (bstree_right(t)) {
+        fprintf(file, "\tn%d:right:c -> n%d:parent:c [headclip=false, tailclip=false]\n",
+                bstree_root(t), bstree_root(bstree_right(t)));
+    } else {
+        fprintf(file, "\trnil%d [style=filled, fillcolor=grey, label=\"NIL\"];\n", bstree_root(t));
+        fprintf(file, "\tn%d:right:c -> rnil%d:n [headclip=false, tailclip=false]\n",
+                bstree_root(t), bstree_root(t));
+    }
+}
+
+void rbtree_export_dot(const  BinarySearchTree *t, FILE *file) {
+    fprintf(file , "digraph  RedBlackTree  {\n\tgraph[ranksep =0.5];\n\tnode [shape = record ];\n\n");
+    bstree_iterative_depth_infix(t, printNode , file);
+    fprintf(file , "\n}\n");
+}
+
 /*------------------------  BSTreeDictionary  -----------------------------*/
 
 /* Obligation de passer l'arbre par référence pour pouvoir le modifier */
@@ -91,13 +288,18 @@ void bstree_add(ptrBinarySearchTree *t, int v) {
 
     *current = bstree_cons(NULL, NULL, v);
     (*current)->parent = parent;
+
+    fixredblack_insert(*current);
+
+    //si le noeud qui était la racine a maintenant un parent non-nul, cela signifie que ce parent est la nouvelle racine (il y a eu une rotation)
+    //cela ne marche que si on n'appelle cette fonction qu'avec des arbres sans parent (ce qui sera toujours le cas pour ce TP)
+    if ((*t)->parent != NULL) *t = (*t)->parent;
 }
 
 BinarySearchTree* bstree_find(BinarySearchTree *t, int v){
     BinarySearchTree* current = t;
 
     while (current != NULL && bstree_root(current) != v){
-
         current = (bstree_root(current) < v) ? bstree_right(current) : bstree_left(current);
     }
     return current;

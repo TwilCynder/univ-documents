@@ -12,9 +12,9 @@
 /* Define this for solving the exercice 5. */
 //#define EXERCICE_5
 /* Define this for solving the exercice 6. */
-#define EXERCICE_6
+//#define EXERCICE_6
 /* Define this for solving the exercice 7. */
-#define EXERCICE_7
+//#define EXERCICE_7
 
 /**
  * This function output one node using the <a href="https://www.graphviz.org/documentation/">dot</a> syntax.
@@ -147,9 +147,8 @@ int main(int argc, char **argv) {
     }
     printf("\nDone.\n");
     fflush(stdout);
-    (void)res;
 
-// #ifdef EXERCICE_5
+#ifdef EXERCICE_5
     /* Exercice 5 : remove a value from the tree */
     /*printf("Removing from the tree.");
     fscanf(input, "%d", &n);
@@ -169,6 +168,20 @@ int main(int argc, char **argv) {
     }
     printf("\nDone.\n");
     */
+
+    bstree_remove(&theTree, 3);
+    printf("\nDeleted 3 : ");
+    fflush(stdout);
+    bstree_iterative_depth_infix(theTree, print_tree, NULL);
+    bstree_remove(&theTree, 2);
+    printf("\nDeleted 2 : ");
+    bstree_iterative_depth_infix(theTree, print_tree, NULL);
+    bstree_remove(&theTree, 5);
+    printf("\nDeleted 3 : ");
+    bstree_iterative_depth_infix(theTree, print_tree, NULL);
+    printf("\nDone.\n\n");
+    fflush(stdout);
+
 
 #ifdef EXERCICE_6
     /* Exercice 6 : Iterate in descenfing order on the tree */
@@ -193,7 +206,9 @@ int main(int argc, char **argv) {
 #endif
 #endif
 #endif
-//#endif
+#endif
+
+    (void)res;
 
     fclose(input);
     return 0;
