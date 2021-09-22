@@ -1,0 +1,2 @@
+4.c) On supprime une ligne dont la clé primaire est référencée par une ligne de Suivre
+l faut ajouter "ON DELETE CASCADE" à cet attribut pour que le serveur supprime aussi les lignes filles
