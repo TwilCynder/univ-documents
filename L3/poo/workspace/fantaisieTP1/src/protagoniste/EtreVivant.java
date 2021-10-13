@@ -15,11 +15,17 @@ public abstract class EtreVivant {
 		this.nom = nom;
 		this.forceDeVie = forceDeVie;
 	}
+
 	public String getNom() {
 		return nom;
 	}
 	public int getForceDeVie() {
 		return forceDeVie;
+	}
+	
+	@Override
+	public String toString() {
+		return "EtreVivant [nom=" + nom + ", forceDeVie=" + forceDeVie + "]";
 	}
 	
 }

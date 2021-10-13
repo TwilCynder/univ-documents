@@ -8,9 +8,9 @@
 #include <dirent.h>
 #include <string.h>
 
-int parcourirDossier(const char* nom);
+long int parcourirDossier(const char* nom);
 
-int examinerFichier(const char * nom){
+long int examinerFichier(const char * nom){
     struct stat info;
     if (stat(nom, &info) == -1){
         perror(nom);
@@ -18,7 +18,7 @@ int examinerFichier(const char * nom){
     }
 
     if (S_ISDIR(info.st_mode)){
-        int total = parcourirDossier(nom);
+        long int total = parcourirDossier(nom);
         printf("    Total %-30s: %8ld\n", nom, total);
         return total;
     } else {
@@ -27,11 +27,12 @@ int examinerFichier(const char * nom){
     }
 }
 
-int parcourirDossier(const char* nom){
+long int parcourirDossier(const char* nom){
     struct dirent* dirInfo;
+    char designation[128];
     DIR* directory = opendir(nom);
 
-    int total = 0;
+    long int total = 0;
 
     if (!directory){
         perror(nom);
@@ -40,11 +41,16 @@ int parcourirDossier(const char* nom){
 
     while (dirInfo = readdir(directory)){
         if (!strcmp(dirInfo->d_name, "..") || !strcmp(dirInfo->d_name, ".")) continue;
-        total += examinerFichier(dirInfo->d_name);
+
+        strcpy(designation, nom);
+        strcat(designation, "/");
+        strcat(designation, dirInfo->d_name);
+        //printf("%s\n", designation);
+
+        total += examinerFichier(designation);
     }
     return total;
 }
-
 
 int main(int argc, char const *argv[]) {
     if (argc < 2){

@@ -18,25 +18,24 @@
 int main(int argc, char* argv[])
 {
     unsigned char message[MAX_INFO]; /* message pour l'application */
-    paquet_t paquet; /* paquet utilisé par le protocole */
-    paquet_t paquet_ack;
-    int fin = 0; /* condition d'arrêt */
+    paquet_t paquet; /* paquet de données reçu */
+    paquet_t paquet_ack; /* paquet d'acquittement à envoyer */ 
+    int fin = 0; /* true si la condition d'arrêt est vérifiée */
 
-    paquet_ack.lg_info = 0;
-
-
+    /*Initialisation des fonctionnalités réseaux fournies par services_reseau.h*/
     init_reseau(RECEPTION);
 
-    printf("Version 1");
+    printf("Version 1\n");
     printf("[TRP] Initialisation reseau : OK.\n");
     printf("[TRP] Debut execution protocole transport.\n");
 
     /* tant que le récepteur reçoit des données */
     while ( !fin ) {
-
-        // attendre(); /* optionnel ici car de_reseau() fct bloquante */
+        
+        /* Attente de réception d'un paquet (note : fonction bloquante)*/
         de_reseau(&paquet);
 
+        /*Si l'intégrité du paquet a été conservée*/
         if (verifier_controle(&paquet)){
             /* extraction des donnees du paquet recu */
             for (int i=0; i<paquet.lg_info; i++) {
@@ -44,12 +43,14 @@ int main(int argc, char* argv[])
             }
             /* remise des données à la couche application */
             fin = vers_application(message, paquet.lg_info);
-
+            /*Le paquet est acquitté*/
             paquet_ack.type = ACK;
         } else {
+            /*Le paquet est non-acquitté*/
             paquet_ack.type = NACK;
         }
 
+        /*Envoi du paquet d'acquittement*/
         vers_reseau(&paquet_ack);
     }
 

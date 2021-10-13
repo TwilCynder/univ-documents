@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "skiplist.h": "c",
+        "rng.h": "c"
+    }
+}

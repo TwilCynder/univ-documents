@@ -7,7 +7,7 @@
 #ifndef __CONFIG_H__
 #define __CONFIG_H__
 
-#define FICHIER_CONF "config.txt"
+#define FICHIER_CONF "../config.txt"
 
 #define FICHIER_IN "FICHIER_IN"
 #define FICHIER_OUT "FICHIER_OUT"

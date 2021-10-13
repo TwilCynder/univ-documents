@@ -7,4 +7,8 @@ public class Epee extends Arme {
 		super(80, "Épée");
 		this.nomEpee = nomEpee;
 	}
+
+	public String getNomEpee() {
+		return nomEpee;
+	}
 }

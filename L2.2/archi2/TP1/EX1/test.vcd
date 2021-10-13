@@ -1,0 +1,93 @@
+$date
+  Mon Oct 14 14:23:34 2019
+$end
+$version
+  GHDL v0
+$end
+$timescale
+  1 fs
+$end
+$var reg 1 ! i1 $end
+$var reg 1 " i0 $end
+$var reg 1 # o3 $end
+$var reg 1 $ o2 $end
+$var reg 1 % o1 $end
+$var reg 1 & o0 $end
+$scope module fddtp1ex1 $end
+$var reg 1 ' e1 $end
+$var reg 1 ( e0 $end
+$var reg 1 ) s3 $end
+$var reg 1 * s2 $end
+$var reg 1 + s1 $end
+$var reg 1 , s0 $end
+$var reg 4 - s[3:0] $end
+$upscope $end
+$enddefinitions $end
+#0
+0!
+0"
+0#
+0$
+0%
+1&
+0'
+0(
+0)
+0*
+0+
+1,
+b0001 -
+#10000000
+1"
+1%
+0&
+1(
+0)
+0*
+1+
+0,
+b0010 -
+#20000000
+1!
+0"
+1$
+0%
+1'
+0(
+0)
+1*
+0+
+0,
+b0100 -
+#30000000
+1"
+1#
+0$
+1(
+1)
+0*
+0+
+0,
+b1000 -
+#40000000
+U!
+U"
+0#
+U'
+U(
+0)
+0*
+0+
+0,
+b0000 -
+#50000000
+0!
+0"
+1&
+0'
+0(
+0)
+0*
+0+
+1,
+b0001 -

@@ -55,4 +55,8 @@ bool overflow(Stack s);
  */
 void dump(Stack s, FILE *f);
 
+<<<<<<< HEAD
 #endif
+=======
+#endif
+>>>>>>> 05aedbf84b57e442c302a4e7493c74e939e87483

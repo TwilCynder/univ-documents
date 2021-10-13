@@ -9,7 +9,7 @@ package attaque;
  */
 public class BouleDeFeu extends Feu {
 
-	public BouleDeFeu(int pointDeDegat, String nom, int nbBoulesDeFeu) {
+	public BouleDeFeu(int nbBoulesDeFeu) {
 		super(20, "Boule de Feu", nbBoulesDeFeu);
 		// TODO Auto-generated constructor stub
 	}
