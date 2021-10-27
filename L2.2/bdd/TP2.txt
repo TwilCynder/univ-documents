@@ -1,1 +1,5 @@
 Q3) On pourrait ajouter des contraintes sur les prix, afin qu'ils restent positifs
+Q4.c) On supprime une ligne référencée par une clé étrangère dans une autre table (Suivre), violant la contrainte
+d'intégrité des clés étrangères. 
+Il faut ajouter la clause ON DELETE CASCADE à la contrainte de clé étrangère, pour qu'une ligne de Suivre soit automatiquement supprimée
+si la ligne de Cours qu'elle référence est supprimée
