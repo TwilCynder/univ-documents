@@ -2,6 +2,7 @@ package livre;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.ListIterator;
 
 import bataille.Bataille;
@@ -15,10 +16,26 @@ public class AideEcrivain {
 		this.bataille = bataille;
 	}
 	
+	private static void ajouterHeros(LinkedList<Homme> list, Homme heros) {
+		ListIterator<Homme> iter = list.listIterator();
+		if (!iter.hasNext()) {
+			list.add(heros);
+		}
+		
+		do {
+			if (!(iter.next() instanceof Heros)) {
+				iter.previous();
+				iter.add(heros);
+				return;
+			}
+		} while (iter.hasNext());
+	}
+	
 	public LinkedList<Homme> visualiserForcesHumaines() {
 		LinkedList<Homme> listeTriee = new LinkedList<>();
 		
-		ListIterator<Homme> iterHeros = listeTriee.listIterator();
+		//J'ai toujours pas compris pourquoi cette méthode marche pas :(
+		/**ListIterator<Homme> iterHeros = listeTriee.listIterator();
 		
 		for (Homme h : bataille.getCampHumains()) {
 			if (h instanceof Heros) {
@@ -26,17 +43,18 @@ public class AideEcrivain {
 			} else {
 				listeTriee.add(h);
 			}
-		}
+		}*/
 		
-		/*for (Iterator<Homme> iterCamp = bataille.getCampHumains().iterator() ; iterCamp.hasNext();) {
-			Homme h = iterCamp.next();
+		for (Homme h : bataille.getCampHumains()) {
 			if (h instanceof Heros) {
-				iterHeros.add(h);
+				ajouterHeros(listeTriee, h);
 			} else {
 				listeTriee.add(h);
 			}
-		}*/
+		}
 		
 		return listeTriee;
 	}
+
+
 }
