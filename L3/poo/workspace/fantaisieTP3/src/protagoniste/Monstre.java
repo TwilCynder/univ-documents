@@ -1,6 +1,5 @@
 package protagoniste;
 
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Random;
@@ -14,7 +13,7 @@ public class Monstre<P extends Pouvoir> extends EtreVivant {
 	private ZoneDeCombat zoneDeCombat;
 	private Domaine domaine;
 	private GestionAttaque gestionAttaque;
-
+	
 
 	@SafeVarargs
 	public Monstre(String nom, int forceDeVie, ZoneDeCombat zoneDeCombat, Domaine domaine, P...attaques){
@@ -34,8 +33,10 @@ public class Monstre<P extends Pouvoir> extends EtreVivant {
 
 	@Override
 	public String toString() {
-		return "Monstre [getNom()=" + getNom() + ", [attaques=" + Arrays.toString(attaques) + ", zoneDeCombat=" + zoneDeCombat + ", getForceDeVie()="
-				+ getForceDeVie() + "]";
+		//TODO changer ce tostring temporaire
+		//return "Monstre [getNom()=" + getNom() + ", [attaques=" + Arrays.toString(attaques) + ", zoneDeCombat=" + zoneDeCombat + ", getForceDeVie()="
+		//		+ getForceDeVie() + "]";
+		return "Monstre : " + nom;
 	}
 	
 	 

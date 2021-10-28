@@ -1,5 +1,8 @@
 package testsfonctionnels;
 
+import java.util.Iterator;
+import java.util.NavigableSet;
+
 import attaque.BouleDeFeu;
 import attaque.Eclair;
 import attaque.Feu;
@@ -14,18 +17,16 @@ import attaque.Tranchant;
 import bataille.Bataille;
 import bataille.Camp;
 import livre.AideEcrivain;
-//import livre.AideEcrivain;
 import protagoniste.Domaine;
 import protagoniste.Heros;
 import protagoniste.Homme;
 import protagoniste.Monstre;
 import protagoniste.ZoneDeCombat;
 
-
 public class TestGestionProtagonistes {
-    
+
 	public static void main(String[] args) {
-		Monstre<Feu> dragotenebre = new Monstre<Feu>("dragotenebre", 200, ZoneDeCombat.AERIEN, Domaine.FEU,
+		Monstre<Feu> dragotenebre = new Monstre<>("dragotenebre", 200, ZoneDeCombat.AERIEN, Domaine.FEU,
 				new BouleDeFeu(4), new Lave(1), new Eclair(3));
 		Monstre<Tranchant> vampirien = new Monstre<>("vampirien", 10, ZoneDeCombat.AERIEN, Domaine.TRANCHANT,
 				new Morsure(10));
@@ -57,22 +58,73 @@ public class TestGestionProtagonistes {
 		System.out.println("\ncamps des humains :\n" + campsHumain);
 		System.out.println("\ncamps des monstres :\n" + campsMonstre);
 
-//		Resultat attendu
-//		**** TP2 ****
-//
-//		camps des humains :
-//		[Homme [nom=Thomas, forceDeVie=70], Homme [nom=Louis, forceDeVie=70], Heros [nom=Arthur, forceDeVie=100], Heros [nom=Archibald, forceDeVie=100], Homme [nom=Alain, forceDeVie=70]]
-//
-//		camps des monstres :
-//		[Monstre [getNom()=dragotenebre, attaques=[ForceDeCombat [nom=une boule de feu, pointDeDegat=20], ForceDeCombat [nom=un jet de lave, pointDeDegat=80], ForceDeCombat [nom=un éclair, pointDeDegat=50]], zoneDeCombat=AERIEN, getForceDeVie()=200], Monstre [getNom()=vampirien, attaques=[ForceDeCombat [nom=une morsure, pointDeDegat=10]], zoneDeCombat=AERIEN, getForceDeVie()=10], Monstre [getNom()=marinsangant, attaques=[ForceDeCombat [nom=un pic de glace, pointDeDegat=50], ForceDeCombat [nom=une tornade, pointDeDegat=50]], zoneDeCombat=AQUATIQUE, getForceDeVie()=150], Monstre [getNom()=guillotimort, attaques=[ForceDeCombat [nom=une lame d'acier, pointDeDegat=50], ForceDeCombat [nom=un coup de griffe, pointDeDegat=20]], zoneDeCombat=TERRESTRE, getForceDeVie()=80]]
-
-		
 		AideEcrivain aideEcrivain = new AideEcrivain(bataille);
-		System.out.println("\nvisualisation des forces humaines :\n" + aideEcrivain.visualiserForcesHumaines());
-		
-//		Resultat attendu
-//		visualisation des forces humaines :
-//		[Heros [nom=Arthur, forceDeVie=100], Heros [nom=Archibald, forceDeVie=100], Homme [nom=Thomas, forceDeVie=70], Homme [nom=Louis, forceDeVie=70], Homme [nom=Alain, forceDeVie=70]]
-    }
+		System.out.println("visualisation des forces humaines :\n" + aideEcrivain.visualiserForcesHumaines());
+
+		System.out.println("\n**** TP3 ****");
+		System.out.println("\nordre naturel :\n" + aideEcrivain.ordreNaturelMonstre());
+		System.out.println("\nordre par domaine :\n" + aideEcrivain.ordreMonstreDomaine());
+		System.out.println("\nordre par zone de combat :\n" + aideEcrivain.ordreMonstreZone());
+
+		aideEcrivain.initMonstresDeFeu();
+		NavigableSet<Monstre<?>> monstres = aideEcrivain.getMonstresDeFeu();
+		String affichage = affichageMonstres(monstres);
+		System.out.println("\nmonstres de feu :\n" + affichage);
+
+		Monstre<Glace> soufflemort = new Monstre<>("soufflemort", 120, ZoneDeCombat.AERIEN, Domaine.GLACE,
+				new Tornade(8));
+		Monstre<Feu> cramombre = new Monstre<>("cramombre", 80, ZoneDeCombat.TERRESTRE, Domaine.FEU, new BouleDeFeu(2),
+				new Lave(1), new Eclair(1));
+		soufflemort.rejointBataille(bataille);
+		cramombre.rejointBataille(bataille);
+
+		monstres = aideEcrivain.getMonstresDeFeu();
+		affichage = affichageMonstres(monstres);
+		System.out.println("\nmonstres de feu :\n" + affichage);
+
+		Monstre<Glace> givrogolem = new Monstre<>("givrogolem", 200, ZoneDeCombat.TERRESTRE, Domaine.GLACE,
+				new PicsDeGlace(10), new Tornade(1));
+		givrogolem.rejointBataille(bataille);
+
+		monstres = aideEcrivain.getMonstresDeFeu();
+		affichage = affichageMonstres(monstres);
+		System.out.println("\nmonstres de feu :\n" + affichage);
+
+		aideEcrivain.initMonstresDeGlace();
+		aideEcrivain.initMonstresTranchant();
+
+		Monstre<Feu> aqualave = new Monstre<>("aqualave", 30, ZoneDeCombat.AQUATIQUE, Domaine.FEU, new Lave(5));
+
+		Monstre<Tranchant> requispectre = new Monstre<>("requispectre", 200, ZoneDeCombat.AQUATIQUE, Domaine.TRANCHANT,
+				new Griffe());
+
+		aqualave.rejointBataille(bataille);
+		requispectre.rejointBataille(bataille);
+
+		monstres = aideEcrivain.getMonstresDeFeu();
+		affichage = affichageMonstres(monstres);
+		System.out.println("\nmonstres de feu :\n" + affichage);
+
+		monstres = aideEcrivain.getMonstresDeGlace();
+		affichage = affichageMonstres(monstres);
+		System.out.println("\nmonstres de glace :\n" + affichage);
+
+		monstres = aideEcrivain.getMonstresTranchants();
+		affichage = affichageMonstres(monstres);
+		System.out.println("\nmonstres tranchant :\n" + affichage);
+//
+	}
+
+	public static String affichageMonstres(NavigableSet<Monstre<?>> monstres) {
+		StringBuilder affichage = new StringBuilder();
+		for (Iterator<Monstre<?>> iterator = monstres.iterator(); iterator.hasNext();) {
+			Monstre<?> monstre = iterator.next();
+			affichage.append(monstre.getNom() + " monstre de " + monstre.getDomaine());
+			if (iterator.hasNext()) {
+				affichage.append(", ");
+			}
+		}
+		return affichage.toString();
+	}
 
 }

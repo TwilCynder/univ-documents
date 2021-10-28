@@ -1,6 +1,5 @@
 package protagoniste;
 
-//TODO DEMANDER A PROF COMMENT FAIRE POUR HPs HEROS
 public class Heros extends Homme {
 	public Heros(String nom) {
 		super(nom);
@@ -9,6 +8,6 @@ public class Heros extends Homme {
 
 	@Override
 	public String toString() {
-		return "Heros [nom=" + nom + ", forceDeVie=" + forceDeVie + ", bataille=" + bataille + "]";
+		return "Heros [nom=" + nom + ", forceDeVie=" + forceDeVie + "]";
 	}
 }
