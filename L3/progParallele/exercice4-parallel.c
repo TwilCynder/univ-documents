@@ -1,8 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <omp.h>
 
 #define MAX_NUM_OBJ 100
 
+#ifndef NB_THREADS
+#define NB_THREADS 4
+#endif 
 
 int num_obj = 0;
 int capacity;
@@ -56,6 +60,9 @@ void read_problem(char *filename){
 }
 
 int main (int argc, char** argv){
+
+  double t,start,stop;
+
   if (argc != 2) {
     fprintf(stderr, "Usage : %s problem_descriptor_file\n", argv[0]);
     exit(1);
@@ -63,19 +70,23 @@ int main (int argc, char** argv){
 
   read_problem(argv[1]); //populates weight[] and utility[]
 
+  start = omp_get_wtime();
+
   int* S = malloc(sizeof(int) * num_obj * (capacity + 1));
 
+  #pragma omp parallel for num_threads(NB_THREADS)
   for (int j = 0; j <= capacity; j++){
     S_(0, j) = (weight[0] > j) ? 0 : utility[0];
   }
 
   for (int i = 1; i < num_obj; i++){
+    #pragma omp parallel for num_threads(NB_THREADS)
     for (int j = 0; j <= capacity; j++){
       if (weight[i] > j){
         S_(i, j) = S_(i - 1, j);
       } else {
         int prev_utility = S_(i-1, j); // utilité max avec l'obj précédent
-        int potential_utility = S_(i-1, j - weight[i]) + utility[i]; // utilité max précédente pour une capacité qui permettrit d'ajouter l'objet, + l'utilité de l'objet
+        int potential_utility = S_(i-1, j - weight[i]) + utility[i]; // utilité max précédente pour une capacité qui permettrait d'ajouter l'objet, + l'utilité de l'objet
         S_(i, j) = (prev_utility > potential_utility) ? prev_utility : potential_utility;
       }
     }
@@ -84,6 +95,7 @@ int main (int argc, char** argv){
 
   int* E = malloc(sizeof(int) * num_obj);
   int capacity_ = capacity;
+
   for (int i = num_obj - 1; i > 0; i--){
     if (S_(i, capacity_) > S_(i - 1, capacity_)){ //l'objet i a été inclus
       capacity_ -= weight[i];
@@ -93,17 +105,22 @@ int main (int argc, char** argv){
     }
   }
 
+  stop=omp_get_wtime();
+  t=stop-start;
+
   if (S_(0, capacity_) > 0) E[0] = 1;
 
   free(S);
 
-  printf("Les objets choisis sont ");
+  /*printf("Les objets choisis sont ");
   for (int i = 0; i < num_obj; i++){
     if (E[i])
       printf("%d ", i);
   }
-  printf(".\n");
-
+  printf(".\n");*/
   free(E);
+
+  printf("Temps d'éxécution de l'algo (avec %d threads): %f\n", NB_THREADS, t);
+
 
 }
