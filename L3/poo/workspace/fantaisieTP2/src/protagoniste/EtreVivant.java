@@ -28,7 +28,7 @@ public abstract class EtreVivant {
 	
 	@Override
 	public String toString() {
-		return "EtreVivant [nom=" + nom + ", forceDeVie=" + forceDeVie + "]";
+		return " [nom=" + nom + ", forceDeVie=" + forceDeVie + "]";
 	}
 	
 	public void rejointBataille(Bataille b) {
@@ -37,10 +37,13 @@ public abstract class EtreVivant {
 	
 	public abstract void mourir();
 	
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof EtreVivant) {
-			return this.nom == ((EtreVivant)obj).nom;
+			EtreVivant ev = (EtreVivant)obj;
+			return this.nom.equals(ev.nom);
 		}
 		return false;
 	}
+	
 }

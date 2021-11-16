@@ -21,7 +21,7 @@ public class Homme extends EtreVivant {
 
 	@Override
 	public String toString() {
-		return "Homme [nom=" + nom + ", forceDeVie=" + forceDeVie+ "]";
+		return "Homme " + super.toString();
 	}
 
 }

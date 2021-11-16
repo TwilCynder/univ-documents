@@ -1,0 +1,51 @@
+2) DHCP
+
+Les messages sont encpsulés dans des segments UDP.
+
+L'IP du serveur DHCP est 192.168.1.254.
+La nouvelle adresse IP est contenue dans le dernier message DCP (le ACK). Cette adresse est 192.168.1.37
+La durée de vie de cette adresse est de 24 heures.
+
+
+3) PING
+
+Le protocole est ICMP.
+Ce protocole n'utilise pas de numéro de port car c'est un protocole de niveau 3 (couche réseau), alors que les ports sont utiles pour la couche transport.
+Autrement dit ce protocole n'utilise pas de communication bout en bout d'entités de couche Transport, il se contente d'acheminer un ping vers la bonne machine, 
+ce qui ne nécessite pas de numéro de port.
+
+la différence entre ces deux commande ping est que pour la première on donne directement l'IP à ping, alors que pour la deuxième on demande une url, 
+donc une requete DNS est faite pour obtenir l'IP
+
+La réduction de la taille de la MTU a pour effet une fragmentation des paquets : les messages 105, 106, et 107 sont 3 fragments du même message.
+Les champs FLAGS et OFFSET servent à indiquer si le message est fragmenté, et si oui la position du fragment dans le message.
+Le champ FLAGS du premier message indique qu'il reste des fragments et que la position est 0
+Le champ FLAGS du deuxième message indique qu'il reste des fragments et que la position est 29
+Le champ FLAGS du deuxième message indique qu'il ne reste pas de fragments et que la position est 58
+
+La nouvelle valeur de la MTU est 232
+
+Il n'y a pas d'autre messages fragmentés, le filtre utilisé est ip.flags.mf == 1
+
+DNS appartient à la couche appplication. Il utilise UDP.
+
+4) HTTP
+Image seule :
+Le client demande la version 1.1. le serveur répond avec la même version.
+Le statut renvoyé par le serveur est 200 (OK)
+Le fichier a été modifié pour la dernière fois le 21 janvier 2008.
+La réponse (les segments TCP réassemblés) a une taille de 23754 octets.
+Le transfert se fait via une connexion TCP, et l'envoi de 18 segments TCP
+
+Site web : 
+Le système d'exploitation du client est Debian (Linux)
+Le nombre max de requete http simultanées est 4
+l'imagine qu'on avait demandé n'est pas redemandée car elle a été mise en cache.
+
+5) TELNET
+Les messages telnet sont tous envoyés via TCP
+l'ip du serveur est 192.168.0.6 le login est "guest", le mot de passe est "trivial"
+
+La commande saisie est pwd, la réponse est /home/guest
+
+

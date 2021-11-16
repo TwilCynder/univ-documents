@@ -1,0 +1,1 @@
+1) Les éléments spécifiques à openmp sont la directive "#pragma omp parallel for num_threads(nb) private(j,k)" (l 31)), ainsi que les appels aux fonctions
