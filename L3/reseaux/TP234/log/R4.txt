@@ -1,0 +1,130 @@
+Thu Nov 18 11:01:13 2021 [MAIN TH]: process input packets thread created with ID 3604727552.
+Thu Nov 18 11:01:13 2021 [SERVER TH]: waiting for incoming messages.
+Thu Nov 18 11:01:13 2021 [MAIN TH]: hello thread created with ID 3596334848.
+Thu Nov 18 11:01:13 2021 [HELLO TH]: DV sent to R3 :
+ 	 DEST | METRIC 
+	   4  |  0
+.
+Thu Nov 18 11:01:13 2021 [SERVER TH]: CTRL packet received.
+Thu Nov 18 11:01:13 2021 [HELLO TH]: DV sent to R5 :
+ 	 DEST | METRIC 
+	   4  |  0
+.
+Thu Nov 18 11:01:13 2021 [SERVER TH]: DV received from R5 :
+ 	 DEST | METRIC 
+	   5  |  0
+.
+Thu Nov 18 11:01:13 2021 [HELLO TH]: DV sent to R7 :
+ 	 DEST | METRIC 
+	   4  |  0
+.
+Thu Nov 18 11:01:13 2021 [SERVER TH]: CTRL packet received.
+Thu Nov 18 11:01:13 2021 [SERVER TH]: DV received from R3 :
+ 	 DEST | METRIC 
+	   3  |  0
+.
+Thu Nov 18 11:01:13 2021 [SERVER TH]: CTRL packet received.
+Thu Nov 18 11:01:13 2021 [SERVER TH]: DV received from R7 :
+ 	 DEST | METRIC 
+	   7  |  0
+.
+Thu Nov 18 11:01:18 2021 [SERVER TH]: CTRL packet received.
+Thu Nov 18 11:01:18 2021 [HELLO TH]: DV sent to R3 :
+ 	 DEST | METRIC 
+	   4  |  0
+	   5  |  1
+	   3  |  1
+	   7  |  1
+.
+Thu Nov 18 11:01:18 2021 [HELLO TH]: DV sent to R5 :
+ 	 DEST | METRIC 
+	   4  |  0
+	   5  |  1
+	   3  |  1
+	   7  |  1
+.
+Thu Nov 18 11:01:18 2021 [SERVER TH]: DV received from R5 :
+ 	 DEST | METRIC 
+	   5  |  0
+	   4  |  1
+.
+Thu Nov 18 11:01:18 2021 [HELLO TH]: DV sent to R7 :
+ 	 DEST | METRIC 
+	   4  |  0
+	   5  |  1
+	   3  |  1
+	   7  |  1
+.
+Thu Nov 18 11:01:18 2021 [SERVER TH]: CTRL packet received.
+Thu Nov 18 11:01:18 2021 [SERVER TH]: DV received from R3 :
+ 	 DEST | METRIC 
+	   3  |  0
+	   4  |  1
+	   2  |  1
+.
+Thu Nov 18 11:01:18 2021 [SERVER TH]: CTRL packet received.
+Thu Nov 18 11:01:18 2021 [SERVER TH]: DV received from R7 :
+ 	 DEST | METRIC 
+	   7  |  0
+	   6  |  1
+	   4  |  1
+.
+Thu Nov 18 11:01:23 2021 [SERVER TH]: CTRL packet received.
+Thu Nov 18 11:01:23 2021 [SERVER TH]: DV received from R3 :
+ 	 DEST | METRIC 
+	   3  |  0
+	   4  |  1
+	   2  |  1
+	   1  |  2
+	   6  |  2
+	   5  |  2
+	   7  |  2
+.
+Thu Nov 18 11:01:23 2021 [SERVER TH]: CTRL packet received.
+Thu Nov 18 11:01:23 2021 [SERVER TH]: DV received from R5 :
+ 	 DEST | METRIC 
+	   5  |  0
+	   4  |  1
+	   3  |  2
+	   7  |  2
+.
+Thu Nov 18 11:01:23 2021 [SERVER TH]: CTRL packet received.
+Thu Nov 18 11:01:23 2021 [SERVER TH]: DV received from R7 :
+ 	 DEST | METRIC 
+	   7  |  0
+	   6  |  1
+	   4  |  1
+	   2  |  2
+	   5  |  2
+	   3  |  2
+.
+Thu Nov 18 11:01:23 2021 [HELLO TH]: DV sent to R3 :
+ 	 DEST | METRIC 
+	   4  |  0
+	   5  |  1
+	   3  |  1
+	   7  |  1
+	   2  |  2
+	   6  |  2
+	   1  |  3
+.
+Thu Nov 18 11:01:23 2021 [HELLO TH]: DV sent to R5 :
+ 	 DEST | METRIC 
+	   4  |  0
+	   5  |  1
+	   3  |  1
+	   7  |  1
+	   2  |  2
+	   6  |  2
+	   1  |  3
+.
+Thu Nov 18 11:01:23 2021 [HELLO TH]: DV sent to R7 :
+ 	 DEST | METRIC 
+	   4  |  0
+	   5  |  1
+	   3  |  1
+	   7  |  1
+	   2  |  2
+	   6  |  2
+	   1  |  3
+.

@@ -145,7 +145,6 @@ int main(int argc, char *argv[]) {
   }
 
   // Detruire le(s) semaphore(s) utilise(s)
-  /* A completer */
 
   printf ("\nFin de l'execution du thread principal \n");
   return 0;

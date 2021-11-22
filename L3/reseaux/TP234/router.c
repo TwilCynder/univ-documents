@@ -53,6 +53,8 @@ int forward_packet(packet_data_t *packet, int psize, routing_table_t *rt) {
 // Build distance vector packet
 void build_dv_packet(packet_ctrl_t *p, routing_table_t *rt) {
     p->dv_size = rt->size;
+    p->type = CTRL;
+    p->src_id = MY_ID;
     for (int i = 0; i < rt->size; i++){
         p->dv[i].dest = rt->tab[i].dest;
         p->dv[i].metric = rt->tab[i].metric;
@@ -81,18 +83,16 @@ void *hello(void *args) {
     /* Get routing and neighbors table */
     routing_table_t *rt = pargs->rt;
     neighbors_table_t *nt = pargs->nt;
+    packet_ctrl_t packet;
 
     /* >>>>>>>>>> A COMPLETER PAR LES ETUDIANTS - DEB <<<<<<<<<< */
 
-    
-
     while (1) {
 
-        packet_ctrl_t packet;
         build_dv_packet(&packet, rt);
         for (int i = 0; i < nt->size; i++){
             send_packet(&packet, sizeof(packet_ctrl_t), nt->tab[i].ipv4, nt->tab[i].port);
-            log_dv(&packet, nt->tab[i].id, int output)
+            log_dv(&packet, nt->tab[i].id, 1);
         }
 
         /* >>>>>>>>>> A COMPLETER PAR LES ETUDIANTS - FIN <<<<<<<<<< */
@@ -109,11 +109,37 @@ void *hello(void *args) {
 /* ************************ A FAIRE PAR LES ETUDIANTS ********************** */
 /* ========================================================================= */
 
+routing_table_entry_t* find_rt_entry(routing_table_t* rt, dv_entry_t* dve){
+    for (int i = 0; i < rt->size; i++){
+        if (dve->dest == rt->tab[i].dest) return rt->tab + i;
+    }
+    return NULL;
+}
+
 // Update routing table from received distance vector
 int update_rt(routing_table_t *rt, overlay_addr_t *src, dv_entry_t dv[], int dv_size) {
-
-    /* TODO */
+    routing_table_entry_t* routing_table_entry;
+    for (int i = 0; i < dv_size; i++){
+        dv_entry_t* distance_vector_entry = dv + i;
+        if ((routing_table_entry = find_rt_entry(rt, distance_vector_entry))){
+            if ( (routing_table_entry->metric > (distance_vector_entry->metric + 1)) || routing_table_entry->nexthop.id == src->id){
+                routing_table_entry->metric = distance_vector_entry->metric+1;
+                routing_table_entry->nexthop = *src;
+                routing_table_entry->time    = time(NULL);
+            }   
+        } else {
+            add_route(rt, distance_vector_entry->dest, src, distance_vector_entry->metric + 1);
+        }
+    }
+    
     return 1;
+}
+
+overlay_addr_t* find_nt_entry(neighbors_table_t *nt, node_id_t id){
+    for (int i = 0; i < nt->size; i++){
+        if (nt->tab[i].id == id) return nt->tab + i;
+    }
+    return NULL;
 }
 
 // Server thread waiting for input packets
@@ -211,7 +237,7 @@ void *process_input_packets(void *args) {
                 log_dv(pctrl, pctrl->src_id, 0);
                 /* >>>>>>>>>> A COMPLETER PAR LES ETUDIANTS - DEB <<<<<<<<<< */
 
-                /* TODO */
+                update_rt(rt, find_nt_entry(nt, pctrl->src_id), pctrl->dv, pctrl->dv_size);
 
                 /* >>>>>>>>>> A COMPLETER PAR LES ETUDIANTS - FIN <<<<<<<<<< */
                 break;
