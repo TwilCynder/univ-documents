@@ -137,7 +137,10 @@ int main(int argc, char*argv[]) {
 
   // Initialiser le(s) semaphore(s) utilise(s)
   for (int i = 0; i < nbThreads; i++){
-      pthread_mutex_init(&mutex[i], NULL);
+      if (pthread_mutex_init(&mutex[i], NULL) != 0){
+        perror("Impossible d'initaliser les mutex");
+        exit(11);
+      }
   }
 
   for (int i = 1; i < nbThreads; i++){
@@ -151,7 +154,8 @@ int main(int argc, char*argv[]) {
     param[i].nbMsg     = NB_MSG_BASE;
     param[i].nbLignes  = NB_LIGNES_BASE;
     if ((etat = pthread_create(&idThdAfficheurs[i], NULL, thd_afficher, &param[i])) != 0)
-      thdErreur(etat, "Creation afficheurs", NULL);
+      perror("Erreur création thread afficheurs");
+      exit(12);
   }
 
   // Attendre la fin des threads afficheur car si le thread principal
@@ -163,7 +167,10 @@ int main(int argc, char*argv[]) {
 
   // Detruire le(s) semaphore(s) utilise(s)
   for (int i = 0; i < nbThreads; i++){
-      pthread_mutex_destroy(&mutex[i]);
+      if (pthread_mutex_destroy(&mutex[i]) != 0){
+        perror("Impossible de détruire les Mutex");
+        exit(13);
+      }
   }
 
   printf ("\nFin de l'execution du thread principal \n");

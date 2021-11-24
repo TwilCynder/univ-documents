@@ -1,0 +1,91 @@
+Thu Nov 18 11:01:13 2021 [MAIN TH]: process input packets thread created with ID 1681516288.
+Thu Nov 18 11:01:13 2021 [SERVER TH]: waiting for incoming messages.
+Thu Nov 18 11:01:13 2021 [MAIN TH]: hello thread created with ID 1673123584.
+Thu Nov 18 11:01:13 2021 [HELLO TH]: DV sent to R2 :
+ 	 DEST | METRIC 
+	   3  |  0
+.
+Thu Nov 18 11:01:13 2021 [SERVER TH]: CTRL packet received.
+Thu Nov 18 11:01:13 2021 [HELLO TH]: DV sent to R4 :
+ 	 DEST | METRIC 
+	   3  |  0
+.
+Thu Nov 18 11:01:13 2021 [SERVER TH]: DV received from R4 :
+ 	 DEST | METRIC 
+	   4  |  0
+.
+Thu Nov 18 11:01:13 2021 [SERVER TH]: CTRL packet received.
+Thu Nov 18 11:01:13 2021 [SERVER TH]: DV received from R2 :
+ 	 DEST | METRIC 
+	   2  |  0
+.
+Thu Nov 18 11:01:18 2021 [HELLO TH]: DV sent to R2 :
+ 	 DEST | METRIC 
+	   3  |  0
+	   4  |  1
+	   2  |  1
+.
+Thu Nov 18 11:01:18 2021 [HELLO TH]: DV sent to R4 :
+ 	 DEST | METRIC 
+	   3  |  0
+	   4  |  1
+	   2  |  1
+.
+Thu Nov 18 11:01:18 2021 [SERVER TH]: CTRL packet received.
+Thu Nov 18 11:01:18 2021 [SERVER TH]: DV received from R2 :
+ 	 DEST | METRIC 
+	   2  |  0
+	   1  |  1
+	   6  |  1
+	   3  |  1
+.
+Thu Nov 18 11:01:18 2021 [SERVER TH]: CTRL packet received.
+Thu Nov 18 11:01:18 2021 [SERVER TH]: DV received from R4 :
+ 	 DEST | METRIC 
+	   4  |  0
+	   5  |  1
+	   3  |  1
+	   7  |  1
+.
+Thu Nov 18 11:01:23 2021 [HELLO TH]: DV sent to R2 :
+ 	 DEST | METRIC 
+	   3  |  0
+	   4  |  1
+	   2  |  1
+	   1  |  2
+	   6  |  2
+	   5  |  2
+	   7  |  2
+.
+Thu Nov 18 11:01:23 2021 [HELLO TH]: DV sent to R4 :
+ 	 DEST | METRIC 
+	   3  |  0
+	   4  |  1
+	   2  |  1
+	   1  |  2
+	   6  |  2
+	   5  |  2
+	   7  |  2
+.
+Thu Nov 18 11:01:23 2021 [SERVER TH]: CTRL packet received.
+Thu Nov 18 11:01:23 2021 [SERVER TH]: DV received from R2 :
+ 	 DEST | METRIC 
+	   2  |  0
+	   1  |  1
+	   6  |  1
+	   3  |  1
+	   4  |  2
+	   7  |  2
+	   5  |  3
+.
+Thu Nov 18 11:01:23 2021 [SERVER TH]: CTRL packet received.
+Thu Nov 18 11:01:23 2021 [SERVER TH]: DV received from R4 :
+ 	 DEST | METRIC 
+	   4  |  0
+	   5  |  1
+	   3  |  1
+	   7  |  1
+	   2  |  2
+	   6  |  2
+	   1  |  3
+.

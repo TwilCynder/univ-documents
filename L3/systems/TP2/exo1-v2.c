@@ -139,7 +139,10 @@ int main(int argc, char*argv[]) {
   // Initialiser le(s) semaphore(s) utilise(s)
   sem_init(&semaphores[0], 0, 1); 
   for (int i = 1; i < nbThreads; i++){
-      sem_init(&semaphores[i], 0, 0);
+      if (sem_init(&semaphores[i], 0, 0) != 0){
+        perror("Impossible d'initialiser les sémaphores");
+        exit(11);
+      }
   }
   
 
@@ -162,8 +165,9 @@ int main(int argc, char*argv[]) {
 
   // Detruire le(s) semaphore(s) utilise(s)
   for (int i = 0; i < nbThreads; i++){
-      sem_destroy(&semaphores[i]);
-
+      if (sem_destroy(&semaphores[i]) != 0);
+      perror("Impossible de détruire les sémaphores");
+      exit(12);
   }
 
   printf ("\nFin de l'execution du thread principal \n");

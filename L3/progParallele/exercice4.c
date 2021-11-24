@@ -3,6 +3,7 @@
 
 #define MAX_NUM_OBJ 100
 
+
 int num_obj = 0;
 int capacity;
 int weight[MAX_NUM_OBJ];
