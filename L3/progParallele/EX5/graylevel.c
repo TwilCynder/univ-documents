@@ -3,6 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <omp.h>
+
+#ifndef NBTHREADS
+#define NBTHREADS 8
+#endif
 
 typedef struct color_pixel_struct {
     unsigned char r,g,b;
@@ -23,16 +28,21 @@ typedef struct grey_image_struct
 /**********************************************************************/
 
 void improveGreyImage(grey_image_type* image){
-  int H[256]; //H[i] = nombre de pixels ayant la couleur (graylevel) i
+  int H[256] = {0}; //H[i] = nombre de pixels ayant la couleur (graylevel) i
   int C[256]; //C[i] = nombre de pixels de couleur (greylevel) <= i
   double pixels = image->width * image->height; //en double pour éviter que le calcul de la 3ème boulce fasse unee division entière.
 
   printf("Improving image contrast ...\n");
 
+  double t,start,stop;
+  start = omp_get_wtime();
+
+  #pragma omp parallel for num_threads(NBTHREADS)
   for (int i = 0; i < image->width; i++){
     for (int j = 0; j < image->height; j++){
-      int index = i * image->width + j;
+      int index = i * image->height + j;
       unsigned char pixel = image->pixels[index];
+      #pragma omp atomic
       H[pixel]++; 
     }
   }
@@ -42,12 +52,18 @@ void improveGreyImage(grey_image_type* image){
     C[i] = C[i - 1] + H[i] ;//pas parallélisable
   }
 
+  #pragma omp parallel for num_threads(NBTHREADS)
   for (int i = 0; i < image->width; i++){
     for (int j = 0; j < image->height; j++){
-      int index = i * image->width + j;
+      int index = i * image->height + j;
       image->pixels[index] = 255 * (C[ image->pixels[index] ] / pixels);
     }
   }
+
+  stop=omp_get_wtime();
+  t=stop-start;
+
+  printf("Temps d'éxécution de l'algo (avec %d threads): %fs\n", NBTHREADS, t);
 }
 
 /**********************************************************************/
