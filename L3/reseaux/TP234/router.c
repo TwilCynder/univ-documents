@@ -15,6 +15,7 @@
 
 #define BUF_SIZE 1024
 #define BROADCAST_PERIOD 5
+#define RT_ENTRY_LIFETIME (BROADCAST_PERIOD * 2)
 #define FWD_DELAY_IN_MS 10
 #define INFINITY 8
 
@@ -65,14 +66,44 @@ void build_dv_packet(packet_ctrl_t *p, routing_table_t *rt) {
 // Build a DV that contains the routes that have not been learned via
 // this neighbour
 void build_dv_specific(packet_ctrl_t *p, routing_table_t *rt, node_id_t neigh) {
+    p->type = CTRL;
+    p->src_id = MY_ID;
+    int j = -1;
+    for (int i = 0; i < rt->size; i++){
+        if (neigh != rt->tab[i].nexthop.id){
+            j++;
+            p->dv[j].dest = rt->tab[i].dest;
+            p->dv[j].metric = rt->tab[i].metric;
+        }
+    }
+    p->dv_size = j + 1;
+}
 
-    /* TODO */
+void copy_entry(routing_table_entry_t* source, routing_table_entry_t* target){
+    target->dest = source->dest;
+    target->nexthop = source->nexthop;
+    target->metric = source->metric;
+    target->time = source->time;
 }
 
 // Remove old RT entries
 void remove_obsolete_entries(routing_table_t *rt) {
-
-    /* TODO */
+    for (int i =0; i < rt->size; i++){
+        routing_table_entry_t* entry = rt->tab + i;
+        if (entry->dest != MY_ID && difftime(time(NULL), entry->time) > BROADCAST_PERIOD){
+            entry->dest = 0;
+        }
+    }
+    //décalage des cases du tableau
+    int decalage = 0;
+    for (int i = 0; i < rt->size; i++){
+        routing_table_entry_t* entry = rt->tab + i;
+        if (entry->dest == 0){
+            decalage ++;
+            rt->size --;
+        }
+        copy_entry(entry + decalage, entry);
+    }
 }
 
 // Hello thread to broadcast state to neighbors
@@ -89,8 +120,8 @@ void *hello(void *args) {
 
     while (1) {
 
-        build_dv_packet(&packet, rt);
         for (int i = 0; i < nt->size; i++){
+            build_dv_specific(&packet, rt, nt->tab[i].id);
             send_packet(&packet, sizeof(packet_ctrl_t), nt->tab[i].ipv4, nt->tab[i].port);
             log_dv(&packet, nt->tab[i].id, 1);
         }
