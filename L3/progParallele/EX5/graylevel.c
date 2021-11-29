@@ -27,6 +27,13 @@ typedef struct grey_image_struct
 
 /**********************************************************************/
 
+/*
+* NOTE : ayant oublié mon code sur les PC de la fac, j'ai du le refaire pour l'uploader sur moodle dans les temps, par conséquent 
+* ce code n'est pas celui que j'avais fait quand j'ai rendu le compte rendu de TP sur moodle, il n'est donc impossible qu'il y ait quelques 
+* incohérences entre ma réponse au questionnaire et le code, même si j'ai essayé de le refaire à l'identique
+* je réuploaderai le code que j'avais fait à la fac dès que je pourrai
+*/
+
 void improveGreyImage(grey_image_type* image){
   int H[256] = {0}; //H[i] = nombre de pixels ayant la couleur (graylevel) i
   int C[256]; //C[i] = nombre de pixels de couleur (greylevel) <= i
@@ -37,13 +44,20 @@ void improveGreyImage(grey_image_type* image){
   double t,start,stop;
   start = omp_get_wtime();
 
-  #pragma omp parallel for num_threads(NBTHREADS)
-  for (int i = 0; i < image->width; i++){
-    for (int j = 0; j < image->height; j++){
-      int index = i * image->height + j;
-      unsigned char pixel = image->pixels[index];
-      #pragma omp atomic
-      H[pixel]++; 
+  #pragma omp parallel num_threads(NBTHREADS)
+  {
+    int Hlocal[256] = {0};
+    #pragma omp for
+    for (int i = 0; i < image->width; i++){
+      for (int j = 0; j < image->height; j++){
+        int index = i * image->height + j;
+        unsigned char pixel = image->pixels[index];
+        Hlocal[pixel]++; 
+      }
+    }
+    #pragma omp critical
+    for (int i = 0; i < 256; i++){
+      H[i] += Hlocal[i];
     }
   }
 
