@@ -52,7 +52,7 @@ void thdErreur (char *msg, int cause, int arret) {
 
 void *thd_afficher (void *arg) { 
     int val = my_rand() % 10;
-    somme += val;
+    somme += val; //Cette instruction n'est p
     afficher(*(int*)arg, pthread_self(), val);
     
     int* result = malloc(sizeof(int));

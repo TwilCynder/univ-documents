@@ -14,7 +14,7 @@
 #include "utils.h"
 
 #define BUF_SIZE 1024
-#define BROADCAST_PERIOD 5
+#define BROADCAST_PERIOD 3
 #define FWD_DELAY_IN_MS 10
 #define INFINITY 8
 
@@ -32,9 +32,10 @@ int MY_ID;
 /* ========================================================================= */
 int forward_packet(packet_data_t *packet, int psize, routing_table_t *rt) {
 
-    for (int i = 0; i < rt->size; i++){
-        if (rt->tab[i].dest == packet->dst_id){
-            send_packet(packet, psize, rt->tab[i].nexthop.ipv4, rt->tab[i].nexthop.port);
+    
+    for (int i = 0; i < rt->size; i++){ //Itération sur la table de routage
+        if (rt->tab[i].dest == packet->dst_id){     //Si la destination du packet correspond à une entrée de la table
+            send_packet(packet, psize, rt->tab[i].nexthop.ipv4, rt->tab[i].nexthop.port);   //On envoie ledit packet au voisin indiqué par l'entée de la table
             return 1;
         }
     }
@@ -52,9 +53,9 @@ int forward_packet(packet_data_t *packet, int psize, routing_table_t *rt) {
 
 // Build distance vector packet
 void build_dv_packet(packet_ctrl_t *p, routing_table_t *rt) {
-    p->dv_size = rt->size;
-    p->type = CTRL;
-    p->src_id = MY_ID;
+    p->dv_size = rt->size;  //On envoie toute la table (taille vecteur == taile table)
+    p->type = CTRL;         //Il s'agira d'un paquet de type contrôle
+    p->src_id = MY_ID;      //initialisation du cham source du vecteur (qui est évidemment notre id)
     for (int i = 0; i < rt->size; i++){
         p->dv[i].dest = rt->tab[i].dest;
         p->dv[i].metric = rt->tab[i].metric;
@@ -65,14 +66,60 @@ void build_dv_packet(packet_ctrl_t *p, routing_table_t *rt) {
 // Build a DV that contains the routes that have not been learned via
 // this neighbour
 void build_dv_specific(packet_ctrl_t *p, routing_table_t *rt, node_id_t neigh) {
+    p->type = CTRL;
+    p->src_id = MY_ID;
+    int j = -1;
+    for (int i = 0; i < rt->size; i++){
+        if (neigh != rt->tab[i].nexthop.id){
+            j++;
+            p->dv[j].dest = rt->tab[i].dest;
+            p->dv[j].metric = rt->tab[i].metric;
+        }
+    }
+    p->dv_size = j + 1;
+}
 
-    /* TODO */
+void copy_entry(routing_table_entry_t* source, routing_table_entry_t* target){
+    target->dest = source->dest;
+    target->nexthop = source->nexthop;
+    target->metric = source->metric;
+    target->time = source->time;
 }
 
 // Remove old RT entries
 void remove_obsolete_entries(routing_table_t *rt) {
+    //printf("SIZE BEFORE : %d\n", rt->size);
 
-    /* TODO */
+    /*for (int i =0; i < rt->size; i++){
+        routing_table_entry_t* entry = rt->tab + i;
+        if (entry->dest != MY_ID && difftime(time(NULL), entry->time) > BROADCAST_PERIOD){
+            rt->size--;
+            for (int j = i; j < rt->size; j++){
+                copy_entry(&rt->tab[j + 1], &rt->tab[j]);
+            }
+        }
+    }*/
+
+    
+    for (int i = 0; i < rt->size; i++){
+        routing_table_entry_t* entry = rt->tab + i;
+        if (entry->dest != MY_ID && difftime(time(NULL), entry->time) > BROADCAST_PERIOD){
+            entry->dest = 55;
+        }
+    }
+    //décalage des cases du tableau
+    int decalage = 0;
+    for (int i = 0; i < rt->size; i++){
+        routing_table_entry_t* entry = rt->tab + i;
+            while ( (entry + decalage)->dest == 55){
+                decalage++;
+                rt->size--;
+            }
+            if (decalage > 0)
+                copy_entry(entry + decalage, entry);
+    }
+    
+    //printf("SIZE AFTER : %d\n", rt->size);
 }
 
 // Hello thread to broadcast state to neighbors
@@ -89,8 +136,8 @@ void *hello(void *args) {
 
     while (1) {
 
-        build_dv_packet(&packet, rt);
         for (int i = 0; i < nt->size; i++){
+            build_dv_specific(&packet, rt, nt->tab[i].id);
             send_packet(&packet, sizeof(packet_ctrl_t), nt->tab[i].ipv4, nt->tab[i].port);
             log_dv(&packet, nt->tab[i].id, 1);
         }
@@ -118,16 +165,17 @@ routing_table_entry_t* find_rt_entry(routing_table_t* rt, dv_entry_t* dve){
 
 // Update routing table from received distance vector
 int update_rt(routing_table_t *rt, overlay_addr_t *src, dv_entry_t dv[], int dv_size) {
-    routing_table_entry_t* routing_table_entry;
     for (int i = 0; i < dv_size; i++){
         dv_entry_t* distance_vector_entry = dv + i;
-        if ((routing_table_entry = find_rt_entry(rt, distance_vector_entry))){
+        routing_table_entry_t* routing_table_entry = find_rt_entry(rt, distance_vector_entry);
+        if (routing_table_entry){
             if ( (routing_table_entry->metric > (distance_vector_entry->metric + 1)) || routing_table_entry->nexthop.id == src->id){
                 routing_table_entry->metric = distance_vector_entry->metric+1;
                 routing_table_entry->nexthop = *src;
                 routing_table_entry->time    = time(NULL);
             }   
-        } else {
+        } else if (distance_vector_entry->metric + 1 < INFINITY){ //On teste si la route n'est pas trop longue (afin d'éviter les count to infinity (4.4.2.b))
+            //printf("ADDING ROUTE : %d FROM %d\n", distance_vector_entry->dest, src->id);
             add_route(rt, distance_vector_entry->dest, src, distance_vector_entry->metric + 1);
         }
     }

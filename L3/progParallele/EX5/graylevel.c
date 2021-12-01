@@ -37,15 +37,23 @@ void improveGreyImage(grey_image_type* image){
   double t,start,stop;
   start = omp_get_wtime();
 
-  #pragma omp parallel for num_threads(NBTHREADS)
-  for (int i = 0; i < image->width; i++){
-    for (int j = 0; j < image->height; j++){
-      int index = i * image->height + j;
-      unsigned char pixel = image->pixels[index];
-      #pragma omp atomic
-      H[pixel]++; 
+  #pragma omp parallel num_threads(NBTHREADS)
+  {
+    int Hlocal[256] = {0}; //H[i] = nombre de pixels ayant la couleur (graylevel) i
+    #pragma omp for
+    for (int i = 0; i < image->width; i++){
+      for (int j = 0; j < image->height; j++){
+        int index = i * image->height + j;
+        unsigned char pixel = image->pixels[index];
+        Hlocal[pixel]++; 
+      }
+    }
+    #pragma omp critical
+    for (int i = 0; i < 256; i++){
+      H[i] += Hlocal[i];
     }
   }
+
 
   C[0] = H[0];
   for (int i = 1; i < 256; i++){
