@@ -4,7 +4,6 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NavigableSet;
-import java.util.Set;
 import java.util.TreeSet;
 
 import attaque.Arme;
@@ -12,7 +11,7 @@ import attaque.KeyArme;
 import bataille.Bataille;
 
 public class Homme extends EtreVivant {
-	private Map<ZoneDeCombat, List<Arme>> armes = new EnumMap<>(ZoneDeCombat.class);
+	private Map<ZoneDeCombat, List<Arme>> armes = new EnumMap<ZoneDeCombat, List<Arme>>(ZoneDeCombat.class);
 	private Arme armeChoisie;
 	
 	public Homme(String nom) {
@@ -33,8 +32,8 @@ public class Homme extends EtreVivant {
 
 	public void ajouterArmes(Arme... armesAjoutees) {
 		for (Arme arme : armesAjoutees) {
-			Set<ZoneDeCombat> zdcArme = arme.getZoneDeCombat()
-			for (ZoneDeCombat zdc : zdcArme) {
+			for (ZoneDeCombat zdc : arme.getZoneDeCombat()) {
+				//?????
 				armes.get(zdc).add(arme);
 			}
 		}
@@ -59,12 +58,11 @@ public class Homme extends EtreVivant {
 		
 		if (armesTriees.isEmpty()) return null;
 		
-		KeyArme ka = new KeyArme(m.getForceDeVie());
-		NavigableSet<Arme> armesAdaptees = armesTriees.tailSet(ka, true);
+		NavigableSet<Arme> armesAdaptees = armesTriees.tailSet(new KeyArme(m.getForceDeVie()), true);
 		
-		if (armesAdaptees.isEmpty()) return armesTriees.pollLast();
+		if (armesAdaptees.isEmpty()) return armesTriees.last();
 		
-		armeChoisie = armesAdaptees.pollFirst();
+		armeChoisie = armesAdaptees.first();
 		
 		return armeChoisie;
 	}
