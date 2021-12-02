@@ -46,6 +46,7 @@ public abstract class EtreVivant implements Comparable<EtreVivant> {
 		return false;
 	}
 	
+	//TOTO DEMANDER : pas plus simple ?
 	public int compareTo(EtreVivant autre) {
 		return this.nom.compareTo(autre.getNom());
 	}
