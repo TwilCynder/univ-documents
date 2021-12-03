@@ -7,13 +7,13 @@ EXEC = router
 all: $(EXEC)
 
 router: router.o console.o utils.o
-	$(CC) $(FLAGS) *.o -o $@ -fPIE
+	$(CC) $(FLAGS) *.o -o $@
 
 # '%' matches filename
 # $@  for the pattern-matched target
 # $<  for the pattern-matched dependency
 %.o: %.c
-	$(CC) $(FLAGS) -o $@ -c $< -fPIE
+	$(CC) $(FLAGS) -o $@ -c $<
 
 test_forwarding: router
 	for r in 1 2 3 4 ; do \
