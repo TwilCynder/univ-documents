@@ -184,6 +184,20 @@ public class HistoireFantaisie {
 	}
 	
 	public void ecrireHistoire() {
+		Salle salle = grotte.premiereSalle();
+		boolean combatPossible = true;
+		while (combatPossible && grotte.salleDecisive(salle)) {
+			int numSalle = salle.getNumSalle();
+			ZoneDeCombat zdc = salle.getZoneDeCombat();
+			livre.ecrire("Le groupe entre dans la salle n° " + numSalle + " qui est propice au combat " + zdc);
+			combatPossible = affrontement();
+			
+			
+		}
+	}
+	
+	public boolean affrontement() {
+		return true;
 	}
 
 	public static void main(String[] args) {

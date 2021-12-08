@@ -97,10 +97,17 @@ public class Homme extends EtreVivant {
 	public boolean attaqueMonstre(Monstre<? extends Pouvoir> monstre) {
 		if (armeChoisie == null) return false;
 		boolean reussite = attaqueReussie();
+		int pointDeDegat = armeChoisie.utiliser();
 		if (reussite) {
-			monstre.subitAttaque(armeChoisie.utiliser());
+			monstre.subitAttaque(pointDeDegat);
 		}
 		return reussite;
+	}
+	
+	public boolean resteArmeUtile() {
+		for (List<Arme> liste : armes.values()) {
+			for (Arme arme)
+		}
 	}
 
 }

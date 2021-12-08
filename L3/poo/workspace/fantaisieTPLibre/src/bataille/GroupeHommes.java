@@ -24,7 +24,7 @@ public class GroupeHommes {
 		}
 	}
 	
-	class ComparateurHommes implements Comparator<Homme>{
+	/*class ComparateurHommes implements Comparator<Homme>{
 		public int compare(Homme h1, Homme h2) {
 			if (h1.getForceDeVie() > h2.getForceDeVie()) {
 				return -1;
@@ -34,7 +34,7 @@ public class GroupeHommes {
 				return h1.compareTo(h2);
 			}
 		}
-	}
+	}*/
 	
 	class ComparateurArmes implements Comparator<Arme>{
 		private Monstre<?> monstre;
@@ -64,14 +64,25 @@ public class GroupeHommes {
 	public List<Homme> choixParticipants(Bataille bataille) {
 		Monstre<? extends Pouvoir> monstre = bataille.getCampMonstres().selectionner();
 		ComparateurArmes comparateurArmes = new ComparateurArmes(monstre);
-		ComparateurHommes comparateurHommes = new ComparateurHommes();
+		//ComparateurHommes comparateurHommes = new ComparateurHommes();
 		NavigableMap<Arme, NavigableSet<Homme>> hommesArmes = new TreeMap<>(comparateurArmes);
 		for (Homme homme : groupe) {
 			Arme meilleureArme = homme.choisirArme(monstre);
 			if (meilleureArme != null) {
 				NavigableSet<Homme> setHommes = hommesArmes.get(meilleureArme);
 				if (setHommes == null) {
-					setHommes = new TreeSet<Homme>(comparateurHommes);
+					setHommes = new TreeSet<Homme>(
+							/*new Comparator<Homme>(){
+								public int compare*/(h1, h2) -> {
+									if (h1.getForceDeVie() > h2.getForceDeVie()) {
+										return -1;
+									} else if (h1.getForceDeVie() > h2.getForceDeVie()) {
+										return 1;
+									} else {
+										return h1.compareTo(h2);
+									}
+								}
+					);
 					hommesArmes.put(meilleureArme, setHommes );
 				}
 				setHommes.add(homme);
@@ -95,5 +106,12 @@ public class GroupeHommes {
 	
 	public void supprimerHomme(Homme homme) {
 		groupe.remove(homme);
+	}
+	
+	public boolean resteCombattant() {
+		for (Homme homme : groupe) {
+			
+		}
+		return groupe.size() > 0;
 	}
 }

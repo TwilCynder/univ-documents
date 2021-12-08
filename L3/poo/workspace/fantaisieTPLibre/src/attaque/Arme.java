@@ -12,15 +12,13 @@ import protagoniste.ZoneDeCombat;
  * @author tnt3192a
  *
  */
-public abstract class Arme extends ForceDeCombat implements Comparable<Arme> {
+public abstract class Arme extends ForceDeCombat implements Orderable<Arme> {
 	private HashSet<ZoneDeCombat> zoneDeCombat = new HashSet<>();
 	
 	protected Arme(int pointDeDegat, String nom, ZoneDeCombat... zdc) {
 		super(pointDeDegat, nom);
 		for (ZoneDeCombat zone: zdc) {
-			//TODO fix ça
 			zoneDeCombat.add(zone);
-			
 		}
 	}
 	
@@ -39,7 +37,7 @@ public abstract class Arme extends ForceDeCombat implements Comparable<Arme> {
 	public int compareTo(Arme autre) {
 		if (operationel != autre.operationel) {
 			//return (Boolean)operationel.compareTo(autre.operationel);
-			return (operationel) ? 1 : -1;
+			return (operationel) ? -1 : 1;
 		}
 		int comparaison = autre.getPointDeDegat() - getPointDeDegat();
 		if (comparaison == 0) {

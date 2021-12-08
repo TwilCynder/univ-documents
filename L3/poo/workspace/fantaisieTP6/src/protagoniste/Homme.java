@@ -5,6 +5,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NavigableSet;
+import java.util.Random;
 import java.util.TreeSet;
 
 import attaque.Arme;
@@ -80,6 +81,26 @@ public class Homme extends EtreVivant {
 	@Override
 	public String toString() {
 		return "Homme " + super.toString();
+	}
+	
+	public void subitAttaque(int degats) {
+		forceDeVie -= degats;
+		if (forceDeVie < 1) {
+			mourir();
+		}
+	}
+	
+	public boolean attaqueReussie() {
+		return new Random().nextInt(20) < 10;
+	}
+	
+	public boolean attaqueMonstre(Monstre<? extends Pouvoir> monstre) {
+		if (armeChoisie == null) return false;
+		boolean reussite = attaqueReussie();
+		if (reussite) {
+			monstre.subitAttaque(armeChoisie.utiliser());
+		}
+		return reussite;
 	}
 
 }

@@ -86,5 +86,19 @@ public class Monstre<P extends Pouvoir> extends EtreVivant {
 		}
 	}
 	
+	public void subitAttaque(int degats) {
+		forceDeVie -= degats;
+		if (forceDeVie < 1) {
+			mourir();
+		}
+	}
+	
+	public boolean attaquerHomme(Homme homme, Pouvoir pouvoir) {
+		boolean reussite = new Random().nextBoolean();
+		if (reussite) {
+			homme.subitAttaque(pouvoir.utiliser());
+		}
+		return reussite;
+	}
 	
 }
