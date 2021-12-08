@@ -16,11 +16,12 @@ import bataille.Salle;
 import protagoniste.Domaine;
 import protagoniste.Monstre;
 import protagoniste.ZoneDeCombat;
+import protagoniste.ZoneDeCombatNonCompatibleException;
 
 public class TestGestionGrotte {
 
 	@SuppressWarnings("unchecked")
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ZoneDeCombatNonCompatibleException {
 		Monstre<Feu> dragotenebre = new Monstre<>("dragotenebre", 200, ZoneDeCombat.AERIEN, Domaine.FEU,
 				new BouleDeFeu(4), new Lave(1), new Eclair(3));
 
@@ -51,16 +52,38 @@ public class TestGestionGrotte {
 				new Lave(1), new Eclair(1));
 
 		Grotte grotte = new Grotte();
+		
+			try {
+				grotte.ajouterSalle(ZoneDeCombat.AQUATIQUE, guillotimort);
+				grotte.ajouterSalle(ZoneDeCombat.AERIEN, dragotenebre);
+				grotte.ajouterSalle(ZoneDeCombat.TERRESTRE, cramombre);
+				grotte.ajouterSalle(ZoneDeCombat.TERRESTRE, givrogolem);
+				grotte.ajouterSalle(ZoneDeCombat.AERIEN, tableauVampirien);
+				grotte.ajouterSalle(ZoneDeCombat.AQUATIQUE, aqualave);
+				grotte.ajouterSalle(ZoneDeCombat.AQUATIQUE, marinsangant);
+				grotte.ajouterSalle(ZoneDeCombat.AQUATIQUE, requispectre);
+				grotte.ajouterSalle(ZoneDeCombat.AERIEN, soufflemort);
+			} finally {
+				
+			}
+			
+			/*
+			 try {
+				grotte.ajouterSalle(ZoneDeCombat.AQUATIQUE, guillotimort);
+				grotte.ajouterSalle(ZoneDeCombat.AERIEN, dragotenebre);
+				grotte.ajouterSalle(ZoneDeCombat.TERRESTRE, cramombre);
+				grotte.ajouterSalle(ZoneDeCombat.TERRESTRE, givrogolem);
+				grotte.ajouterSalle(ZoneDeCombat.AERIEN, tableauVampirien);
+				grotte.ajouterSalle(ZoneDeCombat.AQUATIQUE, aqualave);
+				grotte.ajouterSalle(ZoneDeCombat.AQUATIQUE, marinsangant);
+				grotte.ajouterSalle(ZoneDeCombat.AQUATIQUE, requispectre);
+				grotte.ajouterSalle(ZoneDeCombat.AERIEN, soufflemort);
+			} catch (ZoneDeCombatNonCompatibleException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
-		grotte.ajouterSalle(ZoneDeCombat.TERRESTRE, guillotimort);
-		grotte.ajouterSalle(ZoneDeCombat.AERIEN, dragotenebre);
-		grotte.ajouterSalle(ZoneDeCombat.TERRESTRE, cramombre);
-		grotte.ajouterSalle(ZoneDeCombat.TERRESTRE, givrogolem);
-		grotte.ajouterSalle(ZoneDeCombat.AERIEN, tableauVampirien);
-		grotte.ajouterSalle(ZoneDeCombat.AQUATIQUE, aqualave);
-		grotte.ajouterSalle(ZoneDeCombat.AQUATIQUE, marinsangant);
-		grotte.ajouterSalle(ZoneDeCombat.AQUATIQUE, requispectre);
-		grotte.ajouterSalle(ZoneDeCombat.AERIEN, soufflemort);
+			 */
 
 		grotte.configurerAcces(1, 2, 6);
 		grotte.configurerAcces(2, 1, 3, 5);

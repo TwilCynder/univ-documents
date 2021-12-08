@@ -1,7 +1,12 @@
 # include <stdlib.h>
 # include <stdio.h>
+#include <omp.h>
 
 #define INFINITE (1<<30) // a very large positive integer
+
+#ifndef NBTHREADS 
+#define NBTHREADS 8
+#endif
 
 struct direct_edge_struct;
 struct direct_edge_struct {
@@ -24,7 +29,7 @@ char *P;
 
 int main ( int argc, char **argv );
 void read_graph(char *filename);
-void dijkstra();
+void dijkstra();  
 
 /******************************************************************************/
 int main ( int argc, char **argv ){
@@ -36,7 +41,15 @@ int main ( int argc, char **argv ){
   else
     read_graph(argv[1]);
 
-  dijkstra();
+  for (int i = 1; i <= 8; i *= 2){
+    int start = omp_get_wtime();
+    dijkstra(i);
+    printf("Temps pour %d threads : %lf\n", i, omp_get_wtime() - start);
+  }
+
+  /*for (int i = 0; i < num_nodes; i++){
+    printf("Shortest path to node %d : %d\n", i, d[i]);
+  }*/
 
   free(nodes);
   free(edges);
@@ -64,27 +77,42 @@ int get_distance(int node1, int node2){
 }
 
 /******************************************************************************/
-void dijkstra(){
+void dijkstra(int nbt){
   // returns computation time
 
   int shortest_dist;
   int nearest_node;
 
   P[0] = 1;
+  #pragma omp parallel num_threads(nbt)
   for (int i = 1; i < num_nodes; i++)
     P[i] = 0;
 
+  #pragma omp parallel num_threads(nbt)
   for (int i = 0; i < num_nodes; i++)
     d[i] = get_distance(0,i);
 
   for (int step = 1; step < num_nodes; step++ ){
     // find the nearest node
+
     shortest_dist = INFINITE;
     nearest_node = -1;
-    for (int i = 0; i < num_nodes; i++){
-        if ( !P[i] && d[i] < shortest_dist ){
-        shortest_dist = d[i];
-        nearest_node = i;
+
+    #pragma omp parallel num_threads(nbt)
+    {
+      int shortest_dist_local = INFINITE;
+      int nearest_node_local = -1;
+      #pragma omp for
+      for (int i = 0; i < num_nodes; i++){
+        if ( !P[i] && d[i] < shortest_dist_local ){
+          shortest_dist_local = d[i];
+          nearest_node_local = i;
+        }
+      }
+      #pragma omp critical
+      if (shortest_dist_local < shortest_dist){
+        shortest_dist = shortest_dist_local;
+        nearest_node = nearest_node_local;
       }
     }
 
@@ -94,13 +122,16 @@ void dijkstra(){
     }
 
     P[nearest_node] = 1;
-    for (int i = 0; i < num_nodes; i++)
+    #pragma omp parallel for num_threads(nbt)
+    for (int i = 0; i < num_nodes; i++){
       if ( !P[i] ){
         int dist = get_distance(nearest_node,i);
         if ( dist < INFINITE )
           if ( d[nearest_node] + dist < d[i] )
+            #pragma omp critical
             d[i] = d[nearest_node] + dist;
       }
+    }
   }
 }
 

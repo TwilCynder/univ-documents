@@ -1,8 +1,10 @@
 package testsfonctionnels;
 
 import java.util.List;
+import java.util.TreeSet;
 
 import attaque.Arc;
+import attaque.Arme;
 import attaque.Boomerang;
 import attaque.Epee;
 import attaque.Feu;
@@ -41,24 +43,23 @@ public class TestGestionArmes {
 		archibald.ajouterArmes(new Epee("excalibur"), new Arc(30));
 		alain.ajouterArmes(new Boomerang(), new Arc(10));
 
-
 		GroupeHommes compagnie = new GroupeHommes();
 		compagnie.ajouterHommes(thomas, louis, arthur, archibald, alain);
 
 		
 		Bataille bataille = new Bataille();
 		bataille.ajouter(aqualave);
-		List<Homme> campHomme1 = compagnie.choixCampHomme(bataille);
+		List<Homme> campHomme1 = compagnie.choixParticipants(bataille);
 		System.out.println("Le camps des hommes pour combattre un aqualave (Aquatique, 30) : \n" + campHomme1);
 		
 		bataille.eliminer(aqualave);
 		bataille.ajouter(vampirien1);
-		List<Homme> campHomme2 = compagnie.choixCampHomme(bataille);
+		List<Homme> campHomme2 = compagnie.choixParticipants(bataille);
 		System.out.println("Le camps des hommes pour combattre un vampirien (Aérien, 10) : \n" + campHomme2);
 
 		bataille.eliminer(vampirien1);
 		bataille.ajouter(guillotimort);
-		List<Homme> campHomme3 = compagnie.choixCampHomme(bataille);
+		List<Homme> campHomme3 = compagnie.choixParticipants(bataille);
 		System.out.println("Le camps des hommes pour combattre un guillotimort (Terrestre, 80) : \n" + campHomme3);
 	}
 //		RESULTAT ATTENDU

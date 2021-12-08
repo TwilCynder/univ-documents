@@ -11,8 +11,10 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 
+import attaque.Pouvoir;
 import protagoniste.Monstre;
 import protagoniste.ZoneDeCombat;
+import protagoniste.ZoneDeCombatNonCompatibleException;
 
 public class Grotte {
 	private Map<Salle, List<Salle>> planGrotte = new LinkedHashMap<>();
@@ -33,13 +35,14 @@ public class Grotte {
 		return s != null && s.getNumSalle() == numeroSalleDecisive;
 	}
 	
-	public void ajouterSalle(ZoneDeCombat zoneDeCombat, Monstre<?>... monstres) {
+	public void ajouterSalle(ZoneDeCombat zoneDeCombat, Monstre<? extends Pouvoir>... monstres) throws ZoneDeCombatNonCompatibleException {
 		Salle salle = new Salle(planGrotte.size() + 1, zoneDeCombat);
 		List<Salle> sorties = new ArrayList<Salle>();
 		planGrotte.put(salle, sorties);
 		
 		Bataille bataille = new Bataille();
-		for (Monstre m : monstres) {
+		for (Monstre<? extends Pouvoir> m : monstres) {
+			if (m.getZoneDeCombat() != zoneDeCombat) throw new ZoneDeCombatNonCompatibleException(zoneDeCombat, m.getZoneDeCombat());
 			m.rejointBataille(bataille);
 		}
 		batailles.put(salle, bataille);
@@ -59,8 +62,8 @@ public class Grotte {
 	    affichage.append(" vers la salle " + access);
 	   }
 	   Bataille bataille = batailles.get(salle);
-	   Camp<Monstre<?>> camp = bataille.getCampMonstres();
-	   Monstre<?> monstre = camp.selectionner();
+	   Camp<Monstre<? extends Pouvoir>> camp = bataille.getCampMonstres();
+	   Monstre<? extends Pouvoir> monstre = camp.selectionner();
 	   if (camp.nbCombattants() > 1) {
 	    affichage.append("\n" + camp.nbCombattants() + " monstres de type ");
 	   } else {

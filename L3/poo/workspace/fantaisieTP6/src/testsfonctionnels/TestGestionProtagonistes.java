@@ -12,6 +12,7 @@ import attaque.LameAcier;
 import attaque.Lave;
 import attaque.Morsure;
 import attaque.PicsDeGlace;
+import attaque.Pouvoir;
 import attaque.Tornade;
 import attaque.Tranchant;
 import bataille.Bataille;
@@ -52,7 +53,7 @@ public class TestGestionProtagonistes {
 		guillotimort.rejointBataille(bataille);
 
 		Camp<Homme> campsHumain = bataille.getCampHumains();
-		Camp<Monstre<?>> campsMonstre = bataille.getCampMonstres();
+		Camp<Monstre<? extends Pouvoir>> campsMonstre = bataille.getCampMonstres();
 
 		System.out.println("**** TP2 ****");
 		System.out.println("\ncamps des humains :\n" + campsHumain);

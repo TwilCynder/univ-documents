@@ -1,16 +1,13 @@
 package livre;
 
 import java.util.Comparator;
-import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.NavigableSet;
 import java.util.TreeSet;
 
-import attaque.Feu;
 import attaque.Glace;
-import attaque.Tornade;
 import bataille.Bataille;
 import protagoniste.Domaine;
 import protagoniste.Heros;

@@ -1,10 +1,10 @@
-package protagoniste;
+ package protagoniste;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NavigableSet;
-import java.util.Set;
 import java.util.TreeSet;
 
 import attaque.Arme;
@@ -32,10 +32,18 @@ public class Homme extends EtreVivant {
 	}
 
 	public void ajouterArmes(Arme... armesAjoutees) {
-		for (Arme arme : armesAjoutees) {
-			Set<ZoneDeCombat> zdcArme = arme.getZoneDeCombat()
-			for (ZoneDeCombat zdc : zdcArme) {
-				armes.get(zdc).add(arme);
+		System.out.println("AJOUT ARMES");
+		System.out.println(this);
+		for(Arme arme : armesAjoutees) {
+			System.out.println(arme);
+			System.out.println(arme.getZoneDeCombat());
+			for (ZoneDeCombat zdc : arme.getZoneDeCombat()) {
+				List<Arme> listeArmes = armes.get(zdc);
+				if (listeArmes == null) {
+					listeArmes = new ArrayList<Arme>();
+					armes.put(zdc, listeArmes);
+				}
+				listeArmes.add(arme);
 			}
 		}
 	}
@@ -54,8 +62,9 @@ public class Homme extends EtreVivant {
 		ZoneDeCombat zdc = m.getZoneDeCombat();
 		
 		NavigableSet<Arme> armesTriees = new TreeSet<Arme>();
-		//pourquoi pas fait ça dans aideecrivain
-		armesTriees.addAll(armes.get(zdc));
+		List <Arme> listeArmes = armes.get(zdc);
+		if (listeArmes != null)
+			armesTriees.addAll(armes.get(zdc));
 		
 		if (armesTriees.isEmpty()) return null;
 		
