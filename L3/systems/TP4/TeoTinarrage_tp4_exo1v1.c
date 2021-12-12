@@ -29,7 +29,7 @@ void ping_process(int n){
         //2 solutions ici (pas trop su laquelle choisir) : soit on se termine dès qu'on a fait le dernier envoi (incrémentation + test du count après l'envoi), 
         //soit on se termine dès qu'on a fait le dernier envoit ET que pong a répondu (incrémentation + test du count en début de boucle)
         count++;
-        if (count > n){
+        if (count >= n){
             printf("Fin Ping\n");
             exit(0);
         }
@@ -69,7 +69,10 @@ int main(int argc, char const *argv[])
     pipe(ping_pipe);
     pipe(pong_pipe);
 
-    if (argc < 2) fprintf(stderr, "Usage : %s nb_echanges\n", argv[0]);
+    if (argc < 2) {
+       fprintf(stderr, "Usage : %s nb_echanges\n", argv[0]);
+       exit(1); 
+    }
     int nb_echanges = atoi(argv[1]);
     if (nb_echanges < 1){
         nb_echanges = 1;
