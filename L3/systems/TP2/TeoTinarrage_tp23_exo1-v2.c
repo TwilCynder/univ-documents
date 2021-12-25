@@ -79,12 +79,12 @@ void V ( sem_t* semaphore ) {
 //
 // Demander a acceder a l'ecran 
 void demanderAcces(int rangThread) { 
-  P(&semaphores[rangThread]);
+  P(&semaphores[rangThread]); //on prend un ticket
 }
 
 // Liberer l'acces a l'ecran 
 void libererAcces(int rangThread, int numThreads) { 
-  V(&semaphores[(rangThread + 1) % numThreads]);
+  V(&semaphores[(rangThread + 1) % numThreads]);  //on rend un ticket
 }
 
 //---------------------------------------------------------------------

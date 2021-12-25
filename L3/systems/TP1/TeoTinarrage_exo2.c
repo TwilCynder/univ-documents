@@ -13,6 +13,7 @@
 #define NB_THREADS_MAX  10
 #define NB_FOIS         10
 
+//J'avais tu temps à la fin du TP du coup j'ai fait ça (ça marche pareil que srand()/rand() a priori)
 unsigned int _rand_seed = 0;
 
 void my_srand(unsigned int seed_){
@@ -44,6 +45,7 @@ void thdErreur (char *msg, int cause, int arret) {
   ------------------------------------------------------------------------*/
 
 void *thd_afficher (void *arg) { 
+    //On ne peut transmettre qu'un pointeur vie pthread_exit, il faut donc garder l'info qu'on veut transmettre dans une zone mémoire allouée et transmettre qu'on adresse
     int* res = malloc(sizeof(int));
     *res = my_rand() % 10;
     afficher(*(int*)arg, pthread_self(), *res);
@@ -56,7 +58,6 @@ int main(int argc, char *argv[]) {
   pthread_t idThreads[NB_THREADS_MAX];
   int rangs[NB_THREADS_MAX];
 
-    //J'avais tu temps à la fin du TP du coup j'ai fait ça (ça marche pareil que srand()/rand() a priori)
   my_srand(time(NULL));
 
   if (argc != 2) {
@@ -87,6 +88,7 @@ int main(int argc, char *argv[]) {
     else {
         printf("Thread principal %lu : valeur retournée par le thread %lu = %d\n", threadPrincipal, idThreads[i], *res);
         somme += *res;
+        free(res);    //la valeur de retour a été placée dans une zone allouée avec malloc, on doit donc la libérer
     }
   }
   printf("Thread principal %lu : somme des valeurs retournées = %d\n", threadPrincipal, somme);

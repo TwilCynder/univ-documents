@@ -5,6 +5,8 @@
 #include <time.h>
 #include <sys/wait.h>
 
+#define LG_MAX 80
+
 int tube[2];
 int nbSec;
 int nbFois;
@@ -15,28 +17,47 @@ void error(const char* msg, int code){
 }
 
 void fils(){
-  time_t now;
   close(tube[1]);
 
-  int i;
-  while (read(tube[0], &i, sizeof(i)) > 0){
-    time(&now);
-    printf("Fils - Message de mon pere : Message numero %d reçu a %s", i, ctime(&now));
+  char leMsg[LG_MAX];
+  time_t now;
+
+  int cptEnvois;
+  int res;
+  while ((res = read(tube[0], leMsg, LG_MAX)) > 0){
+    printf("\tFils - Recu de mon pere : %s", leMsg);
   }
 
+  if (res == -1) error("Lecture tube fils", 10);
+
   close(tube[0]);
+  time(&now);
   printf("Fils : Je me termine a %s", ctime(&now));
   exit(0);
 }
 
-int i = 0;
+int cptEnvois = 0;
 void onSignal(){
-  write(tube[1], &i, sizeof(i));
-  i++;
-  if (i >= nbFois){
-    close(tube[1]);
+  time_t now;
+  char monMsg[LG_MAX];
+
+  sprintf(monMsg, "%s %d %s %s", "Message numero", cptEnvois, " envoye a ", 
+		  (time(&now), ctime(&now)));
+
+  if (write(tube[1], monMsg, LG_MAX) ==-1){
+    error("Ecriture tube pere", 11);
   }
-  alarm(nbSec);
+  cptEnvois++;
+
+  if (cptEnvois >= nbFois){
+    close(tube[1]);
+  } else {
+    alarm(nbSec);
+  }
+}
+
+void monTraitement (void) {
+  while (cptEnvois < nbFois);	
 }
 
 void pere(int nbFois){
@@ -48,12 +69,12 @@ void pere(int nbFois){
   my_sa.sa_flags = 0;
   if (sigaction(SIGALRM, &my_sa, NULL) < 0) error("Sigaction", 10);
 
-  onSignal();
+  alarm(nbSec);
 
+  monTraitement();
   wait(NULL);
   time_t now = time(NULL);
   printf("Pere : Je me termine en dernier a %s\n", ctime(&now));
-  close(tube[1]);
 }
 
 int main(int argc, char const *argv[])

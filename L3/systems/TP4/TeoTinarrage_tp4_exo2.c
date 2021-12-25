@@ -57,8 +57,11 @@ void premier_fils(int nb_tours){
     if (close(pipe_lecture) == -1) error("Fermeture pipe sortie", 9);
 
     if (result == -1) error("Lecture", 3);
-    else if (result == 0) fprintf(stderr, "Erreur : un fils s'est terminé avant la premier fils ");
+    //Si result est 0, alors on est sorti de la boucle car le dernier fils s'est terminé (et pas car le compteur est arrivé à nb_tours)
+    //ce qui n'est pas supposé arriver ; le premier fils est celui qui se termine en premier
+    else if (result == 0) fprintf(stderr, "Erreur : un fils s'est terminé avant le premier fils ");
 
+    printf("Processur de pid %d : je me termine.\n", getpid());
     exit(0);
 }
 

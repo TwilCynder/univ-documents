@@ -113,7 +113,8 @@ int main(int argc, char **argv) {
         if (send(local_socket, buffer, MSG_LEN, 0) == -1){
             close(local_socket);
             error("Send error", 6);
-        }*/
+        }
+        */
 
         int points;
         int xp, yp;

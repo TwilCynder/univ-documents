@@ -4,8 +4,8 @@
 
 #define ECHANGES_MAX 100
 
-int ping_pipe[2];
-int pong_pipe[2];    
+int ping_pipe[2];       //Utilisé par ping pour envoyer données à pong
+int pong_pipe[2];       //et vice versa
 
 void error(const char* msg, int code){
     perror(msg);

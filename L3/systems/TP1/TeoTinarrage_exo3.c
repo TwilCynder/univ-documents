@@ -96,6 +96,7 @@ int main(int argc, char *argv[]) {
       thdErreur("Echec join", etat, 0); 
     else {
         printf("Thread principal %lu : valeur retournée par le thread %lu = %d\n", threadPrincipal, idThreads[i], *res);
+        free(res);
     }
   }
   printf("Thread principal %lu : la valeur vaut %d\n", threadPrincipal, somme);
