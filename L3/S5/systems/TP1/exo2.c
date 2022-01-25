@@ -27,7 +27,7 @@ unsigned int my_rand(){
  * Affichage de l'identite de l'appelant 
   ------------------------------------------------------------------------*/
 void afficher (int rang, pthread_t thdId, int res) {
-  printf("Thread compagnon de rang %d, identifié par %d, je mourrai en retournant %d\n", rang, thdId, res);
+  printf("Thread compagnon de rang %d, identifié par %lu, je mourrai en retournant %d\n", rang, thdId, res);
 }
 
 /*------------------------------------------------------------------------
@@ -57,7 +57,7 @@ int main(int argc, char *argv[]) {
   int rangs[NB_THREADS_MAX];
 
     //J'avais tu temps à la fin du TP du coup j'ai fait ça (ça marche pareil que srand()/rand() a priori)
-    my_srand(time(NULL));
+  my_srand(time(NULL));
 
   if (argc != 2) {
     printf("Usage : %s <Nb Threads>\n", argv[0]);

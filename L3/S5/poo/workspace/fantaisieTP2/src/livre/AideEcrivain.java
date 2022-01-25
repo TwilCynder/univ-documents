@@ -34,7 +34,7 @@ public class AideEcrivain {
 	public LinkedList<Homme> visualiserForcesHumaines() {
 		LinkedList<Homme> listeTriee = new LinkedList<>();
 		
-		//J'ai toujours pas compris pourquoi cette méthode marche pas :(
+		//J'ai toujours pas compris pourquoi cette mï¿½thode marche pas :(
 		/**ListIterator<Homme> iterHeros = listeTriee.listIterator();
 		
 		for (Homme h : bataille.getCampHumains()) {

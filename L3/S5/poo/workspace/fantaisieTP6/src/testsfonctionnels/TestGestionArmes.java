@@ -1,8 +1,10 @@
 package testsfonctionnels;
 
 import java.util.List;
+import java.util.TreeSet;
 
 import attaque.Arc;
+import attaque.Arme;
 import attaque.Boomerang;
 import attaque.Epee;
 import attaque.Feu;
@@ -41,25 +43,38 @@ public class TestGestionArmes {
 		archibald.ajouterArmes(new Epee("excalibur"), new Arc(30));
 		alain.ajouterArmes(new Boomerang(), new Arc(10));
 
-
 		GroupeHommes compagnie = new GroupeHommes();
 		compagnie.ajouterHommes(thomas, louis, arthur, archibald, alain);
 
 		
 		Bataille bataille = new Bataille();
 		bataille.ajouter(aqualave);
-		List<Homme> campHomme1 = compagnie.choixCampHomme(bataille);
+		List<Homme> campHomme1 = compagnie.choixParticipants(bataille);
 		System.out.println("Le camps des hommes pour combattre un aqualave (Aquatique, 30) : \n" + campHomme1);
 		
 		bataille.eliminer(aqualave);
 		bataille.ajouter(vampirien1);
-		List<Homme> campHomme2 = compagnie.choixCampHomme(bataille);
+		List<Homme> campHomme2 = compagnie.choixParticipants(bataille);
 		System.out.println("Le camps des hommes pour combattre un vampirien (Aérien, 10) : \n" + campHomme2);
 
 		bataille.eliminer(vampirien1);
 		bataille.ajouter(guillotimort);
-		List<Homme> campHomme3 = compagnie.choixCampHomme(bataille);
+		List<Homme> campHomme3 = compagnie.choixParticipants(bataille);
 		System.out.println("Le camps des hommes pour combattre un guillotimort (Terrestre, 80) : \n" + campHomme3);
+		
+		System.out.println("\n*******TP6********\n");
+		LancePierre lp = new LancePierre();
+		Boomerang boomerang = new Boomerang();
+		Arc arc1 = new Arc(3);
+		Arc arc2 = new Arc(1);
+		
+		System.out.println("Lance-Pierres < Boomerang ? " + lp.isAfter(boomerang));
+		System.out.println("Arc 1 = Arc 2 ? " + arc1.isSameAs(arc2));
+		System.out.println("Arc 2 tire sa seule flèche et n'est plus opérationel");
+		arc2.utiliser();
+		System.out.println("Arc 1 = Arc 2 ? " + arc1.isSameAs(arc2));
+		System.out.println("Arc 1 > Arc 2 ? " + arc1.isBefore(arc2));
+		
 	}
 //		RESULTAT ATTENDU
 //		Le camps des hommes pour combattre un aqualave (Aquatique, 30) : 
@@ -68,5 +83,5 @@ public class TestGestionArmes {
 //		[Homme [nom=Louis, forceDeVie=70], Homme [nom=Thomas, forceDeVie=70], Homme [nom=Alain, forceDeVie=70]]
 //		Le camps des hommes pour combattre un guillotimort (Terrestre, 80) : 
 //		[Heros [nom=Archibald, forceDeVie=100], Heros [nom=Arthur, forceDeVie=100], Homme [nom=Alain, forceDeVie=70]]
-
+	
 }

@@ -78,12 +78,12 @@ void V ( pthread_mutex_t* mutex ) {
 //
 // Demander a acceder a l'ecran 
 void demanderAcces(int rangThread) { 
-  P(&mutex[rangThread]);
+  P(&mutex[rangThread]); //on bloque le mutex
 }
 
 // Liberer l'acces a l'ecran 
 void libererAcces(int rangThread, int numThreads) { 
-  V(&mutex[(rangThread + 1) % numThreads]);
+  V(&mutex[(rangThread + 1) % numThreads]); //on débloque le mutex
 }
 
 //---------------------------------------------------------------------

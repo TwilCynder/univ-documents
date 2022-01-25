@@ -41,7 +41,7 @@ public abstract class Arme extends ForceDeCombat implements Comparable<Arme> {
 			//return (Boolean)operationel.compareTo(autre.operationel);
 			return (operationel) ? 1 : -1;
 		}
-		int comparaison =  autre.getPointDeDegat() - getPointDeDegat();
+		int comparaison = autre.getPointDeDegat() - getPointDeDegat();
 		if (comparaison == 0) {
 			return getNom().compareTo(autre.getNom());
 		} 

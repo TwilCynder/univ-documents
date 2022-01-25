@@ -56,8 +56,8 @@ void build_dv_packet(packet_ctrl_t *p, routing_table_t *rt) {
     p->dv_size = rt->size;  //On envoie toute la table (taille vecteur == taile table)
     p->type = CTRL;         //Il s'agira d'un paquet de type contrôle
     p->src_id = MY_ID;      //initialisation du cham source du vecteur (qui est évidemment notre id)
-    for (int i = 0; i < rt->size; i++){
-        p->dv[i].dest = rt->tab[i].dest;
+    for (int i = 0; i < rt->size; i++){         //On itère sur toutes les entrées de la table de routage
+        p->dv[i].dest = rt->tab[i].dest;        //Initialisation des champs du vecteur distance avec les infos de la table
         p->dv[i].metric = rt->tab[i].metric;
     }
 }
@@ -66,19 +66,21 @@ void build_dv_packet(packet_ctrl_t *p, routing_table_t *rt) {
 // Build a DV that contains the routes that have not been learned via
 // this neighbour
 void build_dv_specific(packet_ctrl_t *p, routing_table_t *rt, node_id_t neigh) {
-    p->type = CTRL;
-    p->src_id = MY_ID;
-    int j = -1;
+                    //Cette fois la taille du vecteur sera différente de celle de la table et déterminée pendant la boucle donc on ne l'initialise pas maintenant.
+    p->type = CTRL; //Il s'agira d'un paquet de type contrôle
+    p->src_id = MY_ID;  //initialisation du cham source du vecteur (qui est évidemment notre id)
+    int j = 0;         //Puisqu'on ne va pas copier certains entrées, on va itérer sur la table et le vecteur avec deux index séparés
     for (int i = 0; i < rt->size; i++){
-        if (neigh != rt->tab[i].nexthop.id){
+        if (neigh != rt->tab[i].nexthop.id){    //Si la route correspondant à l'entrée courante ne part pas par le voisin auquel on envoie le vecteur :
+            p->dv[j].dest = rt->tab[i].dest;    //On initialise les valeus
+            p->dv[j].metric = rt->tab[i].metric;//Et on incrémente l'index utilisé pour le vecteur
             j++;
-            p->dv[j].dest = rt->tab[i].dest;
-            p->dv[j].metric = rt->tab[i].metric;
         }
     }
-    p->dv_size = j + 1;
+    p->dv_size = j; //La taille du vecteur est la valeur de l'index après éxécution de la boucle
 }
 
+//Copie une entrée
 void copy_entry(routing_table_entry_t* source, routing_table_entry_t* target){
     target->dest = source->dest;
     target->nexthop = source->nexthop;
@@ -88,7 +90,6 @@ void copy_entry(routing_table_entry_t* source, routing_table_entry_t* target){
 
 // Remove old RT entries
 void remove_obsolete_entries(routing_table_t *rt) {
-    //printf("SIZE BEFORE : %d\n", rt->size);
 
     /*for (int i =0; i < rt->size; i++){
         routing_table_entry_t* entry = rt->tab + i;
@@ -100,26 +101,30 @@ void remove_obsolete_entries(routing_table_t *rt) {
         }
     }*/
 
+    //L'algorithme ci-dessous peut paraître fastidieux et inutilement compliqué, comparé à l'algo en commentaire ci-dessus qui aurait été la solution évidente,
+    //cependant il permet d'éviter une complexité en O(n²). Autrement dit, décommenter le premier algo et commenter le second fonctionnerait tout aussi bien, mais
+    //serait plus lent.
+    //Pour supprimer un élément d'un tableau, il est nécessaire de décaler les éléments suivants : au lieu de faire ce décalage à chaque suppression (donc boucles imbriquées)
+    //on marque les éléments à supprimer (en mettant leur id de destination à 0), puis on travers à nouveau le tableau pour faire le décalage en une seule fois.
     
-    for (int i = 0; i < rt->size; i++){
-        routing_table_entry_t* entry = rt->tab + i;
-        if (entry->dest != MY_ID && difftime(time(NULL), entry->time) > BROADCAST_PERIOD){
-            entry->dest = 55;
+    for (int i = 0; i < rt->size; i++){             //On itère sur toutes les entrée de la table de routage
+        routing_table_entry_t* entry = rt->tab + i; //On garde un pointeur vers l'entrée courante pour la clarté (éviter les rt->tab[i] à répétition)
+        if (entry->dest != MY_ID && difftime(time(NULL), entry->time) > BROADCAST_PERIOD){  //Si l'entrée est trop ancienne (et n'est pas la route vers le reouteur lui même)
+            entry->dest = 0;    //alors on la marque pour que la seconde boucle la supprime
         }
     }
     //décalage des cases du tableau
-    int decalage = 0;
-    for (int i = 0; i < rt->size; i++){
-        routing_table_entry_t* entry = rt->tab + i;
-            while ( (entry + decalage)->dest == 55){
-                decalage++;
-                rt->size--;
+    int decalage = 0;       //Nombre d'éléments supprimés, c'est à dire de combien de case il faut décaler les prochains éléments
+    for (int i = 0; i < rt->size; i++){ //On itère sur toutes les entrées de la table de routage
+        routing_table_entry_t* entry = rt->tab + i;     //On garde un pointeur vers l'entrée courante pour la clarté (éviter les (&)rt->tab[i] à répétition)
+            while ( (entry + decalage)->dest == 0){     //Tant qu'on continue à trouver des éléments à supprimer :
+                decalage++;                             // on augment le décalage
+                rt->size--;                             // et on réduit la taille de la table
             }
-            if (decalage > 0)
-                copy_entry(entry + decalage, entry);
+            if (decalage > 0)                           //S'il y a un décalage (si il y a un élément supprimé)
+                copy_entry(entry + decalage, entry);    //On décale
     }
     
-    //printf("SIZE AFTER : %d\n", rt->size);
 }
 
 // Hello thread to broadcast state to neighbors
@@ -136,10 +141,10 @@ void *hello(void *args) {
 
     while (1) {
 
-        for (int i = 0; i < nt->size; i++){
-            build_dv_specific(&packet, rt, nt->tab[i].id);
-            send_packet(&packet, sizeof(packet_ctrl_t), nt->tab[i].ipv4, nt->tab[i].port);
-            log_dv(&packet, nt->tab[i].id, 1);
+        for (int i = 0; i < nt->size; i++){     //On itère sur tous les voisins
+            build_dv_specific(&packet, rt, nt->tab[i].id);  //On construit le vecteur distance "personnalisé" pour ce voisin
+            send_packet(&packet, sizeof(packet_ctrl_t), nt->tab[i].ipv4, nt->tab[i].port);  //Et on l'envoie
+            log_dv(&packet, nt->tab[i].id, 1);  //Log
         }
 
         /* >>>>>>>>>> A COMPLETER PAR LES ETUDIANTS - FIN <<<<<<<<<< */
@@ -157,6 +162,7 @@ void *hello(void *args) {
 /* ========================================================================= */
 
 routing_table_entry_t* find_rt_entry(routing_table_t* rt, dv_entry_t* dve){
+    //Cherche une entrée de la table avec la destination donnée et renvoie son adresse, ou NULL si introuvable
     for (int i = 0; i < rt->size; i++){
         if (dve->dest == rt->tab[i].dest) return rt->tab + i;
     }
@@ -165,18 +171,17 @@ routing_table_entry_t* find_rt_entry(routing_table_t* rt, dv_entry_t* dve){
 
 // Update routing table from received distance vector
 int update_rt(routing_table_t *rt, overlay_addr_t *src, dv_entry_t dv[], int dv_size) {
-    for (int i = 0; i < dv_size; i++){
-        dv_entry_t* distance_vector_entry = dv + i;
-        routing_table_entry_t* routing_table_entry = find_rt_entry(rt, distance_vector_entry);
-        if (routing_table_entry){
-            if ( (routing_table_entry->metric > (distance_vector_entry->metric + 1)) || routing_table_entry->nexthop.id == src->id){
-                routing_table_entry->metric = distance_vector_entry->metric+1;
+    for (int i = 0; i < dv_size; i++){  //On itère sur toutes les entrées du vecteur reçu
+        dv_entry_t* distance_vector_entry = dv + i;     //On garde un pointeur vers l'entrée courante pour la clarté
+        routing_table_entry_t* routing_table_entry = find_rt_entry(rt, distance_vector_entry);  //On récupère une éventuelle entrée de la table ayant la même destination
+        if (routing_table_entry){   //On teste si l'adresse est non-nulle, auquel cas il y avait bien une entrée avec la bonne destination
+            if ( (routing_table_entry->metric > (distance_vector_entry->metric + 1)) || routing_table_entry->nexthop.id == src->id){    //Si la distance associée à l'entrée de la table est supérieure à celle de la longueur de la route reçue (+1)
+                routing_table_entry->metric = distance_vector_entry->metric+1;  //On met à jour la route qu'on avait
                 routing_table_entry->nexthop = *src;
                 routing_table_entry->time    = time(NULL);
             }   
-        } else if (distance_vector_entry->metric + 1 < INFINITY){ //On teste si la route n'est pas trop longue (afin d'éviter les count to infinity (4.4.2.b))
-            //printf("ADDING ROUTE : %d FROM %d\n", distance_vector_entry->dest, src->id);
-            add_route(rt, distance_vector_entry->dest, src, distance_vector_entry->metric + 1);
+        } else if (distance_vector_entry->metric + 1 < INFINITY){ //Sinon, on teste si la route n'est pas trop longue (afin d'éviter les count to infinity (4.4.2.b))
+            add_route(rt, distance_vector_entry->dest, src, distance_vector_entry->metric + 1); //auquel cas elle est ajoutée à la table
         }
     }
     
@@ -184,6 +189,7 @@ int update_rt(routing_table_t *rt, overlay_addr_t *src, dv_entry_t dv[], int dv_
 }
 
 overlay_addr_t* find_nt_entry(neighbors_table_t *nt, node_id_t id){
+    //Même chose que find_rt_entry
     for (int i = 0; i < nt->size; i++){
         if (nt->tab[i].id == id) return nt->tab + i;
     }
@@ -265,13 +271,11 @@ void *process_input_packets(void *args) {
                     /* I am NOT the recipient ==> forward packet */
                     /* >>>>>>>>>> A COMPLETER PAR LES ETUDIANTS - DEB <<<<<<<<<< */
 
-                    /* TODO */
-
-                    pdata->ttl--;
-                    if (pdata->ttl <= 0){
-                        send_time_exceeded(pdata, rt);
+                    pdata->ttl--;   //Le time to live du packet est décrémenté (il doit l'être à chaque routeur traversé)
+                    if (pdata->ttl <= 0){   //Si la durée de vie est arrivée à 0 (le packet a traversé trop de routeurs)
+                        send_time_exceeded(pdata, rt);  //On envoie un packet d'erreur
                     } else {
-                        forward_packet(pdata, size, rt);
+                        forward_packet(pdata, size, rt);    //Sinon, on transmet simplement le packet au bon voisin
                     }
 
 
@@ -285,7 +289,8 @@ void *process_input_packets(void *args) {
                 log_dv(pctrl, pctrl->src_id, 0);
                 /* >>>>>>>>>> A COMPLETER PAR LES ETUDIANTS - DEB <<<<<<<<<< */
 
-                update_rt(rt, find_nt_entry(nt, pctrl->src_id), pctrl->dv, pctrl->dv_size);
+                //On a reçu un packet de contrôle, a priori contenant un vecteur distance
+                update_rt(rt, find_nt_entry(nt, pctrl->src_id), pctrl->dv, pctrl->dv_size); //On met à jour la table de routage (en passant à la fonction l'objet correspondant au voisin qui a envoyé le packet )
 
                 /* >>>>>>>>>> A COMPLETER PAR LES ETUDIANTS - FIN <<<<<<<<<< */
                 break;
