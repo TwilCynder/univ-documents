@@ -1,0 +1,6 @@
+impossible d'imiter réalité car trop de rayons à simuler dont plein inutiles
+
+faire interagir l'image et de la 3d : plan image situé à une certaine position par rapport à la caméra. Echantilloné au pixel, on lance un rayon pour chaque pixel
+
+trouver le point qu'on voit : intersection entre le rayon et les objets 3d.  
+paramétriser/caractériser le rayon : point de départ + direction.  
