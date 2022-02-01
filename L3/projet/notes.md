@@ -8,6 +8,7 @@
     - [Serveur](#serveur)
   - [Questions](#questions)
 - [Dossier de conception](#dossier-de-conception)
+- [Notes discord](#notes-discord)
 
 # Sujet
 
@@ -84,3 +85,8 @@ Interface graphique pour le serveur pour gérer :
 - Maquette des interfaces
 - Diagramme de classe
 - Base de données (modèle relationel)
+
+
+# Notes discord
+Sérialization via l'interface Serializable ok  
+https://www.youtube.com/watch?v=3lxk7CSTM2k  

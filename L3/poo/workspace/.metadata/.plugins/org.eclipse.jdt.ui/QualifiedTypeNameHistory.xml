@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="java.util.Map"/>
+    <fullyQualifiedTypeName name="bataille.GroupeHommes.ComparateurArmes"/>
+    <fullyQualifiedTypeName name="java.util.NavigableSet"/>
+    <fullyQualifiedTypeName name="java.util.HashSet"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="attaque.LancePierre"/>
+    <fullyQualifiedTypeName name="java.util.TreeSet"/>
+    <fullyQualifiedTypeName name="attaque.Arme"/>
+    <fullyQualifiedTypeName name="attaque.Pouvoir"/>
+    <fullyQualifiedTypeName name="protagoniste.ZoneDeCombat"/>
+    <fullyQualifiedTypeName name="protagoniste.ZoneDeCombatNonCompatibleException"/>
+    <fullyQualifiedTypeName name="java.io.File"/>
+    <fullyQualifiedTypeName name="java.io.FileWriter"/>
+    <fullyQualifiedTypeName name="java.io.IOException"/>
+    <fullyQualifiedTypeName name="java.util.Random"/>
+</qualifiedTypeNameHistroy>

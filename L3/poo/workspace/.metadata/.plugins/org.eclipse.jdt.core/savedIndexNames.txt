@@ -1,0 +1,8 @@
+INDEX VERSION 1.131+C:\Users\twilc\Prog\fac\univ-documents\L3\poo\workspace\.metadata\.plugins\org.eclipse.jdt.core
+2141896432.index
+2712102098.index
+3519909981.index
+950941032.index
+1017030056.index
+3036048725.index
+2673543434.index

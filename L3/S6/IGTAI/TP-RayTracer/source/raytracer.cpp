@@ -60,19 +60,34 @@ bool intersectSphere(Ray *ray, Intersection *intersection, Object *obj) {
   float a = dot(ray->dir, ray->dir); //u.u == ||u||²
   float b = 2 * dot(ray->dir, (ray->orig - obj->geom.sphere.center));
   vec3 orig_center = ray->orig - obj->geom.sphere.center;
-  float c = dot(orig_center, orig_center) - ;obj->geom.sphere.radius;
+  float c = dot(orig_center, orig_center) - obj->geom.sphere.radius;
 
   //b² - 4ac
-  float delta = (b*b) - 4*a*c
+  float delta = (b*b) - 4*a*c;
 
   if (delta <= 0){
     return false;
   }
 
-  float x1 = (-b - std::sqrt(delta)) / (2*a);
-  
+  float sqrt_delta = std::sqrt(delta);
+  float x1 = (-b - sqrt_delta) / (2 * a);
+  float x2 = (-b + sqrt_delta) / (2 * a);
 
-  return false;
+  float t = (x1 < x2) ? x1 : x2;
+  ray->tmax = t;
+  intersection->position = ray->orig + (t * ray->dir);
+  intersection->normal = intersection->position - obj->geom.sphere.center;
+  intersection->mat = &obj->mat;
+
+  /*
+  float x1 = (-b - std::sqrt(delta)) / (2*a);
+  float x2 = (-b - std::sqrt(delta)) / (2*a);
+  */
+
+  if (t < ray->tmin || t > ray->tmax){
+    return false;
+  }
+  return t > 0;
 }
 
 bool intersectScene(const Scene *scene, Ray *ray, Intersection *intersection) {
@@ -80,6 +95,17 @@ bool intersectScene(const Scene *scene, Ray *ray, Intersection *intersection) {
   size_t objectCount = scene->objects.size();
 
 //!\todo loop on each object of the scene to compute intersection
+
+  for (Object* o : scene->objects){
+    switch (o->geom.type){
+      case PLANE:
+        hasIntersection = hasIntersection || intersectPlane(ray, intersection, o);
+        break;
+      case SPHERE:
+        hasIntersection = hasIntersection || intersectSphere(ray, intersection, o);
+        break;
+    }
+  }
 
   return hasIntersection;
 }
@@ -196,15 +222,11 @@ color3 trace_ray(Scene *scene, Ray *ray, KdTree *tree) {
   color3 ret = color3(0, 0, 0);
   Intersection intersection;
 
-
-
-
-
-
-
-
-
-
+  if (intersectScene(scene, ray, &intersection)){
+    ret = (0.5f * intersection.normal) + 0.5f;
+  } else {
+    ret = scene->skyColor; 
+  }
 
   return ret;
 }
