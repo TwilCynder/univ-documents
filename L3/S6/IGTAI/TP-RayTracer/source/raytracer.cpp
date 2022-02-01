@@ -14,6 +14,7 @@
 /// intersection
 //  or boucing (add this amount to the position before casting a new ray !
 const float acne_eps = 1e-4;
+const float PI = (float)M_PI;
 
 bool intersectPlane(Ray *ray, Intersection *intersection, Object *obj) {
 
@@ -33,7 +34,7 @@ bool intersectPlane(Ray *ray, Intersection *intersection, Object *obj) {
     return false;
   }
 
-  float t = - ((dot(ray->orig, obj->geom.plane.normal) + obj->geom.plane.dist)  / denom );
+  float t = -((dot(ray->orig, obj->geom.plane.normal) + obj->geom.plane.dist)  / denom );
 
   if (t < ray->tmin || t > ray->tmax){
     return false;
@@ -41,10 +42,10 @@ bool intersectPlane(Ray *ray, Intersection *intersection, Object *obj) {
 
   ray->tmax = t;
   intersection->position = ray->orig + (t * ray->dir);
-  intersection->normal = obj->geom.plane.normal;
+  intersection->normal = normalize(obj->geom.plane.normal);
   intersection->mat = &obj->mat;
 
-  return t > 0;
+  return true;
 }
 
 bool intersectSphere(Ray *ray, Intersection *intersection, Object *obj) {
@@ -60,7 +61,7 @@ bool intersectSphere(Ray *ray, Intersection *intersection, Object *obj) {
   float a = dot(ray->dir, ray->dir); //u.u == ||u||²
   float b = 2 * dot(ray->dir, (ray->orig - obj->geom.sphere.center));
   vec3 orig_center = ray->orig - obj->geom.sphere.center;
-  float c = dot(orig_center, orig_center) - obj->geom.sphere.radius;
+  float c = dot(orig_center, orig_center) - (obj->geom.sphere.radius * obj->geom.sphere.radius);
 
   //b² - 4ac
   float delta = (b*b) - 4*a*c;
@@ -72,22 +73,55 @@ bool intersectSphere(Ray *ray, Intersection *intersection, Object *obj) {
   float sqrt_delta = std::sqrt(delta);
   float x1 = (-b - sqrt_delta) / (2 * a);
   float x2 = (-b + sqrt_delta) / (2 * a);
+  
+  float t;
+  if (x1 > 0) t = x1;
+  else if (x2 > 0) t = x2;
+  else return false;
 
-  float t = (x1 < x2) ? x1 : x2;
+  if (t < ray->tmin || t > ray->tmax){
+    return false;
+  }
+
   ray->tmax = t;
   intersection->position = ray->orig + (t * ray->dir);
-  intersection->normal = intersection->position - obj->geom.sphere.center;
+  intersection->normal = normalize(intersection->position - obj->geom.sphere.center);
   intersection->mat = &obj->mat;
+  return true;
+  
+  /*
+  if (x1 > 0){
+
+    if (x1 < ray->tmin || x1 > ray->tmax){
+      return false;
+    }
+
+    ray->tmax = x1;
+    intersection->position = ray->orig + (x1 * ray->dir);
+    intersection->normal = normalize(intersection->position - obj->geom.sphere.center);
+    intersection->mat = &obj->mat;
+    return true;
+  } else if (x2 > 0){
+
+    if (x2 < ray->tmin || x2 > ray->tmax){
+      return false;
+    }
+
+    ray->tmax = x2;
+    intersection->position = ray->orig + (x2 * ray->dir);
+    intersection->normal = normalize(intersection->position - obj->geom.sphere.center);
+    intersection->mat = &obj->mat;
+    return true;
+  }
+
+
+  return false;
+  */
 
   /*
   float x1 = (-b - std::sqrt(delta)) / (2*a);
   float x2 = (-b - std::sqrt(delta)) / (2*a);
   */
-
-  if (t < ray->tmin || t > ray->tmax){
-    return false;
-  }
-  return t > 0;
 }
 
 bool intersectScene(const Scene *scene, Ray *ray, Intersection *intersection) {
@@ -99,10 +133,14 @@ bool intersectScene(const Scene *scene, Ray *ray, Intersection *intersection) {
   for (Object* o : scene->objects){
     switch (o->geom.type){
       case PLANE:
-        hasIntersection = hasIntersection || intersectPlane(ray, intersection, o);
+        if (intersectPlane(ray, intersection, o)){
+          hasIntersection = true;
+        }
         break;
       case SPHERE:
-        hasIntersection = hasIntersection || intersectSphere(ray, intersection, o);
+        if (intersectSphere(ray, intersection, o)){
+          hasIntersection = true;
+        }
         break;
     }
   }
@@ -205,13 +243,10 @@ color3 RDM_bsdf(float LdotH, float NdotH, float VdotH, float LdotN, float VdotN,
 
 
 color3 shade(vec3 n, vec3 v, vec3 l, color3 lc, Material *mat) {
-  color3 ret = color3(0.f);
 
 //! \todo compute bsdf, return the shaded color taking into account the
 //! lightcolor
-
-
-  return ret;
+  return (mat->diffuseColor / PI) * dot(l, n) * lc;
 }
 
 //! if tree is not null, use intersectKdTree to compute the intersection instead
@@ -221,13 +256,23 @@ color3 trace_ray(Scene *scene, Ray *ray, KdTree *tree) {
 
   color3 ret = color3(0, 0, 0);
   Intersection intersection;
+  Intersection shadow_intersect; //result unused
+  vec3 vue = -(ray->dir);
+  vec3 light_dir;
+  Ray shadow_ray;
 
   if (intersectScene(scene, ray, &intersection)){
-    ret = (0.5f * intersection.normal) + 0.5f;
+    for (Light* light : scene->lights){
+      light_dir = normalize(light->position - intersection.position);
+      rayInit(&shadow_ray, intersection.position + (acne_eps * light_dir), light_dir);
+      if (!intersectScene(scene, &shadow_ray, &shadow_intersect)){
+        ret += shade(intersection.normal, vue, light_dir, light->color, intersection.mat);
+      }
+    }
   } else {
     ret = scene->skyColor; 
   }
-
+  
   return ret;
 }
 
