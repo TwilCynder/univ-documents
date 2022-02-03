@@ -14,7 +14,7 @@
 /// intersection
 //  or boucing (add this amount to the position before casting a new ray !
 const float acne_eps = 1e-4;
-const float PI = (float)M_PI;
+const float PI = (float)3.14159265358979323846; //originellement (float)M_PI, je me suis rendu compte qu'avec gcc sur mon pc perso, M_PI n'était pas défini
 
 bool intersectPlane(Ray *ray, Intersection *intersection, Object *obj) {
 
