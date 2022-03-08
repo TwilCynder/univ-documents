@@ -166,9 +166,15 @@ float RDM_chiplus(float c) { return (c > 0.f) ? 1.f : 0.f; }
  */
 float RDM_Beckmann(float NdotH, float alpha) {
 
+  if (NdotH > 0){
+    float cossquared = NdotH * NdotH;
+    float tansquared = (1 - cossquared) / cossquared;
 
-  //! \todo compute Beckmann normal distribution
-  return 0.5f;
+    float alphasquared = alpha * alpha;
+    return (std::exp( -tansquared / alphasquared) / (PI * alphasquared * cossquared * cossquared)); 
+  } else {
+    return 0;
+  }
 
 }
 
@@ -177,8 +183,28 @@ float RDM_Beckmann(float NdotH, float alpha) {
 // LdotH : Light . Half
 float RDM_Fresnel(float LdotH, float extIOR, float intIOR) {
 
-  //! \todo compute Fresnel term
-  return 0.5f;
+  //cos theta i = LdotH.
+  ///n1 = ext
+  //n2 = int
+
+  float cosIsquared = LdotH * LdotH; //cos of theta i squared
+  float sinTsquared = ((extIOR / intIOR) * (extIOR / intIOR)) * (1 - cosIsquared); //sin of theta t squared
+
+  if (sinTsquared > 1){
+    return 1.0f;
+  } else {
+    float cosT = std::sqrt(1 - sinTsquared);
+
+    float num = (extIOR * LdotH) - (intIOR * cosT);
+    float denom = (extIOR * LdotH) + (intIOR * cosT);
+    float Rs = (num * num) / (denom * denom);
+
+    num = (extIOR * cosT) - (intIOR * LdotH);
+    denom = (extIOR * cosT) + (intIOR * LdotH);
+    float Rp = (num * num) / (denom * denom);
+
+    return (Rs + Rp) / 2;
+  }
 
 }
 
@@ -240,13 +266,13 @@ color3 RDM_bsdf(float LdotH, float NdotH, float VdotH, float LdotN, float VdotN,
 
 }
 
-
-
 color3 shade(vec3 n, vec3 v, vec3 l, color3 lc, Material *mat) {
 
-//! \todo compute bsdf, return the shaded color taking into account the
-//! lightcolor
-  return (mat->diffuseColor / PI) * dot(l, n) * lc;
+  float LdotN = dot(l, n);
+  if (LdotN < 0){
+    return color3(0.f);
+  }
+  return (mat->diffuseColor / PI) * LdotN * lc;
 }
 
 //! if tree is not null, use intersectKdTree to compute the intersection instead
@@ -264,7 +290,7 @@ color3 trace_ray(Scene *scene, Ray *ray, KdTree *tree) {
   if (intersectScene(scene, ray, &intersection)){
     for (Light* light : scene->lights){
       light_dir = normalize(light->position - intersection.position);
-      rayInit(&shadow_ray, intersection.position + (acne_eps * light_dir), light_dir);
+      rayInit(&shadow_ray, intersection.position + (acne_eps * light_dir), light_dir, 0.f, glm::distance(light->position, intersection.position));
       if (!intersectScene(scene, &shadow_ray, &shadow_intersect)){
         ret += shade(intersection.normal, vue, light_dir, light->color, intersection.mat);
       }
