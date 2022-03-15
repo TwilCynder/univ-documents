@@ -14,7 +14,9 @@
 /// intersection
 //  or boucing (add this amount to the position before casting a new ray !
 const float acne_eps = 1e-4;
-const float PI = (float)M_PI;
+const float PI = (float)3.14159265358979323846; //originellement (float)M_PI, je me suis rendu compte qu'avec gcc sur mon pc perso, M_PI n'était pas défini
+
+const int NB_REBONDS_MAX = 4;
 
 bool intersectPlane(Ray *ray, Intersection *intersection, Object *obj) {
 
@@ -128,8 +130,7 @@ bool intersectScene(const Scene *scene, Ray *ray, Intersection *intersection) {
   bool hasIntersection = false;
   size_t objectCount = scene->objects.size();
 
-//!\todo loop on each object of the scene to compute intersection
-
+  //on parcours tous les objets et on calcule leurs intersections avec le rayon donné
   for (Object* o : scene->objects){
     switch (o->geom.type){
       case PLANE:
@@ -164,11 +165,17 @@ float RDM_chiplus(float c) { return (c > 0.f) ? 1.f : 0.f; }
 /** Normal Distribution Function : Beckmann
  * NdotH : Norm . Half
  */
-float RDM_Beckmann(float NdotH, float alpha) {
+float RDM_Beckmann(float NdotH, float alpha) {  
 
+  if (NdotH > 0){
+    float cos_squared = NdotH * NdotH;  //cos de theta h
+    float tan_squared = (1 - cos_squared) / cos_squared; //pareil
 
-  //! \todo compute Beckmann normal distribution
-  return 0.5f;
+    float alpha_squared = alpha * alpha;
+    return (std::exp( -tan_squared / alpha_squared) / (PI * alpha_squared * cos_squared * cos_squared)); 
+  } else {
+    return 0;
+  }
 
 }
 
@@ -177,8 +184,28 @@ float RDM_Beckmann(float NdotH, float alpha) {
 // LdotH : Light . Half
 float RDM_Fresnel(float LdotH, float extIOR, float intIOR) {
 
-  //! \todo compute Fresnel term
-  return 0.5f;
+  //cos theta i = LdotH.
+  ///n1 = ext
+  //n2 = int
+
+  float cos_i_squared = LdotH * LdotH; //cos of theta i squared
+  float sin_t_squared = ((extIOR / intIOR) * (extIOR / intIOR)) * (1 - cos_i_squared); //sin of theta t squared
+
+  if (sin_t_squared > 1){
+    return 1.0f;
+  } else {
+    float cos_t = std::sqrt(1 - sin_t_squared);
+
+    float num = (extIOR * LdotH) - (intIOR * cos_t);
+    float denom = (extIOR * LdotH) + (intIOR * cos_t);
+    float Rs = (num * num) / (denom * denom);
+
+    num = (extIOR * cos_t) - (intIOR * LdotH);
+    denom = (extIOR * cos_t) + (intIOR * LdotH);
+    float Rp = (num * num) / (denom * denom);
+
+    return (Rs + Rp) / 2;
+  }
 
 }
 
@@ -186,7 +213,20 @@ float RDM_Fresnel(float LdotH, float extIOR, float intIOR) {
 // HdotN : Half . Norm
 float RDM_G1(float DdotH, float DdotN, float alpha) {
 
-  //! \todo compute G1 term of the Smith fonction
+
+  float tan_x = std::sqrt(1 - (DdotH * DdotH)) / DdotH;
+  float b = 1.0f / (alpha * tan_x);
+  auto k = DdotH / DdotN;
+  float chi_plus = RDM_chiplus(k); //cette fois j'utilise chiplus dans les calculs au lieu de faire le test moi-même pour éviter de faire le test 2 fois
+  if (b < 1.6f)
+  {
+      float b_squared = b * b;
+      return chi_plus * ((3.535f * b + 2.181f * b_squared) / (1 + 2.276f * b + 2.577 * b_squared));
+  }
+  else
+  {
+      return chi_plus;
+  }
   return 0.5f;
 
 }
@@ -198,8 +238,7 @@ float RDM_G1(float DdotH, float DdotN, float alpha) {
 float RDM_Smith(float LdotH, float LdotN, float VdotH, float VdotN,
                 float alpha) {
 
-  //! \todo the Smith fonction
-  return 0.5f;
+  return RDM_G1(LdotH, LdotN, alpha) * RDM_G1(VdotH, VdotN, alpha);
 
 }
 
@@ -211,18 +250,15 @@ float RDM_Smith(float LdotH, float LdotN, float VdotH, float VdotN,
 // VdotN : View . Norm
 color3 RDM_bsdf_s(float LdotH, float NdotH, float VdotH, float LdotN,
                   float VdotN, Material *m) {
+  float d = RDM_Beckmann(NdotH, m->roughness);
+  float f = RDM_Fresnel(LdotH, 1.0f, m->IOR); //extIOR toujours à 1 car c'est l'indice de réfraction du vide
+  float g = RDM_Smith(LdotH, LdotN, VdotH, VdotN, m->roughness);
 
-  //! \todo specular term of the bsdf, using D = RDB_Beckmann, F = RDM_Fresnel, G
-  //! = RDM_Smith
-  return color3(.5f);
-
+  return m->specularColor * (d * f * g) / (4 * LdotN * VdotN);
 }
 // diffuse term of the cook torrance bsdf
 color3 RDM_bsdf_d(Material *m) {
-
-  //! \todo compute diffuse component of the bsdf
-  return color3(.5f);
-
+  return m->diffuseColor / PI;
 }
 
 // The full evaluation of bsdf(wi, wo) * cos (thetai)
@@ -233,20 +269,21 @@ color3 RDM_bsdf_d(Material *m) {
 // VdtoN : View . Norm
 // compute bsdf * cos(Oi)
 color3 RDM_bsdf(float LdotH, float NdotH, float VdotH, float LdotN, float VdotN,
-                Material *m) {
-
-  //! \todo compute bsdf diffuse and specular term
-  return color3(0.f);
-
+                Material *m) 
+{
+  return RDM_bsdf_d(m) + RDM_bsdf_s(LdotH, NdotH, VdotH, LdotN, VdotN, m);
 }
-
-
 
 color3 shade(vec3 n, vec3 v, vec3 l, color3 lc, Material *mat) {
 
-//! \todo compute bsdf, return the shaded color taking into account the
-//! lightcolor
-  return (mat->diffuseColor / PI) * dot(l, n) * lc;
+  float LdotN = dot(l, n);
+  if (LdotN < 0){
+    return color3(0.f);
+  }
+  vec3 h = normalize(v + l);
+  return RDM_bsdf(dot(l, h), dot(n, h), dot(v, h), dot(l, n), dot(v, n), mat) * LdotN * lc;
+  //Pour revenir au shading basique : 
+  //return (mat->diffuseColor / PI) * LdotN * lc;
 }
 
 //! if tree is not null, use intersectKdTree to compute the intersection instead
@@ -254,7 +291,13 @@ color3 shade(vec3 n, vec3 v, vec3 l, color3 lc, Material *mat) {
 
 color3 trace_ray(Scene *scene, Ray *ray, KdTree *tree) {
 
-  color3 ret = color3(0, 0, 0);
+  //avant toute chose on vérifie si c'est un rayon de réflexion qui a atteint le nombre max de rebonds
+  if (ray->depth >= NB_REBONDS_MAX)
+  {
+      return color3(0.0f, 0.0f, 0.0f);
+  }
+
+  color3 direct_color = color3(0, 0, 0);
   Intersection intersection;
   Intersection shadow_intersect; //result unused
   vec3 vue = -(ray->dir);
@@ -264,16 +307,35 @@ color3 trace_ray(Scene *scene, Ray *ray, KdTree *tree) {
   if (intersectScene(scene, ray, &intersection)){
     for (Light* light : scene->lights){
       light_dir = normalize(light->position - intersection.position);
-      rayInit(&shadow_ray, intersection.position + (acne_eps * light_dir), light_dir);
+      rayInit(&shadow_ray, intersection.position + (acne_eps * light_dir), light_dir, 0.f, distance(light->position, intersection.position));
       if (!intersectScene(scene, &shadow_ray, &shadow_intersect)){
-        ret += shade(intersection.normal, vue, light_dir, light->color, intersection.mat);
+        direct_color += shade(intersection.normal, vue, light_dir, light->color, intersection.mat);
       }
     }
   } else {
-    ret = scene->skyColor; 
+    return scene->skyColor; 
+  }
+   
+  //si on a dépassé un certain niveau de contribution à la couleur, ça ne sert à rien de continuer
+  if (direct_color.r >= 1.f && direct_color.g >= 1.f && direct_color.b >= 1.f){
+      return color3(1.f, 1.f, 1.f);
   }
   
-  return ret;
+  Ray reflect_ray;
+  color3 reflect_color = color3(0.f);  
+
+  vec3 reflect_direction = reflect(ray->dir, intersection.normal);
+  
+  rayInit(&reflect_ray, intersection.position + (acne_eps * reflect_direction), reflect_direction, 0.f, 10000.f, ray->depth + 1);
+  reflect_color = trace_ray(scene, &reflect_ray, tree);
+  vec3 h = normalize(vue + reflect_ray.dir);
+  float fresnel = RDM_Fresnel(dot(reflect_ray.dir, h), 1.f, intersection.mat->IOR);
+
+  
+  return direct_color + fresnel * reflect_color * (intersection.mat->specularColor);
+  
+  //Pour revenir à avant la réflexion : 
+  //return direct_color;
 }
 
 void renderImage(Image *img, Scene *scene) {

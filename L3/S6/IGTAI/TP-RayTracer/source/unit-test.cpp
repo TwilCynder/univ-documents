@@ -76,6 +76,7 @@ int main(void){
 
   bool beckmann=true;
   for(int i=0; i<beckmannExpectedCount; i++){
+    //printf("%f %f\n", beckmannExpected[i].res, RDM_Beckmann(beckmannExpected[i].NdotH, beckmannExpected[i].alpha));
     beckmann &= abs(beckmannExpected[i].res - RDM_Beckmann(beckmannExpected[i].NdotH, beckmannExpected[i].alpha))<0.0001f;
   }
   printf("RDM_Beckmann \t: [%s]\n",  beckmann ? "OK":"fail");

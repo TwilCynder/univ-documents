@@ -6,6 +6,7 @@ class Debug {
   static void log_(std::ostream& out, const char*);
   static void log_(std::ostream& out, float);
   static void log_(std::ostream& out, double);
+  static void log_(std::ostream& out, void*);
 
   public:
   template<typename T>
