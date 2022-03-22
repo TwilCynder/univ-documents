@@ -53,7 +53,17 @@ Image RGB2Gray(Image Im)
  */
 Image Binarization(Image Im, unsigned char Threshold)
 {
-  AFAIRE(Binarization);
+  Image ImRes = ImAlloc(BitMap, ImNbRow(Im), ImNbCol(Im)); 
+  unsigned char** greyMat = ImGetI(Im);
+  unsigned char** bitMat  = ImGetI(ImRes);
+  
+  for (int x = 0; x < ImNbRow(Im) ; x++){
+    for (int y = 0; y < ImNbCol(Im); y++){
+      bitMat[x][y] = (greyMat[x][y] >= Threshold);
+    }
+  }
+
+  return ImRes;
 }
 
 
@@ -64,7 +74,17 @@ Image Binarization(Image Im, unsigned char Threshold)
  */
 Matrix Histogram(Image Im)
 {
-  AFAIRE(Histogram);
+  Matrix res = MatCAlloc(Int, 1, 256);
+  int** hist = MatGetInt(res);
+  unsigned char** greyMat = ImGetI(Im);
+
+  for (int x = 0; x < ImNbRow(Im) ; x++){
+    for (int y = 0; y < ImNbCol(Im); y++){
+      ++hist[0][greyMat[x][y]];
+    }
+  }
+
+  return res;
 }
 
 
@@ -108,7 +128,16 @@ Image Hist2Im(Matrix Hist, int NbLig)
  */
 Matrix Hist2CumHist(Matrix Hist)
 {
-  AFAIRE(Hist2CumHist);
+  Matrix res = MatCAlloc(Int, 1, 256);
+  int** histCum = MatGetInt(res);
+  int** hist = MatGetInt(Hist);
+
+  histCum[0][0] = hist[0][0];
+  for (int i = 1 ; i < 256; i++){
+    histCum[0][i] = histCum[0][i-1] + hist[0][i];
+  }
+
+  return res;
 }
 
 
@@ -120,7 +149,18 @@ Matrix Hist2CumHist(Matrix Hist)
  */
 Image AppLUT(Image Im, Matrix LUT)
 {
-  AFAIRE(AppLUT);
+  int** LUTMat = MatGetInt(LUT);
+  unsigned char** greyMat = ImGetI(Im);
+  Image res = ImAlloc(GrayLevel, ImNbRow(Im), ImNbCol(Im));
+  unsigned char** resMat = ImGetI(res);
+
+  for (int x = 0; x < ImNbRow(Im) ; x++){
+    for (int y = 0; y < ImNbCol(Im); y++){
+      resMat[x][y] = LUTMat[0][greyMat[x][y]];
+    }
+  }
+
+  return res;
 }
 
 
