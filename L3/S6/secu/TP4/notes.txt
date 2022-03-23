@@ -1,0 +1,59 @@
+[tnt3192a@u2-209-05l TP4]$ gpg --full-generate-key 
+gpg (GnuPG) 2.2.16; Copyright (C) 2019 Free Software Foundation, Inc.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+Sélectionnez le type de clef désiré :
+   (1) RSA et RSA (par défaut)
+   (2) DSA et Elgamal
+   (3) DSA (signature seule)
+   (4) RSA (signature seule)
+Quel est votre choix ? 1
+les clefs RSA peuvent faire une taille comprise entre 1024 et 4096 bits.
+Quelle taille de clef désirez-vous ? (2048) 4096
+La taille demandée est 4096 bits
+Veuillez indiquer le temps pendant lequel cette clef devrait être valable.
+         0 = la clef n'expire pas
+      <n>  = la clef expire dans n jours
+      <n>w = la clef expire dans n semaines
+      <n>m = la clef expire dans n mois
+      <n>y = la clef expire dans n ans
+Pendant combien de temps la clef est-elle valable ? (0) 0
+La clef n'expire pas du tout
+Est-ce correct ? (o/N) o
+
+GnuPG doit construire une identité pour identifier la clef.
+
+Nom réel : TeoTinarrage
+Adresse électronique : teo.tinarrage@univ-tlse3.fr
+Commentaire : Test pour le TP4
+Vous avez sélectionné cette identité :
+    « TeoTinarrage (Test pour le TP4) <teo.tinarrage@univ-tlse3.fr> »
+
+Changer le (N)om, le (C)ommentaire, l'(A)dresse électronique
+ou (O)ui/(Q)uitter ? o
+De nombreux octets aléatoires doivent être générés. Vous devriez faire
+autre chose (taper au clavier, déplacer la souris, utiliser les disques)
+pendant la génération de nombres premiers ; cela donne au générateur de
+nombres aléatoires une meilleure chance d'obtenir suffisamment d'entropie.
+De nombreux octets aléatoires doivent être générés. Vous devriez faire
+autre chose (taper au clavier, déplacer la souris, utiliser les disques)
+pendant la génération de nombres premiers ; cela donne au générateur de
+nombres aléatoires une meilleure chance d'obtenir suffisamment d'entropie.
+gpg: clef 18B2A3FEB6A52554 marquée de confiance ultime.
+gpg: répertoire « /home/tnt3192a/.gnupg/openpgp-revocs.d » créé
+gpg: revocation certificate stored as '/home/tnt3192a/.gnupg/openpgp-revocs.d/EC68346F6CA9EEC33568022418B2A3FEB6A52554.rev'
+les clefs publique et secrète ont été créées et signées.
+
+pub   rsa4096 2022-03-23 [SC]
+      EC68346F6CA9EEC33568022418B2A3FEB6A52554
+uid                      TeoTinarrage (Test pour le TP4) <teo.tinarrage@univ-tlse3.fr>
+sub   rsa4096 2022-03-23 [E]
+
+
+
+
+
+==========================================================
+
+
