@@ -1,0 +1,6 @@
+[submodule "L3/S6/secu/TP3/aeskeyfind"]
+	path = L3/S6/secu/TP3/aeskeyfind
+	url = https://github.com/makomk/aeskeyfind
+[submodule "L3/S6/secu/TP3/rsakeyfind"]
+	path = L3/S6/secu/TP3/rsakeyfind
+	url = https://github.com/congwang/rsakeyfind
