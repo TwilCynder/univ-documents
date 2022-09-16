@@ -4,3 +4,6 @@
 [submodule "L3/S6/secu/TP3/rsakeyfind"]
 	path = L3/S6/secu/TP3/rsakeyfind
 	url = https://github.com/congwang/rsakeyfind
+[submodule "M1/S7/mcdc-deco/TP1-repo"]
+	path = M1/S7/mcdc-deco/TP1-repo
+	url = git@github.com:DCLL-MDL/mcdc-2022-deco-tp1-deco-tpa22-appel-couderc.git
