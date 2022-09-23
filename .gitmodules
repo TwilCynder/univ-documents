@@ -7,3 +7,6 @@
 [submodule "M1/S7/mcdc-deco/TP1-repo"]
 	path = M1/S7/mcdc-deco/TP1-repo
 	url = git@github.com:DCLL-MDL/mcdc-2022-deco-tp1-deco-tpa22-appel-couderc.git
+[submodule "M1/S7/mcdc-deco/TP2-repo"]
+	path = M1/S7/mcdc-deco/TP2-repo
+	url = git@github.com:DCLL-MDL/mcdc-2022-deco-tp2-tpa22-tp2-renard.git
