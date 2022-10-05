@@ -11,16 +11,19 @@
    6  field : ID OF INT DOT_DOT INT
 
    7  opt_statements :
-   8                 | statement
+   8                 | opt_statements statement
 
    9  statement : cell ASSIGN expression
+  10            | ID ASSIGN expression
 
-  10  cell : LBRACKET INT COMMA INT RBRACKET
+  11  cell : LBRACKET INT COMMA INT RBRACKET
 
-  11  expression : cell
-  12             | INT
+  12  expression : cell
+  13             | INT
+  14             | ID
+  15             | expression ADD expression
 
-  13  %entry% : '\001' program
+  16  %entry% : '\001' program
 
 state 0
 	$accept : . %entry% $end  (0)
@@ -32,7 +35,7 @@ state 0
 
 
 state 1
-	%entry% : '\001' . program  (13)
+	%entry% : '\001' . program  (16)
 
 	INT  shift 3
 	.  error
@@ -54,9 +57,9 @@ state 3
 
 
 state 4
-	%entry% : '\001' program .  (13)
+	%entry% : '\001' program .  (16)
 
-	.  reduce 13
+	.  reduce 16
 
 
 state 5
@@ -131,12 +134,9 @@ state 14
 	program : INT DIMENSIONS OF config END . opt_statements EOF  (1)
 	opt_statements : .  (7)
 
-	LBRACKET  shift 18
-	EOF  reduce 7
+	.  reduce 7
 
-	opt_statements  goto 19
-	statement  goto 20
-	cell  goto 21
+	opt_statements  goto 18
 
 
 state 15
@@ -145,13 +145,13 @@ state 15
 	ID  shift 7
 	.  error
 
-	field  goto 22
+	field  goto 19
 
 
 state 16
 	field : ID OF INT . DOT_DOT INT  (6)
 
-	DOT_DOT  shift 23
+	DOT_DOT  shift 20
 	.  error
 
 
@@ -162,112 +162,184 @@ state 17
 
 
 state 18
-	cell : LBRACKET . INT COMMA INT RBRACKET  (10)
+	program : INT DIMENSIONS OF config END opt_statements . EOF  (1)
+	opt_statements : opt_statements . statement  (8)
 
-	INT  shift 24
+	EOF  shift 21
+	LBRACKET  shift 22
+	ID  shift 23
 	.  error
+
+	statement  goto 24
+	cell  goto 25
 
 
 state 19
-	program : INT DIMENSIONS OF config END opt_statements . EOF  (1)
-
-	EOF  shift 25
-	.  error
-
-
-state 20
-	opt_statements : statement .  (8)
-
-	.  reduce 8
-
-
-state 21
-	statement : cell . ASSIGN expression  (9)
-
-	ASSIGN  shift 26
-	.  error
-
-
-state 22
 	fields : fields COMMA field .  (5)
 
 	.  reduce 5
 
 
-state 23
+state 20
 	field : ID OF INT DOT_DOT . INT  (6)
 
-	INT  shift 27
+	INT  shift 26
 	.  error
 
 
-state 24
-	cell : LBRACKET INT . COMMA INT RBRACKET  (10)
-
-	COMMA  shift 28
-	.  error
-
-
-state 25
+state 21
 	program : INT DIMENSIONS OF config END opt_statements EOF .  (1)
 
 	.  reduce 1
 
 
-state 26
-	statement : cell ASSIGN . expression  (9)
+state 22
+	cell : LBRACKET . INT COMMA INT RBRACKET  (11)
 
-	LBRACKET  shift 18
-	INT  shift 29
+	INT  shift 27
 	.  error
 
-	cell  goto 30
-	expression  goto 31
+
+state 23
+	statement : ID . ASSIGN expression  (10)
+
+	ASSIGN  shift 28
+	.  error
 
 
-state 27
+state 24
+	opt_statements : opt_statements statement .  (8)
+
+	.  reduce 8
+
+
+state 25
+	statement : cell . ASSIGN expression  (9)
+
+	ASSIGN  shift 29
+	.  error
+
+
+state 26
 	field : ID OF INT DOT_DOT INT .  (6)
 
 	.  reduce 6
 
 
-state 28
-	cell : LBRACKET INT COMMA . INT RBRACKET  (10)
+state 27
+	cell : LBRACKET INT . COMMA INT RBRACKET  (11)
 
-	INT  shift 32
+	COMMA  shift 30
 	.  error
 
 
+state 28
+	statement : ID ASSIGN . expression  (10)
+
+	LBRACKET  shift 22
+	ID  shift 31
+	INT  shift 32
+	.  error
+
+	cell  goto 33
+	expression  goto 34
+
+
 state 29
-	expression : INT .  (12)
+	statement : cell ASSIGN . expression  (9)
+
+	LBRACKET  shift 22
+	ID  shift 31
+	INT  shift 32
+	.  error
+
+	cell  goto 33
+	expression  goto 35
+
+
+state 30
+	cell : LBRACKET INT COMMA . INT RBRACKET  (11)
+
+	INT  shift 36
+	.  error
+
+
+state 31
+	expression : ID .  (14)
+
+	.  reduce 14
+
+
+state 32
+	expression : INT .  (13)
+
+	.  reduce 13
+
+
+state 33
+	expression : cell .  (12)
 
 	.  reduce 12
 
 
-state 30
-	expression : cell .  (11)
+state 34
+	statement : ID ASSIGN expression .  (10)
+	expression : expression . ADD expression  (15)
+
+	ADD  shift 37
+	EOF  reduce 10
+	LBRACKET  reduce 10
+	ID  reduce 10
+
+
+state 35
+	statement : cell ASSIGN expression .  (9)
+	expression : expression . ADD expression  (15)
+
+	ADD  shift 37
+	EOF  reduce 9
+	LBRACKET  reduce 9
+	ID  reduce 9
+
+
+state 36
+	cell : LBRACKET INT COMMA INT . RBRACKET  (11)
+
+	RBRACKET  shift 38
+	.  error
+
+
+state 37
+	expression : expression ADD . expression  (15)
+
+	LBRACKET  shift 22
+	ID  shift 31
+	INT  shift 32
+	.  error
+
+	cell  goto 33
+	expression  goto 39
+
+
+state 38
+	cell : LBRACKET INT COMMA INT RBRACKET .  (11)
 
 	.  reduce 11
 
 
-state 31
-	statement : cell ASSIGN expression .  (9)
+39: shift/reduce conflict (shift 37, reduce 15) on ADD
+state 39
+	expression : expression . ADD expression  (15)
+	expression : expression ADD expression .  (15)
 
-	.  reduce 9
-
-
-state 32
-	cell : LBRACKET INT COMMA INT . RBRACKET  (10)
-
-	RBRACKET  shift 33
-	.  error
+	ADD  shift 37
+	EOF  reduce 15
+	LBRACKET  reduce 15
+	ID  reduce 15
 
 
-state 33
-	cell : LBRACKET INT COMMA INT RBRACKET .  (10)
-
-	.  reduce 10
+State 39 contains 1 shift/reduce conflict.
 
 
-15 terminals, 10 nonterminals
-14 grammar rules, 34 states
+16 terminals, 10 nonterminals
+17 grammar rules, 40 states
