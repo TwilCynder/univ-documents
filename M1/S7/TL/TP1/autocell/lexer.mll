@@ -41,12 +41,18 @@ rule token = parse
 |	"of"			{ OF }
 
 |	"+"				{ ADD }
+|	"-"				{ SUB }
+|	"*"				{ MUL }
+|	"/"				{ DIV }
+| 	"%"				{ MOD }
 |	":="			{ ASSIGN }
 |	'.'				{ DOT }
 |	".."			{ DOT_DOT}
 |	','				{ COMMA }
 |	'['				{ LBRACKET }
 |	']'				{ RBRACKET }
+|	'('				{ LPAR }
+|	')'				{ RPAR }
 |	dec	as n		{ INT (int_of_string n) }
 | 	identifier as id	{ID id}
 

@@ -51,9 +51,14 @@ let rec make_when f v ws =
 %token ASSIGN
 %token COMMA
 %token LBRACKET RBRACKET
+%token LPAR RPAR
 %token DOT_DOT
 %token DOT
 %token ADD
+%token SUB
+%token MUL
+%token DIV
+%token MOD
 
 /* values */
 %token <string> ID
@@ -126,15 +131,45 @@ cell:
 		}
 ;
 
-expression:
+operand:
 	cell
-		{ CELL (0, fst $1, snd $1) }
-|	INT
-		{ CST $1 }
-|
+		{ CELL (0, fst $1, snd $1); }
+|	
+	INT
+		{ CST $1 ;  }
+|	
 	ID 
+		{NONE; }
+|
+	LPAR expression RPAR
 		{NONE}
-
-|	expression ADD expression
+| 
+	SUB operand
 		{NONE}
 ;
+
+expressionPrio1:
+	operand
+		{NONE}
+|
+	expressionPrio1 MUL operand
+		{NONE}
+| 	
+	expressionPrio1 DIV operand
+		{NONE}
+| 	
+	expressionPrio1 MOD operand
+		{NONE}
+;
+
+expression:
+	expressionPrio1
+		{NONE}
+|
+	expression ADD expressionPrio1
+		{NONE}
+|	
+	expression SUB expressionPrio1
+		{NONE}
+;
+
