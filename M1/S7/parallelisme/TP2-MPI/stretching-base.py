@@ -79,8 +79,8 @@ alpha = 1+(pix_max - pix_min) / M
 
 # stretch contrast for all pixels. f_one and f_two are the two different methods
 for i in range(0,len(pixels)):
-	pixels[i] = f_one(pixels[i], alpha)
-	#pixels[i] = f_two(pixels[i], alpha)
+	#pixels[i] = f_one(pixels[i], alpha)
+	pixels[i] = f_two(pixels[i], alpha)
 
 # save the image
 saveImage(pixels, nblines, nbcolumns)
