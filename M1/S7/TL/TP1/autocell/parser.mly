@@ -104,8 +104,9 @@ field:
 opt_statements:
 	/* empty */
 		{ NOP }
+
 |	opt_statements statement
-		{ $1 }
+		{ SEQ ($1, $2) }
 ;
 
 statement:
@@ -117,7 +118,7 @@ statement:
 		}
 |	ID  ASSIGN expression
 		{
-			NOP
+			let reg = get_var $1 in if reg = -1 then SET_VAR(declare_var $1, $3) else SET_VAR(reg, $3)
 		}
 ;
 
@@ -139,37 +140,40 @@ operand:
 		{ CST $1 ;  }
 |	
 	ID 
-		{NONE; }
+		{ let reg = get_var $1 in if reg = -1 then error ("Usage of undeclared variable " ^ $1) else VAR(reg) }
 |
 	LPAR expression RPAR
-		{NONE}
+		{$2}
 | 
 	SUB operand
-		{NONE}
+		{NEG($2)}
+|
+	ADD operand
+		{$2}
 ;
 
 expressionPrio1:
 	operand
-		{NONE}
+		{ $1 }
 |
 	expressionPrio1 MUL operand
-		{NONE}
+		{BINOP(OP_MUL, $1, $3)}
 | 	
 	expressionPrio1 DIV operand
-		{NONE}
+		{BINOP(OP_DIV, $1, $3)}
 | 	
 	expressionPrio1 MOD operand
-		{NONE}
+		{BINOP(OP_MOD, $1, $3)}
 ;
 
 expression:
 	expressionPrio1
-		{NONE}
+		{ $1 }
 |
 	expression ADD expressionPrio1
-		{NONE}
+		{BINOP(OP_ADD, $1, $3)}
 |	
 	expression SUB expressionPrio1
-		{NONE}
+		{BINOP(OP_SUB, $1, $3)}
 ;
 

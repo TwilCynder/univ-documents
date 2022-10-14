@@ -57,7 +57,6 @@ let pos x y =
 	@return		(register containing the result, quads producing the result). *)
 let rec comp_expr e =
 
-
 	match e with
 	| NONE ->
 		(0, [])
@@ -66,6 +65,14 @@ let rec comp_expr e =
 		(v, [
 			INVOKE (cGET + f, v, pos x y)
 		])
+	|	CST (const) ->
+		let v = new_reg() in 
+		(v, [SETI (v, const)])
+	| VAR (reg) -> 
+		(reg, [])	
+	|	NEG (e) ->
+		let (v, q) = comp_expr e in let reg = new_reg() in
+		(reg, q @ [SETI(reg, 0); SUB(reg, reg, v)])
 	| _ ->
 		failwith "bad expression"
 
@@ -97,7 +104,12 @@ let rec comp_stmt s =
 		let (v, q) = comp_expr e in
 		q @ [
 			INVOKE (cSET, v, f)
-		]
+		]	
+	| SET_VAR (x, e) ->
+			let (v, q) = comp_expr e in
+			q @ [
+				SET(x, v)
+			]		
 	| _ ->
 		failwith "bad instruction"
 
