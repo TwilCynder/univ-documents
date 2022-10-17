@@ -39,12 +39,21 @@ rule token = parse
 
 |	"end"			{ END }
 |	"of"			{ OF }
+| 	"if"			{ IF }
+| 	"then"			{ THEN }
+|	"else"			{ ELSE }
 
 |	"+"				{ ADD }
 |	"-"				{ SUB }
 |	"*"				{ MUL }
 |	"/"				{ DIV }
 | 	"%"				{ MOD }
+| 	"<"				{ LESS }
+| 	">"				{ GREATER }
+| 	"<="			{ LESSEQ }
+| 	">="			{ GREATEREQ }
+| 	"="				{ EQUALS }
+| 	"!="			{ DIFF }
 |	":="			{ ASSIGN }
 |	'.'				{ DOT }
 |	".."			{ DOT_DOT}

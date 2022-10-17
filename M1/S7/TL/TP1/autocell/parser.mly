@@ -59,6 +59,15 @@ let rec make_when f v ws =
 %token MUL
 %token DIV
 %token MOD
+%token IF
+%token THEN
+%token ELSE
+%token LESS
+%token GREATER
+%token LESSEQ
+%token GREATEREQ
+%token EQUALS
+%token DIFF
 
 /* values */
 %token <string> ID
@@ -120,6 +129,14 @@ statement:
 		{
 			let reg = get_var $1 in if reg = -1 then SET_VAR(declare_var $1, $3) else SET_VAR(reg, $3)
 		}
+
+|
+	IF condition THEN opt_statements END
+		{ IF_THEN($2, $4, NOP)}
+
+|
+	IF condition THEN opt_statements ELSE opt_statements END
+		{IF_THEN($2, $4, $6)}
 ;
 
 
@@ -177,3 +194,21 @@ expression:
 		{BINOP(OP_SUB, $1, $3)}
 ;
 
+condition:
+	expression LESS expression
+		{COMP(COMP_LT, $1, $3)}
+|
+	expression GREATER expression
+		{COMP(COMP_GT, $1, $3)}
+|
+	expression LESSEQ expression
+		{COMP(COMP_LE, $1, $3)}
+|
+	expression GREATEREQ expression
+		{COMP(COMP_GE, $1, $3)}
+|
+	expression EQUALS expression
+		{COMP(COMP_EQ, $1, $3)}
+|
+	expression DIFF expression
+		{COMP(COMP_NE, $1, $3)}

@@ -73,6 +73,16 @@ let rec comp_expr e =
 	|	NEG (e) ->
 		let (v, q) = comp_expr e in let reg = new_reg() in
 		(reg, q @ [SETI(reg, 0); SUB(reg, reg, v)])
+	| BINOP (op, el, er) -> let (vl, ql) = comp_expr el in let (vr, qr) = comp_expr er in
+		match op with
+			OP_ADD -> let reg = new_reg() in 
+				(reg, ql @ qr @ [ADD(reg, vl, vr)])
+		| OP_SUB -> let reg = new_reg() in 
+				(reg, ql @ qr @ [SUB(reg, vl, vr)])
+		| OP_MUL -> let reg = new_reg() in 
+				(reg, ql @ qr @ [MUL(reg, vl, vr)])
+		| OP_DIV -> let reg = new_reg() in 
+				(reg, ql @ qr @ [DIV(reg, vl, vr)])
 	| _ ->
 		failwith "bad expression"
 
@@ -83,10 +93,9 @@ let rec comp_expr e =
 	@param l_else	Label to branch to when the condition is false.
 	@return			Quads implementing the condition. *)
 let rec comp_cond c l_then l_else =
-
-
 	match c with
-
+	| COMP (cmp, l, r) ->
+		[]
 	| _ ->
 		failwith "bad condition"
 
@@ -110,8 +119,10 @@ let rec comp_stmt s =
 			q @ [
 				SET(x, v)
 			]		
-	| _ ->
-		failwith "bad instruction"
+	|	IF_THEN (cond, st_then, st_else) ->
+			[]
+	(*| _ ->
+		failwith "bad instruction"*)
 
 (** Compile the given application.
 	@param flds		List of fields.
