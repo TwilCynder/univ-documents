@@ -41,17 +41,18 @@ if __name__ == '__main__':
 
     random.seed(3)
     
-    size = 100
+    width = 100
     
-    matrix = init_matrix(size, size)
-    tmp_matrix = init_matrix(size, size)
-
+    matrix = init_matrix(width, width)
     add_hot_spots(matrix, 400)
 
     init_time = time.time()
+
+    tmp_matrix = init_matrix(width, width)
+
     for _ in range(20):
-        for x in range(1, size-1):
-            for y in range(1, size-1):
+        for x in range(1, width-1):
+            for y in range(1, width-1):
                 tmp_matrix[x][y] = get_val(matrix, x, y)
         matrix, tmp_matrix = tmp_matrix, matrix
     

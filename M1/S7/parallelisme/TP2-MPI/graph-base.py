@@ -1,6 +1,6 @@
 from matplotlib import pyplot as plt
 import networkx as nx
-
+import time
 
 def plot_graph(graph, save=False, display=True):
     g1=graph
@@ -19,6 +19,7 @@ graph = nx.gnr_graph(30, .01).reverse()
 new_elements = [0] # We start at the root (node = 0)
 old_elements = []  # We initialize the already seen nodes
 
+start_time = time.time()
 while len(new_elements) != 0: # as long as we have new node
     tmp = []
     for node_src in new_elements: # we take all these nodes
@@ -30,5 +31,7 @@ while len(new_elements) != 0: # as long as we have new node
     old_elements += new_elements # we have looked at all their descendent, so we move them to the seen nodes
     new_elements = tmp           # these are the new node, we will see them on the next iteration
 
+end_time = time.time()
+print(end_time - start_time)
 print(len(old_elements) == len(graph))
 plot_graph(graph, save=True, display=True)
