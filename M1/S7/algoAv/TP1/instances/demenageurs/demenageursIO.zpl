@@ -1,11 +1,13 @@
-param fichier := "u20_00.bpa";
+param fichier := "u40_00.bpa";
 param capacite := read fichier as "1n" comment "#" skip 1 use 1;
 do print "capacite : ", capacite;
 param nbObj := read fichier as "2n" comment "#" skip 1 use 1;
-set Objets := { 0 to nbObj by 1 };
-set Boites := { 0 to nbObj by 1 };
+set Objets := { 0 to nbObj-1 by 1 };
+set Boites := { 0 to nbObj-1 by 1 };
 
-param taille[Objets] := read fichier as "<1n>" comment "#" skip 2 ;
+set tmp [ <i > in Objets ] := { read fichier as " <1n >" skip 2+i use 1} ;
+param taille [ <i > in Objets ] := ord ( tmp [ i ] ,1 ,1);
+
 var x[Objets*Boites] binary;
 var y[Boites];
 
