@@ -104,19 +104,44 @@ def init_world(n):
 	data.append( Data_item(id=nbbodies-1, positionx=0, positiony=0, speedx=0, speedy=0, weight=1e6*solarmass))
 	return data
 
+def addForces(f1, f2):
+	[f1x, f1y] = f1
+	[f2x, f2y] = f2
+	return [f1x+f2x, f1y+f2y]
+
+def subForces(f1, f2):
+	[f1x, f1y] = f1
+	[f2x, f2y] = f2
+	return [f1x-f2x, f1y-f2y]
+
 nbbodies = int(sys.argv[1])
 NBSTEPS = int(sys.argv[2])
 
 random.seed(0)   # à modifier si on veut que le monde créé soit différent à chaque fois
 
 
-
 plt.draw()
 plt.show(block=False)
 # une pause de 2 secondes, juste pour voir que ça s'affiche bien
 # on doit l'enlever dès que ça marche ;)
-plt.pause(2)
+#plt.pause(2)
 
 # here to start the code...
 
+data = init_world(nbbodies)
 
+for t in range(0, NBSTEPS):
+	#print("step", t)
+	force = []
+	for i in range(0,nbbodies):
+		force.append((0,0)) # force[i]
+		for j in range(0, nbbodies):
+			force[i] = addForces(force[i], interaction(data[i], data[j]))
+
+	print(force)
+	for i in range(0, nbbodies):
+		data[i] = update(data[i], force[i])
+
+	displayPlot(data)
+
+print(signature(data))

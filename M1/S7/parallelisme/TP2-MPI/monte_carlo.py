@@ -6,7 +6,6 @@ import random
 if __name__ == '__main__':
     nb = 100001
     inside = 0
-    random.seed(0)
     
     start_time = time.time()
     for _ in range(nb):
