@@ -13,37 +13,41 @@
    7  opt_statements :
    8                 | opt_statements statement
 
-   9  statement : cell ASSIGN expression
-  10            | ID ASSIGN expression
-  11            | IF condition THEN opt_statements END
-  12            | IF condition THEN opt_statements ELSE opt_statements END
+   9  elseif : ELSEIF condition THEN opt_statements elseif
+  10         | ELSEIF condition THEN opt_statements
+  11         | ELSE opt_statements
 
-  13  cell : LBRACKET INT COMMA INT RBRACKET
+  12  statement : cell ASSIGN expression
+  13            | ID ASSIGN expression
+  14            | IF condition THEN opt_statements END
+  15            | IF condition THEN opt_statements elseif END
 
-  14  operand : cell
-  15          | INT
-  16          | ID
-  17          | LPAR expression RPAR
-  18          | SUB operand
-  19          | ADD operand
+  16  cell : LBRACKET INT COMMA INT RBRACKET
 
-  20  expressionPrio1 : operand
-  21                  | expressionPrio1 MUL operand
-  22                  | expressionPrio1 DIV operand
-  23                  | expressionPrio1 MOD operand
+  17  operand : cell
+  18          | INT
+  19          | ID
+  20          | LPAR expression RPAR
+  21          | SUB operand
+  22          | ADD operand
 
-  24  expression : expressionPrio1
-  25             | expression ADD expressionPrio1
-  26             | expression SUB expressionPrio1
+  23  expressionPrio1 : operand
+  24                  | expressionPrio1 MUL operand
+  25                  | expressionPrio1 DIV operand
+  26                  | expressionPrio1 MOD operand
 
-  27  condition : expression LESS expression
-  28            | expression GREATER expression
-  29            | expression LESSEQ expression
-  30            | expression GREATEREQ expression
-  31            | expression EQUALS expression
-  32            | expression DIFF expression
+  27  expression : expressionPrio1
+  28             | expression ADD expressionPrio1
+  29             | expression SUB expressionPrio1
 
-  33  %entry% : '\001' program
+  30  condition : expression LESS expression
+  31            | expression GREATER expression
+  32            | expression LESSEQ expression
+  33            | expression GREATEREQ expression
+  34            | expression EQUALS expression
+  35            | expression DIFF expression
+
+  36  %entry% : '\001' program
 
 state 0
 	$accept : . %entry% $end  (0)
@@ -55,7 +59,7 @@ state 0
 
 
 state 1
-	%entry% : '\001' . program  (33)
+	%entry% : '\001' . program  (36)
 
 	INT  shift 3
 	.  error
@@ -77,9 +81,9 @@ state 3
 
 
 state 4
-	%entry% : '\001' program .  (33)
+	%entry% : '\001' program .  (36)
 
-	.  reduce 33
+	.  reduce 36
 
 
 state 5
@@ -215,15 +219,15 @@ state 21
 
 
 state 22
-	cell : LBRACKET . INT COMMA INT RBRACKET  (13)
+	cell : LBRACKET . INT COMMA INT RBRACKET  (16)
 
 	INT  shift 28
 	.  error
 
 
 state 23
-	statement : IF . condition THEN opt_statements END  (11)
-	statement : IF . condition THEN opt_statements ELSE opt_statements END  (12)
+	statement : IF . condition THEN opt_statements END  (14)
+	statement : IF . condition THEN opt_statements elseif END  (15)
 
 	LBRACKET  shift 22
 	LPAR  shift 29
@@ -233,15 +237,15 @@ state 23
 	INT  shift 33
 	.  error
 
-	cell  goto 34
-	expression  goto 35
-	condition  goto 36
+	condition  goto 34
+	cell  goto 35
+	expression  goto 36
 	operand  goto 37
 	expressionPrio1  goto 38
 
 
 state 24
-	statement : ID . ASSIGN expression  (10)
+	statement : ID . ASSIGN expression  (13)
 
 	ASSIGN  shift 39
 	.  error
@@ -254,7 +258,7 @@ state 25
 
 
 state 26
-	statement : cell . ASSIGN expression  (9)
+	statement : cell . ASSIGN expression  (12)
 
 	ASSIGN  shift 40
 	.  error
@@ -267,14 +271,14 @@ state 27
 
 
 state 28
-	cell : LBRACKET INT . COMMA INT RBRACKET  (13)
+	cell : LBRACKET INT . COMMA INT RBRACKET  (16)
 
 	COMMA  shift 41
 	.  error
 
 
 state 29
-	operand : LPAR . expression RPAR  (17)
+	operand : LPAR . expression RPAR  (20)
 
 	LBRACKET  shift 22
 	LPAR  shift 29
@@ -284,14 +288,14 @@ state 29
 	INT  shift 33
 	.  error
 
-	cell  goto 34
+	cell  goto 35
 	expression  goto 42
 	operand  goto 37
 	expressionPrio1  goto 38
 
 
 state 30
-	operand : ADD . operand  (19)
+	operand : ADD . operand  (22)
 
 	LBRACKET  shift 22
 	LPAR  shift 29
@@ -301,12 +305,12 @@ state 30
 	INT  shift 33
 	.  error
 
-	cell  goto 34
+	cell  goto 35
 	operand  goto 43
 
 
 state 31
-	operand : SUB . operand  (18)
+	operand : SUB . operand  (21)
 
 	LBRACKET  shift 22
 	LPAR  shift 29
@@ -316,92 +320,93 @@ state 31
 	INT  shift 33
 	.  error
 
-	cell  goto 34
+	cell  goto 35
 	operand  goto 44
 
 
 state 32
-	operand : ID .  (16)
+	operand : ID .  (19)
 
-	.  reduce 16
+	.  reduce 19
 
 
 state 33
-	operand : INT .  (15)
+	operand : INT .  (18)
 
-	.  reduce 15
+	.  reduce 18
 
 
 state 34
-	operand : cell .  (14)
+	statement : IF condition . THEN opt_statements END  (14)
+	statement : IF condition . THEN opt_statements elseif END  (15)
 
-	.  reduce 14
-
-
-state 35
-	expression : expression . ADD expressionPrio1  (25)
-	expression : expression . SUB expressionPrio1  (26)
-	condition : expression . LESS expression  (27)
-	condition : expression . GREATER expression  (28)
-	condition : expression . LESSEQ expression  (29)
-	condition : expression . GREATEREQ expression  (30)
-	condition : expression . EQUALS expression  (31)
-	condition : expression . DIFF expression  (32)
-
-	ADD  shift 45
-	SUB  shift 46
-	LESS  shift 47
-	GREATER  shift 48
-	LESSEQ  shift 49
-	GREATEREQ  shift 50
-	EQUALS  shift 51
-	DIFF  shift 52
+	THEN  shift 45
 	.  error
 
 
-state 36
-	statement : IF condition . THEN opt_statements END  (11)
-	statement : IF condition . THEN opt_statements ELSE opt_statements END  (12)
+state 35
+	operand : cell .  (17)
 
-	THEN  shift 53
+	.  reduce 17
+
+
+state 36
+	expression : expression . ADD expressionPrio1  (28)
+	expression : expression . SUB expressionPrio1  (29)
+	condition : expression . LESS expression  (30)
+	condition : expression . GREATER expression  (31)
+	condition : expression . LESSEQ expression  (32)
+	condition : expression . GREATEREQ expression  (33)
+	condition : expression . EQUALS expression  (34)
+	condition : expression . DIFF expression  (35)
+
+	ADD  shift 46
+	SUB  shift 47
+	LESS  shift 48
+	GREATER  shift 49
+	LESSEQ  shift 50
+	GREATEREQ  shift 51
+	EQUALS  shift 52
+	DIFF  shift 53
 	.  error
 
 
 state 37
-	expressionPrio1 : operand .  (20)
+	expressionPrio1 : operand .  (23)
 
-	.  reduce 20
+	.  reduce 23
 
 
 state 38
-	expressionPrio1 : expressionPrio1 . MUL operand  (21)
-	expressionPrio1 : expressionPrio1 . DIV operand  (22)
-	expressionPrio1 : expressionPrio1 . MOD operand  (23)
-	expression : expressionPrio1 .  (24)
+	expressionPrio1 : expressionPrio1 . MUL operand  (24)
+	expressionPrio1 : expressionPrio1 . DIV operand  (25)
+	expressionPrio1 : expressionPrio1 . MOD operand  (26)
+	expression : expressionPrio1 .  (27)
 
 	MUL  shift 54
 	DIV  shift 55
 	MOD  shift 56
-	EOF  reduce 24
-	END  reduce 24
-	LBRACKET  reduce 24
-	RPAR  reduce 24
-	ADD  reduce 24
-	SUB  reduce 24
-	IF  reduce 24
-	THEN  reduce 24
-	ELSE  reduce 24
-	LESS  reduce 24
-	GREATER  reduce 24
-	LESSEQ  reduce 24
-	GREATEREQ  reduce 24
-	EQUALS  reduce 24
-	DIFF  reduce 24
-	ID  reduce 24
+	EOF  reduce 27
+	END  reduce 27
+	LBRACKET  reduce 27
+	RPAR  reduce 27
+	ADD  reduce 27
+	SUB  reduce 27
+	IF  reduce 27
+	THEN  reduce 27
+	ELSE  reduce 27
+	ELSEIF  reduce 27
+	LESS  reduce 27
+	GREATER  reduce 27
+	LESSEQ  reduce 27
+	GREATEREQ  reduce 27
+	EQUALS  reduce 27
+	DIFF  reduce 27
+	ID  reduce 27
 
 
 state 39
-	statement : ID ASSIGN . expression  (10)
+	statement : ID ASSIGN . expression  (13)
 
 	LBRACKET  shift 22
 	LPAR  shift 29
@@ -411,14 +416,14 @@ state 39
 	INT  shift 33
 	.  error
 
-	cell  goto 34
+	cell  goto 35
 	expression  goto 57
 	operand  goto 37
 	expressionPrio1  goto 38
 
 
 state 40
-	statement : cell ASSIGN . expression  (9)
+	statement : cell ASSIGN . expression  (12)
 
 	LBRACKET  shift 22
 	LPAR  shift 29
@@ -428,60 +433,54 @@ state 40
 	INT  shift 33
 	.  error
 
-	cell  goto 34
+	cell  goto 35
 	expression  goto 58
 	operand  goto 37
 	expressionPrio1  goto 38
 
 
 state 41
-	cell : LBRACKET INT COMMA . INT RBRACKET  (13)
+	cell : LBRACKET INT COMMA . INT RBRACKET  (16)
 
 	INT  shift 59
 	.  error
 
 
 state 42
-	operand : LPAR expression . RPAR  (17)
-	expression : expression . ADD expressionPrio1  (25)
-	expression : expression . SUB expressionPrio1  (26)
+	operand : LPAR expression . RPAR  (20)
+	expression : expression . ADD expressionPrio1  (28)
+	expression : expression . SUB expressionPrio1  (29)
 
 	RPAR  shift 60
-	ADD  shift 45
-	SUB  shift 46
+	ADD  shift 46
+	SUB  shift 47
 	.  error
 
 
 state 43
-	operand : ADD operand .  (19)
+	operand : ADD operand .  (22)
 
-	.  reduce 19
+	.  reduce 22
 
 
 state 44
-	operand : SUB operand .  (18)
+	operand : SUB operand .  (21)
 
-	.  reduce 18
+	.  reduce 21
 
 
 state 45
-	expression : expression ADD . expressionPrio1  (25)
+	statement : IF condition THEN . opt_statements END  (14)
+	statement : IF condition THEN . opt_statements elseif END  (15)
+	opt_statements : .  (7)
 
-	LBRACKET  shift 22
-	LPAR  shift 29
-	ADD  shift 30
-	SUB  shift 31
-	ID  shift 32
-	INT  shift 33
-	.  error
+	.  reduce 7
 
-	cell  goto 34
-	operand  goto 37
-	expressionPrio1  goto 61
+	opt_statements  goto 61
 
 
 state 46
-	expression : expression SUB . expressionPrio1  (26)
+	expression : expression ADD . expressionPrio1  (28)
 
 	LBRACKET  shift 22
 	LPAR  shift 29
@@ -491,13 +490,13 @@ state 46
 	INT  shift 33
 	.  error
 
-	cell  goto 34
+	cell  goto 35
 	operand  goto 37
 	expressionPrio1  goto 62
 
 
 state 47
-	condition : expression LESS . expression  (27)
+	expression : expression SUB . expressionPrio1  (29)
 
 	LBRACKET  shift 22
 	LPAR  shift 29
@@ -507,14 +506,13 @@ state 47
 	INT  shift 33
 	.  error
 
-	cell  goto 34
-	expression  goto 63
+	cell  goto 35
 	operand  goto 37
-	expressionPrio1  goto 38
+	expressionPrio1  goto 63
 
 
 state 48
-	condition : expression GREATER . expression  (28)
+	condition : expression LESS . expression  (30)
 
 	LBRACKET  shift 22
 	LPAR  shift 29
@@ -524,14 +522,14 @@ state 48
 	INT  shift 33
 	.  error
 
-	cell  goto 34
+	cell  goto 35
 	expression  goto 64
 	operand  goto 37
 	expressionPrio1  goto 38
 
 
 state 49
-	condition : expression LESSEQ . expression  (29)
+	condition : expression GREATER . expression  (31)
 
 	LBRACKET  shift 22
 	LPAR  shift 29
@@ -541,14 +539,14 @@ state 49
 	INT  shift 33
 	.  error
 
-	cell  goto 34
+	cell  goto 35
 	expression  goto 65
 	operand  goto 37
 	expressionPrio1  goto 38
 
 
 state 50
-	condition : expression GREATEREQ . expression  (30)
+	condition : expression LESSEQ . expression  (32)
 
 	LBRACKET  shift 22
 	LPAR  shift 29
@@ -558,14 +556,14 @@ state 50
 	INT  shift 33
 	.  error
 
-	cell  goto 34
+	cell  goto 35
 	expression  goto 66
 	operand  goto 37
 	expressionPrio1  goto 38
 
 
 state 51
-	condition : expression EQUALS . expression  (31)
+	condition : expression GREATEREQ . expression  (33)
 
 	LBRACKET  shift 22
 	LPAR  shift 29
@@ -575,14 +573,14 @@ state 51
 	INT  shift 33
 	.  error
 
-	cell  goto 34
+	cell  goto 35
 	expression  goto 67
 	operand  goto 37
 	expressionPrio1  goto 38
 
 
 state 52
-	condition : expression DIFF . expression  (32)
+	condition : expression EQUALS . expression  (34)
 
 	LBRACKET  shift 22
 	LPAR  shift 29
@@ -592,24 +590,14 @@ state 52
 	INT  shift 33
 	.  error
 
-	cell  goto 34
+	cell  goto 35
 	expression  goto 68
 	operand  goto 37
 	expressionPrio1  goto 38
 
 
 state 53
-	statement : IF condition THEN . opt_statements END  (11)
-	statement : IF condition THEN . opt_statements ELSE opt_statements END  (12)
-	opt_statements : .  (7)
-
-	.  reduce 7
-
-	opt_statements  goto 69
-
-
-state 54
-	expressionPrio1 : expressionPrio1 MUL . operand  (21)
+	condition : expression DIFF . expression  (35)
 
 	LBRACKET  shift 22
 	LPAR  shift 29
@@ -619,12 +607,29 @@ state 54
 	INT  shift 33
 	.  error
 
-	cell  goto 34
+	cell  goto 35
+	expression  goto 69
+	operand  goto 37
+	expressionPrio1  goto 38
+
+
+state 54
+	expressionPrio1 : expressionPrio1 MUL . operand  (24)
+
+	LBRACKET  shift 22
+	LPAR  shift 29
+	ADD  shift 30
+	SUB  shift 31
+	ID  shift 32
+	INT  shift 33
+	.  error
+
+	cell  goto 35
 	operand  goto 70
 
 
 state 55
-	expressionPrio1 : expressionPrio1 DIV . operand  (22)
+	expressionPrio1 : expressionPrio1 DIV . operand  (25)
 
 	LBRACKET  shift 22
 	LPAR  shift 29
@@ -634,12 +639,12 @@ state 55
 	INT  shift 33
 	.  error
 
-	cell  goto 34
+	cell  goto 35
 	operand  goto 71
 
 
 state 56
-	expressionPrio1 : expressionPrio1 MOD . operand  (23)
+	expressionPrio1 : expressionPrio1 MOD . operand  (26)
 
 	LBRACKET  shift 22
 	LPAR  shift 29
@@ -649,241 +654,313 @@ state 56
 	INT  shift 33
 	.  error
 
-	cell  goto 34
+	cell  goto 35
 	operand  goto 72
 
 
 state 57
-	statement : ID ASSIGN expression .  (10)
-	expression : expression . ADD expressionPrio1  (25)
-	expression : expression . SUB expressionPrio1  (26)
+	statement : ID ASSIGN expression .  (13)
+	expression : expression . ADD expressionPrio1  (28)
+	expression : expression . SUB expressionPrio1  (29)
 
-	ADD  shift 45
-	SUB  shift 46
-	EOF  reduce 10
-	END  reduce 10
-	LBRACKET  reduce 10
-	IF  reduce 10
-	ELSE  reduce 10
-	ID  reduce 10
+	ADD  shift 46
+	SUB  shift 47
+	EOF  reduce 13
+	END  reduce 13
+	LBRACKET  reduce 13
+	IF  reduce 13
+	ELSE  reduce 13
+	ELSEIF  reduce 13
+	ID  reduce 13
 
 
 state 58
-	statement : cell ASSIGN expression .  (9)
-	expression : expression . ADD expressionPrio1  (25)
-	expression : expression . SUB expressionPrio1  (26)
+	statement : cell ASSIGN expression .  (12)
+	expression : expression . ADD expressionPrio1  (28)
+	expression : expression . SUB expressionPrio1  (29)
 
-	ADD  shift 45
-	SUB  shift 46
-	EOF  reduce 9
-	END  reduce 9
-	LBRACKET  reduce 9
-	IF  reduce 9
-	ELSE  reduce 9
-	ID  reduce 9
+	ADD  shift 46
+	SUB  shift 47
+	EOF  reduce 12
+	END  reduce 12
+	LBRACKET  reduce 12
+	IF  reduce 12
+	ELSE  reduce 12
+	ELSEIF  reduce 12
+	ID  reduce 12
 
 
 state 59
-	cell : LBRACKET INT COMMA INT . RBRACKET  (13)
+	cell : LBRACKET INT COMMA INT . RBRACKET  (16)
 
 	RBRACKET  shift 73
 	.  error
 
 
 state 60
-	operand : LPAR expression RPAR .  (17)
+	operand : LPAR expression RPAR .  (20)
 
-	.  reduce 17
+	.  reduce 20
 
 
 state 61
-	expressionPrio1 : expressionPrio1 . MUL operand  (21)
-	expressionPrio1 : expressionPrio1 . DIV operand  (22)
-	expressionPrio1 : expressionPrio1 . MOD operand  (23)
-	expression : expression ADD expressionPrio1 .  (25)
-
-	MUL  shift 54
-	DIV  shift 55
-	MOD  shift 56
-	EOF  reduce 25
-	END  reduce 25
-	LBRACKET  reduce 25
-	RPAR  reduce 25
-	ADD  reduce 25
-	SUB  reduce 25
-	IF  reduce 25
-	THEN  reduce 25
-	ELSE  reduce 25
-	LESS  reduce 25
-	GREATER  reduce 25
-	LESSEQ  reduce 25
-	GREATEREQ  reduce 25
-	EQUALS  reduce 25
-	DIFF  reduce 25
-	ID  reduce 25
-
-
-state 62
-	expressionPrio1 : expressionPrio1 . MUL operand  (21)
-	expressionPrio1 : expressionPrio1 . DIV operand  (22)
-	expressionPrio1 : expressionPrio1 . MOD operand  (23)
-	expression : expression SUB expressionPrio1 .  (26)
-
-	MUL  shift 54
-	DIV  shift 55
-	MOD  shift 56
-	EOF  reduce 26
-	END  reduce 26
-	LBRACKET  reduce 26
-	RPAR  reduce 26
-	ADD  reduce 26
-	SUB  reduce 26
-	IF  reduce 26
-	THEN  reduce 26
-	ELSE  reduce 26
-	LESS  reduce 26
-	GREATER  reduce 26
-	LESSEQ  reduce 26
-	GREATEREQ  reduce 26
-	EQUALS  reduce 26
-	DIFF  reduce 26
-	ID  reduce 26
-
-
-state 63
-	expression : expression . ADD expressionPrio1  (25)
-	expression : expression . SUB expressionPrio1  (26)
-	condition : expression LESS expression .  (27)
-
-	ADD  shift 45
-	SUB  shift 46
-	THEN  reduce 27
-
-
-state 64
-	expression : expression . ADD expressionPrio1  (25)
-	expression : expression . SUB expressionPrio1  (26)
-	condition : expression GREATER expression .  (28)
-
-	ADD  shift 45
-	SUB  shift 46
-	THEN  reduce 28
-
-
-state 65
-	expression : expression . ADD expressionPrio1  (25)
-	expression : expression . SUB expressionPrio1  (26)
-	condition : expression LESSEQ expression .  (29)
-
-	ADD  shift 45
-	SUB  shift 46
-	THEN  reduce 29
-
-
-state 66
-	expression : expression . ADD expressionPrio1  (25)
-	expression : expression . SUB expressionPrio1  (26)
-	condition : expression GREATEREQ expression .  (30)
-
-	ADD  shift 45
-	SUB  shift 46
-	THEN  reduce 30
-
-
-state 67
-	expression : expression . ADD expressionPrio1  (25)
-	expression : expression . SUB expressionPrio1  (26)
-	condition : expression EQUALS expression .  (31)
-
-	ADD  shift 45
-	SUB  shift 46
-	THEN  reduce 31
-
-
-state 68
-	expression : expression . ADD expressionPrio1  (25)
-	expression : expression . SUB expressionPrio1  (26)
-	condition : expression DIFF expression .  (32)
-
-	ADD  shift 45
-	SUB  shift 46
-	THEN  reduce 32
-
-
-state 69
 	opt_statements : opt_statements . statement  (8)
-	statement : IF condition THEN opt_statements . END  (11)
-	statement : IF condition THEN opt_statements . ELSE opt_statements END  (12)
+	statement : IF condition THEN opt_statements . END  (14)
+	statement : IF condition THEN opt_statements . elseif END  (15)
 
 	END  shift 74
 	LBRACKET  shift 22
 	IF  shift 23
 	ELSE  shift 75
+	ELSEIF  shift 76
 	ID  shift 24
 	.  error
 
 	statement  goto 25
+	elseif  goto 77
 	cell  goto 26
 
 
-state 70
-	expressionPrio1 : expressionPrio1 MUL operand .  (21)
+state 62
+	expressionPrio1 : expressionPrio1 . MUL operand  (24)
+	expressionPrio1 : expressionPrio1 . DIV operand  (25)
+	expressionPrio1 : expressionPrio1 . MOD operand  (26)
+	expression : expression ADD expressionPrio1 .  (28)
 
-	.  reduce 21
+	MUL  shift 54
+	DIV  shift 55
+	MOD  shift 56
+	EOF  reduce 28
+	END  reduce 28
+	LBRACKET  reduce 28
+	RPAR  reduce 28
+	ADD  reduce 28
+	SUB  reduce 28
+	IF  reduce 28
+	THEN  reduce 28
+	ELSE  reduce 28
+	ELSEIF  reduce 28
+	LESS  reduce 28
+	GREATER  reduce 28
+	LESSEQ  reduce 28
+	GREATEREQ  reduce 28
+	EQUALS  reduce 28
+	DIFF  reduce 28
+	ID  reduce 28
+
+
+state 63
+	expressionPrio1 : expressionPrio1 . MUL operand  (24)
+	expressionPrio1 : expressionPrio1 . DIV operand  (25)
+	expressionPrio1 : expressionPrio1 . MOD operand  (26)
+	expression : expression SUB expressionPrio1 .  (29)
+
+	MUL  shift 54
+	DIV  shift 55
+	MOD  shift 56
+	EOF  reduce 29
+	END  reduce 29
+	LBRACKET  reduce 29
+	RPAR  reduce 29
+	ADD  reduce 29
+	SUB  reduce 29
+	IF  reduce 29
+	THEN  reduce 29
+	ELSE  reduce 29
+	ELSEIF  reduce 29
+	LESS  reduce 29
+	GREATER  reduce 29
+	LESSEQ  reduce 29
+	GREATEREQ  reduce 29
+	EQUALS  reduce 29
+	DIFF  reduce 29
+	ID  reduce 29
+
+
+state 64
+	expression : expression . ADD expressionPrio1  (28)
+	expression : expression . SUB expressionPrio1  (29)
+	condition : expression LESS expression .  (30)
+
+	ADD  shift 46
+	SUB  shift 47
+	THEN  reduce 30
+
+
+state 65
+	expression : expression . ADD expressionPrio1  (28)
+	expression : expression . SUB expressionPrio1  (29)
+	condition : expression GREATER expression .  (31)
+
+	ADD  shift 46
+	SUB  shift 47
+	THEN  reduce 31
+
+
+state 66
+	expression : expression . ADD expressionPrio1  (28)
+	expression : expression . SUB expressionPrio1  (29)
+	condition : expression LESSEQ expression .  (32)
+
+	ADD  shift 46
+	SUB  shift 47
+	THEN  reduce 32
+
+
+state 67
+	expression : expression . ADD expressionPrio1  (28)
+	expression : expression . SUB expressionPrio1  (29)
+	condition : expression GREATEREQ expression .  (33)
+
+	ADD  shift 46
+	SUB  shift 47
+	THEN  reduce 33
+
+
+state 68
+	expression : expression . ADD expressionPrio1  (28)
+	expression : expression . SUB expressionPrio1  (29)
+	condition : expression EQUALS expression .  (34)
+
+	ADD  shift 46
+	SUB  shift 47
+	THEN  reduce 34
+
+
+state 69
+	expression : expression . ADD expressionPrio1  (28)
+	expression : expression . SUB expressionPrio1  (29)
+	condition : expression DIFF expression .  (35)
+
+	ADD  shift 46
+	SUB  shift 47
+	THEN  reduce 35
+
+
+state 70
+	expressionPrio1 : expressionPrio1 MUL operand .  (24)
+
+	.  reduce 24
 
 
 state 71
-	expressionPrio1 : expressionPrio1 DIV operand .  (22)
+	expressionPrio1 : expressionPrio1 DIV operand .  (25)
 
-	.  reduce 22
+	.  reduce 25
 
 
 state 72
-	expressionPrio1 : expressionPrio1 MOD operand .  (23)
+	expressionPrio1 : expressionPrio1 MOD operand .  (26)
 
-	.  reduce 23
+	.  reduce 26
 
 
 state 73
-	cell : LBRACKET INT COMMA INT RBRACKET .  (13)
+	cell : LBRACKET INT COMMA INT RBRACKET .  (16)
 
-	.  reduce 13
+	.  reduce 16
 
 
 state 74
-	statement : IF condition THEN opt_statements END .  (11)
+	statement : IF condition THEN opt_statements END .  (14)
 
-	.  reduce 11
+	.  reduce 14
 
 
 state 75
-	statement : IF condition THEN opt_statements ELSE . opt_statements END  (12)
+	elseif : ELSE . opt_statements  (11)
 	opt_statements : .  (7)
 
 	.  reduce 7
 
-	opt_statements  goto 76
+	opt_statements  goto 78
 
 
 state 76
-	opt_statements : opt_statements . statement  (8)
-	statement : IF condition THEN opt_statements ELSE opt_statements . END  (12)
+	elseif : ELSEIF . condition THEN opt_statements elseif  (9)
+	elseif : ELSEIF . condition THEN opt_statements  (10)
 
-	END  shift 77
+	LBRACKET  shift 22
+	LPAR  shift 29
+	ADD  shift 30
+	SUB  shift 31
+	ID  shift 32
+	INT  shift 33
+	.  error
+
+	condition  goto 79
+	cell  goto 35
+	expression  goto 36
+	operand  goto 37
+	expressionPrio1  goto 38
+
+
+state 77
+	statement : IF condition THEN opt_statements elseif . END  (15)
+
+	END  shift 80
+	.  error
+
+
+state 78
+	opt_statements : opt_statements . statement  (8)
+	elseif : ELSE opt_statements .  (11)
+
 	LBRACKET  shift 22
 	IF  shift 23
 	ID  shift 24
-	.  error
+	END  reduce 11
 
 	statement  goto 25
 	cell  goto 26
 
 
-state 77
-	statement : IF condition THEN opt_statements ELSE opt_statements END .  (12)
+state 79
+	elseif : ELSEIF condition . THEN opt_statements elseif  (9)
+	elseif : ELSEIF condition . THEN opt_statements  (10)
 
-	.  reduce 12
+	THEN  shift 81
+	.  error
 
 
-31 terminals, 13 nonterminals
-34 grammar rules, 78 states
+state 80
+	statement : IF condition THEN opt_statements elseif END .  (15)
+
+	.  reduce 15
+
+
+state 81
+	elseif : ELSEIF condition THEN . opt_statements elseif  (9)
+	elseif : ELSEIF condition THEN . opt_statements  (10)
+	opt_statements : .  (7)
+
+	.  reduce 7
+
+	opt_statements  goto 82
+
+
+state 82
+	opt_statements : opt_statements . statement  (8)
+	elseif : ELSEIF condition THEN opt_statements . elseif  (9)
+	elseif : ELSEIF condition THEN opt_statements .  (10)
+
+	LBRACKET  shift 22
+	IF  shift 23
+	ELSE  shift 75
+	ELSEIF  shift 76
+	ID  shift 24
+	END  reduce 10
+
+	statement  goto 25
+	elseif  goto 83
+	cell  goto 26
+
+
+state 83
+	elseif : ELSEIF condition THEN opt_statements elseif .  (9)
+
+	.  reduce 9
+
+
+32 terminals, 14 nonterminals
+37 grammar rules, 84 states
