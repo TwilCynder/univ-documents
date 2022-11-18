@@ -101,14 +101,13 @@ Qed.
    and the tactic "lia" *)
 Lemma merge_len : forall T (l1 l2: list T), length (merge l1 l2) = length l1 + length l2.
 Proof.
-  intros.
   induction l1.
-  - destruct l2. 
-    + simpl. reflexivity.
-    + simpl. lia.
-  - simpl. destruct l2.
-    + simpl. lia.
-    + simpl. 
-Admitted.
+  simpl.
+  auto.
+  intro l2.
+  destruct l2.
+  - simpl. lia.
+  - simpl. rewrite IHl1. lia.
+Qed.
 
 End LISTS.
