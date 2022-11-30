@@ -62,6 +62,7 @@ let rec make_when f v ws =
 %token IF
 %token THEN
 %token ELSE
+%token ELSEIF
 %token LESS
 %token GREATER
 %token LESSEQ
@@ -118,6 +119,16 @@ opt_statements:
 		{ SEQ ($1, $2) }
 ;
 
+elseif:
+	ELSEIF condition THEN opt_statements elseif 
+		{IF_THEN($2, $4, $5)}
+|
+	ELSEIF condition THEN opt_statements 
+		{IF_THEN($2, $4, NOP)}
+| 	
+	ELSE opt_statements 
+		{$2}
+
 statement:
 	cell ASSIGN expression
 		{
@@ -135,8 +146,8 @@ statement:
 		{ IF_THEN($2, $4, NOP)}
 
 |
-	IF condition THEN opt_statements ELSE opt_statements END
-		{IF_THEN($2, $4, $6)}
+	IF condition THEN opt_statements elseif END
+		{IF_THEN($2, $4, $5)}
 ;
 
 

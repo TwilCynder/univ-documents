@@ -10,3 +10,6 @@
 [submodule "M1/S7/mcdc-deco/TP2-repo"]
 	path = M1/S7/mcdc-deco/TP2-repo
 	url = git@github.com:DCLL-MDL/mcdc-2022-deco-tp2-tpa22-tp2-renard.git
+[submodule "M1/S7/TL/coq/tl-coq-2022-TwilCynder"]
+	path = M1/S7/TL/coq/tl-coq-2022-TwilCynder
+	url = git@github.com:M1-TL-Coq/tl-coq-2022-TwilCynder.git

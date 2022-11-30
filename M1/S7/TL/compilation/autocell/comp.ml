@@ -94,8 +94,16 @@ let rec comp_expr e =
 	@return			Quads implementing the condition. *)
 let rec comp_cond c l_then l_else =
 	match c with
-	| COMP (cmp, l, r) ->
-		[]
+	| COMP (cmp, l, r) -> 
+		let (vl, ql) = comp_expr l in let (vr, qr) = comp_expr r in
+			ql @ qr @ 
+			(match cmp with
+				COMP_EQ -> [GOTO_EQ(l_then, vl, vr); GOTO(l_else)]
+			|	COMP_NE -> [GOTO_NE(l_then, vl, vr); GOTO(l_else)]
+			|	COMP_GE -> [GOTO_GE(l_then, vl, vr); GOTO(l_else)]  
+			|	COMP_GT -> [GOTO_GT(l_then, vl, vr); GOTO(l_else)]
+			|	COMP_LE -> [GOTO_LE(l_then, vl, vr); GOTO(l_else)]	
+			|	COMP_LT -> [GOTO_LT(l_then, vl, vr); GOTO(l_else)])		
 	| _ ->
 		failwith "bad condition"
 
@@ -119,8 +127,17 @@ let rec comp_stmt s =
 			q @ [
 				SET(x, v)
 			]		
-	|	IF_THEN (cond, st_then, st_else) ->
-			[]
+	|	IF_THEN (cond, st_then, st_else) -> 
+			let label_then = new_lab() in
+			let label_else = new_lab() in
+			let label_end = new_lab() in 
+				(comp_cond cond label_then label_else) @ 
+				[LABEL(label_then)] @
+				(comp_stmt st_then) @ 
+				[GOTO(label_end)] @
+				[LABEL(label_else)] @
+				(comp_stmt st_else) @ 
+				[LABEL(label_end)]
 	(*| _ ->
 		failwith "bad instruction"*)
 
