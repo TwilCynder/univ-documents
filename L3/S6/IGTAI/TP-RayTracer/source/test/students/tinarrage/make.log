@@ -1,0 +1,32 @@
+Scanning dependencies of target mrt
+Scanning dependencies of target unit-test
+[ 14%] Building CXX object CMakeFiles/mrt.dir/image.cpp.o
+[ 21%] Building CXX object CMakeFiles/unit-test.dir/image.cpp.o
+[ 21%] Building CXX object CMakeFiles/unit-test.dir/lodepng-master/lodepng.cpp.o
+[ 57%] Building CXX object CMakeFiles/mrt.dir/main.cpp.o
+[ 57%] Building CXX object CMakeFiles/unit-test.dir/kdtree.cpp.o
+[ 57%] Building CXX object CMakeFiles/unit-test.dir/unit-test.cpp.o
+[ 57%] Building CXX object CMakeFiles/mrt.dir/kdtree.cpp.o
+[ 57%] Building CXX object CMakeFiles/mrt.dir/lodepng-master/lodepng.cpp.o
+/mnt/c/Users/twilc/Prog/fac/univ-documents/L3/S6/IGTAI/TP-RayTracer/source/test/students/tinarrage/kdtree.cpp:87:13: warning: ‘bool intersectAabb(Ray*, glm::vec3, glm::vec3)’ defined but not used [-Wunused-function]
+   87 | static bool intersectAabb(Ray *theRay,  vec3 min, vec3 max) {
+      |             ^~~~~~~~~~~~~
+[ 64%] Building CXX object CMakeFiles/mrt.dir/raytracer.cpp.o
+[ 71%] Building CXX object CMakeFiles/mrt.dir/scene.cpp.o
+/mnt/c/Users/twilc/Prog/fac/univ-documents/L3/S6/IGTAI/TP-RayTracer/source/test/students/tinarrage/kdtree.cpp:87:13: warning: ‘bool intersectAabb(Ray*, glm::vec3, glm::vec3)’ defined but not used [-Wunused-function]
+   87 | static bool intersectAabb(Ray *theRay,  vec3 min, vec3 max) {
+      |             ^~~~~~~~~~~~~
+[ 78%] Building CXX object CMakeFiles/unit-test.dir/raytracer.cpp.o
+[ 85%] Building CXX object CMakeFiles/unit-test.dir/scene.cpp.o
+/mnt/c/Users/twilc/Prog/fac/univ-documents/L3/S6/IGTAI/TP-RayTracer/source/test/students/tinarrage/raytracer.cpp: In function ‘bool intersectScene(const Scene*, Ray*, Intersection*)’:
+/mnt/c/Users/twilc/Prog/fac/univ-documents/L3/S6/IGTAI/TP-RayTracer/source/test/students/tinarrage/raytracer.cpp:128:10: warning: unused variable ‘objectCount’ [-Wunused-variable]
+  128 |   size_t objectCount = scene->objects.size();
+      |          ^~~~~~~~~~~
+/mnt/c/Users/twilc/Prog/fac/univ-documents/L3/S6/IGTAI/TP-RayTracer/source/test/students/tinarrage/raytracer.cpp: In function ‘bool intersectScene(const Scene*, Ray*, Intersection*)’:
+/mnt/c/Users/twilc/Prog/fac/univ-documents/L3/S6/IGTAI/TP-RayTracer/source/test/students/tinarrage/raytracer.cpp:128:10: warning: unused variable ‘objectCount’ [-Wunused-variable]
+  128 |   size_t objectCount = scene->objects.size();
+      |          ^~~~~~~~~~~
+[ 92%] Linking CXX executable mrt
+[100%] Linking CXX executable unit-test
+[100%] Built target mrt
+[100%] Built target unit-test

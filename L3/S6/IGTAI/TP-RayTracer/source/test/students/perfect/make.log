@@ -1,0 +1,18 @@
+Scanning dependencies of target unit-test
+Scanning dependencies of target mrt
+[  7%] Building CXX object CMakeFiles/unit-test.dir/image.cpp.o
+[ 14%] Building CXX object CMakeFiles/unit-test.dir/lodepng-master/lodepng.cpp.o
+[ 21%] Building CXX object CMakeFiles/unit-test.dir/unit-test.cpp.o
+[ 28%] Building CXX object CMakeFiles/mrt.dir/kdtree.cpp.o
+[ 35%] Building CXX object CMakeFiles/unit-test.dir/kdtree.cpp.o
+[ 42%] Building CXX object CMakeFiles/mrt.dir/lodepng-master/lodepng.cpp.o
+[ 50%] Building CXX object CMakeFiles/unit-test.dir/raytracer.cpp.o
+[ 57%] Building CXX object CMakeFiles/mrt.dir/image.cpp.o
+[ 64%] Building CXX object CMakeFiles/unit-test.dir/scene.cpp.o
+[ 71%] Building CXX object CMakeFiles/mrt.dir/main.cpp.o
+[ 78%] Building CXX object CMakeFiles/mrt.dir/raytracer.cpp.o
+[ 85%] Building CXX object CMakeFiles/mrt.dir/scene.cpp.o
+[ 92%] Linking CXX executable mrt
+[100%] Linking CXX executable unit-test
+[100%] Built target unit-test
+[100%] Built target mrt

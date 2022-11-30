@@ -1,0 +1,4 @@
+g++ -Wall -std=c++14 -g -I./glm-master/ -fopenmp -I./lodepng-master/ -O3 main.o image.o scene.o raytracer.o kdtree.o lodepng-master/lodepng.o -o mrt
+g++ -Wall -std=c++14 -g -I./glm-master/ -fopenmp -I./lodepng-master/ -O3 unit-test.o image.o raytracer.o scene.o kdtree.o lodepng-master/lodepng.o -o unit-test
+make: Nothing to be done for 'all'.
+make: Nothing to be done for 'all'.

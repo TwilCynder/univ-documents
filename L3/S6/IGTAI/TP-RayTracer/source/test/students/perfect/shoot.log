@@ -1,0 +1,25 @@
+r0 to sphere1 	: [OK]
+r0 to sphere2 	: [OK]
+r0 to plane1 	: [OK]
+r0 to plane2 	: [OK]
+r1 to sphere1 	: [OK]
+r1 to sphere2 	: [OK]
+r1 to plane1 	: [OK]
+r1 to plane2 	: [OK]
+r2 to sphere1 	: [OK]
+r2 to sphere2 	: [OK]
+r2 to plane1 	: [OK]
+r2 to plane2 	: [OK]
+RDM_Beckmann 	: [OK]
+RDM_Fresnel 	: [OK]
+intersect aabb : 1
+./mrt ./auto-shoots/scene0 0
+2.89
+./mrt ./auto-shoots/scene1 1
+7.08
+./mrt ./auto-shoots/scene2 2
+5.34
+./mrt ./auto-shoots/scene3 3
+9.85
+./mrt ./auto-shoots/scene4 4
+43.63
