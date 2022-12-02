@@ -8,9 +8,9 @@ from multiprocessing import Process, Lock, Condition, Value, Array
 ### Monitor start
 class Buffer:
 
-    def __init__(self, nb_cases, nb_types):
+    def __init__(self, nb_cases):
         self.lock = Lock()  
-        self.cond_prod = [Condition(self.lock)] * nb_types
+        self.cond_prod = Condition(self.lock)  
         self.cond_cons = Condition(self.lock)
         self.nb_cases = nb_cases
         self.storage_val = Array('i', [-1] * nb_cases)
@@ -18,29 +18,24 @@ class Buffer:
         self.ptr_prod = Value('i', 0)
         self.ptr_cons = Value('i', 0)
         self.nb_vides = Value('i', nb_cases)
-        self.last_type = Value('i', -1)
 
     def plein(self):
-      return self.nb_vides == 0
+      return self.nb_vides.value == 0
 
     def vide(self):
-      return self.nb_vides == self.nb_cases
+      return self.nb_vides.value == self.nb_cases
 
     def produce(self, msg_val, msg_type, msg_source):
-      with self.lock:    
-        while self.plein() or self.last_type == msg_type:
-          self.cond_prod[msg_type].wait()
+      with self.lock:
+        while self.plein():
+          self.cond_prod.wait()
         position = self.ptr_prod.value
         self.storage_val[position] = msg_val
         self.storage_type[position] = msg_type
-        self.last_type.value = msg_type
         self.nb_vides.value -= 1
         self.ptr_prod.value = (position + 1) % self.nb_cases
         print('%3d produced %3d (type:%d) in place %3d and the buffer is\t\t %s' %
               (msg_source, msg_val, msg_type, position, self.storage_val[:]))
-
-        if self.nb_vides.value > 0 and not (self.cond_prod[1 - msg_type])
-
         self.cond_cons.notify()
 
 
