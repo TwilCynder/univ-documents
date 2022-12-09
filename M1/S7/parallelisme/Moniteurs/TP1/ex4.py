@@ -8,10 +8,10 @@ from multiprocessing import Process, Lock, Condition, Value, Array
 ### Monitor start
 class Buffer:
 
-    def __init__(self, nb_cases):
+    def __init__(self, nb_cases, nb_types):
         self.lock = Lock()  
-        self.cond_prod = Condition(self.lock)  
-        self.cond_cons = Condition(self.lock)
+        self.cond_prod = Condition(self.lock)
+        self.cond_cons = [Condition(self.lock)] * nb_types
         self.nb_cases = nb_cases
         self.storage_val = Array('i', [-1] * nb_cases)
         self.storage_type = Array('i', [-1] * nb_cases)
@@ -19,14 +19,16 @@ class Buffer:
         self.ptr_cons = Value('i', 0)
         self.nb_vides = Value('i', nb_cases)
 
+        self.conso_wait_counter = Array('i', [0] * nb_types)
+
     def plein(self):
-      return self.nb_vides == 0
+      return self.nb_vides.value == 0
 
     def vide(self):
-      return self.nb_vides == self.nb_cases
+      return self.nb_vides.value == self.nb_cases
 
     def produce(self, msg_val, msg_type, msg_source):
-      with self.lock:
+      with self.lock:    
         while self.plein():
           self.cond_prod.wait()
         position = self.ptr_prod.value
@@ -34,15 +36,25 @@ class Buffer:
         self.storage_type[position] = msg_type
         self.nb_vides.value -= 1
         self.ptr_prod.value = (position + 1) % self.nb_cases
-        print('%3d produced %3d (type:%d) in place %3d and the buffer is\t\t %s' %
-              (msg_source, msg_val, msg_type, position, self.storage_val[:]))
-        self.cond_cons.notify()
+        print('%3d produced %3d (type:%d) in place %3d and the buffer is\t\t %s \t and the types are \t %s' %
+              (msg_source, msg_val, msg_type, position, self.storage_val[:], self.storage_type[:]))
+        print("Next type : ", self.storage_type[self.ptr_cons.value])
+        if (not self.vide()) and self.conso_wait_counter[self.storage_type[self.ptr_cons.value]] > 0:
+          self.cond_cons[self.storage_type[self.ptr_cons.value]].notify()
+        elif self.storage_type[self.ptr_prod.value]:
+          self.cond_prod.notify()
 
 
-    def consume(self, id_cons):
+    def consume(self, msg_type, id_cons):
       with self.lock:
-        while (self.vide()):
-          self.cond_cons.wait()
+        self.conso_wait_counter[msg_type] += 1
+        print("Adding a conso to the Q", self.conso_wait_counter[msg_type])
+        print(self.vide(), self.storage_type[self.ptr_cons.value] == msg_type)
+        while (self.vide() or self.storage_type[self.ptr_cons.value] == msg_type):
+          self.cond_cons[msg_type].wait()
+          print("Notified")
+        self.conso_wait_counter[msg_type] -= 1
+        print("Removing a conso from the Q", self.conso_wait_counter[msg_type])
         position = self.ptr_cons.value
         result = self.storage_val[position]
         result_type = self.storage_type[position]
@@ -50,9 +62,14 @@ class Buffer:
         self.storage_type[position] = -1
         self.nb_vides.value += 1
         self.ptr_cons.value = (position + 1) % self.nb_cases
-        print('\t%3d consumed %3d (type:%d) in place %3d and the buffer is\t %s' %
-              (id_cons, result, result_type, position, self.storage_val[:]))
-        self.cond_prod.notify()
+        print('\t%3d consumed %3d (type:%d) in place %3d and the buffer is\t %s \t and the types are \t %s' %
+              (id_cons, result, result_type, position, self.storage_val[:], self.storage_type[:]))
+
+        print("Next type : ", self.storage_type[self.ptr_cons.value], self.conso_wait_counter[self.storage_type[self.ptr_cons.value]] )
+        if (not self.vide()) and self.conso_wait_counter[self.storage_type[self.ptr_cons.value]] > 0:
+          self.cond_cons[self.storage_type[self.ptr_cons.value]].notify()
+        else:
+          self.cond_prod.notify()
         return result
 
 #### Monitor end
@@ -64,10 +81,10 @@ def producer(msg_val, msg_type, msg_source, nb_times, buffer):
         msg_val += 1
 
 
-def consumer(id_cons, nb_times, buffer):
+def consumer(msg_type, id_cons, nb_times, buffer):
     for _ in range(nb_times):
         time.sleep(.5 + random.random())
-        buffer.consume(id_cons)
+        buffer.consume(msg_type, id_cons)
 
 
 if __name__ == '__main__':
@@ -81,7 +98,7 @@ if __name__ == '__main__':
     nb_times_prod = int(sys.argv[4])
     nb_times_cons = int(sys.argv[5])
 
-    buffer = Buffer(nb_cases)
+    buffer = Buffer(nb_cases, 2)
     
     producers, consumers = [], []
     
@@ -92,7 +109,8 @@ if __name__ == '__main__':
         producers.append(prod)
 
     for id_cons in range(nb_cons):
-        cons=Process(target=consumer, args=(id_cons, nb_times_cons, buffer))
+        msg_type = id_cons % 2
+        cons=Process(target=consumer, args=(msg_type, id_cons, nb_times_cons, buffer))
         cons.start()
         consumers.append(cons)
 
