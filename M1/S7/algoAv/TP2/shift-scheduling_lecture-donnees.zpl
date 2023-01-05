@@ -1,4 +1,4 @@
-param fichier := "../../benchmarks/ordonnancement/shift-scheduling/shift-scheduling-5.zplread" ;
+param fichier := "./shift-scheduling-5.zplread" ;
 do print fichier ;
 
 
