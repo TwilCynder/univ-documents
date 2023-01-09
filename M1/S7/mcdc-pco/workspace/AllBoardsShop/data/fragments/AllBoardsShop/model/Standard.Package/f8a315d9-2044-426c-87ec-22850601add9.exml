@@ -16,6 +16,59 @@
       <COMP relation="OwnedBehavior">
         <COMPID name="Activity" mc="Standard.Activity" uid="6078e02a-5a4c-4233-86e9-023803d12605"/>
       </COMP>
+      <COMP relation="OwnedElement">
+        <COMPID name="Shop" mc="Standard.Class" uid="592c477c-6e0e-463e-b101-75b110931ce5"/>
+        <COMPID name="ClientEnDemande" mc="Standard.Class" uid="cf4c7dcb-e562-4403-9a53-a967e6140418"/>
+        <COMPID name="Client" mc="Standard.Class" uid="6cdb71d4-6dd5-4385-ae5e-0b2b9328135c"/>
+        <COMPID name="Vente" mc="Standard.Class" uid="ef09d30d-fc85-4cbe-a165-5767c26990e3"/>
+        <COMPID name="Produit" mc="Standard.Class" uid="e75d578d-1b47-4725-85f6-1543ffa14ff0"/>
+        <COMPID name="Fournisseur" mc="Standard.Class" uid="705cc072-065f-4fe6-be40-c7b009919320"/>
+        <COMPID name="Commande" mc="Standard.Class" uid="c6085d09-313a-4d8f-ab42-c93f761c954b"/>
+        <OBJECT>
+          <ID name="Taille" mc="Standard.Enumeration" uid="77c39831-44af-4f4a-b61f-7febdeec875e"/>
+          <ATTRIBUTES>
+            <ATT name="IsElementary">true</ATT>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[Taille]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="Activite" mc="Standard.Enumeration" uid="4c47ec7c-20a5-489e-9a0b-7145e1432b56"/>
+          <ATTRIBUTES>
+            <ATT name="IsElementary">true</ATT>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[Activite]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <COMPID name="Gérant" mc="Standard.Actor" uid="e041e007-166e-4acd-a987-be2ca1d0d030"/>
+        <COMPID name="Fournisseur" mc="Standard.Actor" uid="9b26184b-5b71-49d6-b4d4-251803c34b79"/>
+        <COMPID name="Client" mc="Standard.Actor" uid="7898b2bc-db6d-43bf-94f5-d6dbaa001a0c"/>
+        <COMPID name="Demander Adhesion" mc="Standard.UseCase" uid="db02e1d7-2599-493d-8d8b-d992a2881422"/>
+        <COMPID name="Valider Client" mc="Standard.UseCase" uid="ffa3bb14-ddd7-4cbf-9dc1-c5c5a5bb7972"/>
+        <COMPID name="Proposer Vente" mc="Standard.UseCase" uid="3cce08b0-afd0-4a49-af74-f96227eb30e6"/>
+        <COMPID name="Passer Commande" mc="Standard.UseCase" uid="64411c10-13a6-4d64-9d44-e806766d95fe"/>
+        <COMPID name="Récupérer Commandes" mc="Standard.UseCase" uid="dd60fd05-ffd7-422e-b441-f26cf6680dfe"/>
+        <COMPID name="Modifier Informations" mc="Standard.UseCase" uid="e9b0c75e-dc2a-4f34-9776-6f47e23c0ef8"/>
+        <COMPID name="S'inscrire à une vente" mc="Standard.UseCase" uid="b0b49fd2-0270-47dd-bd98-480e28bfcd1e"/>
+        <COMPID name="Valider Vente" mc="Standard.UseCase" uid="2a599ec9-0482-480f-89cb-f2c80e1fcc45"/>
+        <COMPID name="Utilisateur" mc="Standard.Actor" uid="7039601e-b0e0-4852-a6bf-1cce1d9b8d73"/>
+        <COMPID name="Banque" mc="Standard.Actor" uid="c7f42ac9-5f0d-496e-80c6-05b03d4b3d11"/>
+        <COMPID name="Valider Paiement" mc="Standard.UseCase" uid="6ba8f9cc-43f9-428b-83e0-d12a42e60de9"/>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="main Class diagram" mc="Standard.ClassDiagram" uid="07f06f42-244b-4716-9568-0ef0b7715664"/>
+        <COMPID name="main Use Case diagram" mc="Standard.UseCaseDiagram" uid="fdf73064-4358-4a65-9a40-f4a8f911a27a"/>
+      </COMP>
     </DEPENDENCIES>
   </OBJECT>
 </EXT>

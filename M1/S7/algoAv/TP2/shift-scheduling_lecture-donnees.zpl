@@ -1,4 +1,4 @@
-param fichier := "../../benchmarks/ordonnancement/shift-scheduling/shift-scheduling-5.zplread" ;
+param fichier := "./shift-scheduling-1.zplread" ;
 do print fichier ;
 
 
@@ -98,9 +98,24 @@ param prefOn[Personnes*Days*Services] :=
 ###########
 # Variables
 
-var assigned[Personnes*Days*Services] binary ;
-var y[Services*Days];
-var z[Services*Days];
-subto yPos: forall <d> in Days: forall <s> in Services: y[d, s] > 0
-subto yPos: forall <d> in Days: forall <s> in Services: z[d, s] > 0
-subto personnesParServiceParJour : forall <d> in Days: forall <s> in Services: ((sum<p> in Personnes: assigned[d, s, p]) - y + z = requirement[d, s])
+var assigned[Days*Services*Personnes] binary ;
+var y[Services*Days] integer >= 0;
+var z[Services*Days] integer >= 0;
+subto personnesParServiceParJour : forall <d> in Days: forall <s> in Services: ((sum<p> in Personnes: assigned[d, s, p]) - y[s, d] + z[s, d]) == requirement[d, s];
+
+var jourTravaille[Personnes*Days];
+subto jourTravailleC: forall <d> in Days: forall <p> in Personnes: jourTravaille[p, d] == (sum<s> in Services: assigned[d, s, p]);
+
+subto unServiceParJour: forall <d> in Days: forall <p> in Personnes: jourTravaille[p, d] <= 1;
+subto joursRepos: forall <d> in Days: forall <p> in Personnes: jourTravaille[p, d] * dayOff[p, d] == 0;
+subto shitfsMax: forall <p> in Personnes: forall <s> in Services: (sum<d> in Days: assigned[d, s, p]) <= MaxShift[p, s];
+var dureeTotaleService[Personnes];
+subto dureeC: forall <p> in Personnes: dureeTotaleService[p] == (sum<s> in Services: sum <d> in Days: (assigned[d, s, p] * duree[s]));
+subto dureeMinMax: forall <p> in Personnes: dureeTotaleService[p] >= MinTotalMinutes[p] and dureeTotaleService[p] <= MaxTotalMinutes[p];
+
+subto seqMax: forall <p> in Personnes: forall <d> in Days with (d <= horizon - MaxConsecutiveShifts[p] - 2) : (sum <dd> in {d..(d+MaxConsecutiveShifts[p] + 1)}: jourTravaille[p, d] ) <= MaxConsecutiveShifts[p];
+subto seqInterdites: forall <p> in Personnes: forall <d> in Days with d > 0: forall<s1> in Services: forall<s2> in Services with s1 != s2 and ForbiddenSeq[s1, s2] == 1: assigned[d, s1, p] * assigned[d, s2, p] == 0;
+
+subto seqMinJourOff: forall <p> in Personnes: forall <d> in Days with (d <= (horizon - MinConsecutiveDaysOff[p] - 1)): vif (d==0 or (jourTravaille[p, d-1] == 1)) and jourTravaille[p, d] == 0 then  sum <dd> in {d..(d+MinConsecutiveDaysOff[p])}: jourTravaille[p, dd] == 0 end;  
+
+minimize ecart: sum<s> in Services: sum<d> in Days: (y[s, d] + z[s, d]);
