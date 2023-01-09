@@ -1,0 +1,3 @@
+Bon , je vais être tout à fait honnête avec vous, j'ai fait le premier exercice avant les vacances avant de me persuader que c'était tout ce qu'il y avait à faire et de ne plus m'y repencher, donc concrètement je me suis rendu compte *assez* peu de temps avant la deadline de rendu que l'exercice que je devais rendre était encore à faire, donc le code ci-joint est pour le moins embryonaire. Je le termine et redépose au plus vite ce week end, et vous prie de m'excuser pour ce retard.
+
+Sont actuellement codées les questions 1 à 3. 
