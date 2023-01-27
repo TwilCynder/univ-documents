@@ -1,0 +1,2 @@
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/tnt3192a/documents/work/M1/S8/vhdl/zybo-tp1/zybo-tp1.srcs/sim_1/imports/vhdl/test_pulse_gen.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'test_pulse_gen'

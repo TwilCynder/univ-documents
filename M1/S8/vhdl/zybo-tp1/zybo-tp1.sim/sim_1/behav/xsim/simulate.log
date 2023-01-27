@@ -1,0 +1,4 @@
+Time resolution is 1 ps
+Failure: FIN DE SIMULATION
+Time: 13 us  Iteration: 0  Process: /test_pulse_gen/P_TEST  File: /home/tnt3192a/documents/work/M1/S8/vhdl/zybo-tp1/zybo-tp1.srcs/sim_1/imports/vhdl/test_pulse_gen.vhd
+$finish called at time : 13 us : File "/home/tnt3192a/documents/work/M1/S8/vhdl/zybo-tp1/zybo-tp1.srcs/sim_1/imports/vhdl/test_pulse_gen.vhd" Line 87

@@ -1,0 +1,3 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/tnt3192a/documents/work/M1/S8/vhdl/zybo-tp1/zybo-tp1.sim/sim_1/synth/timing/xsim/test_pulse_gen_time_synth.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module pulse_gen
+INFO: [VRFC 10-311] analyzing module glbl

@@ -1,0 +1,7 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  \
+"../../../../zybo-tp1.srcs/sources_1/imports/vhdl/pulse_gen.vhd" \
+"../../../../zybo-tp1.srcs/sim_1/imports/vhdl/test_pulse_gen.vhd" \
+
+# Do not sort compile order
+nosort

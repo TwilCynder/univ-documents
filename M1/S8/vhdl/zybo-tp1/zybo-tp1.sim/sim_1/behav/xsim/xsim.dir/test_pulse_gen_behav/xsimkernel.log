@@ -1,0 +1,7 @@
+Running: xsim.dir/test_pulse_gen_behav/xsimk -simmode gui -wdb test_pulse_gen_behav.wdb -simrunnum 0 -socket 58929
+Design successfully loaded
+Design Loading Memory Usage: 29140 KB (Peak: 29140 KB)
+Design Loading CPU Usage: 10 ms
+Simulation completed
+Simulation Memory Usage: 110876 KB (Peak: 168408 KB)
+Simulation CPU Usage: 10 ms
