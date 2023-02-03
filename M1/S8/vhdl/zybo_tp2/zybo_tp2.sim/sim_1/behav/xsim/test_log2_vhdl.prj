@@ -1,0 +1,7 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  \
+"../../../../zybo_tp2.srcs/sources_1/imports/vhdl/cpu_package.0.vhd" \
+"../../../../zybo_tp2.srcs/sim_1/imports/vhdl/test_log2.vhd" \
+
+# Do not sort compile order
+nosort

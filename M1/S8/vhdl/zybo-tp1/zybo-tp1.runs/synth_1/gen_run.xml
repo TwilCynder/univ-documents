@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="synth_1" LaunchPart="xc7z020clg400-1" LaunchTime="1674816969" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/pulse_gen.dcp">
+<GenRun Id="synth_1" LaunchPart="xc7z020clg400-1" LaunchTime="1675350104" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/pulse_gen.dcp">
+  <File Type="VDS-TIMINGSUMMARY" Name="pulse_gen_timing_summary_synth.rpt"/>
   <File Type="RDS-DCP" Name="pulse_gen.dcp"/>
   <File Type="RDS-UTIL-PB" Name="pulse_gen_utilization_synth.pb"/>
-  <File Type="PA-TCL" Name="pulse_gen.tcl"/>
   <File Type="RDS-UTIL" Name="pulse_gen_utilization_synth.rpt"/>
-  <File Type="REPORTS-TCL" Name="pulse_gen_reports.tcl"/>
+  <File Type="RDS-PROPCONSTRS" Name="pulse_gen_drc_synth.rpt"/>
   <File Type="RDS-RDS" Name="pulse_gen.vds"/>
+  <File Type="REPORTS-TCL" Name="pulse_gen_reports.tcl"/>
+  <File Type="VDS-TIMING-PB" Name="pulse_gen_timing_summary_synth.pb"/>
+  <File Type="PA-TCL" Name="pulse_gen.tcl"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
     <Filter Type="Srcs"/>
     <File Path="$PSRCDIR/sources_1/imports/vhdl/pulse_gen.vhd">
