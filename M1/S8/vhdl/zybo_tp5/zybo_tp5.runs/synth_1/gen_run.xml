@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenRun Id="synth_1" LaunchPart="xc7z010iclg225-1L" LaunchTime="1676023120" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/registres.dcp">
+  <File Type="VDS-TIMINGSUMMARY" Name="registres_timing_summary_synth.rpt"/>
+  <File Type="RDS-DCP" Name="registres.dcp"/>
+  <File Type="RDS-UTIL-PB" Name="registres_utilization_synth.pb"/>
+  <File Type="RDS-UTIL" Name="registres_utilization_synth.rpt"/>
+  <File Type="RDS-PROPCONSTRS" Name="registres_drc_synth.rpt"/>
+  <File Type="RDS-RDS" Name="registres.vds"/>
+  <File Type="REPORTS-TCL" Name="registres_reports.tcl"/>
+  <File Type="VDS-TIMING-PB" Name="registres_timing_summary_synth.pb"/>
+  <File Type="PA-TCL" Name="registres.tcl"/>
+  <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
+    <Filter Type="Srcs"/>
+    <File Path="$PPRDIR/../registres.1.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="DesignMode" Val="RTL"/>
+      <Option Name="TopModule" Val="registres"/>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1">
+    <Filter Type="Constrs"/>
+    <File Path="$PSRCDIR/constrs_1/new/registres.xdc">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="TargetConstrsFile" Val="$PSRCDIR/constrs_1/new/registres.xdc"/>
+      <Option Name="ConstrsType" Val="XDC"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="utils" Type="Utils" RelSrcDir="$PSRCDIR/utils_1">
+    <Filter Type="Utils"/>
+    <File Path="$PPRDIR/../registres_synth.pre.tcl">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+        <Attr Name="UsedInSteps" Val="synth_1;SYNTH_DESIGN;TCL.PRE"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/utils_1/imports/synth_1/registres.dcp">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedInSteps" Val="synth_1"/>
+        <Attr Name="AutoDcp" Val="1"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <Strategy Version="1" Minor="2">
+    <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2022">
+      <Desc>Vivado Synthesis Defaults</Desc>
+    </StratHandle>
+    <Step Id="synth_design" PreStepTclHook="$PPRDIR/../registres_synth.pre.tcl"/>
+  </Strategy>
+</GenRun>

@@ -1,0 +1,7 @@
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/tnt3192a/documents/work/M1/S8/vhdl/zybo_tp5/zybo_tp5.sim/sim_1/synth/func/xsim/test_registres_func_synth.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'registres'
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/tnt3192a/documents/work/M1/S8/vhdl/zybo_tp5/zybo_tp5.srcs/sim_1/imports/vhdl/test_registres.0.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'test_registres'
+ERROR: [VRFC 10-2927] 'registres' has only 0 generics [/home/tnt3192a/documents/work/M1/S8/vhdl/zybo_tp5/zybo_tp5.srcs/sim_1/imports/vhdl/test_registres.0.vhd:72]
+ERROR: [VRFC 10-9458] unit 'behavior' is ignored due to previous errors [/home/tnt3192a/documents/work/M1/S8/vhdl/zybo_tp5/zybo_tp5.srcs/sim_1/imports/vhdl/test_registres.0.vhd:26]
+INFO: [VRFC 10-8704] VHDL file '/home/tnt3192a/documents/work/M1/S8/vhdl/zybo_tp5/zybo_tp5.srcs/sim_1/imports/vhdl/test_registres.0.vhd' is ignored due to errors

@@ -1,0 +1,6 @@
+Time resolution is 1 ps
+Error: Register 3 BAD VALUE
+Time: 62500 ps  Iteration: 0  Process: /test_registres/P_TEST  File: /home/tnt3192a/documents/work/M1/S8/vhdl/zybo_tp5/zybo_tp5.srcs/sim_1/imports/vhdl/test_registres.0.vhd
+Failure: FIN DE SIMULATION
+Time: 92500 ps  Iteration: 0  Process: /test_registres/P_TEST  File: /home/tnt3192a/documents/work/M1/S8/vhdl/zybo_tp5/zybo_tp5.srcs/sim_1/imports/vhdl/test_registres.0.vhd
+$finish called at time : 92500 ps : File "/home/tnt3192a/documents/work/M1/S8/vhdl/zybo_tp5/zybo_tp5.srcs/sim_1/imports/vhdl/test_registres.0.vhd" Line 169

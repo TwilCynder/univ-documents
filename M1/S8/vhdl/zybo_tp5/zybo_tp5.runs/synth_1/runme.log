@@ -1,0 +1,299 @@
+
+*** Running vivado
+    with args -log registres.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source registres.tcl
+
+
+****** Vivado v2022.1 (64-bit)
+  **** SW Build 3526262 on Mon Apr 18 15:47:01 MDT 2022
+  **** IP Build 3524634 on Mon Apr 18 20:55:01 MDT 2022
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+
+Sourcing tcl script '/nfs/xilinx/Vivado/2022.1/scripts/Vivado_init.tcl'
+source registres.tcl -notrace
+create_project: Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 2588.215 ; gain = 0.023 ; free physical = 4226 ; free virtual = 9459
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1700] Loaded user IP repository '/nfs/xilinx/vivado-library'.
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/nfs/xilinx/Vivado/2022.1/data/ip'.
+source /home/tnt3192a/documents/work/M1/S8/vhdl/registres_synth.pre.tcl
+Command: read_checkpoint -auto_incremental -incremental /home/tnt3192a/documents/work/M1/S8/vhdl/zybo_tp5/zybo_tp5.srcs/utils_1/imports/synth_1/registres.dcp
+INFO: [Vivado 12-5825] Read reference checkpoint from /home/tnt3192a/documents/work/M1/S8/vhdl/zybo_tp5/zybo_tp5.srcs/utils_1/imports/synth_1/registres.dcp for incremental synthesis
+INFO: [Vivado 12-7989] Please ensure there are no constraint changes
+Command: synth_design -top registres -part xc7z010iclg225-1L
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7z010i'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z010i'
+INFO: [Device 21-403] Loading part xc7z010iclg225-1L
+INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
+INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 4 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 15254
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2588.469 ; gain = 0.000 ; free physical = 2335 ; free virtual = 7568
+---------------------------------------------------------------------------------
+INFO: [Synth 8-638] synthesizing module 'registres' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:51]
+	Parameter ABUS_WIDTH bound to: 3 - type: integer 
+WARNING: [Synth 8-614] signal 'REGS' is read in the process but is not in the sensitivity list [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:83]
+INFO: [Synth 8-256] done synthesizing module 'registres' (0#1) [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:51]
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 2588.469 ; gain = 0.000 ; free physical = 3327 ; free virtual = 8561
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 2588.469 ; gain = 0.000 ; free physical = 3327 ; free virtual = 8561
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 2588.469 ; gain = 0.000 ; free physical = 3327 ; free virtual = 8561
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2588.469 ; gain = 0.000 ; free physical = 3320 ; free virtual = 8554
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [/home/tnt3192a/documents/work/M1/S8/vhdl/zybo_tp5/zybo_tp5.srcs/constrs_1/new/registres.xdc]
+Finished Parsing XDC File [/home/tnt3192a/documents/work/M1/S8/vhdl/zybo_tp5/zybo_tp5.srcs/constrs_1/new/registres.xdc]
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2652.379 ; gain = 0.000 ; free physical = 3165 ; free virtual = 8399
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.04 . Memory (MB): peak = 2652.379 ; gain = 0.000 ; free physical = 3165 ; free virtual = 8399
+INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
+INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:08 ; elapsed = 00:00:11 . Memory (MB): peak = 2652.379 ; gain = 63.910 ; free physical = 3293 ; free virtual = 8527
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7z010iclg225-1L
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:08 ; elapsed = 00:00:11 . Memory (MB): peak = 2652.379 ; gain = 63.910 ; free physical = 3293 ; free virtual = 8527
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:08 ; elapsed = 00:00:11 . Memory (MB): peak = 2652.379 ; gain = 63.910 ; free physical = 3293 ; free virtual = 8527
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:09 ; elapsed = 00:00:12 . Memory (MB): peak = 2652.379 ; gain = 63.910 ; free physical = 3285 ; free virtual = 8520
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Registers : 
+	               32 Bit    Registers := 8     
++---Muxes : 
+	   2 Input   32 Bit        Muxes := 5     
+	   2 Input    1 Bit        Muxes := 8     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 80 (col length:40)
+BRAMs: 120 (col length: RAMB18 40 RAMB36 20)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:10 ; elapsed = 00:00:14 . Memory (MB): peak = 2652.379 ; gain = 63.910 ; free physical = 3272 ; free virtual = 8511
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:14 ; elapsed = 00:00:18 . Memory (MB): peak = 2652.379 ; gain = 63.910 ; free physical = 3152 ; free virtual = 8391
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:14 ; elapsed = 00:00:18 . Memory (MB): peak = 2652.379 ; gain = 63.910 ; free physical = 3152 ; free virtual = 8391
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:14 ; elapsed = 00:00:18 . Memory (MB): peak = 2652.379 ; gain = 63.910 ; free physical = 3149 ; free virtual = 8388
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:17 ; elapsed = 00:00:21 . Memory (MB): peak = 2652.379 ; gain = 63.910 ; free physical = 3149 ; free virtual = 8388
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:17 ; elapsed = 00:00:22 . Memory (MB): peak = 2652.379 ; gain = 63.910 ; free physical = 3149 ; free virtual = 8388
+---------------------------------------------------------------------------------
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[0] with 1st driver pin 'QB_OBUF[0]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[0] with 2nd driver pin 'QB_OBUF[0]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[1] with 1st driver pin 'QB_OBUF[1]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[1] with 2nd driver pin 'QB_OBUF[1]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[2] with 1st driver pin 'QB_OBUF[2]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[2] with 2nd driver pin 'QB_OBUF[2]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[3] with 1st driver pin 'QB_OBUF[3]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[3] with 2nd driver pin 'QB_OBUF[3]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[4] with 1st driver pin 'QB_OBUF[4]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[4] with 2nd driver pin 'QB_OBUF[4]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[5] with 1st driver pin 'QB_OBUF[5]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[5] with 2nd driver pin 'QB_OBUF[5]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[6] with 1st driver pin 'QB_OBUF[6]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[6] with 2nd driver pin 'QB_OBUF[6]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[7] with 1st driver pin 'QB_OBUF[7]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[7] with 2nd driver pin 'QB_OBUF[7]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[8] with 1st driver pin 'QB_OBUF[8]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[8] with 2nd driver pin 'QB_OBUF[8]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[9] with 1st driver pin 'QB_OBUF[9]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[9] with 2nd driver pin 'QB_OBUF[9]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[10] with 1st driver pin 'QB_OBUF[10]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[10] with 2nd driver pin 'QB_OBUF[10]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[11] with 1st driver pin 'QB_OBUF[11]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[11] with 2nd driver pin 'QB_OBUF[11]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[12] with 1st driver pin 'QB_OBUF[12]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[12] with 2nd driver pin 'QB_OBUF[12]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[13] with 1st driver pin 'QB_OBUF[13]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[13] with 2nd driver pin 'QB_OBUF[13]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[14] with 1st driver pin 'QB_OBUF[14]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[14] with 2nd driver pin 'QB_OBUF[14]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[15] with 1st driver pin 'QB_OBUF[15]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[15] with 2nd driver pin 'QB_OBUF[15]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[16] with 1st driver pin 'QB_OBUF[16]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[16] with 2nd driver pin 'QB_OBUF[16]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[17] with 1st driver pin 'QB_OBUF[17]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[17] with 2nd driver pin 'QB_OBUF[17]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[18] with 1st driver pin 'QB_OBUF[18]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[18] with 2nd driver pin 'QB_OBUF[18]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[19] with 1st driver pin 'QB_OBUF[19]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[19] with 2nd driver pin 'QB_OBUF[19]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[20] with 1st driver pin 'QB_OBUF[20]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[20] with 2nd driver pin 'QB_OBUF[20]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[21] with 1st driver pin 'QB_OBUF[21]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[21] with 2nd driver pin 'QB_OBUF[21]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[22] with 1st driver pin 'QB_OBUF[22]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[22] with 2nd driver pin 'QB_OBUF[22]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[23] with 1st driver pin 'QB_OBUF[23]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[23] with 2nd driver pin 'QB_OBUF[23]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[24] with 1st driver pin 'QB_OBUF[24]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[24] with 2nd driver pin 'QB_OBUF[24]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[25] with 1st driver pin 'QB_OBUF[25]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[25] with 2nd driver pin 'QB_OBUF[25]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[26] with 1st driver pin 'QB_OBUF[26]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[26] with 2nd driver pin 'QB_OBUF[26]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[27] with 1st driver pin 'QB_OBUF[27]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[27] with 2nd driver pin 'QB_OBUF[27]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[28] with 1st driver pin 'QB_OBUF[28]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[28] with 2nd driver pin 'QB_OBUF[28]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[29] with 1st driver pin 'QB_OBUF[29]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[29] with 2nd driver pin 'QB_OBUF[29]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[30] with 1st driver pin 'QB_OBUF[30]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[30] with 2nd driver pin 'QB_OBUF[30]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[31] with 1st driver pin 'QB_OBUF[31]_inst_i_1/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:88]
+CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin QB_OBUF[31] with 2nd driver pin 'QB_OBUF[31]_inst_i_2/O' [/home/tnt3192a/documents/work/M1/S8/vhdl/registres.1.vhd:19]
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|       32|Failed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:17 ; elapsed = 00:00:23 . Memory (MB): peak = 2652.379 ; gain = 63.910 ; free physical = 3169 ; free virtual = 8409
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:17 ; elapsed = 00:00:23 . Memory (MB): peak = 2652.379 ; gain = 63.910 ; free physical = 3169 ; free virtual = 8409
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:17 ; elapsed = 00:00:23 . Memory (MB): peak = 2652.379 ; gain = 63.910 ; free physical = 3169 ; free virtual = 8409
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:17 ; elapsed = 00:00:24 . Memory (MB): peak = 2652.379 ; gain = 63.910 ; free physical = 3169 ; free virtual = 8408
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+------+------+
+|      |Cell  |Count |
++------+------+------+
+|1     |BUFG  |     1|
+|2     |LUT1  |     1|
+|3     |LUT3  |     1|
+|4     |LUT4  |    71|
+|5     |LUT5  |    96|
+|6     |LUT6  |    98|
+|7     |MUXF7 |    32|
+|8     |FDRE  |   224|
+|9     |IBUF  |    44|
+|10    |OBUF  |    64|
++------+------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:17 ; elapsed = 00:00:25 . Memory (MB): peak = 2652.379 ; gain = 63.910 ; free physical = 3169 ; free virtual = 8408
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 64 critical warnings and 1 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:16 ; elapsed = 00:00:23 . Memory (MB): peak = 2652.379 ; gain = 0.000 ; free physical = 3218 ; free virtual = 8457
+Synthesis Optimization Complete : Time (s): cpu = 00:00:17 ; elapsed = 00:00:25 . Memory (MB): peak = 2652.379 ; gain = 63.910 ; free physical = 3318 ; free virtual = 8558
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2652.379 ; gain = 0.000 ; free physical = 3310 ; free virtual = 8549
+INFO: [Netlist 29-17] Analyzing 32 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2652.379 ; gain = 0.000 ; free physical = 3252 ; free virtual = 8491
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Synth Design complete, checksum: 3b3665bc
+INFO: [Common 17-83] Releasing license: Synthesis
+25 Infos, 2 Warnings, 64 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:24 ; elapsed = 00:00:29 . Memory (MB): peak = 2652.379 ; gain = 64.164 ; free physical = 3336 ; free virtual = 8575
+INFO: [runtcl-6] Synthesis results are not added to the cache due to CRITICAL_WARNING
+INFO: [Common 17-1381] The checkpoint '/home/tnt3192a/documents/work/M1/S8/vhdl/zybo_tp5/zybo_tp5.runs/synth_1/registres.dcp' has been generated.
+INFO: [runtcl-4] Executing : report_utilization -file registres_utilization_synth.rpt -pb registres_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Fri Feb 10 10:59:26 2023...

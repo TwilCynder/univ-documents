@@ -69,9 +69,9 @@ end process P_TIMEOUT;
 
 --------------------------------------------------
 -- instantiation et mapping du composant registres
---regf0 : entity work.registres(behavior) --behavioural simulation
+regf0 : entity work.registres(behavior) --behavioural simulation
 --                    generic map (S_DATA,S_ADR)
-regf0 : entity work.registres(structure) --post-synthesis functional simulation
+--regf0 : entity work.registres(structure) --post-synthesis functional simulation
 					port map (CLK => E_CLK,
 								 W => E_W,
 								 RST => E_RST,

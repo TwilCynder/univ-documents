@@ -65,30 +65,18 @@ begin
 
 ---------------------------------
 -- test si acces simultanes
-D2QA <= ________
-D2QB <= ________
+D2QA <= (ADR_A = ADR_W and W = '0');
+D2QB <= (ADR_B = ADR_W and W = '0');
+	
+QA <= (others => 'X') when is_X(ADR_A) else
+   (others => '0') when ADR_A = conv_std_logic_vector(0,ABUS_WIDTH) else
+   REGS (CONV_INTEGER (ADR_A)) when D2QA = false else 
+   D;
 
--------------------
--- Process P_ReadQA
-P_ReadQA: process(ADR_A,D2QA,D)
-begin
-	-- test validite adresse
-	if not( is_x(ADR_A) ) then
-		-- test si acces R0
-		if (ADR_A /= conv_std_logic_vector(0,ABUS_WIDTH)) then
-			-- test si acces R & W simultane
-			if (D2QA = FALSE) then
-				QA <= REGS(conv_integer(ADR_A));
-			else -- on envoie la donnee a ecrire
-				QA <= D;
-			end if;
-		else -- acces R0
-			QA <= (others => '0');
-		end if;
-	else -- X
-		QA <= (others => 'X');
-	end if;
-end process P_ReadQA;
+QB <= (others => 'X') when is_X(ADR_B) else
+   (others => '0') when ADR_B = conv_std_logic_vector(0,ABUS_WIDTH) else
+   REGS (CONV_INTEGER (ADR_B)) when D2QB = false else 
+   D;
 
 -------------------
 -- Process P_ReadQB
@@ -114,18 +102,21 @@ end process P_ReadQB;
 
 ------------------
 -- Process P_WRITE
-P_WRITE: process(___)
+P_WRITE: process(CLK)
 begin
 	-- test du front actif d'horloge
-	________
+	if rising_edge (CLK ) then
 		-- test du reset
 		if RST='0' then
 			REGS <= (others => conv_std_logic_vector(0,DBUS_WIDTH));
 		else
 			-- test si ecriture dans le registre
-			________
-			________
+			if ((W='0') and ADR_W /= CONV_STD_LOGIC_VECTOR ('0', ABUS_WIDTH  )) then
+                REGS(CONV_INTEGER (ADR_W)) <= D;
+            end if;
+
 		end if;
+    end if;
 
 end process P_WRITE;
 

@@ -1,0 +1,3 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/tnt3192a/documents/work/M1/S8/vhdl/zybo_tp5/zybo_tp5.sim/sim_1/synth/timing/xsim/test_registres_time_synth.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module registres
+INFO: [VRFC 10-311] analyzing module glbl
