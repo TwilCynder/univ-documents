@@ -96,18 +96,17 @@ begin
   if vI=conv_std_logic_vector(0,vI'length) or vI=conv_std_logic_vector(1,vI'length) then
     return conv_std_logic_vector(0,vI'length);
   end if;
-  ________
-  ________
-  ________
-  ________
-  ________
-  ________
-  ________
-  ________
-  ________
-  ________
-  ________
-  ________
+  
+  for i in vI'range loop
+    if vI(i) = '1' then
+        if (vI(i - 1 downto 0) = CONV_STD_LOGIC_VECTOR (0, i-1)) then
+            return CONV_STD_LOGIC_VECTOR (i, vI'length );
+        else
+            return CONV_STD_LOGIC_VECTOR (i + 1, vI'length);
+        end if;
+    end if;
+  end loop;
+  
   -- default
   return conv_std_logic_vector(0,vI'length);
 end log2; 
