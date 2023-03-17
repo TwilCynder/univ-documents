@@ -71,10 +71,10 @@ begin
 	if rising_edge(CLK) then
 		-- test du RST
 		if RST='0' then
-			________
-			________
-			________
-			________
+			W_ADR <= (others => '0');
+	    elsif WEN = '0' then 
+            W_ADR <= W_ADR + '1';
+            REGS(CONV_INTEGER(W_ADR)) <= DI;
 		end if;
 	end if;
 end process P_WRITE;
@@ -88,19 +88,21 @@ begin
 	if rising_edge(CLK) then
 		-- test du RST
 		if RST='0' then
-			________
-			________
-			________
-			________
-			________
-			________
-			________
-			________
-			________
-			________
-			________
-			________
-		end if;
+	        DO <= (others => 'Z');
+	        R_ADR <= (others => '0');
+		else
+            if REN = '0' then
+                if EMPTY = '0' then 
+                    DO <= REGS(CONV_INTEGER(R_ADR));
+                    R_ADR <= R_ADR + '1';
+                else 
+                    DO <= (others => '0');
+                end if;
+            end if;
+            if FULL = '1' and WEN = '0' then
+                R_ADR <= R_ADR + '1';     
+            end if;
+        end if;
 	end if;
 end process P_READ;
 
@@ -113,14 +115,16 @@ begin
 	if rising_edge(CLK) then
 		-- test du RST
 		if RST='0' then
-			________
-			________
-			________
-			________
-			________
-			________
-			________
-			________
+			EMPTY <= '1';
+	    elsif WEN = '0' then  
+	        EMPTY <= '0';
+	    elsif WEN = '1' and REN = '0' then
+	       next_R := R_ADR + '1';
+	       if next_R = W_ADR then
+	           EMPTY <= '0';
+	       end if;
+	    else 
+	       EMPTY <= '1';
 		end if;
 	end if;
 end process P_EMPTY;
@@ -134,14 +138,14 @@ begin
 	if rising_edge(CLK) then
 		-- test du RST
 		if RST='0' then
-			________
-			________
-			________
-			________
-			________
-			________
-			________
-			________
+			FULL <= '0';
+	    elsif WEN = '0' then
+	       next_W := W_ADR + '1';
+	       if next_W = R_ADR then
+	           FULL <= '1';
+	       end if;
+	    elsif REN = '0' then
+	       FULL <= '0';
 		end if;
 	end if;
 end process P_FULL;
@@ -156,18 +160,14 @@ begin
 	if rising_edge(CLK) then
 		-- test du RST
 		if RST='0' then
-			________
-			________
-			________
-			________
-			________
-			________
-			________
-			________
-			________
-			________
-			________
-			________
+		  MID <= '0';
+	    else
+	       temp_W := W_ADR + '1';
+	       if (temp_W(W_ADR'high) /= R_ADR(R_ADR'high)) and temp_W(W_ADR'high - 1 downto 0) = R_ADR(R_ADR'high - 1 downto 0) then
+	           MID <= '1';
+	       else 
+	           MID <= '0';
+	       end if;
 		end if;
 	end if;
 end process P_MID;

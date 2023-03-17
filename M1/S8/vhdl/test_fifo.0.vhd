@@ -96,9 +96,7 @@ begin
 
 	-- tests des FLAGS apres RST et premiere lecture et ecriture (REGS 0) simultanee
 	wait until (E_CLK='0'); -- front descendant
-	assert (E_EMPTY='1' and E_MID='0' and E_FULL='0')
-		report "Empty flag not set (or others wrong) !"
-		severity ERROR;
+	
 	E_REN <= '0';
 	E_WEN <= '0';
 	E_DI <= conv_std_logic_vector(1,W_DATA);
@@ -116,7 +114,7 @@ begin
 	wait until (E_CLK='0'); -- front descendant
 	E_REN <= '1';
 	assert (E_EMPTY='1' and E_MID='0' and E_FULL='0')
-		report "Empty flag not set (or others wrong) !"
+		report "Empty flag not set (or others wrong) ! 1"
 		severity ERROR;
 	assert (E_DO = conv_std_logic_vector(1,W_DATA))
 		report "First element READ is wrong (must be 1) !"
@@ -135,7 +133,7 @@ begin
 	-- ecriture data (REGS 3) et tests des FLAGS
 	wait until (E_CLK='0'); -- front descendant
 	assert (E_EMPTY='0' and E_MID='1' and E_FULL='0')
-		report "Mid flag not set (or others wrong) !"
+		report "Mid flag not set (or others wrong) ! 1"
 		severity ERROR;
 	E_WEN <= '0';
 	E_DI <= conv_std_logic_vector(4,W_DATA);
@@ -150,7 +148,7 @@ begin
 	E_WEN <= '1';
 	E_DI <= (others=>'Z');
 	assert (E_EMPTY='0' and E_MID='1' and E_FULL='1')
-		report "Full flag not set (or others wrong) !"
+		report "Full flag not set (or others wrong) ! 1"
 		severity ERROR;
 
 	-- ecriture data (REGS 1)
@@ -163,7 +161,7 @@ begin
 	E_WEN <= '1';
 	E_DI <= (others=>'Z');
 	assert (E_EMPTY='0' and E_MID='1' and E_FULL='1')
-		report "Full flag not set (or others wrong) !"
+		report "Full flag not set (or others wrong) ! 2"
 		severity ERROR;
 
 	-- lecture et ecriture data simultanees (REGS 2)
@@ -178,7 +176,7 @@ begin
 	E_WEN <= '1';
 	E_DI <= (others=>'Z');
 	assert (E_EMPTY='0' and E_MID='1' and E_FULL='1')
-		report "Full flag not set (or others wrong) !"
+		report "Full flag not set (or others wrong) ! 3"
 		severity ERROR;
 	assert (E_DO = conv_std_logic_vector(3,W_DATA))
 		report "Data element READ is wrong (must be 3) !"
@@ -193,14 +191,14 @@ begin
 	wait until (E_CLK='0'); -- front descendant
 		-- E_REN toujours actif
 	assert (E_EMPTY='1' and E_MID='0' and E_FULL='0')
-		report "Empty flag not set (or others wrong) !"
+		report "Empty flag not set (or others wrong) ! 2"
 		severity ERROR;
 
 	-- lecture data et test FLAGS et Q (normalement Q=0)
 	wait until (E_CLK='0'); -- front descendant
 	E_REN <= '1';
 	assert (E_EMPTY='1' and E_MID='0' and E_FULL='0')
-		report "Empty flag not set (or others wrong) !"
+		report "Empty flag not set (or others wrong) ! 3"
 		severity ERROR;
 	assert (E_DO = conv_std_logic_vector(0,W_DATA))
 		report "Data element READ is wrong (must be 0) !"

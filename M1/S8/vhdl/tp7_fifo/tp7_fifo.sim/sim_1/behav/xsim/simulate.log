@@ -1,0 +1,14 @@
+Time resolution is 1 ps
+Error: Empty flag not set (or others wrong) !
+Time: 45 ns  Iteration: 1  Process: /test_fifo/P_TEST  File: /home/tnt3192a/documents/work/M1/S8/vhdl/test_fifo.0.vhd
+Error: Full flag not set (or others wrong) !
+Time: 95 ns  Iteration: 1  Process: /test_fifo/P_TEST  File: /home/tnt3192a/documents/work/M1/S8/vhdl/test_fifo.0.vhd
+Error: Full flag not set (or others wrong) !
+Time: 115 ns  Iteration: 1  Process: /test_fifo/P_TEST  File: /home/tnt3192a/documents/work/M1/S8/vhdl/test_fifo.0.vhd
+Error: Full flag not set (or others wrong) !
+Time: 135 ns  Iteration: 1  Process: /test_fifo/P_TEST  File: /home/tnt3192a/documents/work/M1/S8/vhdl/test_fifo.0.vhd
+Error: Data element READ is wrong (must be 3) !
+Time: 135 ns  Iteration: 1  Process: /test_fifo/P_TEST  File: /home/tnt3192a/documents/work/M1/S8/vhdl/test_fifo.0.vhd
+Failure: TIMEOUT SIMULATION !!!
+Time: 300 ns  Iteration: 0  Process: /test_fifo/P_TIMEOUT  File: /home/tnt3192a/documents/work/M1/S8/vhdl/test_fifo.0.vhd
+$finish called at time : 300 ns : File "/home/tnt3192a/documents/work/M1/S8/vhdl/test_fifo.0.vhd" Line 69
