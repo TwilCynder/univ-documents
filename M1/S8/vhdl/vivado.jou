@@ -2,35 +2,33 @@
 # Vivado v2022.1 (64-bit)
 # SW Build 3526262 on Mon Apr 18 15:47:01 MDT 2022
 # IP Build 3524634 on Mon Apr 18 20:55:01 MDT 2022
-# Start of session at: Fri Mar 17 13:14:38 2023
-# Process ID: 2200
+# Start of session at: Fri Mar 17 15:12:00 2023
+# Process ID: 11450
 # Current directory: /home/tnt3192a/documents/work/M1/S8/vhdl
 # Command line: vivado
 # Log file: /home/tnt3192a/documents/work/M1/S8/vhdl/vivado.log
 # Journal file: /home/tnt3192a/documents/work/M1/S8/vhdl/vivado.jou
-# Running On: pc-u3-305-01, OS: Linux, CPU Frequency: 2247.421 MHz, CPU Physical cores: 8, Host memory: 16483 MB
+# Running On: pc-u3-305-01, OS: Linux, CPU Frequency: 1272.443 MHz, CPU Physical cores: 8, Host memory: 16483 MB
 #-----------------------------------------------------------
 start_gui
-open_project /home/tnt3192a/documents/work/M1/S8/vhdl/tp7_fifo/tp7_fifo.xpr
+open_project /home/tnt3192a/documents/work/M1/S8/vhdl/tp7_fifo_2/tp7_fifo_2.xpr
 update_compile_order -fileset sources_1
 launch_simulation
 source test_fifo.tcl
 close_sim
-close_project
-create_project tp7_fifo_2 /home/tnt3192a/documents/work/M1/S8/vhdl/tp7_fifo_2 -part xc7z020clg400-1
-set_property board_part digilentinc.com:zybo-z7-20:part0:1.1 [current_project]
-set_property  ip_repo_paths  /nfs/xilinx/vivado-library [current_project]
-update_ip_catalog
-set_property target_language VHDL [current_project]
-add_files -norecurse /home/tnt3192a/documents/work/M1/S8/vhdl/fifo.0.vhd
-update_compile_order -fileset sources_1
-set_property SOURCE_SET sources_1 [get_filesets sim_1]
-add_files -fileset sim_1 -norecurse /home/tnt3192a/documents/work/M1/S8/vhdl/test_fifo.0.vhd
-update_compile_order -fileset sim_1
-update_compile_order -fileset sim_1
 launch_simulation
 source test_fifo.tcl
 close_sim
 launch_simulation
 source test_fifo.tcl
 close_sim
+launch_simulation
+source test_fifo.tcl
+close_sim
+launch_simulation
+source test_fifo.tcl
+close_sim
+launch_simulation
+launch_simulation
+launch_simulation
+launch_simulation

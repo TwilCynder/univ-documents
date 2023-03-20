@@ -86,6 +86,15 @@ set_property ip_repo_paths /nfs/xilinx/vivado-library [current_project]
 update_ip_catalog
 set_property ip_output_repo /home/tnt3192a/documents/work/M1/S8/vhdl/tp7_fifo/tp7_fifo.cache/ip [current_project]
 set_property ip_cache_permissions {read write} [current_project]
+set src_rc [catch { 
+  puts "source /home/tnt3192a/documents/work/M1/S8/vhdl/tp7_fifo/fifo_synth.pre.tcl"
+  source /home/tnt3192a/documents/work/M1/S8/vhdl/tp7_fifo/fifo_synth.pre.tcl
+} _RESULT] 
+if {$src_rc} { 
+  send_msg_id runtcl-1 status "$_RESULT"
+  send_msg_id runtcl-2 status "sourcing script /home/tnt3192a/documents/work/M1/S8/vhdl/tp7_fifo/fifo_synth.pre.tcl failed"
+  return -code error
+}
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
 read_vhdl -library xil_defaultlib /home/tnt3192a/documents/work/M1/S8/vhdl/fifo.0.vhd
@@ -98,7 +107,12 @@ OPTRACE "Adding files" END { }
 foreach dcp [get_files -quiet -all -filter file_type=="Design\ Checkpoint"] {
   set_property used_in_implementation false $dcp
 }
+read_xdc /home/tnt3192a/documents/work/M1/S8/vhdl/tp7_fifo/tp7_fifo.srcs/constrs_1/new/fifo.xdc
+set_property used_in_implementation false [get_files /home/tnt3192a/documents/work/M1/S8/vhdl/tp7_fifo/tp7_fifo.srcs/constrs_1/new/fifo.xdc]
+
 set_param ips.enableIPCacheLiteLoad 1
+
+read_checkpoint -auto_incremental -incremental /home/tnt3192a/documents/work/M1/S8/vhdl/tp7_fifo/tp7_fifo.srcs/utils_1/imports/synth_1/fifo.dcp
 close [open __synthesis_is_running__ w]
 
 OPTRACE "synth_design" START { }

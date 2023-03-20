@@ -1,2 +1,6 @@
-INFO: [VRFC 10-163] Analyzing VHDL file "/home/tnt3192a/documents/work/M1/S8/vhdl/test_fifo.0.vhd" into library xil_defaultlib
-INFO: [VRFC 10-3107] analyzing entity 'test_fifo'
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/tnt3192a/documents/work/M1/S8/vhdl/fifo.0.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'fifo'
+ERROR: [VRFC 10-1471] type error near next_r ; current type std_logic_vector; expected type bit_vector [/home/tnt3192a/documents/work/M1/S8/vhdl/fifo.0.vhd:124]
+ERROR: [VRFC 10-1471] type error near w_adr ; current type std_logic_vector; expected type bit_vector [/home/tnt3192a/documents/work/M1/S8/vhdl/fifo.0.vhd:125]
+ERROR: [VRFC 10-9458] unit 'behavior' is ignored due to previous errors [/home/tnt3192a/documents/work/M1/S8/vhdl/fifo.0.vhd:48]
+INFO: [VRFC 10-8704] VHDL file '/home/tnt3192a/documents/work/M1/S8/vhdl/fifo.0.vhd' is ignored due to errors

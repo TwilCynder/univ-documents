@@ -10,6 +10,10 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.std_logic_arith.all;
 use IEEE.std_logic_unsigned.all;
+use IEEE.numeric_std.all ;
+use IEEE.numeric_bit.all ;
+
+
 
 -- -----------------------------------------------------------------------------
 -- Definition de l'entite
@@ -88,7 +92,7 @@ begin
 	if rising_edge(CLK) then
 		-- test du RST
 		if RST='0' then
-	        DO <= (others => 'Z');
+	        DO <= (others => '0');
 	        R_ADR <= (others => '0');
 		else
             if REN = '0' then
@@ -101,6 +105,9 @@ begin
             end if;
             if FULL = '1' and WEN = '0' then
                 R_ADR <= R_ADR + '1';     
+            end if;
+            if REN = '1' and WEN = '1' then
+                DO <= (others => '0');
             end if;
         end if;
 	end if;
@@ -121,10 +128,8 @@ begin
 	    elsif WEN = '1' and REN = '0' then
 	       next_R := R_ADR + '1';
 	       if next_R = W_ADR then
-	           EMPTY <= '0';
+	           EMPTY <= '1';
 	       end if;
-	    else 
-	       EMPTY <= '1';
 		end if;
 	end if;
 end process P_EMPTY;
@@ -155,17 +160,20 @@ end process P_FULL;
 --		'1' FIFO au moins a moitie pleine '0' sinon, cette information
 --		 etant mise a jour sur front montant d'horloge
 P_MID:	process(CLK)
-	variable temp_W : std_logic_vector (ABUS_WIDTH-1 downto 0);
+	variable temp_P : std_logic_vector (ABUS_WIDTH-1 downto 0);
 begin
 	if rising_edge(CLK) then
 		-- test du RST
 		if RST='0' then
 		  MID <= '0';
-	    else
-	       temp_W := W_ADR + '1';
-	       if (temp_W(W_ADR'high) /= R_ADR(R_ADR'high)) and temp_W(W_ADR'high - 1 downto 0) = R_ADR(R_ADR'high - 1 downto 0) then
+	    elsif WEN = '0' and REN = '1' then
+	       temp_P := W_ADR + '1';
+	       
+	       if (temp_P(W_ADR'high) /= R_ADR(R_ADR'high)) and temp_P(W_ADR'high - 1 downto 0) = R_ADR(R_ADR'high - 1 downto 0) then
 	           MID <= '1';
-	       else 
+	       end if;
+	    elsif WEN = '1' and REN = '0' then
+	       if (W_ADR(W_ADR'high) /= R_ADR(R_ADR'high)) and W_ADR(W_ADR'high - 1 downto 0) = R_ADR(R_ADR'high - 1 downto 0) then
 	           MID <= '0';
 	       end if;
 		end if;

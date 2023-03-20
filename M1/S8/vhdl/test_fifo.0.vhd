@@ -33,8 +33,8 @@ end test_fifo;
 architecture behavior of test_fifo is
 
 -- definition des constantes
-	constant W_DATA	: positive:=4; -- taille du bus de donnes
-	constant W_ADR		: positive:=2; -- taille du bus d'adresse, soit 2**W_ADR mots
+	constant W_DATA	: positive:=32; -- taille du bus de donnes
+	constant W_ADR		: positive:=3; -- taille du bus d'adresse, soit 2**W_ADR mots
 --	constant RWFRONT 	: std_logic := '0'; -- front actif pour lecture/ecriture
 	constant TIMEOUT 	: time := 300 ns; -- timeout de la simulation
 
@@ -72,7 +72,7 @@ end process P_TIMEOUT;
 ------------------------------------------------------------------
 -- instanciation et mapping du composant fifo
 fifo1 : entity work.fifo(behavior)  -- behavioural simulation
-			generic map (W_DATA,W_ADR)
+			--generic map (W_DATA,W_ADR)
 --fifo1 : entity work.fifo(behavior)  -- post-synthesis functional simulation
 			port map (E_CLK,E_RST,E_REN,E_WEN,E_DI,E_DO,E_EMPTY,E_MID,E_FULL);
 
@@ -96,7 +96,9 @@ begin
 
 	-- tests des FLAGS apres RST et premiere lecture et ecriture (REGS 0) simultanee
 	wait until (E_CLK='0'); -- front descendant
-	
+	assert (E_EMPTY='1' and E_MID='0' and E_FULL='0')
+		report "Empty flag not set (or others wrong) ! 0"
+		severity ERROR;
 	E_REN <= '0';
 	E_WEN <= '0';
 	E_DI <= conv_std_logic_vector(1,W_DATA);
@@ -104,7 +106,7 @@ begin
 	-- tests des FLAGS apres premiere ecriture et demande de lecture
 	wait until (E_CLK='0'); -- front descendant
 	assert (E_EMPTY='0' and E_MID='0' and E_FULL='0')
-		report "Empty flag still set (or others wrong) !"
+		report "Empty flag still set (or others wrong) ! 0"
 		severity ERROR;
 	E_WEN <= '1';
 	E_DI <= (others=>'Z');
@@ -117,7 +119,7 @@ begin
 		report "Empty flag not set (or others wrong) ! 1"
 		severity ERROR;
 	assert (E_DO = conv_std_logic_vector(1,W_DATA))
-		report "First element READ is wrong (must be 1) !"
+		report "First element READ is wrong (must be 1) ! 0"
 		severity ERROR;
 
 	-- ecriture data (REGS 1)
@@ -133,7 +135,7 @@ begin
 	-- ecriture data (REGS 3) et tests des FLAGS
 	wait until (E_CLK='0'); -- front descendant
 	assert (E_EMPTY='0' and E_MID='1' and E_FULL='0')
-		report "Mid flag not set (or others wrong) ! 1"
+		report "Mid flag not set (or others wrong) ! 0"
 		severity ERROR;
 	E_WEN <= '0';
 	E_DI <= conv_std_logic_vector(4,W_DATA);
@@ -148,7 +150,7 @@ begin
 	E_WEN <= '1';
 	E_DI <= (others=>'Z');
 	assert (E_EMPTY='0' and E_MID='1' and E_FULL='1')
-		report "Full flag not set (or others wrong) ! 1"
+		report "Full flag not set (or others wrong) ! 0"
 		severity ERROR;
 
 	-- ecriture data (REGS 1)
@@ -161,7 +163,7 @@ begin
 	E_WEN <= '1';
 	E_DI <= (others=>'Z');
 	assert (E_EMPTY='0' and E_MID='1' and E_FULL='1')
-		report "Full flag not set (or others wrong) ! 2"
+		report "Full flag not set (or others wrong) ! 1"
 		severity ERROR;
 
 	-- lecture et ecriture data simultanees (REGS 2)
@@ -176,10 +178,10 @@ begin
 	E_WEN <= '1';
 	E_DI <= (others=>'Z');
 	assert (E_EMPTY='0' and E_MID='1' and E_FULL='1')
-		report "Full flag not set (or others wrong) ! 3"
+		report "Full flag not set (or others wrong) ! 2"
 		severity ERROR;
 	assert (E_DO = conv_std_logic_vector(3,W_DATA))
-		report "Data element READ is wrong (must be 3) !"
+		report "Data element READ is wrong (must be 3) ! 0"
 		severity ERROR;
 
 	-- lecture jusqu'a FIFO vide (on doit voir Q=4,5,6,7)
