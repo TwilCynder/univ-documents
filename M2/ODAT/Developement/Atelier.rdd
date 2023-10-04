@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE Diagram SYSTEM "rtdsDiagram.dtd">
+
+<Diagram language="sdl" type="sys" defaultColorsNeedFixing="FALSE" name="Atelier" showMsgData="full" linksCrossingAllowed="FALSE" cellWidthMm="4">
+
+<DiagramPartition name="Part. 0" nbPagesH="1" nbPagesV="1">
+<PageSpecification pageWidth="21" pageHeight="29.7" topMargin="0" bottomMargin="0" leftMargin="0" rightMargin="0" pageFooter="FALSE" scaleFactor="1.0"/>
+
+<Symbol symbolId="SYMB1" type="sdlSysDgmFrm" xCenter="297" yCenter="420" fixedDimensions="TRUE" width="551" height="775" color="-" fillColor="-">
+<Description></Description>
+<Text></Text>
+
+<Symbol symbolId="SYMB2" type="sdlBlk" xCenter="286" yCenter="88" fixedDimensions="FALSE" width="110" height="44" color="#000000" fillColor="#C4EFED">
+<Description></Description>
+<Text>Superviseur
+</Text>
+</Symbol>
+
+<Symbol symbolId="SYMB3" type="sdlBlk" xCenter="275" yCenter="220" fixedDimensions="TRUE" width="66" height="44" color="#000000" fillColor="#C4EFED">
+<Description></Description>
+<Text>Table
+</Text>
+</Symbol>
+
+<Symbol symbolId="SYMB4" type="sdlBlk" xCenter="286" yCenter="319" fixedDimensions="FALSE" width="110" height="44" color="#000000" fillColor="#C4EFED">
+<Description></Description>
+<Text>Convoyeur
+</Text>
+</Symbol>
+
+<Symbol symbolId="SYMB5" type="sdlBlk" xCenter="99" yCenter="319" fixedDimensions="FALSE" width="176" height="44" color="#000000" fillColor="#C4EFED">
+<Description></Description>
+<Text>Robot_alimentation
+</Text>
+</Symbol>
+
+<Symbol symbolId="SYMB6" type="sdlBlk" xCenter="451" yCenter="319" fixedDimensions="FALSE" width="132" height="44" color="#000000" fillColor="#C4EFED">
+<Description></Description>
+<Text>Robot_retrait
+</Text>
+</Symbol>
+
+<Symbol symbolId="SYMB7" type="sdlText" xCenter="99" yCenter="33" fixedDimensions="FALSE" width="198" height="66" color="#000000" fillColor="#FFFFFF">
+<Description></Description>
+<Text>signal newPiece(type)
+</Text>
+</Symbol>
+</Symbol>
+</DiagramPartition>
+
+</Diagram>
