@@ -3,6 +3,7 @@
 #include <tinyprintf.h>
 #include <stm32f4/rcc.h>
 #include <stm32f4/gpio.h>
+#include <stm32f4/io.h>
 
 
 // GPIOD
@@ -24,8 +25,14 @@ int main() {
 
 	// GPIO init
 
-	printf("Endless loop!\n");
+	GPIOA_MODER = REP_BITS(GPIOA_MODER, USER_BUT, 2, GPIO_MODER_IN);
+	GPIOD_MODER = REP_BITS(GPIOD_MODER, GREEN_LED * 2, 2, GPIO_MODER_OUT);
+	GPIOD_OTYPER = GPIOD_OTYPER & ~ (1 << GREEN_LED);
+
+	printf("Endless loop!!!!\n");
 	while(1) {
+		int current = ((GPIOA_IDR & (1 << USER_BUT)) >> USER_BUT);
+		GPIOD_ODR = current << GREEN_LED;
 	}
 
 }

@@ -48,7 +48,7 @@ clean:
 
 openocd:
 	-rm $(LOG)
-	"/d/Twil/Programs/OpenOCD/bin/openocd.exe" -f $(STM32_ROOT)/scripts/openocd.cfg
+	openocd -f $(STM32_ROOT)/scripts/openocd.cfg
 
 debug:
 	gdb-multiarch src/$(APP).elf
