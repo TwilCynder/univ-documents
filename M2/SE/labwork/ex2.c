@@ -31,8 +31,7 @@ int main() {
 
 	printf("Endless loop!!!!\n");
 	while(1) {
-		int current = ((GPIOA_IDR & (1 << USER_BUT)) >> USER_BUT);
-		GPIOD_ODR = current << GREEN_LED;
+		GPIOD_ODR = ((GPIOA_IDR & (1 << USER_BUT)) >> USER_BUT) << GREEN_LED;
 	}
 
 }
