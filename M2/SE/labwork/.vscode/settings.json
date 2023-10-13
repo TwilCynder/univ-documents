@@ -1,0 +1,9 @@
+{
+    "C_Cpp.default.includePath": [
+        "STM32RT/include/"
+    ],
+    "files.associations": {
+        "gpio.h": "c",
+        "nvic.h": "c"
+    }
+}
