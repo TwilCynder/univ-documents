@@ -2172,7 +2172,7 @@
           <DEPENDENCIES>
             <LINK relation="Covered">
               <REFOBJ>
-                <ID name="Lifeline" mc="Standard.Lifeline" uid="7b8aa0ac-8214-471f-9132-a31ca2861c5b"/>
+                <ID name="Fournisseur" mc="Standard.Lifeline" uid="7b8aa0ac-8214-471f-9132-a31ca2861c5b"/>
               </REFOBJ>
             </LINK>
           </DEPENDENCIES>
@@ -2242,10 +2242,10 @@
           <DEPENDENCIES></DEPENDENCIES>
         </OBJECT>
         <OBJECT>
-          <ID name="Lifeline" mc="Standard.Lifeline" uid="7b8aa0ac-8214-471f-9132-a31ca2861c5b"/>
+          <ID name="Fournisseur" mc="Standard.Lifeline" uid="7b8aa0ac-8214-471f-9132-a31ca2861c5b"/>
           <ATTRIBUTES>
             <ATT name="Selector"></ATT>
-            <ATT name="Name"><![CDATA[Lifeline]]></ATT>
+            <ATT name="Name"><![CDATA[Fournisseur]]></ATT>
             <ATT name="status">1970354901745664</ATT>
           </ATTRIBUTES>
           <DEPENDENCIES></DEPENDENCIES>

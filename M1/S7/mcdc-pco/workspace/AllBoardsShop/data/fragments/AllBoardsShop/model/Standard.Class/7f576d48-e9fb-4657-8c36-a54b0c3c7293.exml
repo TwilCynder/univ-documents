@@ -2,7 +2,6 @@
 <!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="VueClient" version="4">
   <OBJECT>
     <ID name="VueClient" mc="Standard.Class" uid="7f576d48-e9fb-4657-8c36-a54b0c3c7293"/>
-    <PID name="main" mc="Standard.Package" uid="f8a315d9-2044-426c-87ec-22850601add9"/>
     <ATTRIBUTES>
       <ATT name="IsActive">false</ATT>
       <ATT name="IsMain">false</ATT>

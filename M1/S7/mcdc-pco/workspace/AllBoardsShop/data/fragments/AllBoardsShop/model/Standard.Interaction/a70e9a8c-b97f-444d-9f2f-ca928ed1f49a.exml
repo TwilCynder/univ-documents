@@ -75,13 +75,13 @@
           <DEPENDENCIES>
             <COMP relation="SentMessage">
               <OBJECT>
-                <ID name="okPoto" mc="Standard.Message" uid="76f48616-5c6a-4f88-a75f-e57c1b51aa40"/>
+                <ID name="ok" mc="Standard.Message" uid="76f48616-5c6a-4f88-a75f-e57c1b51aa40"/>
                 <ATTRIBUTES>
                   <ATT name="Argument"></ATT>
                   <ATT name="KindOfMessage">CompleteKind</ATT>
                   <ATT name="SortOfMessage">ReturnMessage</ATT>
                   <ATT name="Sequence"><![CDATA[3]]></ATT>
-                  <ATT name="Name"><![CDATA[okPoto]]></ATT>
+                  <ATT name="Name"><![CDATA[ok]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
                 <DEPENDENCIES>
