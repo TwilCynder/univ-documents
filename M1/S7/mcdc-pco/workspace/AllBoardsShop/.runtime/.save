@@ -1,8 +1,5 @@
-#Wed Dec 07 23:14:22 CET 2022
-org.modelio.app.diagram.editor.OpenedDiagrams4='Diagramme de classe main' {59592611-2594-414f-b926-09b65b88d393} Standard.ClassDiagram
-org.modelio.app.diagram.editor.OpenedDiagrams3='Diagramme de s\u00E9quence Passer Commande' {e8fb58bc-bbd4-4d6d-b823-6956fe13e503} Standard.SequenceDiagram
-org.modelio.app.diagram.editor.OpenedDiagrams2='Diagramme de s\u00E9quence Interaction1' {155e481e-8087-444e-b5e9-89fc86f05989} Standard.SequenceDiagram
-org.modelio.app.diagram.editor.OpenedDiagrams1='main Use Case diagram' {fdf73064-4358-4a65-9a40-f4a8f911a27a} Standard.UseCaseDiagram
+#Mon Jan 30 19:50:17 CET 2023
+org.modelio.app.diagram.editor.OpenedDiagrams1='Diagramme de classe main' {59592611-2594-414f-b926-09b65b88d393} Standard.ClassDiagram
 org.modelio.app.diagram.editor.OpenedDiagrams0='main Class diagram' {07f06f42-244b-4716-9568-0ef0b7715664} Standard.ClassDiagram
 org.modelio.diagram.editor.OpenedDiagrams2='main Use Case diagram' {fdf73064-4358-4a65-9a40-f4a8f911a27a} Standard.UseCaseDiagram
 org.modelio.diagram.editor.OpenedDiagrams1='Activity Activity diagram' {7da984fc-bdc8-4a38-8e6e-ca9933765af5} Standard.ActivityDiagram

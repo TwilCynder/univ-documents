@@ -1,3 +1,5 @@
+package tsp;
+
 public class City {
     int id;
     int x;
@@ -7,5 +9,10 @@ public class City {
         this.x = x;
         this.y = y;
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "City " + id + " (" + x + "," + y + ")";
     }
 }
