@@ -21,14 +21,10 @@
 <Text>Machine</Text>
 </Symbol>
 
-<Symbol symbolId="SYMB35" type="sdlPrcs" xCenter="979" yCenter="308" fixedDimensions="FALSE" width="132" height="44" color="#000000" fillColor="#C4EFED">
+<Symbol symbolId="SYMB40" type="sdlBlk" xCenter="968" yCenter="319" fixedDimensions="FALSE" width="154" height="44" color="#000000" fillColor="#C4EFED">
 <Description></Description>
-<Text>Robot Retrait</Text>
-</Symbol>
-
-<Symbol symbolId="SYMB4" type="sdlBlk" xCenter="1001" yCenter="77" fixedDimensions="FALSE" width="88" height="44" color="#000000" fillColor="#C4EFED">
-<Description></Description>
-<Text>Convoyeur</Text>
+<Text>Robot_Retrait_B
+</Text>
 </Symbol>
 
 <Symbol symbolId="SYMB5" type="sdlBlk" xCenter="198" yCenter="297" fixedDimensions="FALSE" width="154" height="44" color="#000000" fillColor="#C4EFED">
@@ -52,20 +48,20 @@
 
 </Link>
 
-<Link linkId="LINK20" type="chnl" textSegmentNum="1" color="#000000" reverseRead="FALSE" oriented="TRUE">
+<Link linkId="LINK24" type="chnl" textSegmentNum="1" color="#000000" reverseRead="FALSE" oriented="TRUE">
 <Text>robotWithdrawControl</Text>
 <Connector attachedSymbolId="SYMB2" type="chnl" isOutside="TRUE" side="y" position="0.0" endType="midarrow">
 <Text id="1">[sPieceTakenAway]
 </Text>
 <Text id="2"></Text>
 </Connector>
-<Connector attachedSymbolId="SYMB35" type="chnl" isOutside="TRUE" side="x" position="0.0" endType="midarrow">
+<Connector attachedSymbolId="SYMB40" type="chnl" isOutside="TRUE" side="x" position="-0.142857142857" endType="midarrow">
 <Text id="1">[sTakePieceAway]
 </Text>
 <Text id="2"></Text>
 </Connector>
-<LinkSegment orientation="h" length="396"/>
-<LinkSegment orientation="v" length="-143"/>
+<LinkSegment orientation="h" length="374"/>
+<LinkSegment orientation="v" length="-132"/>
 
 </Link>
 
@@ -85,7 +81,7 @@
 
 </Link>
 
-<Link linkId="LINK21" type="chnl" textSegmentNum="0" color="#000000" reverseRead="FALSE" oriented="TRUE">
+<Link linkId="LINK25" type="chnl" textSegmentNum="0" color="#000000" reverseRead="FALSE" oriented="TRUE">
 <Text>machineSuperviseur</Text>
 <Connector attachedSymbolId="SYMB3" type="chnl" isOutside="TRUE" side="x" position="0.0" endType="midarrow">
 <Text id="1">[sReturnPiece, sPrepareMachine]

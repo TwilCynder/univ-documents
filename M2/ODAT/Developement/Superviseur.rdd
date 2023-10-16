@@ -18,7 +18,8 @@
 </Symbol>
 
 <Link linkId="LINK15" type="chnl" textSegmentNum="1" color="#000000" reverseRead="FALSE" oriented="TRUE">
-<Text>feedRobotControl</Text>
+<Text>feedRobotControlB
+</Text>
 <Connector attachedSymbolId="SYMB1" type="chnlgate" isOutside="FALSE" side="w" position="-0.00516129032258" endType="midarrow">
 <Text id="1">[sFeedPiece]
 </Text>
@@ -35,11 +36,11 @@
 </Link>
 
 <Link linkId="LINK30" type="chnl" textSegmentNum="0" color="#000000" reverseRead="FALSE" oriented="TRUE">
-<Text>userInput
+<Text>userInputB
 </Text>
 <Connector attachedSymbolId="SYMB1" type="chnlgate" isOutside="FALSE" side="s" position="0.0" endType="midarrow">
 <Text id="1">[]</Text>
-<Text id="2"> </Text>
+<Text id="2">__</Text>
 </Connector>
 <Connector attachedSymbolId="SYMB2" type="chnl" isOutside="TRUE" side="x" position="0.0" endType="midarrow">
 <Text id="1">[newPiece]
@@ -50,8 +51,28 @@
 
 </Link>
 
+<Link linkId="LINK31" type="chnl" textSegmentNum="1" color="#000000" reverseRead="FALSE" oriented="TRUE">
+<Text>robotWithdrawControlB
+</Text>
+<Connector attachedSymbolId="SYMB1" type="chnlgate" isOutside="FALSE" side="e" position="-0.00516129032258" endType="midarrow">
+<Text id="1">[sTakePieceAway]
+</Text>
+<Text id="2">__</Text>
+</Connector>
+<Connector attachedSymbolId="SYMB2" type="chnl" isOutside="TRUE" side="y" position="0.0" endType="midarrow">
+<Text id="1">[sPieceTakenAway]
+</Text>
+<Text id="2"></Text>
+</Connector>
+<LinkSegment orientation="h" length="-143"/>
+<LinkSegment orientation="v" length="-99"/>
+<LinkSegment orientation="h" length="-132"/>
+
+</Link>
+
 <Link linkId="LINK16" type="chnl" textSegmentNum="0" color="#000000" reverseRead="FALSE" oriented="TRUE">
-<Text>machineSuperviseur</Text>
+<Text>machineSuperviseurB
+</Text>
 <Connector attachedSymbolId="SYMB1" type="chnlgate" isOutside="FALSE" side="n" position="0.0" endType="midarrow">
 <Text id="1">[sReturnPiece, sPrepareMachine]
 </Text>
@@ -63,25 +84,6 @@
 <Text id="2"></Text>
 </Connector>
 <LinkSegment orientation="v" length="286"/>
-
-</Link>
-
-<Link linkId="LINK31" type="chnl" textSegmentNum="1" color="#000000" reverseRead="FALSE" oriented="TRUE">
-<Text>robotWithdrawControl
-</Text>
-<Connector attachedSymbolId="SYMB1" type="chnlgate" isOutside="FALSE" side="e" position="-0.00516129032258" endType="midarrow">
-<Text id="1">[sTakePieceAway]
-</Text>
-<Text id="2"> </Text>
-</Connector>
-<Connector attachedSymbolId="SYMB2" type="chnl" isOutside="TRUE" side="y" position="0.0" endType="midarrow">
-<Text id="1">[sPieceTakenAway]
-</Text>
-<Text id="2"></Text>
-</Connector>
-<LinkSegment orientation="h" length="-143"/>
-<LinkSegment orientation="v" length="-99"/>
-<LinkSegment orientation="h" length="-132"/>
 
 </Link>
 </DiagramPartition>

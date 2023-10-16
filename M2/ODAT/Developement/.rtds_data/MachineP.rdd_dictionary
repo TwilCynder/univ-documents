@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE DictionaryObjects SYSTEM "rtdsDictionaryObjects.dtd">
+
+<DictionaryObjects version="11340" language="sdl" diagramType="prcs">
+<Signal id="SIG1" name="sPrepareMachine">
+<UsingSymbols>
+<SymbolReference symbolId="SYM3" usingKind="input"/>
+</UsingSymbols>
+</Signal>
+<Signal id="SIG2" name="sPieceTaken">
+<UsingSymbols>
+<SymbolReference symbolId="SYM5" usingKind="output"/>
+</UsingSymbols>
+</Signal>
+<Signal id="SIG3" name="processPiece" isTimer="TRUE">
+<UsingSymbols>
+<SymbolReference symbolId="SYM8" usingKind="output"/>
+<SymbolReference symbolId="SYM11" usingKind="input"/>
+</UsingSymbols>
+</Signal>
+<Signal id="SIG4" name="sPieceProcessed">
+<UsingSymbols>
+<SymbolReference symbolId="SYM12" usingKind="output"/>
+</UsingSymbols>
+</Signal>
+<Signal id="SIG5" name="sReturnPiece">
+<UsingSymbols>
+<SymbolReference symbolId="SYM15" usingKind="input"/>
+</UsingSymbols>
+</Signal>
+<Item id="ITEM1" type="process" name="MachineP" scope="current" formalParameterOrder="-" isFormalParam="FALSE" isSyntype="FALSE">
+<Body>
+<SentSignals>
+<SignalReference id="SIG2"/>
+<SignalReference id="SIG3"/>
+<SignalReference id="SIG4"/>
+</SentSignals>
+<ReceivedSignals>
+<SignalReference id="SIG1"/>
+<SignalReference id="SIG3"/>
+<SignalReference id="SIG5"/>
+</ReceivedSignals>
+</Body>
+</Item>
+<Item id="ITEM2" type="variable" name="now" scope="global" defined="FALSE" anchorItemId="ITEM1" searchPolicy="-1" formalParameterOrder="-" isFormalParam="FALSE" isSyntype="FALSE">
+<UsingSymbols>
+<SymbolReference symbolId="SYM8"/>
+</UsingSymbols>
+</Item>
+<Item id="ITEM3" type="state" name="ready" parentId="ITEM1" scope="none" formalParameterOrder="-" isFormalParam="FALSE" isSyntype="FALSE">
+<UsingSymbols>
+<SymbolReference symbolId="SYM2"/>
+<SymbolReference symbolId="SYM21"/>
+</UsingSymbols>
+</Item>
+<Item id="ITEM4" type="timer" name="processPiece" parentId="ITEM1" scope="none" formalParameterOrder="-" isFormalParam="FALSE" isSyntype="FALSE">
+<DefiningSymbols>
+<SymbolReference symbolId="SYM8"/>
+</DefiningSymbols>
+</Item>
+<Item id="ITEM5" type="state" name="busy" parentId="ITEM1" scope="none" formalParameterOrder="-" isFormalParam="FALSE" isSyntype="FALSE">
+<DefiningSymbols>
+<SymbolReference symbolId="SYM10"/>
+</DefiningSymbols>
+<UsingSymbols>
+<SymbolReference symbolId="SYM6"/>
+</UsingSymbols>
+</Item>
+<Item id="ITEM6" type="state" name="waitingConveyor" parentId="ITEM1" scope="none" formalParameterOrder="-" isFormalParam="FALSE" isSyntype="FALSE">
+<DefiningSymbols>
+<SymbolReference symbolId="SYM14"/>
+</DefiningSymbols>
+<UsingSymbols>
+<SymbolReference symbolId="SYM13"/>
+</UsingSymbols>
+</Item>
+</DictionaryObjects>
