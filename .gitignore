@@ -8,3 +8,6 @@ data
 
 M2/SE/labwork/*.tgz
 M2/SE/labwork/.*
+.vscode
+
+mmd
