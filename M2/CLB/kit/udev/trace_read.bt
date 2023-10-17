@@ -1,0 +1,10 @@
+kprobe:readchar
+{
+	printf("readchar(..., ..., %d, ...);\n", arg2);
+}
+
+kretprobe:readchar
+{
+	printf("readchar(...) -> %d\n", retval);
+}
+
