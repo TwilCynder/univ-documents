@@ -4,6 +4,7 @@
     ],
     "files.associations": {
         "gpio.h": "c",
-        "nvic.h": "c"
+        "nvic.h": "c",
+        "tim.h": "c"
     }
 }

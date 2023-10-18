@@ -5,3 +5,6 @@ mcdc-pco
 data
 
 *.log
+
+M2/SE/labwork/*.tgz
+M2/SE/labwork/.*

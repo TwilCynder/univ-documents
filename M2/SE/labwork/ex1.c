@@ -21,7 +21,7 @@ int main() {
 
 	// RCC init
 	RCC_AHB1ENR |= RCC_GPIODEN;
-
+		
 	// GPIO init
 
 	printf("Endless loop!\n");

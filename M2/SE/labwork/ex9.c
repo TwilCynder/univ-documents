@@ -1,4 +1,4 @@
-/* Embedded Systems - Exercise 9 */
+/* Embedded Systems - Exercise 8 */
 
 #include <tinyprintf.h>
 #include <stm32f4/rcc.h>
@@ -10,14 +10,13 @@
 
 
 // GPIOD
-#define GREEN_LED	12
-#define ORANGE_LED	13
-#define RED_LED		14
-#define BLUE_LED	15
+#define LED_START	3
+#define LED_NB		3
 
-// GPIODA
-#define USER_BUT	0
-
+void initGPIOOut(led){
+	GPIOD_MODER = REP_BITS(GPIOD_MODER, led * 2, 2, GPIO_MODER_OUT);
+	GPIOD_OTYPER = GPIOD_OTYPER & ~ (1 << led);
+}
 
 int main() {
 	printf("\nStarting...\n");
@@ -29,9 +28,37 @@ int main() {
 
 	// initialization
 
+	//TIM4_INIT
+	TIM4_CR1 = 0;
+	TIM4_ARR = 21000;
+	TIM4_PSC = 999; //counting 42000th of seconds
+	TIM4_EGR = TIM_UG;
+	TIM4_SR = 0;
+	TIM4_CR1 = TIM_CEN | TIM_ARPE;
+
+	//INIT GPIO
+	for (int i = LED_START; i < LED_NB + LED_START; i++){
+		initGPIOOut(i);
+	}
+
 	// main loop
 	printf("Endless loop!\n");
-	while(1) {
+
+	int current_led = 0;
+	while (1){
+		if ((TIM4_SR & TIM_UIF)){
+			TIM4_SR = 0;
+			printf("Tick %d %d\n", current_led);
+			if (current_led > -1){
+				printf("%d\n", LED_START + current_led);
+				GPIOD_BSRR = 1 << (LED_START + current_led);
+			} else {
+				printf("%d\n", (16 + LED_START - current_led - 1));
+				GPIOD_BSRR = 1 << (16 + LED_START + LED_NB + current_led); 
+			}
+			current_led++;
+			if (current_led >= LED_NB) current_led = -LED_NB;
+		}
 	}
 
 }

@@ -22,9 +22,9 @@
 
 void init(){
 	// output 
-	GPIOD_MODER = REP_BITS(GPIOD_MODER, GREEN_LED*2, 2, 0b01);
-	GPIOD_OTYPER &= ~(1<<GREEN_LED);
-	GPIOD_PUPDR = REP_BITS(GPIOD_PUPDR, GREEN_LED*2, 2, 0b00);
+	GPIOD_MODER = REP_BITS(GPIOD_MODER, LED*2, 2, 0b01);
+	GPIOD_OTYPER &= ~(1<<LED);
+	GPIOD_PUPDR = REP_BITS(GPIOD_PUPDR, LED*2, 2, 0b00);
 	GPIOD_MODER = REP_BITS(GPIOD_MODER, RED_LED*2, 2, 0b01);
 	GPIOD_OTYPER &= ~(1<<RED_LED);
 	GPIOD_PUPDR = REP_BITS(GPIOD_PUPDR, RED_LED*2, 2, 0b00);
@@ -38,13 +38,13 @@ void /*__attribute__((interrupt("IRQ")))*/ handle_TIM4() {
 	//if((TIM4_SR & TIM_UIF) != 0) {
 		TIM4_SR = 0;
 
-		if((GPIOD_ODR & (1<<GREEN_LED))==0){
+		if((GPIOD_ODR & (1<<LED))==0){
 			//printf("on allume\n");
-			GPIOD_BSRR = 1 << GREEN_LED;
+			GPIOD_BSRR = 1 << LED;
 		}
 		else{
 			//printf("on éteint\n");
-			GPIOD_BSRR = 1 << (16 + GREEN_LED);
+			GPIOD_BSRR = 1 << (16 + LED);
 		}		
 		NVIC_ICPR(TIM4_IRQ >> 5) |= 1 << (TIM4_IRQ & 0X1f);
 	//}

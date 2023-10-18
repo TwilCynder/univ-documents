@@ -10,13 +10,10 @@
 
 
 // GPIOD
-#define GREEN_LED	12
-#define ORANGE_LED	13
-#define RED_LED		14
-#define BLUE_LED	15
+#define LED	3
 
 // GPIODA
-#define USER_BUT	0
+#define USER_BUT	1
 
 
 int main() {
@@ -25,15 +22,19 @@ int main() {
 	// RCC init
 	RCC_AHB1ENR |= RCC_GPIOAEN;
 	RCC_AHB1ENR |= RCC_GPIODEN;
-	RCC_APB1ENR |= RCC_TIM4EN;
 
-	// initialization
+	// GPIO init
 
-	// main loop
-	printf("Endless loop!\n");
+	GPIOA_MODER = REP_BITS(GPIOA_MODER, USER_BUT * 2, 2, GPIO_MODER_IN);
+	GPIOA_PUPDR = REP_BITS(GPIOA_PUPDR, USER_BUT * 2, 2, GPIO_PUPDR_PD);
+	GPIOD_MODER = REP_BITS(GPIOD_MODER, LED * 2, 2, GPIO_MODER_OUT);
+	GPIOD_OTYPER = GPIOD_OTYPER & ~ (1 << LED);
+
+	printf("Endless loop!!!!\n");
 	while(1) {
+		printf("%d\n", (GPIOA_IDR & (1 << USER_BUT)));
+		GPIOD_ODR = ((GPIOA_IDR & (1 << USER_BUT)) >> USER_BUT) << LED;
 	}
-
 }
 
 

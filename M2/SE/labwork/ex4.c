@@ -62,8 +62,8 @@ int main() {
 
 	//TIM3_INIT (POUR LE BOUNCE)
 	TIM3_CR1 = 0;
-	TIM3_ARR = 
-	TIM3_PSC = 999; //counting 42000th of seconds
+	TIM3_ARR = DEBOUNCE_ARR;
+	TIM3_PSC = DEBOUNCE_PSC; //counting 42000th of seconds
 	TIM3_EGR = TIM_UG;
 	TIM3_SR = 0;
 	TIM3_CR1 = TIM_CEN | TIM_ARPE;
