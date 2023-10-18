@@ -1,0 +1,2619 @@
+Grammar
+
+    0 $accept: top $end
+
+    1 top: opt_decls
+
+    2 line: ε
+
+    3 opt_decls: ε
+    4          | decls
+
+    5 decls: decl
+    6      | decls decl
+
+    7 decl: CONST line ID '=' expr
+    8     | VAR line ID
+    9     | REG line ID '@' expr
+   10     | SIG line ID '@' ID '[' expr ']'
+   11     | AUTO line ID opt_stmts states
+
+   12 states: state
+   13       | states state
+
+   14 state: STATE line ID ':' opt_stmts opt_whens
+
+   15 opt_whens: ε
+   16          | whens
+
+   17 whens: when
+   18      | whens when
+
+   19 when: WHEN line opt_not ID ':' opt_stmts
+
+   20 opt_not: ε
+   21        | '!'
+
+   22 opt_stmts: ε
+   23          | stmts
+
+   24 stmts: stmt
+   25      | stmts stmt
+
+   26 stmt: ID line '=' expr
+   27     | ID line '[' expr ']' '=' expr
+   28     | ID line '[' expr DOTDOT expr ']' '=' expr
+   29     | IF line cond THEN stmts ENDIF
+   30     | IF line cond THEN stmts ELSE stmts ENDIF
+   31     | GOTO line ID
+   32     | STOP
+
+   33 cond: expr '=' line expr
+   34     | expr NE line expr
+   35     | expr '<' line expr
+   36     | expr LE line expr
+   37     | expr '>' line expr
+   38     | expr GE line expr
+   39     | NOT line cond
+   40     | cond AND line cond
+   41     | cond OR line cond
+   42     | '(' cond ')'
+
+   43 expr: atom
+   44     | expr '+' line expr
+   45     | expr '-' line expr
+   46     | expr '*' line expr
+   47     | expr '/' line expr
+   48     | expr '%' line expr
+   49     | expr '&' line expr
+   50     | expr '|' line expr
+   51     | expr '^' line expr
+   52     | expr LT2 line expr
+   53     | expr GT2 line expr
+   54     | expr LT3 line expr
+   55     | expr GT3 line expr
+
+   56 atom: INT line
+   57     | ID line
+   58     | atom '[' expr ']'
+   59     | atom '[' expr DOTDOT expr ']'
+   60     | '~' line atom
+   61     | '-' line atom
+   62     | '+' line atom
+   63     | '(' expr ')'
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    '!' (33) 21
+    '%' (37) 48
+    '&' (38) 49
+    '(' (40) 42 63
+    ')' (41) 42 63
+    '*' (42) 46
+    '+' (43) 44 62
+    '-' (45) 45 61
+    '/' (47) 47
+    ':' (58) 14 19
+    '<' (60) 35
+    '=' (61) 7 26 27 28 33
+    '>' (62) 37
+    '@' (64) 9 10
+    '[' (91) 10 27 28 58 59
+    ']' (93) 10 27 28 58 59
+    '^' (94) 51
+    '|' (124) 50
+    '~' (126) 60
+    error (256)
+    ID <char *> (258) 7 8 9 10 11 14 19 26 27 28 31 57
+    INT <long int> (259) 56
+    DOTDOT (260) 28 59
+    GE (261) 38
+    LE (262) 36
+    NE (263) 34
+    AND (264) 40
+    AUTO (265) 11
+    CONST (266) 7
+    ELSE (267) 30
+    ENDIF (268) 29 30
+    GOTO (269) 31
+    GT2 (270) 53
+    GT3 (271) 55
+    IF (272) 29 30
+    LT2 (273) 52
+    LT3 (274) 54
+    NOT (275) 39
+    OR (276) 41
+    REG (277) 9
+    SIG (278) 10
+    STATE (279) 14
+    STOP (280) 32
+    THEN (281) 29 30
+    VAR (282) 8
+    WHEN (283) 19
+
+
+Nonterminals, with rules where they appear
+
+    $accept (48)
+        on left: 0
+    top (49)
+        on left: 1
+        on right: 0
+    line <int> (50)
+        on left: 2
+        on right: 7 8 9 10 11 14 19 26 27 28 29 30 31 33 34 35 36 37 38 39 40 41 44 45 46 47 48 49 50 51 52 53 54 55 56 57 60 61 62
+    opt_decls (51)
+        on left: 3 4
+        on right: 1
+    decls (52)
+        on left: 5 6
+        on right: 4 6
+    decl (53)
+        on left: 7 8 9 10 11
+        on right: 5 6
+    states (54)
+        on left: 12 13
+        on right: 11 13
+    state (55)
+        on left: 14
+        on right: 12 13
+    opt_whens (56)
+        on left: 15 16
+        on right: 14
+    whens (57)
+        on left: 17 18
+        on right: 16 18
+    when (58)
+        on left: 19
+        on right: 17 18
+    opt_not <bool> (59)
+        on left: 20 21
+        on right: 19
+    opt_stmts <Statement *> (60)
+        on left: 22 23
+        on right: 11 14 19
+    stmts <Statement *> (61)
+        on left: 24 25
+        on right: 23 25 29 30
+    stmt <Statement *> (62)
+        on left: 26 27 28 29 30 31 32
+        on right: 24 25
+    cond <Condition *> (63)
+        on left: 33 34 35 36 37 38 39 40 41 42
+        on right: 29 30 39 40 41 42
+    expr <Expression *> (64)
+        on left: 43 44 45 46 47 48 49 50 51 52 53 54 55
+        on right: 7 9 10 26 27 28 33 34 35 36 37 38 44 45 46 47 48 49 50 51 52 53 54 55 58 59 63
+    atom <Expression *> (65)
+        on left: 56 57 58 59 60 61 62 63
+        on right: 43 58 59 60 61 62
+
+
+State 0
+
+    0 $accept: • top $end
+
+    AUTO   shift, and go to state 1
+    CONST  shift, and go to state 2
+    REG    shift, and go to state 3
+    SIG    shift, and go to state 4
+    VAR    shift, and go to state 5
+
+    $default  reduce using rule 3 (opt_decls)
+
+    top        go to state 6
+    opt_decls  go to state 7
+    decls      go to state 8
+    decl       go to state 9
+
+
+State 1
+
+   11 decl: AUTO • line ID opt_stmts states
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 10
+
+
+State 2
+
+    7 decl: CONST • line ID '=' expr
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 11
+
+
+State 3
+
+    9 decl: REG • line ID '@' expr
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 12
+
+
+State 4
+
+   10 decl: SIG • line ID '@' ID '[' expr ']'
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 13
+
+
+State 5
+
+    8 decl: VAR • line ID
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 14
+
+
+State 6
+
+    0 $accept: top • $end
+
+    $end  shift, and go to state 15
+
+
+State 7
+
+    1 top: opt_decls •
+
+    $default  reduce using rule 1 (top)
+
+
+State 8
+
+    4 opt_decls: decls •
+    6 decls: decls • decl
+
+    AUTO   shift, and go to state 1
+    CONST  shift, and go to state 2
+    REG    shift, and go to state 3
+    SIG    shift, and go to state 4
+    VAR    shift, and go to state 5
+
+    $default  reduce using rule 4 (opt_decls)
+
+    decl  go to state 16
+
+
+State 9
+
+    5 decls: decl •
+
+    $default  reduce using rule 5 (decls)
+
+
+State 10
+
+   11 decl: AUTO line • ID opt_stmts states
+
+    ID  shift, and go to state 17
+
+
+State 11
+
+    7 decl: CONST line • ID '=' expr
+
+    ID  shift, and go to state 18
+
+
+State 12
+
+    9 decl: REG line • ID '@' expr
+
+    ID  shift, and go to state 19
+
+
+State 13
+
+   10 decl: SIG line • ID '@' ID '[' expr ']'
+
+    ID  shift, and go to state 20
+
+
+State 14
+
+    8 decl: VAR line • ID
+
+    ID  shift, and go to state 21
+
+
+State 15
+
+    0 $accept: top $end •
+
+    $default  accept
+
+
+State 16
+
+    6 decls: decls decl •
+
+    $default  reduce using rule 6 (decls)
+
+
+State 17
+
+   11 decl: AUTO line ID • opt_stmts states
+
+    ID    shift, and go to state 22
+    GOTO  shift, and go to state 23
+    IF    shift, and go to state 24
+    STOP  shift, and go to state 25
+
+    $default  reduce using rule 22 (opt_stmts)
+
+    opt_stmts  go to state 26
+    stmts      go to state 27
+    stmt       go to state 28
+
+
+State 18
+
+    7 decl: CONST line ID • '=' expr
+
+    '='  shift, and go to state 29
+
+
+State 19
+
+    9 decl: REG line ID • '@' expr
+
+    '@'  shift, and go to state 30
+
+
+State 20
+
+   10 decl: SIG line ID • '@' ID '[' expr ']'
+
+    '@'  shift, and go to state 31
+
+
+State 21
+
+    8 decl: VAR line ID •
+
+    $default  reduce using rule 8 (decl)
+
+
+State 22
+
+   26 stmt: ID • line '=' expr
+   27     | ID • line '[' expr ']' '=' expr
+   28     | ID • line '[' expr DOTDOT expr ']' '=' expr
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 32
+
+
+State 23
+
+   31 stmt: GOTO • line ID
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 33
+
+
+State 24
+
+   29 stmt: IF • line cond THEN stmts ENDIF
+   30     | IF • line cond THEN stmts ELSE stmts ENDIF
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 34
+
+
+State 25
+
+   32 stmt: STOP •
+
+    $default  reduce using rule 32 (stmt)
+
+
+State 26
+
+   11 decl: AUTO line ID opt_stmts • states
+
+    STATE  shift, and go to state 35
+
+    states  go to state 36
+    state   go to state 37
+
+
+State 27
+
+   23 opt_stmts: stmts •
+   25 stmts: stmts • stmt
+
+    ID    shift, and go to state 22
+    GOTO  shift, and go to state 23
+    IF    shift, and go to state 24
+    STOP  shift, and go to state 25
+
+    $default  reduce using rule 23 (opt_stmts)
+
+    stmt  go to state 38
+
+
+State 28
+
+   24 stmts: stmt •
+
+    $default  reduce using rule 24 (stmts)
+
+
+State 29
+
+    7 decl: CONST line ID '=' • expr
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    expr  go to state 45
+    atom  go to state 46
+
+
+State 30
+
+    9 decl: REG line ID '@' • expr
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    expr  go to state 47
+    atom  go to state 46
+
+
+State 31
+
+   10 decl: SIG line ID '@' • ID '[' expr ']'
+
+    ID  shift, and go to state 48
+
+
+State 32
+
+   26 stmt: ID line • '=' expr
+   27     | ID line • '[' expr ']' '=' expr
+   28     | ID line • '[' expr DOTDOT expr ']' '=' expr
+
+    '['  shift, and go to state 49
+    '='  shift, and go to state 50
+
+
+State 33
+
+   31 stmt: GOTO line • ID
+
+    ID  shift, and go to state 51
+
+
+State 34
+
+   29 stmt: IF line • cond THEN stmts ENDIF
+   30     | IF line • cond THEN stmts ELSE stmts ENDIF
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    NOT  shift, and go to state 52
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 53
+
+    cond  go to state 54
+    expr  go to state 55
+    atom  go to state 46
+
+
+State 35
+
+   14 state: STATE • line ID ':' opt_stmts opt_whens
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 56
+
+
+State 36
+
+   11 decl: AUTO line ID opt_stmts states •
+   13 states: states • state
+
+    STATE  shift, and go to state 35
+
+    $default  reduce using rule 11 (decl)
+
+    state  go to state 57
+
+
+State 37
+
+   12 states: state •
+
+    $default  reduce using rule 12 (states)
+
+
+State 38
+
+   25 stmts: stmts stmt •
+
+    $default  reduce using rule 25 (stmts)
+
+
+State 39
+
+   57 atom: ID • line
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 58
+
+
+State 40
+
+   56 atom: INT • line
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 59
+
+
+State 41
+
+   60 atom: '~' • line atom
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 60
+
+
+State 42
+
+   62 atom: '+' • line atom
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 61
+
+
+State 43
+
+   61 atom: '-' • line atom
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 62
+
+
+State 44
+
+   63 atom: '(' • expr ')'
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    expr  go to state 63
+    atom  go to state 46
+
+
+State 45
+
+    7 decl: CONST line ID '=' expr •
+   44 expr: expr • '+' line expr
+   45     | expr • '-' line expr
+   46     | expr • '*' line expr
+   47     | expr • '/' line expr
+   48     | expr • '%' line expr
+   49     | expr • '&' line expr
+   50     | expr • '|' line expr
+   51     | expr • '^' line expr
+   52     | expr • LT2 line expr
+   53     | expr • GT2 line expr
+   54     | expr • LT3 line expr
+   55     | expr • GT3 line expr
+
+    GT2  shift, and go to state 64
+    GT3  shift, and go to state 65
+    LT2  shift, and go to state 66
+    LT3  shift, and go to state 67
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '&'  shift, and go to state 73
+    '|'  shift, and go to state 74
+    '^'  shift, and go to state 75
+
+    $default  reduce using rule 7 (decl)
+
+
+State 46
+
+   43 expr: atom •
+   58 atom: atom • '[' expr ']'
+   59     | atom • '[' expr DOTDOT expr ']'
+
+    '['  shift, and go to state 76
+
+    $default  reduce using rule 43 (expr)
+
+
+State 47
+
+    9 decl: REG line ID '@' expr •
+   44 expr: expr • '+' line expr
+   45     | expr • '-' line expr
+   46     | expr • '*' line expr
+   47     | expr • '/' line expr
+   48     | expr • '%' line expr
+   49     | expr • '&' line expr
+   50     | expr • '|' line expr
+   51     | expr • '^' line expr
+   52     | expr • LT2 line expr
+   53     | expr • GT2 line expr
+   54     | expr • LT3 line expr
+   55     | expr • GT3 line expr
+
+    GT2  shift, and go to state 64
+    GT3  shift, and go to state 65
+    LT2  shift, and go to state 66
+    LT3  shift, and go to state 67
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '&'  shift, and go to state 73
+    '|'  shift, and go to state 74
+    '^'  shift, and go to state 75
+
+    $default  reduce using rule 9 (decl)
+
+
+State 48
+
+   10 decl: SIG line ID '@' ID • '[' expr ']'
+
+    '['  shift, and go to state 77
+
+
+State 49
+
+   27 stmt: ID line '[' • expr ']' '=' expr
+   28     | ID line '[' • expr DOTDOT expr ']' '=' expr
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    expr  go to state 78
+    atom  go to state 46
+
+
+State 50
+
+   26 stmt: ID line '=' • expr
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    expr  go to state 79
+    atom  go to state 46
+
+
+State 51
+
+   31 stmt: GOTO line ID •
+
+    $default  reduce using rule 31 (stmt)
+
+
+State 52
+
+   39 cond: NOT • line cond
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 80
+
+
+State 53
+
+   42 cond: '(' • cond ')'
+   63 atom: '(' • expr ')'
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    NOT  shift, and go to state 52
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 53
+
+    cond  go to state 81
+    expr  go to state 82
+    atom  go to state 46
+
+
+State 54
+
+   29 stmt: IF line cond • THEN stmts ENDIF
+   30     | IF line cond • THEN stmts ELSE stmts ENDIF
+   40 cond: cond • AND line cond
+   41     | cond • OR line cond
+
+    AND   shift, and go to state 83
+    OR    shift, and go to state 84
+    THEN  shift, and go to state 85
+
+
+State 55
+
+   33 cond: expr • '=' line expr
+   34     | expr • NE line expr
+   35     | expr • '<' line expr
+   36     | expr • LE line expr
+   37     | expr • '>' line expr
+   38     | expr • GE line expr
+   44 expr: expr • '+' line expr
+   45     | expr • '-' line expr
+   46     | expr • '*' line expr
+   47     | expr • '/' line expr
+   48     | expr • '%' line expr
+   49     | expr • '&' line expr
+   50     | expr • '|' line expr
+   51     | expr • '^' line expr
+   52     | expr • LT2 line expr
+   53     | expr • GT2 line expr
+   54     | expr • LT3 line expr
+   55     | expr • GT3 line expr
+
+    GE   shift, and go to state 86
+    LE   shift, and go to state 87
+    NE   shift, and go to state 88
+    GT2  shift, and go to state 64
+    GT3  shift, and go to state 65
+    LT2  shift, and go to state 66
+    LT3  shift, and go to state 67
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '&'  shift, and go to state 73
+    '|'  shift, and go to state 74
+    '^'  shift, and go to state 75
+    '='  shift, and go to state 89
+    '<'  shift, and go to state 90
+    '>'  shift, and go to state 91
+
+
+State 56
+
+   14 state: STATE line • ID ':' opt_stmts opt_whens
+
+    ID  shift, and go to state 92
+
+
+State 57
+
+   13 states: states state •
+
+    $default  reduce using rule 13 (states)
+
+
+State 58
+
+   57 atom: ID line •
+
+    $default  reduce using rule 57 (atom)
+
+
+State 59
+
+   56 atom: INT line •
+
+    $default  reduce using rule 56 (atom)
+
+
+State 60
+
+   60 atom: '~' line • atom
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    atom  go to state 93
+
+
+State 61
+
+   62 atom: '+' line • atom
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    atom  go to state 94
+
+
+State 62
+
+   61 atom: '-' line • atom
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    atom  go to state 95
+
+
+State 63
+
+   44 expr: expr • '+' line expr
+   45     | expr • '-' line expr
+   46     | expr • '*' line expr
+   47     | expr • '/' line expr
+   48     | expr • '%' line expr
+   49     | expr • '&' line expr
+   50     | expr • '|' line expr
+   51     | expr • '^' line expr
+   52     | expr • LT2 line expr
+   53     | expr • GT2 line expr
+   54     | expr • LT3 line expr
+   55     | expr • GT3 line expr
+   63 atom: '(' expr • ')'
+
+    GT2  shift, and go to state 64
+    GT3  shift, and go to state 65
+    LT2  shift, and go to state 66
+    LT3  shift, and go to state 67
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '&'  shift, and go to state 73
+    '|'  shift, and go to state 74
+    '^'  shift, and go to state 75
+    ')'  shift, and go to state 96
+
+
+State 64
+
+   53 expr: expr GT2 • line expr
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 97
+
+
+State 65
+
+   55 expr: expr GT3 • line expr
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 98
+
+
+State 66
+
+   52 expr: expr LT2 • line expr
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 99
+
+
+State 67
+
+   54 expr: expr LT3 • line expr
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 100
+
+
+State 68
+
+   44 expr: expr '+' • line expr
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 101
+
+
+State 69
+
+   45 expr: expr '-' • line expr
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 102
+
+
+State 70
+
+   46 expr: expr '*' • line expr
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 103
+
+
+State 71
+
+   47 expr: expr '/' • line expr
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 104
+
+
+State 72
+
+   48 expr: expr '%' • line expr
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 105
+
+
+State 73
+
+   49 expr: expr '&' • line expr
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 106
+
+
+State 74
+
+   50 expr: expr '|' • line expr
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 107
+
+
+State 75
+
+   51 expr: expr '^' • line expr
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 108
+
+
+State 76
+
+   58 atom: atom '[' • expr ']'
+   59     | atom '[' • expr DOTDOT expr ']'
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    expr  go to state 109
+    atom  go to state 46
+
+
+State 77
+
+   10 decl: SIG line ID '@' ID '[' • expr ']'
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    expr  go to state 110
+    atom  go to state 46
+
+
+State 78
+
+   27 stmt: ID line '[' expr • ']' '=' expr
+   28     | ID line '[' expr • DOTDOT expr ']' '=' expr
+   44 expr: expr • '+' line expr
+   45     | expr • '-' line expr
+   46     | expr • '*' line expr
+   47     | expr • '/' line expr
+   48     | expr • '%' line expr
+   49     | expr • '&' line expr
+   50     | expr • '|' line expr
+   51     | expr • '^' line expr
+   52     | expr • LT2 line expr
+   53     | expr • GT2 line expr
+   54     | expr • LT3 line expr
+   55     | expr • GT3 line expr
+
+    DOTDOT  shift, and go to state 111
+    GT2     shift, and go to state 64
+    GT3     shift, and go to state 65
+    LT2     shift, and go to state 66
+    LT3     shift, and go to state 67
+    '+'     shift, and go to state 68
+    '-'     shift, and go to state 69
+    '*'     shift, and go to state 70
+    '/'     shift, and go to state 71
+    '%'     shift, and go to state 72
+    '&'     shift, and go to state 73
+    '|'     shift, and go to state 74
+    '^'     shift, and go to state 75
+    ']'     shift, and go to state 112
+
+
+State 79
+
+   26 stmt: ID line '=' expr •
+   44 expr: expr • '+' line expr
+   45     | expr • '-' line expr
+   46     | expr • '*' line expr
+   47     | expr • '/' line expr
+   48     | expr • '%' line expr
+   49     | expr • '&' line expr
+   50     | expr • '|' line expr
+   51     | expr • '^' line expr
+   52     | expr • LT2 line expr
+   53     | expr • GT2 line expr
+   54     | expr • LT3 line expr
+   55     | expr • GT3 line expr
+
+    GT2  shift, and go to state 64
+    GT3  shift, and go to state 65
+    LT2  shift, and go to state 66
+    LT3  shift, and go to state 67
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '&'  shift, and go to state 73
+    '|'  shift, and go to state 74
+    '^'  shift, and go to state 75
+
+    $default  reduce using rule 26 (stmt)
+
+
+State 80
+
+   39 cond: NOT line • cond
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    NOT  shift, and go to state 52
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 53
+
+    cond  go to state 113
+    expr  go to state 55
+    atom  go to state 46
+
+
+State 81
+
+   40 cond: cond • AND line cond
+   41     | cond • OR line cond
+   42     | '(' cond • ')'
+
+    AND  shift, and go to state 83
+    OR   shift, and go to state 84
+    ')'  shift, and go to state 114
+
+
+State 82
+
+   33 cond: expr • '=' line expr
+   34     | expr • NE line expr
+   35     | expr • '<' line expr
+   36     | expr • LE line expr
+   37     | expr • '>' line expr
+   38     | expr • GE line expr
+   44 expr: expr • '+' line expr
+   45     | expr • '-' line expr
+   46     | expr • '*' line expr
+   47     | expr • '/' line expr
+   48     | expr • '%' line expr
+   49     | expr • '&' line expr
+   50     | expr • '|' line expr
+   51     | expr • '^' line expr
+   52     | expr • LT2 line expr
+   53     | expr • GT2 line expr
+   54     | expr • LT3 line expr
+   55     | expr • GT3 line expr
+   63 atom: '(' expr • ')'
+
+    GE   shift, and go to state 86
+    LE   shift, and go to state 87
+    NE   shift, and go to state 88
+    GT2  shift, and go to state 64
+    GT3  shift, and go to state 65
+    LT2  shift, and go to state 66
+    LT3  shift, and go to state 67
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '&'  shift, and go to state 73
+    '|'  shift, and go to state 74
+    '^'  shift, and go to state 75
+    '='  shift, and go to state 89
+    '<'  shift, and go to state 90
+    '>'  shift, and go to state 91
+    ')'  shift, and go to state 96
+
+
+State 83
+
+   40 cond: cond AND • line cond
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 115
+
+
+State 84
+
+   41 cond: cond OR • line cond
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 116
+
+
+State 85
+
+   29 stmt: IF line cond THEN • stmts ENDIF
+   30     | IF line cond THEN • stmts ELSE stmts ENDIF
+
+    ID    shift, and go to state 22
+    GOTO  shift, and go to state 23
+    IF    shift, and go to state 24
+    STOP  shift, and go to state 25
+
+    stmts  go to state 117
+    stmt   go to state 28
+
+
+State 86
+
+   38 cond: expr GE • line expr
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 118
+
+
+State 87
+
+   36 cond: expr LE • line expr
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 119
+
+
+State 88
+
+   34 cond: expr NE • line expr
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 120
+
+
+State 89
+
+   33 cond: expr '=' • line expr
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 121
+
+
+State 90
+
+   35 cond: expr '<' • line expr
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 122
+
+
+State 91
+
+   37 cond: expr '>' • line expr
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 123
+
+
+State 92
+
+   14 state: STATE line ID • ':' opt_stmts opt_whens
+
+    ':'  shift, and go to state 124
+
+
+State 93
+
+   58 atom: atom • '[' expr ']'
+   59     | atom • '[' expr DOTDOT expr ']'
+   60     | '~' line atom •
+
+    '['  shift, and go to state 76
+
+    $default  reduce using rule 60 (atom)
+
+
+State 94
+
+   58 atom: atom • '[' expr ']'
+   59     | atom • '[' expr DOTDOT expr ']'
+   62     | '+' line atom •
+
+    $default  reduce using rule 62 (atom)
+
+
+State 95
+
+   58 atom: atom • '[' expr ']'
+   59     | atom • '[' expr DOTDOT expr ']'
+   61     | '-' line atom •
+
+    $default  reduce using rule 61 (atom)
+
+
+State 96
+
+   63 atom: '(' expr ')' •
+
+    $default  reduce using rule 63 (atom)
+
+
+State 97
+
+   53 expr: expr GT2 line • expr
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    expr  go to state 125
+    atom  go to state 46
+
+
+State 98
+
+   55 expr: expr GT3 line • expr
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    expr  go to state 126
+    atom  go to state 46
+
+
+State 99
+
+   52 expr: expr LT2 line • expr
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    expr  go to state 127
+    atom  go to state 46
+
+
+State 100
+
+   54 expr: expr LT3 line • expr
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    expr  go to state 128
+    atom  go to state 46
+
+
+State 101
+
+   44 expr: expr '+' line • expr
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    expr  go to state 129
+    atom  go to state 46
+
+
+State 102
+
+   45 expr: expr '-' line • expr
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    expr  go to state 130
+    atom  go to state 46
+
+
+State 103
+
+   46 expr: expr '*' line • expr
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    expr  go to state 131
+    atom  go to state 46
+
+
+State 104
+
+   47 expr: expr '/' line • expr
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    expr  go to state 132
+    atom  go to state 46
+
+
+State 105
+
+   48 expr: expr '%' line • expr
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    expr  go to state 133
+    atom  go to state 46
+
+
+State 106
+
+   49 expr: expr '&' line • expr
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    expr  go to state 134
+    atom  go to state 46
+
+
+State 107
+
+   50 expr: expr '|' line • expr
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    expr  go to state 135
+    atom  go to state 46
+
+
+State 108
+
+   51 expr: expr '^' line • expr
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    expr  go to state 136
+    atom  go to state 46
+
+
+State 109
+
+   44 expr: expr • '+' line expr
+   45     | expr • '-' line expr
+   46     | expr • '*' line expr
+   47     | expr • '/' line expr
+   48     | expr • '%' line expr
+   49     | expr • '&' line expr
+   50     | expr • '|' line expr
+   51     | expr • '^' line expr
+   52     | expr • LT2 line expr
+   53     | expr • GT2 line expr
+   54     | expr • LT3 line expr
+   55     | expr • GT3 line expr
+   58 atom: atom '[' expr • ']'
+   59     | atom '[' expr • DOTDOT expr ']'
+
+    DOTDOT  shift, and go to state 137
+    GT2     shift, and go to state 64
+    GT3     shift, and go to state 65
+    LT2     shift, and go to state 66
+    LT3     shift, and go to state 67
+    '+'     shift, and go to state 68
+    '-'     shift, and go to state 69
+    '*'     shift, and go to state 70
+    '/'     shift, and go to state 71
+    '%'     shift, and go to state 72
+    '&'     shift, and go to state 73
+    '|'     shift, and go to state 74
+    '^'     shift, and go to state 75
+    ']'     shift, and go to state 138
+
+
+State 110
+
+   10 decl: SIG line ID '@' ID '[' expr • ']'
+   44 expr: expr • '+' line expr
+   45     | expr • '-' line expr
+   46     | expr • '*' line expr
+   47     | expr • '/' line expr
+   48     | expr • '%' line expr
+   49     | expr • '&' line expr
+   50     | expr • '|' line expr
+   51     | expr • '^' line expr
+   52     | expr • LT2 line expr
+   53     | expr • GT2 line expr
+   54     | expr • LT3 line expr
+   55     | expr • GT3 line expr
+
+    GT2  shift, and go to state 64
+    GT3  shift, and go to state 65
+    LT2  shift, and go to state 66
+    LT3  shift, and go to state 67
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '&'  shift, and go to state 73
+    '|'  shift, and go to state 74
+    '^'  shift, and go to state 75
+    ']'  shift, and go to state 139
+
+
+State 111
+
+   28 stmt: ID line '[' expr DOTDOT • expr ']' '=' expr
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    expr  go to state 140
+    atom  go to state 46
+
+
+State 112
+
+   27 stmt: ID line '[' expr ']' • '=' expr
+
+    '='  shift, and go to state 141
+
+
+State 113
+
+   39 cond: NOT line cond •
+   40     | cond • AND line cond
+   41     | cond • OR line cond
+
+    AND  shift, and go to state 83
+    OR   shift, and go to state 84
+
+    $default  reduce using rule 39 (cond)
+
+
+State 114
+
+   42 cond: '(' cond ')' •
+
+    $default  reduce using rule 42 (cond)
+
+
+State 115
+
+   40 cond: cond AND line • cond
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    NOT  shift, and go to state 52
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 53
+
+    cond  go to state 142
+    expr  go to state 55
+    atom  go to state 46
+
+
+State 116
+
+   41 cond: cond OR line • cond
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    NOT  shift, and go to state 52
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 53
+
+    cond  go to state 143
+    expr  go to state 55
+    atom  go to state 46
+
+
+State 117
+
+   25 stmts: stmts • stmt
+   29 stmt: IF line cond THEN stmts • ENDIF
+   30     | IF line cond THEN stmts • ELSE stmts ENDIF
+
+    ID     shift, and go to state 22
+    ELSE   shift, and go to state 144
+    ENDIF  shift, and go to state 145
+    GOTO   shift, and go to state 23
+    IF     shift, and go to state 24
+    STOP   shift, and go to state 25
+
+    stmt  go to state 38
+
+
+State 118
+
+   38 cond: expr GE line • expr
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    expr  go to state 146
+    atom  go to state 46
+
+
+State 119
+
+   36 cond: expr LE line • expr
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    expr  go to state 147
+    atom  go to state 46
+
+
+State 120
+
+   34 cond: expr NE line • expr
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    expr  go to state 148
+    atom  go to state 46
+
+
+State 121
+
+   33 cond: expr '=' line • expr
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    expr  go to state 149
+    atom  go to state 46
+
+
+State 122
+
+   35 cond: expr '<' line • expr
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    expr  go to state 150
+    atom  go to state 46
+
+
+State 123
+
+   37 cond: expr '>' line • expr
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    expr  go to state 151
+    atom  go to state 46
+
+
+State 124
+
+   14 state: STATE line ID ':' • opt_stmts opt_whens
+
+    ID    shift, and go to state 22
+    GOTO  shift, and go to state 23
+    IF    shift, and go to state 24
+    STOP  shift, and go to state 25
+
+    $default  reduce using rule 22 (opt_stmts)
+
+    opt_stmts  go to state 152
+    stmts      go to state 27
+    stmt       go to state 28
+
+
+State 125
+
+   44 expr: expr • '+' line expr
+   45     | expr • '-' line expr
+   46     | expr • '*' line expr
+   47     | expr • '/' line expr
+   48     | expr • '%' line expr
+   49     | expr • '&' line expr
+   50     | expr • '|' line expr
+   51     | expr • '^' line expr
+   52     | expr • LT2 line expr
+   53     | expr • GT2 line expr
+   53     | expr GT2 line expr •
+   54     | expr • LT3 line expr
+   55     | expr • GT3 line expr
+
+    $default  reduce using rule 53 (expr)
+
+
+State 126
+
+   44 expr: expr • '+' line expr
+   45     | expr • '-' line expr
+   46     | expr • '*' line expr
+   47     | expr • '/' line expr
+   48     | expr • '%' line expr
+   49     | expr • '&' line expr
+   50     | expr • '|' line expr
+   51     | expr • '^' line expr
+   52     | expr • LT2 line expr
+   53     | expr • GT2 line expr
+   54     | expr • LT3 line expr
+   55     | expr • GT3 line expr
+   55     | expr GT3 line expr •
+
+    $default  reduce using rule 55 (expr)
+
+
+State 127
+
+   44 expr: expr • '+' line expr
+   45     | expr • '-' line expr
+   46     | expr • '*' line expr
+   47     | expr • '/' line expr
+   48     | expr • '%' line expr
+   49     | expr • '&' line expr
+   50     | expr • '|' line expr
+   51     | expr • '^' line expr
+   52     | expr • LT2 line expr
+   52     | expr LT2 line expr •
+   53     | expr • GT2 line expr
+   54     | expr • LT3 line expr
+   55     | expr • GT3 line expr
+
+    $default  reduce using rule 52 (expr)
+
+
+State 128
+
+   44 expr: expr • '+' line expr
+   45     | expr • '-' line expr
+   46     | expr • '*' line expr
+   47     | expr • '/' line expr
+   48     | expr • '%' line expr
+   49     | expr • '&' line expr
+   50     | expr • '|' line expr
+   51     | expr • '^' line expr
+   52     | expr • LT2 line expr
+   53     | expr • GT2 line expr
+   54     | expr • LT3 line expr
+   54     | expr LT3 line expr •
+   55     | expr • GT3 line expr
+
+    $default  reduce using rule 54 (expr)
+
+
+State 129
+
+   44 expr: expr • '+' line expr
+   44     | expr '+' line expr •
+   45     | expr • '-' line expr
+   46     | expr • '*' line expr
+   47     | expr • '/' line expr
+   48     | expr • '%' line expr
+   49     | expr • '&' line expr
+   50     | expr • '|' line expr
+   51     | expr • '^' line expr
+   52     | expr • LT2 line expr
+   53     | expr • GT2 line expr
+   54     | expr • LT3 line expr
+   55     | expr • GT3 line expr
+
+    GT2  shift, and go to state 64
+    GT3  shift, and go to state 65
+    LT2  shift, and go to state 66
+    LT3  shift, and go to state 67
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '&'  shift, and go to state 73
+    '|'  shift, and go to state 74
+    '^'  shift, and go to state 75
+
+    $default  reduce using rule 44 (expr)
+
+
+State 130
+
+   44 expr: expr • '+' line expr
+   45     | expr • '-' line expr
+   45     | expr '-' line expr •
+   46     | expr • '*' line expr
+   47     | expr • '/' line expr
+   48     | expr • '%' line expr
+   49     | expr • '&' line expr
+   50     | expr • '|' line expr
+   51     | expr • '^' line expr
+   52     | expr • LT2 line expr
+   53     | expr • GT2 line expr
+   54     | expr • LT3 line expr
+   55     | expr • GT3 line expr
+
+    GT2  shift, and go to state 64
+    GT3  shift, and go to state 65
+    LT2  shift, and go to state 66
+    LT3  shift, and go to state 67
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '&'  shift, and go to state 73
+    '|'  shift, and go to state 74
+    '^'  shift, and go to state 75
+
+    $default  reduce using rule 45 (expr)
+
+
+State 131
+
+   44 expr: expr • '+' line expr
+   45     | expr • '-' line expr
+   46     | expr • '*' line expr
+   46     | expr '*' line expr •
+   47     | expr • '/' line expr
+   48     | expr • '%' line expr
+   49     | expr • '&' line expr
+   50     | expr • '|' line expr
+   51     | expr • '^' line expr
+   52     | expr • LT2 line expr
+   53     | expr • GT2 line expr
+   54     | expr • LT3 line expr
+   55     | expr • GT3 line expr
+
+    GT2  shift, and go to state 64
+    GT3  shift, and go to state 65
+    LT2  shift, and go to state 66
+    LT3  shift, and go to state 67
+    '&'  shift, and go to state 73
+    '|'  shift, and go to state 74
+    '^'  shift, and go to state 75
+
+    $default  reduce using rule 46 (expr)
+
+
+State 132
+
+   44 expr: expr • '+' line expr
+   45     | expr • '-' line expr
+   46     | expr • '*' line expr
+   47     | expr • '/' line expr
+   47     | expr '/' line expr •
+   48     | expr • '%' line expr
+   49     | expr • '&' line expr
+   50     | expr • '|' line expr
+   51     | expr • '^' line expr
+   52     | expr • LT2 line expr
+   53     | expr • GT2 line expr
+   54     | expr • LT3 line expr
+   55     | expr • GT3 line expr
+
+    GT2  shift, and go to state 64
+    GT3  shift, and go to state 65
+    LT2  shift, and go to state 66
+    LT3  shift, and go to state 67
+    '&'  shift, and go to state 73
+    '|'  shift, and go to state 74
+    '^'  shift, and go to state 75
+
+    $default  reduce using rule 47 (expr)
+
+
+State 133
+
+   44 expr: expr • '+' line expr
+   45     | expr • '-' line expr
+   46     | expr • '*' line expr
+   47     | expr • '/' line expr
+   48     | expr • '%' line expr
+   48     | expr '%' line expr •
+   49     | expr • '&' line expr
+   50     | expr • '|' line expr
+   51     | expr • '^' line expr
+   52     | expr • LT2 line expr
+   53     | expr • GT2 line expr
+   54     | expr • LT3 line expr
+   55     | expr • GT3 line expr
+
+    GT2  shift, and go to state 64
+    GT3  shift, and go to state 65
+    LT2  shift, and go to state 66
+    LT3  shift, and go to state 67
+    '&'  shift, and go to state 73
+    '|'  shift, and go to state 74
+    '^'  shift, and go to state 75
+
+    $default  reduce using rule 48 (expr)
+
+
+State 134
+
+   44 expr: expr • '+' line expr
+   45     | expr • '-' line expr
+   46     | expr • '*' line expr
+   47     | expr • '/' line expr
+   48     | expr • '%' line expr
+   49     | expr • '&' line expr
+   49     | expr '&' line expr •
+   50     | expr • '|' line expr
+   51     | expr • '^' line expr
+   52     | expr • LT2 line expr
+   53     | expr • GT2 line expr
+   54     | expr • LT3 line expr
+   55     | expr • GT3 line expr
+
+    GT2  shift, and go to state 64
+    GT3  shift, and go to state 65
+    LT2  shift, and go to state 66
+    LT3  shift, and go to state 67
+    '|'  shift, and go to state 74
+    '^'  shift, and go to state 75
+
+    $default  reduce using rule 49 (expr)
+
+
+State 135
+
+   44 expr: expr • '+' line expr
+   45     | expr • '-' line expr
+   46     | expr • '*' line expr
+   47     | expr • '/' line expr
+   48     | expr • '%' line expr
+   49     | expr • '&' line expr
+   50     | expr • '|' line expr
+   50     | expr '|' line expr •
+   51     | expr • '^' line expr
+   52     | expr • LT2 line expr
+   53     | expr • GT2 line expr
+   54     | expr • LT3 line expr
+   55     | expr • GT3 line expr
+
+    GT2  shift, and go to state 64
+    GT3  shift, and go to state 65
+    LT2  shift, and go to state 66
+    LT3  shift, and go to state 67
+
+    $default  reduce using rule 50 (expr)
+
+
+State 136
+
+   44 expr: expr • '+' line expr
+   45     | expr • '-' line expr
+   46     | expr • '*' line expr
+   47     | expr • '/' line expr
+   48     | expr • '%' line expr
+   49     | expr • '&' line expr
+   50     | expr • '|' line expr
+   51     | expr • '^' line expr
+   51     | expr '^' line expr •
+   52     | expr • LT2 line expr
+   53     | expr • GT2 line expr
+   54     | expr • LT3 line expr
+   55     | expr • GT3 line expr
+
+    GT2  shift, and go to state 64
+    GT3  shift, and go to state 65
+    LT2  shift, and go to state 66
+    LT3  shift, and go to state 67
+
+    $default  reduce using rule 51 (expr)
+
+
+State 137
+
+   59 atom: atom '[' expr DOTDOT • expr ']'
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    expr  go to state 153
+    atom  go to state 46
+
+
+State 138
+
+   58 atom: atom '[' expr ']' •
+
+    $default  reduce using rule 58 (atom)
+
+
+State 139
+
+   10 decl: SIG line ID '@' ID '[' expr ']' •
+
+    $default  reduce using rule 10 (decl)
+
+
+State 140
+
+   28 stmt: ID line '[' expr DOTDOT expr • ']' '=' expr
+   44 expr: expr • '+' line expr
+   45     | expr • '-' line expr
+   46     | expr • '*' line expr
+   47     | expr • '/' line expr
+   48     | expr • '%' line expr
+   49     | expr • '&' line expr
+   50     | expr • '|' line expr
+   51     | expr • '^' line expr
+   52     | expr • LT2 line expr
+   53     | expr • GT2 line expr
+   54     | expr • LT3 line expr
+   55     | expr • GT3 line expr
+
+    GT2  shift, and go to state 64
+    GT3  shift, and go to state 65
+    LT2  shift, and go to state 66
+    LT3  shift, and go to state 67
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '&'  shift, and go to state 73
+    '|'  shift, and go to state 74
+    '^'  shift, and go to state 75
+    ']'  shift, and go to state 154
+
+
+State 141
+
+   27 stmt: ID line '[' expr ']' '=' • expr
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    expr  go to state 155
+    atom  go to state 46
+
+
+State 142
+
+   40 cond: cond • AND line cond
+   40     | cond AND line cond •
+   41     | cond • OR line cond
+
+    $default  reduce using rule 40 (cond)
+
+
+State 143
+
+   40 cond: cond • AND line cond
+   41     | cond • OR line cond
+   41     | cond OR line cond •
+
+    AND  shift, and go to state 83
+
+    $default  reduce using rule 41 (cond)
+
+
+State 144
+
+   30 stmt: IF line cond THEN stmts ELSE • stmts ENDIF
+
+    ID    shift, and go to state 22
+    GOTO  shift, and go to state 23
+    IF    shift, and go to state 24
+    STOP  shift, and go to state 25
+
+    stmts  go to state 156
+    stmt   go to state 28
+
+
+State 145
+
+   29 stmt: IF line cond THEN stmts ENDIF •
+
+    $default  reduce using rule 29 (stmt)
+
+
+State 146
+
+   38 cond: expr GE line expr •
+   44 expr: expr • '+' line expr
+   45     | expr • '-' line expr
+   46     | expr • '*' line expr
+   47     | expr • '/' line expr
+   48     | expr • '%' line expr
+   49     | expr • '&' line expr
+   50     | expr • '|' line expr
+   51     | expr • '^' line expr
+   52     | expr • LT2 line expr
+   53     | expr • GT2 line expr
+   54     | expr • LT3 line expr
+   55     | expr • GT3 line expr
+
+    GT2  shift, and go to state 64
+    GT3  shift, and go to state 65
+    LT2  shift, and go to state 66
+    LT3  shift, and go to state 67
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '&'  shift, and go to state 73
+    '|'  shift, and go to state 74
+    '^'  shift, and go to state 75
+
+    $default  reduce using rule 38 (cond)
+
+
+State 147
+
+   36 cond: expr LE line expr •
+   44 expr: expr • '+' line expr
+   45     | expr • '-' line expr
+   46     | expr • '*' line expr
+   47     | expr • '/' line expr
+   48     | expr • '%' line expr
+   49     | expr • '&' line expr
+   50     | expr • '|' line expr
+   51     | expr • '^' line expr
+   52     | expr • LT2 line expr
+   53     | expr • GT2 line expr
+   54     | expr • LT3 line expr
+   55     | expr • GT3 line expr
+
+    GT2  shift, and go to state 64
+    GT3  shift, and go to state 65
+    LT2  shift, and go to state 66
+    LT3  shift, and go to state 67
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '&'  shift, and go to state 73
+    '|'  shift, and go to state 74
+    '^'  shift, and go to state 75
+
+    $default  reduce using rule 36 (cond)
+
+
+State 148
+
+   34 cond: expr NE line expr •
+   44 expr: expr • '+' line expr
+   45     | expr • '-' line expr
+   46     | expr • '*' line expr
+   47     | expr • '/' line expr
+   48     | expr • '%' line expr
+   49     | expr • '&' line expr
+   50     | expr • '|' line expr
+   51     | expr • '^' line expr
+   52     | expr • LT2 line expr
+   53     | expr • GT2 line expr
+   54     | expr • LT3 line expr
+   55     | expr • GT3 line expr
+
+    GT2  shift, and go to state 64
+    GT3  shift, and go to state 65
+    LT2  shift, and go to state 66
+    LT3  shift, and go to state 67
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '&'  shift, and go to state 73
+    '|'  shift, and go to state 74
+    '^'  shift, and go to state 75
+
+    $default  reduce using rule 34 (cond)
+
+
+State 149
+
+   33 cond: expr '=' line expr •
+   44 expr: expr • '+' line expr
+   45     | expr • '-' line expr
+   46     | expr • '*' line expr
+   47     | expr • '/' line expr
+   48     | expr • '%' line expr
+   49     | expr • '&' line expr
+   50     | expr • '|' line expr
+   51     | expr • '^' line expr
+   52     | expr • LT2 line expr
+   53     | expr • GT2 line expr
+   54     | expr • LT3 line expr
+   55     | expr • GT3 line expr
+
+    GT2  shift, and go to state 64
+    GT3  shift, and go to state 65
+    LT2  shift, and go to state 66
+    LT3  shift, and go to state 67
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '&'  shift, and go to state 73
+    '|'  shift, and go to state 74
+    '^'  shift, and go to state 75
+
+    $default  reduce using rule 33 (cond)
+
+
+State 150
+
+   35 cond: expr '<' line expr •
+   44 expr: expr • '+' line expr
+   45     | expr • '-' line expr
+   46     | expr • '*' line expr
+   47     | expr • '/' line expr
+   48     | expr • '%' line expr
+   49     | expr • '&' line expr
+   50     | expr • '|' line expr
+   51     | expr • '^' line expr
+   52     | expr • LT2 line expr
+   53     | expr • GT2 line expr
+   54     | expr • LT3 line expr
+   55     | expr • GT3 line expr
+
+    GT2  shift, and go to state 64
+    GT3  shift, and go to state 65
+    LT2  shift, and go to state 66
+    LT3  shift, and go to state 67
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '&'  shift, and go to state 73
+    '|'  shift, and go to state 74
+    '^'  shift, and go to state 75
+
+    $default  reduce using rule 35 (cond)
+
+
+State 151
+
+   37 cond: expr '>' line expr •
+   44 expr: expr • '+' line expr
+   45     | expr • '-' line expr
+   46     | expr • '*' line expr
+   47     | expr • '/' line expr
+   48     | expr • '%' line expr
+   49     | expr • '&' line expr
+   50     | expr • '|' line expr
+   51     | expr • '^' line expr
+   52     | expr • LT2 line expr
+   53     | expr • GT2 line expr
+   54     | expr • LT3 line expr
+   55     | expr • GT3 line expr
+
+    GT2  shift, and go to state 64
+    GT3  shift, and go to state 65
+    LT2  shift, and go to state 66
+    LT3  shift, and go to state 67
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '&'  shift, and go to state 73
+    '|'  shift, and go to state 74
+    '^'  shift, and go to state 75
+
+    $default  reduce using rule 37 (cond)
+
+
+State 152
+
+   14 state: STATE line ID ':' opt_stmts • opt_whens
+
+    WHEN  shift, and go to state 157
+
+    $default  reduce using rule 15 (opt_whens)
+
+    opt_whens  go to state 158
+    whens      go to state 159
+    when       go to state 160
+
+
+State 153
+
+   44 expr: expr • '+' line expr
+   45     | expr • '-' line expr
+   46     | expr • '*' line expr
+   47     | expr • '/' line expr
+   48     | expr • '%' line expr
+   49     | expr • '&' line expr
+   50     | expr • '|' line expr
+   51     | expr • '^' line expr
+   52     | expr • LT2 line expr
+   53     | expr • GT2 line expr
+   54     | expr • LT3 line expr
+   55     | expr • GT3 line expr
+   59 atom: atom '[' expr DOTDOT expr • ']'
+
+    GT2  shift, and go to state 64
+    GT3  shift, and go to state 65
+    LT2  shift, and go to state 66
+    LT3  shift, and go to state 67
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '&'  shift, and go to state 73
+    '|'  shift, and go to state 74
+    '^'  shift, and go to state 75
+    ']'  shift, and go to state 161
+
+
+State 154
+
+   28 stmt: ID line '[' expr DOTDOT expr ']' • '=' expr
+
+    '='  shift, and go to state 162
+
+
+State 155
+
+   27 stmt: ID line '[' expr ']' '=' expr •
+   44 expr: expr • '+' line expr
+   45     | expr • '-' line expr
+   46     | expr • '*' line expr
+   47     | expr • '/' line expr
+   48     | expr • '%' line expr
+   49     | expr • '&' line expr
+   50     | expr • '|' line expr
+   51     | expr • '^' line expr
+   52     | expr • LT2 line expr
+   53     | expr • GT2 line expr
+   54     | expr • LT3 line expr
+   55     | expr • GT3 line expr
+
+    GT2  shift, and go to state 64
+    GT3  shift, and go to state 65
+    LT2  shift, and go to state 66
+    LT3  shift, and go to state 67
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '&'  shift, and go to state 73
+    '|'  shift, and go to state 74
+    '^'  shift, and go to state 75
+
+    $default  reduce using rule 27 (stmt)
+
+
+State 156
+
+   25 stmts: stmts • stmt
+   30 stmt: IF line cond THEN stmts ELSE stmts • ENDIF
+
+    ID     shift, and go to state 22
+    ENDIF  shift, and go to state 163
+    GOTO   shift, and go to state 23
+    IF     shift, and go to state 24
+    STOP   shift, and go to state 25
+
+    stmt  go to state 38
+
+
+State 157
+
+   19 when: WHEN • line opt_not ID ':' opt_stmts
+
+    $default  reduce using rule 2 (line)
+
+    line  go to state 164
+
+
+State 158
+
+   14 state: STATE line ID ':' opt_stmts opt_whens •
+
+    $default  reduce using rule 14 (state)
+
+
+State 159
+
+   16 opt_whens: whens •
+   18 whens: whens • when
+
+    WHEN  shift, and go to state 157
+
+    $default  reduce using rule 16 (opt_whens)
+
+    when  go to state 165
+
+
+State 160
+
+   17 whens: when •
+
+    $default  reduce using rule 17 (whens)
+
+
+State 161
+
+   59 atom: atom '[' expr DOTDOT expr ']' •
+
+    $default  reduce using rule 59 (atom)
+
+
+State 162
+
+   28 stmt: ID line '[' expr DOTDOT expr ']' '=' • expr
+
+    ID   shift, and go to state 39
+    INT  shift, and go to state 40
+    '~'  shift, and go to state 41
+    '+'  shift, and go to state 42
+    '-'  shift, and go to state 43
+    '('  shift, and go to state 44
+
+    expr  go to state 166
+    atom  go to state 46
+
+
+State 163
+
+   30 stmt: IF line cond THEN stmts ELSE stmts ENDIF •
+
+    $default  reduce using rule 30 (stmt)
+
+
+State 164
+
+   19 when: WHEN line • opt_not ID ':' opt_stmts
+
+    '!'  shift, and go to state 167
+
+    $default  reduce using rule 20 (opt_not)
+
+    opt_not  go to state 168
+
+
+State 165
+
+   18 whens: whens when •
+
+    $default  reduce using rule 18 (whens)
+
+
+State 166
+
+   28 stmt: ID line '[' expr DOTDOT expr ']' '=' expr •
+   44 expr: expr • '+' line expr
+   45     | expr • '-' line expr
+   46     | expr • '*' line expr
+   47     | expr • '/' line expr
+   48     | expr • '%' line expr
+   49     | expr • '&' line expr
+   50     | expr • '|' line expr
+   51     | expr • '^' line expr
+   52     | expr • LT2 line expr
+   53     | expr • GT2 line expr
+   54     | expr • LT3 line expr
+   55     | expr • GT3 line expr
+
+    GT2  shift, and go to state 64
+    GT3  shift, and go to state 65
+    LT2  shift, and go to state 66
+    LT3  shift, and go to state 67
+    '+'  shift, and go to state 68
+    '-'  shift, and go to state 69
+    '*'  shift, and go to state 70
+    '/'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '&'  shift, and go to state 73
+    '|'  shift, and go to state 74
+    '^'  shift, and go to state 75
+
+    $default  reduce using rule 28 (stmt)
+
+
+State 167
+
+   21 opt_not: '!' •
+
+    $default  reduce using rule 21 (opt_not)
+
+
+State 168
+
+   19 when: WHEN line opt_not • ID ':' opt_stmts
+
+    ID  shift, and go to state 169
+
+
+State 169
+
+   19 when: WHEN line opt_not ID • ':' opt_stmts
+
+    ':'  shift, and go to state 170
+
+
+State 170
+
+   19 when: WHEN line opt_not ID ':' • opt_stmts
+
+    ID    shift, and go to state 22
+    GOTO  shift, and go to state 23
+    IF    shift, and go to state 24
+    STOP  shift, and go to state 25
+
+    $default  reduce using rule 22 (opt_stmts)
+
+    opt_stmts  go to state 171
+    stmts      go to state 27
+    stmt       go to state 28
+
+
+State 171
+
+   19 when: WHEN line opt_not ID ':' opt_stmts •
+
+    $default  reduce using rule 19 (when)
