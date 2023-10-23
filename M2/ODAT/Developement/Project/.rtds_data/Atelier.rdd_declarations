@@ -1,0 +1,55 @@
+Ä}q(UversionqU6.0.1qUobjectq}q(Useq_to_elt_typeq}qUordered_decl_nodesq]q	(cpragmadev.main.business.l1lll1lll1lll_opy_
+l1ll1lll1111l1_opy_
+q
+oq}q(UtextqU=PieceType = Integer default 1 ; constants 1 .. 3 endsyntype ;qU
+identifierqU0:8qUtypeqUsyntypedeclqUchildrenq]q((h
+oq}q(hU	PieceTypeqhU0:8qhUsyntypenameqh]qU)_l1ll1lll1111l1_opy___11llllll11llll_opy_q(h
+oq}q(hhhhhhhhhhubub(h
+oq}q(hUIntegerq hU0:20q!hUtypenameq"h]q#hhub(h
+oq$}q%(hU1hU1:8q&hU	dfltvalueq'h]q((h
+oq)}q*(hU1hU1:8q+hUnbexprq,h]q-hh$ubahhub(h
+oq.}q/(hUconstants 1 .. 3q0hU2:0q1hUconstraintsq2h]q3(h
+oq4}q5(hU1 .. 3q6hU2:10q7hU
+constraintq8h]q9((h
+oq:}q;(hU1hU2:10q<hUoperand1q=h]q>(h
+oq?}q@(hU1hU2:10qAhUnbexprqBh]qChh:ubahh4ub(h
+oqD}qE(hU..qFhU2:11qGhU	cnstrntopqHh]qIhh4ub(h
+oqJ}qK(hU3hU2:13qLhUoperand2qMh]qN(h
+oqO}qP(hU3hU2:13qQhUnbexprqRh]qShhJubahh4ubehh.ubahhubeh(h
+oqT}qU(hUÌsyntype PieceType = Integer
+  default 1;
+  constants 1..3
+endsyntype;
+  
+
+signal newPiece(PieceType);
+signal sFeedPiece;
+signal sPrepareMachine, sReturnPiece;
+signal sPieceTaken, sPieceProcessed;
+signal sPieceTakenAway, sTakePieceAway;
+
+qVhNhUdatadeclqWh]qX(h(h
+oqY}qZ(hUnewPiece ( PieceType )q[hU6:7q\hUmsgdeclq]h]q^((h
+oq_}q`(hUnewPieceqahU6:7qbhUmsgnameqch]qdh(h
+oqe}qf(hh[hh\hh]hh^hhYubub(h
+oqg}qh(hU	PieceTypeqihU6:16qjhUmsgparamqkh]qlhheubehhTub(h
+oqm}qn(hU
+sFeedPieceqohU7:7qphUmsgdeclqqh]qr(h
+oqs}qt(hU
+sFeedPiecequhU7:7qvhUmsgnameqwh]qxh(h
+oqy}qz(hhohhphhqhhrhhmububahhTub(h
+oq{}q|(hU'signal sPrepareMachine , sReturnPiece ;q}hU8:0q~hU	cmpnddeclqh]qÄ((h
+oqÅ}qÇ(hUsPrepareMachineqÉhU8:7qÑhUmsgdeclqÖh]qÜ(h
+oqá}qà(hUsPrepareMachineqâhU8:7qähUmsgnameqãh]qåhhÅubahh{ub(h
+oqç}qé(hUsReturnPieceqèhU8:24qêhUmsgdeclqëh]qí(h
+oqì}qî(hUsReturnPieceqïhU8:24qñhUmsgnameqóh]qòhhçubahh{ubehhTub(h
+oqô}qö(hU&signal sPieceTaken , sPieceProcessed ;qõhU9:0qúhU	cmpnddeclqùh]qû((h
+oqü}q†(hUsPieceTakenq°hU9:7q¢hUmsgdeclq£h]q§(h
+oq•}q¶(hUsPieceTakenqßhU9:7q®hUmsgnameq©h]q™hhüubahhôub(h
+oq´}q¨(hUsPieceProcessedq≠hU9:20qÆhUmsgdeclqØh]q∞(h
+oq±}q≤(hUsPieceProcessedq≥hU9:20q¥hUmsgnameqµh]q∂hh´ubahhôubehhTub(h
+oq∑}q∏(hU)signal sPieceTakenAway , sTakePieceAway ;qπhU10:0q∫hU	cmpnddeclqªh]qº((h
+oqΩ}qæ(hUsPieceTakenAwayqøhU10:7q¿hUmsgdeclq¡h]q¬(h
+oq√}qƒ(hUsPieceTakenAwayq≈hU10:7q∆hUmsgnameq«h]q»hhΩubahh∑ub(h
+oq…}q (hUsTakePieceAwayqÀhU10:24qÃhUmsgdeclqÕh]qŒ(h
+oqœ}q–(hUsTakePieceAwayq—hU10:24q“hUmsgnameq”h]q‘hh…ubahh∑ubehhTubehNububauu.

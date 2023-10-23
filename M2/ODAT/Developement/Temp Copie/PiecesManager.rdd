@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE Diagram SYSTEM "rtdsDiagram.dtd">
+
+<SdlFSMDiagram language="sdl" type="prcs" is_extract="FALSE" is_temporary="FALSE">
+<SdlFSMPartition name="" needs_cleanup="FALSE">
+<NonStateTransition top_left_coordinates="124 72">
+<SdlFSMSymbol identifier="SYM1" type="sdlStart" outline_color="-" background_color="-" center_coordinates="186 87" dimensions="60 30" attached_symbol_id=""/>
+<Transition>
+<SdlFSMSymbol identifier="SYM2" type="sdlState" text="convoyeurLibre" outline_color="-" background_color="-" center_coordinates="186 134" dimensions="118 40" attached_symbol_id=""/>
+</Transition>
+</NonStateTransition>
+<StateTransitionBlock top_left_coordinates="131 515">
+<SdlFSMSymbol identifier="SYM12" type="sdlState" text="convoyeurOccupe" outline_color="-" background_color="-" center_coordinates="239 535" dimensions="124 40" attached_symbol_id=""/>
+<NormalStateTransition>
+<SdlFSMSymbol identifier="SYM13" type="sdlInputSig" text="sPieceTaken, sPieceTakenAway" outline_color="-" background_color="-" center_coordinates="239 587" dimensions="216 40" attached_symbol_id=""/>
+<Transition>
+<SdlFSMSymbol identifier="SYM17" type="sdlState" text="convoyeurLibre" outline_color="-" background_color="-" center_coordinates="239 639" dimensions="118 40" attached_symbol_id=""/>
+</Transition>
+</NormalStateTransition>
+<SaveTransition>
+<SdlFSMSymbol identifier="SYM18" type="sdlSaveSig" text="newPiece, sPieceProcessed" outline_color="-" background_color="-" center_coordinates="454 587" dimensions="194 40" attached_symbol_id=""/>
+</SaveTransition>
+</StateTransitionBlock>
+<StateTransitionBlock top_left_coordinates="238 148">
+<SdlFSMSymbolReference identifier="SYM2"/>
+<NormalStateTransition>
+<SdlFSMSymbol identifier="SYM3" type="sdlInputSig" text="newPiece" outline_color="-" background_color="-" center_coordinates="186 186" dimensions="82 40" attached_symbol_id=""/>
+<Transition>
+<SdlFSMSymbol identifier="SYM6" type="sdlState" text="convoyeurOccupe" outline_color="-" background_color="-" center_coordinates="186 238" dimensions="124 40" attached_symbol_id=""/>
+</Transition>
+</NormalStateTransition>
+<NormalStateTransition>
+<SdlFSMSymbol identifier="SYM7" type="sdlInputSig" text="sPieceProcessed" outline_color="-" background_color="-" center_coordinates="320 186" dimensions="124 40" attached_symbol_id=""/>
+<Transition>
+<SdlFSMSymbol identifier="SYM10" type="sdlState" text="convoyeurOccupe" outline_color="-" background_color="-" center_coordinates="320 238" dimensions="124 40" attached_symbol_id=""/>
+</Transition>
+</NormalStateTransition>
+</StateTransitionBlock>
+<PageSpecification pageWidth="21.0" pageHeight="29.7" topMargin="1.0" bottomMargin="1.0" leftMargin="1.0" rightMargin="1.0" pageFooter="TRUE" scaleFactor="1.0"/>
+</SdlFSMPartition>
+</SdlFSMDiagram>

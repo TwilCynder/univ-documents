@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE Diagram SYSTEM "rtdsDiagram.dtd">
+
+<Diagram language="sdl" type="sys" defaultColorsNeedFixing="FALSE" name="Atelier" showMsgData="full" linksCrossingAllowed="FALSE" cellWidthMm="4">
+
+<DiagramPartition name="Part. 1" nbPagesH="1" nbPagesV="1">
+<PageSpecification pageWidth="21" pageHeight="29.7" topMargin="1.5" bottomMargin="1.5" leftMargin="1" rightMargin="1" pageFooter="TRUE" scaleFactor="1.0"/>
+
+<Symbol symbolId="SYMB2" type="sdlSysDgmFrm" xCenter="269" yCenter="364" fixedDimensions="TRUE" width="494" height="662" color="-" fillColor="-">
+<Description></Description>
+<Text></Text>
+
+<Symbol symbolId="SYMB3" type="sdlText" xCenter="209" yCenter="209" fixedDimensions="FALSE" width="308" height="220" color="#000000" fillColor="#FFFFFF">
+<Description></Description>
+<Text>syntype PieceType = Integer
+  default 1;
+  constants 1..3
+endsyntype;
+  
+
+signal newPiece(PieceType);
+signal sFeedPiece;
+signal sPrepareMachine, sReturnPiece;
+signal sPieceTaken, sPieceProcessed;
+signal sPieceTakenAway, sTakePieceAway;
+
+</Text>
+</Symbol>
+</Symbol>
+</DiagramPartition>
+
+<DiagramPartition name="Part. 0" nbPagesH="2" nbPagesV="1">
+<PageSpecification pageWidth="21.0" pageHeight="29.7" topMargin="1.5" bottomMargin="1.5" leftMargin="1.0" rightMargin="1.0" pageFooter="TRUE" scaleFactor="1.0"/>
+
+<Symbol symbolId="SYMB1" type="sdlSysDgmFrm" xCenter="538" yCenter="364" fixedDimensions="TRUE" width="1033" height="662" color="-" fillColor="-">
+<Description></Description>
+<Text></Text>
+
+<Symbol symbolId="SYMB4" type="sdlBlk" xCenter="539" yCenter="176" fixedDimensions="TRUE" width="154" height="44" color="#000000" fillColor="#C4EFED">
+<Description></Description>
+<Text>Machine
+</Text>
+</Symbol>
+
+<Symbol symbolId="SYMB5" type="sdlBlk" xCenter="539" yCenter="495" fixedDimensions="TRUE" width="176" height="44" color="#000000" fillColor="#C4EFED">
+<Description></Description>
+<Text>Superviseur
+</Text>
+</Symbol>
+
+<Symbol symbolId="SYMB6" type="sdlBlk" xCenter="154" yCenter="341" fixedDimensions="FALSE" width="154" height="44" color="#000000" fillColor="#C4EFED">
+<Description></Description>
+<Text>Robot_alimentation</Text>
+</Symbol>
+
+<Symbol symbolId="SYMB7" type="sdlBlk" xCenter="924" yCenter="363" fixedDimensions="FALSE" width="154" height="44" color="#000000" fillColor="#C4EFED">
+<Description></Description>
+<Text>Robot_Retrait_B
+</Text>
+</Symbol>
+</Symbol>
+
+<Link linkId="LINK15" type="chnl" textSegmentNum="0" color="#000000" reverseRead="FALSE" oriented="TRUE">
+<Text>machineSuperviseur</Text>
+<Connector attachedSymbolId="SYMB4" type="chnl" isOutside="TRUE" side="x" position="0.0" endType="midarrow">
+<Text id="1">[sReturnPiece, sPrepareMachine]
+</Text>
+<Text id="2"></Text>
+</Connector>
+<Connector attachedSymbolId="SYMB5" type="chnl" isOutside="TRUE" side="x" position="0.0" endType="midarrow">
+<Text id="1">[sPieceTaken, sPieceProcessed]
+</Text>
+<Text id="2"></Text>
+</Connector>
+<LinkSegment orientation="v" length="319"/>
+
+</Link>
+
+<Link linkId="LINK14" type="chnl" textSegmentNum="0" color="#000000" reverseRead="FALSE" oriented="TRUE">
+<Text>userInput</Text>
+<Connector attachedSymbolId="SYMB5" type="chnl" isOutside="TRUE" side="x" position="0.0" endType="midarrow">
+<Text id="1">[newPiece]
+</Text>
+<Text id="2"></Text>
+</Connector>
+<Connector attachedSymbolId="SYMB1" type="chnl" isOutside="FALSE" side="s" position="0.0445304937076" endType="midarrow">
+<Text id="1">[]</Text>
+<Text id="2"></Text>
+</Connector>
+<LinkSegment orientation="v" length="176"/>
+
+</Link>
+
+<Link linkId="LINK12" type="chnl" textSegmentNum="1" color="#000000" reverseRead="FALSE" oriented="TRUE">
+<Text>robotAlimControl</Text>
+<Connector attachedSymbolId="SYMB5" type="chnl" isOutside="TRUE" side="y" position="0.0" endType="midarrow">
+<Text id="1">[]</Text>
+<Text id="2"></Text>
+</Connector>
+<Connector attachedSymbolId="SYMB6" type="chnl" isOutside="TRUE" side="x" position="0.0" endType="midarrow">
+<Text id="1">[sFeedPiece]
+</Text>
+<Text id="2"></Text>
+</Connector>
+<LinkSegment orientation="h" length="-385"/>
+<LinkSegment orientation="v" length="-154"/>
+
+</Link>
+
+<Link linkId="LINK13" type="chnl" textSegmentNum="1" color="#000000" reverseRead="FALSE" oriented="TRUE">
+<Text>robotWithdrawControl</Text>
+<Connector attachedSymbolId="SYMB5" type="chnl" isOutside="TRUE" side="y" position="0.0" endType="midarrow">
+<Text id="1">[sPieceTakenAway]
+</Text>
+<Text id="2"></Text>
+</Connector>
+<Connector attachedSymbolId="SYMB7" type="chnl" isOutside="TRUE" side="x" position="-0.142857142857" endType="midarrow">
+<Text id="1">[sTakePieceAway]
+</Text>
+<Text id="2"></Text>
+</Connector>
+<LinkSegment orientation="h" length="374"/>
+<LinkSegment orientation="v" length="-132"/>
+
+</Link>
+</DiagramPartition>
+
+</Diagram>

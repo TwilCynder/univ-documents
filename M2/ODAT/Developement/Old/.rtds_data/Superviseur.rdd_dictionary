@@ -24,19 +24,19 @@
 <SymbolReference symbolId="SYMB1"/>
 </UsingSymbols>
 <SignalWindow id="SIGWDW5" insideDiagram="TRUE">
-<ConnectorReference linkId="LINK15" isFrom="TRUE"/>
+<ConnectorReference linkId="LINK34" isFrom="TRUE"/>
 <ReceivedSignals>
 <SignalReference id="SIG1"/>
 </ReceivedSignals>
 </SignalWindow>
 <SignalWindow id="SIGWDW6" insideDiagram="TRUE">
-<ConnectorReference linkId="LINK30" isFrom="TRUE"/>
+<ConnectorReference linkId="LINK32" isFrom="TRUE"/>
 <SentSignals>
 <SignalReference id="SIG2"/>
 </SentSignals>
 </SignalWindow>
 <SignalWindow id="SIGWDW7" insideDiagram="TRUE">
-<ConnectorReference linkId="LINK31" isFrom="TRUE"/>
+<ConnectorReference linkId="LINK35" isFrom="TRUE"/>
 <SentSignals>
 <SignalReference id="SIG4"/>
 </SentSignals>
@@ -45,7 +45,7 @@
 </ReceivedSignals>
 </SignalWindow>
 <SignalWindow id="SIGWDW8" insideDiagram="TRUE">
-<ConnectorReference linkId="LINK16" isFrom="TRUE"/>
+<ConnectorReference linkId="LINK33" isFrom="TRUE"/>
 <SentSignals>
 <SignalReference id="SIG7"/>
 <SignalReference id="SIG8"/>
@@ -68,7 +68,7 @@
 <SymbolReference symbolId="SYMB2"/>
 </UsingSymbols>
 <SignalWindow id="SIGWDW4" insideDiagram="FALSE">
-<ConnectorReference linkId="LINK16" isFrom="FALSE"/>
+<ConnectorReference linkId="LINK33" isFrom="FALSE"/>
 <SentSignals>
 <SignalReference id="SIG5"/>
 <SignalReference id="SIG6"/>
@@ -79,19 +79,19 @@
 </ReceivedSignals>
 </SignalWindow>
 <SignalWindow id="SIGWDW1" insideDiagram="FALSE">
-<ConnectorReference linkId="LINK15" isFrom="FALSE"/>
+<ConnectorReference linkId="LINK34" isFrom="FALSE"/>
 <SentSignals>
 <SignalReference id="SIG1"/>
 </SentSignals>
 </SignalWindow>
 <SignalWindow id="SIGWDW2" insideDiagram="FALSE">
-<ConnectorReference linkId="LINK30" isFrom="FALSE"/>
+<ConnectorReference linkId="LINK32" isFrom="FALSE"/>
 <ReceivedSignals>
 <SignalReference id="SIG2"/>
 </ReceivedSignals>
 </SignalWindow>
 <SignalWindow id="SIGWDW3" insideDiagram="FALSE">
-<ConnectorReference linkId="LINK31" isFrom="FALSE"/>
+<ConnectorReference linkId="LINK35" isFrom="FALSE"/>
 <SentSignals>
 <SignalReference id="SIG3"/>
 </SentSignals>

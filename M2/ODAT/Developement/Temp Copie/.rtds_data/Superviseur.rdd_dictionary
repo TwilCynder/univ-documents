@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE DictionaryObjects SYSTEM "rtdsDictionaryObjects.dtd">
+
+<DictionaryObjects version="11340" language="none" diagramType="blk">
+<Signal id="SIG1" name="newPiece">
+</Signal>
+<Item id="ITEM1" type="block" name="Superviseur" scope="current" formalParameterOrder="-" isFormalParam="FALSE" isSyntype="FALSE">
+<UsingSymbols>
+<SymbolReference symbolId="SYMB1"/>
+</UsingSymbols>
+<SignalWindow id="SIGWDW2" insideDiagram="TRUE">
+<ConnectorReference linkId="LINK17" isFrom="TRUE"/>
+<SentSignals>
+<SignalReference id="SIG1"/>
+</SentSignals>
+</SignalWindow>
+<Channel name="userInput" fromSignalWindow="SIGWDW2" toSignalWindow="SIGWDW1"/>
+</Item>
+<Item id="ITEM2" type="process" name="PiecesManager" parentId="ITEM1" scope="none" minInstances="1" formalParameterOrder="-" isFormalParam="FALSE" isSyntype="FALSE">
+<DefiningSymbols>
+<SymbolReference symbolId="SYMB2"/>
+</DefiningSymbols>
+<UsingSymbols>
+<SymbolReference symbolId="SYMB2"/>
+</UsingSymbols>
+<SignalWindow id="SIGWDW1" insideDiagram="FALSE">
+<ConnectorReference linkId="LINK17" isFrom="FALSE"/>
+<ReceivedSignals>
+<SignalReference id="SIG1"/>
+</ReceivedSignals>
+</SignalWindow>
+</Item>
+</DictionaryObjects>
