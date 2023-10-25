@@ -40,7 +40,6 @@ int main() {
 		ADC1_CR2 |= ADC_SWSTART;
 		while((ADC1_SR & ADC_EOC) == 0);
 		int value = ADC1_DR;
-
 		GPIOD_ODR = ((value < THRESHOLD) ?  1 : 0 ) << LED;
 	}
 
