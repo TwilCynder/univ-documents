@@ -6,7 +6,7 @@
 const Quad::lab_t
 	base_call = 10000,
 	field_get_call = 10000,	// R0=expr, R1=high bit, R2=low bit
-	field_set_call = 100001;	// R0=expr, R1=high bit, R2=low bit, R2=assigned value
+	field_set_call = 10001;	// R0=expr, R1=high bit, R2=low bit, R2=assigned value
 
 
 ///
@@ -86,8 +86,6 @@ Quad::reg_t BinopExpr::gen(QuadProgram& prog) {
 	binopGenFunc_t f = binopGenFuncs[_op];
 	prog.emit(f(rd, r1, r2));
 
-
-
 	/*
 	switch (_op){
 		case ADD:
@@ -115,9 +113,61 @@ Quad::reg_t BinopExpr::gen(QuadProgram& prog) {
 
 ///
 Quad::reg_t BitFieldExpr::gen(QuadProgram& prog) {
-	prog.emit(Quad::call(field_get_call));
-}
 
+	auto e = _expr->gen(prog);
+	auto u = _hi->gen(prog);
+	auto l = _lo->gen(prog);
+
+	/*
+	prog.emit(Quad::set(0, e));
+	prog.emit(Quad::set(1, u));
+	prog.emit(Quad::set(2, l));
+	//todo gérer sauvegarde des regs
+	prog.emit(Quad::call(field_get_call));
+
+	auto dest = prog.newReg();
+	prog.emit(Quad::set(dest, 0));
+	return dest;
+	*/
+
+	//On initalise des registres. On pourrait aussi utiliser les registres réels à condition des les sauvegarder ? (todo ?)
+	auto r0 = prog.newReg();
+	auto r1 = prog.newReg();
+	auto r2 = prog.newReg();
+
+
+	if (_hi == _lo){
+		prog.emit(Quad::seti(r0, 1));	//r0 = 1
+		prog.emit(Quad::shr(r1, e, l));	//r1 = e >> l
+		prog.emit(Quad::and_(r1, r1, r0));	//r1 = (e >> l) & 1
+	} else {
+		prog.emit(Quad::seti(r0, 1));	//r0 = 1
+		prog.emit(Quad::shr(r1, e, l));	//r1 = e >> l
+		prog.emit(Quad::sub(r2, u, l));	//r2 = u - l	
+		prog.emit(Quad::add(r2, r2, r0));	//r2 = u - l + 1
+		prog.emit(Quad::shl(r2, r0, r2));	//r2 = 1 << (u-l+1)
+		prog.emit(Quad::sub(r2, r2, r0));	//r2 = (1 << (u-l+1)) - 1
+		prog.emit(Quad::and_(r1, r1, r2)); //r1 = (e >> 1) & ((1 << (u-l+1)) - 1)
+	}
+
+
+	auto dest = prog.newReg();
+	prog.emit(Quad::set(dest, r1));
+	return dest;
+	
+	/* solution élégante qui marcherait si les expressions étaient pas passées exclusivement sous forme de pointeur
+	auto expr_= BinopExpr(BinopExpr::BIT_AND, 
+		BinopExpr(BinopExpr::SHR, _expr, _lo),
+		BinopExpr(BinopExpr::SUB, 
+			BinopExpr(BinopExpr::SHL, 
+				ConstExpr(1),
+				BinopExpr(BinopExpr::SUB, _hi, _lo)
+			),
+			ConstExpr(1)
+		)
+	)
+	*/
+}
 
 ///
 void CompCond::gen(Quad::lab_t lab_true, Quad::lab_t lab_false, QuadProgram& prog) const {
@@ -204,6 +254,87 @@ void SetStatement::gen(AutoDecl& automaton, QuadProgram& prog) const {
 ///
 void SetFieldStatement::gen(AutoDecl& automaton, QuadProgram& prog) const {
 	prog.comment(pos);
+
+	//todo : demander au prof comment on fait avec le sous-prog
+
+	auto u = _hi->gen(prog);
+	auto l = _lo->gen(prog);
+	auto i = prog.newReg();
+
+	switch(_dec->type()) {
+	case Declaration::VAR:
+		prog.emit(Quad::set(i, prog.regFor(static_cast<VarDecl *>(_dec)->name())));
+		break;
+	case Declaration::REG: {
+			auto ra = prog.newReg();
+			prog.emit(Quad::seti(ra, static_cast<RegDecl *>(_dec)->address()));
+			prog.emit(Quad::load(i, ra));
+		}
+		break;
+	default:
+		assert(false);
+		break;
+	}
+
+	//On initalise des registres. On pourrait aussi utiliser les registres réels à condition des les sauvegarder ? (todo ?)
+	auto r0 = prog.newReg();
+	auto r1 = prog.newReg();
+	auto r2 = prog.newReg();
+
+	prog.emit(Quad::seti(r0, 1)); //r0 = 1
+	if (_hi == _lo && _expr->type() == Expression::CST){	
+		//todo ? simplification supplémentaire si l constant
+		prog.emit(Quad::shl(r1, r0, l));	//r1 = 1 << l
+		if (static_cast<ConstExpr*>(_expr)->value() & 1 == 0){ //le & 1 peut être retiré si on ne prend pas en compte le cas où e est trop grand
+			prog.emit(Quad::inv(r1, r1));	//r1 = ~(1 << l);
+			prog.emit(Quad::and_(r0, i, r1));	//r0 = i & ~ (1 << l)
+		} else {
+			prog.emit(Quad::or_(r0, i, r1));	//r0 = i | (1 << l)
+		}
+	} else {
+		auto e = _expr->gen(prog);
+		//mask inversé
+		prog.emit(Quad::sub(r1, u, l));	//r1 = u - l	
+		prog.emit(Quad::add(r1, r1, r0));	//r1 = u - l + 1
+		prog.emit(Quad::shl(r1, r0, r1));	//r1 = 1 << (u-l+1)
+		prog.emit(Quad::sub(r1, r1, r0));	//r1 = (1 << (u-l+1)) - 1
+		prog.emit(Quad::shl(r1, r1, l));	//r1 = ((1 << (u-l+1)) - 1) << l = mask
+		//on tronque la valeur donnée (peut être pas besoin ?)
+		prog.emit(Quad::and_(e, e, r1));
+		prog.emit(Quad::inv(r1, r1)); 	//r1 = ~mask
+		//affectation
+		prog.emit(Quad::shl(r2, e, l)); 	//r2 = e << l
+		prog.emit(Quad::and_(r1, i, r1));	//r1 = i & ~mask
+		prog.emit(Quad::or_(r0, r1, r2)); 	//r0 = (i & ~mask) | (e << l)
+	}
+
+	/*
+	auto e = _expr->gen(prog);
+	prog.emit(Quad::set(0, e));
+	prog.emit(Quad::set(1, u));
+	prog.emit(Quad::set(2, l));
+	prog.emit(Quad::set(3, i));
+	//todo gérer sauvegarde des regs
+	prog.emit(Quad::call(field_set_call));
+	*/
+
+
+	//r0 contient la nouvelle valeur, il nous reste à faire l'affectation pour de vrai
+	switch(_dec->type()) {
+	case Declaration::VAR:
+		prog.emit(Quad::set(prog.regFor(static_cast<VarDecl *>(_dec)->name()), 0));
+		break;
+	case Declaration::REG: {
+			auto ra = prog.newReg();
+			prog.emit(Quad::seti(ra, static_cast<RegDecl *>(_dec)->address()));
+			prog.emit(Quad::store(ra, 0));
+		}
+		break;
+	default:
+		assert(false);
+		break;
+	}
+
 }
 
 ///
