@@ -131,28 +131,28 @@ Quad::reg_t BitFieldExpr::gen(QuadProgram& prog) {
 	*/
 
 	//On initalise des registres. On pourrait aussi utiliser les registres réels à condition des les sauvegarder ? (todo ?)
-	auto r0 = prog.newReg();
-	auto r1 = prog.newReg();
-	auto r2 = prog.newReg();
+	//auto r0 = prog.newReg();
+	//auto r1 = prog.newReg();
+	//auto r2 = prog.newReg();
 
 
 	if (_hi == _lo){
-		prog.emit(Quad::seti(r0, 1));	//r0 = 1
-		prog.emit(Quad::shr(r1, e, l));	//r1 = e >> l
-		prog.emit(Quad::and_(r1, r1, r0));	//r1 = (e >> l) & 1
+		prog.emit(Quad::seti(0, 1));	//r0 = 1
+		prog.emit(Quad::shr(1, e, l));	//r1 = e >> l
+		prog.emit(Quad::and_(1, 1, 0));	//r1 = (e >> l) & 1
 	} else {
-		prog.emit(Quad::seti(r0, 1));	//r0 = 1
-		prog.emit(Quad::shr(r1, e, l));	//r1 = e >> l
-		prog.emit(Quad::sub(r2, u, l));	//r2 = u - l	
-		prog.emit(Quad::add(r2, r2, r0));	//r2 = u - l + 1
-		prog.emit(Quad::shl(r2, r0, r2));	//r2 = 1 << (u-l+1)
-		prog.emit(Quad::sub(r2, r2, r0));	//r2 = (1 << (u-l+1)) - 1
-		prog.emit(Quad::and_(r1, r1, r2)); //r1 = (e >> 1) & ((1 << (u-l+1)) - 1)
+		prog.emit(Quad::seti(0, 1));	//r0 = 1
+		prog.emit(Quad::shr(1, e, l));	//r1 = e >> l
+		prog.emit(Quad::sub(2, u, l));	//r2 = u - l	
+		prog.emit(Quad::add(2, 2, 0));	//r2 = u - l + 1
+		prog.emit(Quad::shl(2, 0, 2));	//r2 = 1 << (u-l+1)
+		prog.emit(Quad::sub(2, 2, 0));	//r2 = (1 << (u-l+1)) - 1
+		prog.emit(Quad::and_(1, 1, 2)); //r1 = (e >> 1) & ((1 << (u-l+1)) - 1)
 	}
 
 
 	auto dest = prog.newReg();
-	prog.emit(Quad::set(dest, r1));
+	prog.emit(Quad::set(dest, 1));
 	return dest;
 	
 	/* solution élégante qui marcherait si les expressions étaient pas passées exclusivement sous forme de pointeur
@@ -277,35 +277,35 @@ void SetFieldStatement::gen(AutoDecl& automaton, QuadProgram& prog) const {
 	}
 
 	//On initalise des registres. On pourrait aussi utiliser les registres réels à condition des les sauvegarder ? (todo ?)
-	auto r0 = prog.newReg();
-	auto r1 = prog.newReg();
-	auto r2 = prog.newReg();
+	//auto r0 = prog.newReg();
+	//auto r1 = prog.newReg();
+	//auto r2 = prog.newReg();
 
-	prog.emit(Quad::seti(r0, 1)); //r0 = 1
+	prog.emit(Quad::seti(0, 1)); //r0 = 1
 	if (_hi == _lo && _expr->type() == Expression::CST){	
 		//todo ? simplification supplémentaire si l constant
-		prog.emit(Quad::shl(r1, r0, l));	//r1 = 1 << l
+		prog.emit(Quad::shl(1, 0, l));	//r1 = 1 << l
 		if (static_cast<ConstExpr*>(_expr)->value() & 1 == 0){ //le & 1 peut être retiré si on ne prend pas en compte le cas où e est trop grand
-			prog.emit(Quad::inv(r1, r1));	//r1 = ~(1 << l);
-			prog.emit(Quad::and_(r0, i, r1));	//r0 = i & ~ (1 << l)
+			prog.emit(Quad::inv(1, 1));	//r1 = ~(1 << l);
+			prog.emit(Quad::and_(0, i, 1));	//r0 = i & ~ (1 << l)
 		} else {
-			prog.emit(Quad::or_(r0, i, r1));	//r0 = i | (1 << l)
+			prog.emit(Quad::or_(0, i, 1));	//r0 = i | (1 << l)
 		}
 	} else {
 		auto e = _expr->gen(prog);
 		//mask inversé
-		prog.emit(Quad::sub(r1, u, l));	//r1 = u - l	
-		prog.emit(Quad::add(r1, r1, r0));	//r1 = u - l + 1
-		prog.emit(Quad::shl(r1, r0, r1));	//r1 = 1 << (u-l+1)
-		prog.emit(Quad::sub(r1, r1, r0));	//r1 = (1 << (u-l+1)) - 1
-		prog.emit(Quad::shl(r1, r1, l));	//r1 = ((1 << (u-l+1)) - 1) << l = mask
+		prog.emit(Quad::sub(1, u, l));	//r1 = u - l	
+		prog.emit(Quad::add(1, 1, 0));	//r1 = u - l + 1
+		prog.emit(Quad::shl(1, 0, 1));	//r1 = 1 << (u-l+1)
+		prog.emit(Quad::sub(1, 1, 0));	//r1 = (1 << (u-l+1)) - 1
+		prog.emit(Quad::shl(1, 1, l));	//r1 = ((1 << (u-l+1)) - 1) << l = mask
 		//on tronque la valeur donnée (peut être pas besoin ?)
-		prog.emit(Quad::and_(e, e, r1));
-		prog.emit(Quad::inv(r1, r1)); 	//r1 = ~mask
+		prog.emit(Quad::and_(e, e, 1));
+		prog.emit(Quad::inv(1, 1)); 	//r1 = ~mask
 		//affectation
-		prog.emit(Quad::shl(r2, e, l)); 	//r2 = e << l
-		prog.emit(Quad::and_(r1, i, r1));	//r1 = i & ~mask
-		prog.emit(Quad::or_(r0, r1, r2)); 	//r0 = (i & ~mask) | (e << l)
+		prog.emit(Quad::shl(2, e, l)); 	//r2 = e << l
+		prog.emit(Quad::and_(1, i, 1));	//r1 = i & ~mask
+		prog.emit(Quad::or_(0, 1, 2)); 	//r0 = (i & ~mask) | (e << l)
 	}
 
 	/*
