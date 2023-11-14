@@ -7,7 +7,7 @@
 
 static char text[] = "SECIL";
 static size_t text_size = (sizeof(text) /sizeof(char)) - 1;
-static char* end = text + (sizeof(text) /sizeof(char)) - 1;
+//static char* end = text + (sizeof(text) /sizeof(char)) - 1;
 
 static dev_t dev;
 static struct cdev *my_cdev;
@@ -23,12 +23,21 @@ static int releasechar(struct inode *inode, struct file *file)
 	return 0;
 }
 
-static char* str_ptr = text;
+//static char* str_ptr = text;
 static int current_pos = 0;
 static ssize_t readchar(struct file *filp, char *b, size_t len, loff_t *offset)
 {
 	printk(KERN_DEBUG "LENGTH %d", len);
 
+	int remaining_len = text_size - current_pos;
+	if (len > remaining_len) len = remaining_len;
+	if (copy_to_user(b, text + current_pos, len)) return -EFAULT;
+
+	current_pos += len;
+	if (current_pos >= text_size) current_pos = 0;
+	return len;
+
+	/*
 	int remaining_len = len;
 	int output_offset = 0;
 
@@ -42,6 +51,7 @@ static ssize_t readchar(struct file *filp, char *b, size_t len, loff_t *offset)
 	current_pos += remaining_len;
 
 	return remaining_len;
+	*/
 }
 
 static ssize_t writechar(struct file *filp, const char *b, size_t len, loff_t *offset)
@@ -49,11 +59,11 @@ static ssize_t writechar(struct file *filp, const char *b, size_t len, loff_t *o
 	return -ENOSPC;
 }
 
-#define IOCTL_RESET _IOC(_IOC_NONE, 'x', 0, 0)
+#define IOCTL_RESET _IO(_IOC_NONE, 'x', 0)
 static long my_ioctl (struct file *filp, unsigned int command, unsigned long arg	) {
 	switch(command) {
     	case IOCTL_RESET:
-			str_ptr = text;
+			current_pos = 0;
 			break;
 		default:
         	return -ENOTTY;
