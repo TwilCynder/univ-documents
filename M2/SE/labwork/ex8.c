@@ -12,9 +12,6 @@
 // GPIOD
 #define LED	5
 
-// GPIODA
-#define USER_BUT	1
-
 
 int main() {
 	printf("\nStarting...\n");
