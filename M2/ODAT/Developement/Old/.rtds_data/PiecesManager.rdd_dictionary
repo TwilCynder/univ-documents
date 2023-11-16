@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE DictionaryObjects SYSTEM "rtdsDictionaryObjects.dtd">
+
+<DictionaryObjects version="11340" language="sdl" diagramType="prcs">
+<Signal id="SIG1" name="newPiece">
+<UsingSymbols>
+<SymbolReference symbolId="SYM6" usingKind="input"/>
+</UsingSymbols>
+</Signal>
+<Signal id="SIG2" name="sFeedPiece">
+<UsingSymbols>
+<SymbolReference symbolId="SYM11" usingKind="output"/>
+</UsingSymbols>
+</Signal>
+<Signal id="SIG3" name="sPrepareMachine">
+<UsingSymbols>
+<SymbolReference symbolId="SYM24" usingKind="output"/>
+</UsingSymbols>
+</Signal>
+<Signal id="SIG4" name="sPieceProcessed">
+<UsingSymbols>
+<SymbolReference symbolId="SYM25" usingKind="output"/>
+<SymbolReference symbolId="SYM14" usingKind="input"/>
+</UsingSymbols>
+</Signal>
+<Signal id="SIG5" name="sReturnPiece">
+<UsingSymbols>
+<SymbolReference symbolId="SYM16" usingKind="output"/>
+</UsingSymbols>
+</Signal>
+<Signal id="SIG6" name="sTakePieceAway">
+<UsingSymbols>
+<SymbolReference symbolId="SYM22" usingKind="output"/>
+</UsingSymbols>
+</Signal>
+<Signal id="SIG7" name="sPieceTakenAway">
+<UsingSymbols>
+<SymbolReference symbolId="SYM19" usingKind="input"/>
+</UsingSymbols>
+</Signal>
+<Signal id="SIG8" name="sPieceTaken">
+<UsingSymbols>
+<SymbolReference symbolId="SYM19" usingKind="input"/>
+</UsingSymbols>
+</Signal>
+<Item id="ITEM1" type="process" name="PiecesManager" scope="current" formalParameterOrder="-" isFormalParam="FALSE" isSyntype="FALSE">
+<Body>
+<SentSignals>
+<SignalReference id="SIG2"/>
+<SignalReference id="SIG3"/>
+<SignalReference id="SIG5"/>
+<SignalReference id="SIG6"/>
+<SignalReference id="SIG4"/>
+</SentSignals>
+<ReceivedSignals>
+<SignalReference id="SIG1"/>
+<SignalReference id="SIG4"/>
+<SignalReference id="SIG8"/>
+<SignalReference id="SIG7"/>
+</ReceivedSignals>
+</Body>
+</Item>
+<Item id="ITEM2" type="state" name="convoyeurLibre" parentId="ITEM1" scope="none" formalParameterOrder="-" isFormalParam="FALSE" isSyntype="FALSE">
+<DefiningSymbols>
+<SymbolReference symbolId="SYM2"/>
+</DefiningSymbols>
+<UsingSymbols>
+<SymbolReference symbolId="SYM2"/>
+<SymbolReference symbolId="SYM20"/>
+</UsingSymbols>
+</Item>
+<Item id="ITEM3" type="state" name="convoyeurOccupe" parentId="ITEM1" scope="none" formalParameterOrder="-" isFormalParam="FALSE" isSyntype="FALSE">
+<DefiningSymbols>
+<SymbolReference symbolId="SYM18"/>
+</DefiningSymbols>
+<UsingSymbols>
+<SymbolReference symbolId="SYM23"/>
+<SymbolReference symbolId="SYM8"/>
+</UsingSymbols>
+</Item>
+</DictionaryObjects>

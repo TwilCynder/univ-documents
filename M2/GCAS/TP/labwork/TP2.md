@@ -215,7 +215,7 @@ accessibles avec la fonction `QuadProgram::regFor()`.
 
 
 **Traduction de la sélection** (`if.io`) La sélection _if_ de IOML est très proche de la sélection
-des autres langages dont le C. Pour simplier l'implantation, nous allons d'abord seulement
+des autres langages dont le C. Pour simplifier l'implantation, nous allons d'abord seulement
 considérer le cas où on a affaire avec une condition étant une comparaison simple.
 
 1. Dans la fonction `CompCond::gen()`, réalisez la traduction de la comparaison. On appliquera la même

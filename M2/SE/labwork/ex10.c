@@ -10,10 +10,10 @@
 
 
 // GPIOD
-#define LED	3
+#define LED	5
 
 // GPIODA
-#define USER_BUT	1
+#define USER_BUT	0
 
 
 int main() {

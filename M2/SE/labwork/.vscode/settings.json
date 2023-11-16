@@ -5,6 +5,7 @@
     "files.associations": {
         "gpio.h": "c",
         "nvic.h": "c",
-        "tim.h": "c"
+        "tim.h": "c",
+        "syscfg.h": "c"
     }
 }

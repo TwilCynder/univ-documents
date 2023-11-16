@@ -72,9 +72,14 @@ optional<value_t> BinopExpr::eval() const {
 
 ///
 optional<value_t> BitFieldExpr::eval() const {
-	auto high = _hi->eval(); if (!high) return {};
-	auto low = _lo->eval(); if (!low) return {};
+	//todo : vérifier avec le prof que j'ai pas tout cassé
 	auto val = _expr->eval(); if (!val) return {};
+	auto high = _hi->eval(); if (!high) return {};
+	if (_hi == _lo){
+		return (*val >> *high) & 1;
+	}
 
-	return (*val << (31 - *high)) >> (31 - *high + *low);
+	auto low = _lo->eval(); if (!low) return {};
+
+	return (*val << (31 - *high)) >> (31 - *high + *low + 1);
 }

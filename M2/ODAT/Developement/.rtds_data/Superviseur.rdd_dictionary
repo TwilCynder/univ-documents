@@ -7,17 +7,17 @@
 </Signal>
 <Signal id="SIG2" name="newPiece">
 </Signal>
-<Signal id="SIG3" name="sReturnPiece">
+<Signal id="SIG3" name="sTakePieceAway">
 </Signal>
-<Signal id="SIG4" name="sPrepareMachine">
+<Signal id="SIG4" name="sPieceTakenAway">
 </Signal>
-<Signal id="SIG5" name="sPieceProcessed">
+<Signal id="SIG5" name="sReturnPiece">
 </Signal>
-<Signal id="SIG6" name="sPieceTaken">
+<Signal id="SIG6" name="sPrepareMachine">
 </Signal>
-<Signal id="SIG7" name="sTakePieceAway">
+<Signal id="SIG7" name="sPieceProcessed">
 </Signal>
-<Signal id="SIG8" name="sPieceTakenAway">
+<Signal id="SIG8" name="sPieceTaken">
 </Signal>
 <Item id="ITEM1" type="block" name="Superviseur" scope="current" formalParameterOrder="-" isFormalParam="FALSE" isSyntype="FALSE">
 <UsingSymbols>
@@ -36,29 +36,29 @@
 </SentSignals>
 </SignalWindow>
 <SignalWindow id="SIGWDW7" insideDiagram="TRUE">
-<ConnectorReference linkId="LINK16" isFrom="TRUE"/>
+<ConnectorReference linkId="LINK31" isFrom="TRUE"/>
 <SentSignals>
-<SignalReference id="SIG5"/>
-<SignalReference id="SIG6"/>
+<SignalReference id="SIG4"/>
 </SentSignals>
 <ReceivedSignals>
 <SignalReference id="SIG3"/>
-<SignalReference id="SIG4"/>
 </ReceivedSignals>
 </SignalWindow>
 <SignalWindow id="SIGWDW8" insideDiagram="TRUE">
-<ConnectorReference linkId="LINK31" isFrom="TRUE"/>
+<ConnectorReference linkId="LINK16" isFrom="TRUE"/>
 <SentSignals>
+<SignalReference id="SIG7"/>
 <SignalReference id="SIG8"/>
 </SentSignals>
 <ReceivedSignals>
-<SignalReference id="SIG7"/>
+<SignalReference id="SIG5"/>
+<SignalReference id="SIG6"/>
 </ReceivedSignals>
 </SignalWindow>
 <Channel name="feedRobotControlB" fromSignalWindow="SIGWDW5" toSignalWindow="SIGWDW1"/>
 <Channel name="userInputB" fromSignalWindow="SIGWDW6" toSignalWindow="SIGWDW2"/>
-<Channel name="machineSuperviseurB" fromSignalWindow="SIGWDW7" toSignalWindow="SIGWDW3"/>
-<Channel name="robotWithdrawControlB" fromSignalWindow="SIGWDW8" toSignalWindow="SIGWDW4"/>
+<Channel name="robotWithdrawControlB" fromSignalWindow="SIGWDW7" toSignalWindow="SIGWDW3"/>
+<Channel name="machineSuperviseurB" fromSignalWindow="SIGWDW8" toSignalWindow="SIGWDW4"/>
 </Item>
 <Item id="ITEM2" type="process" name="PiecesManager" parentId="ITEM1" scope="none" minInstances="1" formalParameterOrder="-" isFormalParam="FALSE" isSyntype="FALSE">
 <DefiningSymbols>
@@ -68,11 +68,13 @@
 <SymbolReference symbolId="SYMB2"/>
 </UsingSymbols>
 <SignalWindow id="SIGWDW4" insideDiagram="FALSE">
-<ConnectorReference linkId="LINK31" isFrom="FALSE"/>
+<ConnectorReference linkId="LINK16" isFrom="FALSE"/>
 <SentSignals>
-<SignalReference id="SIG7"/>
+<SignalReference id="SIG5"/>
+<SignalReference id="SIG6"/>
 </SentSignals>
 <ReceivedSignals>
+<SignalReference id="SIG7"/>
 <SignalReference id="SIG8"/>
 </ReceivedSignals>
 </SignalWindow>
@@ -89,14 +91,12 @@
 </ReceivedSignals>
 </SignalWindow>
 <SignalWindow id="SIGWDW3" insideDiagram="FALSE">
-<ConnectorReference linkId="LINK16" isFrom="FALSE"/>
+<ConnectorReference linkId="LINK31" isFrom="FALSE"/>
 <SentSignals>
 <SignalReference id="SIG3"/>
-<SignalReference id="SIG4"/>
 </SentSignals>
 <ReceivedSignals>
-<SignalReference id="SIG5"/>
-<SignalReference id="SIG6"/>
+<SignalReference id="SIG4"/>
 </ReceivedSignals>
 </SignalWindow>
 </Item>

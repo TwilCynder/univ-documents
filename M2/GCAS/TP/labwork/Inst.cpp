@@ -18,7 +18,7 @@ typedef enum {
 
 typedef struct select_t {
 	Quad quads[5];
-	Inst insts[];
+	Inst insts[5];
 } select_t;
 
 inline Param pread(uint32_t x) { return Param::read(x); }
@@ -88,17 +88,177 @@ select_t
 	},
 	select_addi = {
 		{ Quad::seti(RECORD|2, ISIMM|3), Quad::add(RECORD|0, RECORD|1, EQUAL|2) },
-		{ Inst("\tadd R%0, R%1, #%2", pwrite(COPY|0), pread(COPY|1), pcst(COPY|3)) }
+		{ Inst("\tadd R%0, R%1, #%2", pwrite(COPY|0), pread(COPY|1), pcst(COPY|3)), Inst::end }
 	},
 	select_addi2 = {
 		{ Quad::seti(RECORD|2, ISIMM|3), Quad::add(RECORD|0, EQUAL|2, RECORD|1) },
-		{ Inst("\tadd R%0, R%1, #%2", pwrite(COPY|0), pread(COPY|1), pcst(COPY|3)) }
+		{ Inst("\tadd R%0, R%1, #%2", pwrite(COPY|0), pread(COPY|1), pcst(COPY|3)), Inst::end }
+	},
+
+	select_sub = {
+		{ Quad::sub(RECORD|0, RECORD|1, RECORD|2) },
+		{ Inst("\tadd R%0, R%1, R%2", pwrite(COPY|0), pread(COPY|1), pread(COPY|2)), Inst::end }
+	},
+	select_subil = {
+		{ Quad::seti(RECORD|2, ISIMM|3), Quad::sub(RECORD|0, EQUAL|2, RECORD|1) },
+		{ Inst("\tadd R%0, R%1, #%2", pwrite(COPY|0), pread(COPY|1), pcst(COPY|3)), Inst::end }
+	},
+	select_subir = {
+		{ Quad::seti(RECORD|2, ISIMM|3), Quad::sub(RECORD|0, RECORD|1, EQUAL|2) },
+		{ Inst("\tadd R%0, R%1, #%2", pwrite(COPY|0), pread(COPY|1), pcst(COPY|3)), Inst::end }
+	},
+
+	select_mul = {
+		{ Quad::mul(RECORD|0, RECORD|1, RECORD|2) },
+		{ Inst("\tmul R%0, R%1, R%2", pwrite(COPY|0), pread(COPY|1), pread(COPY|2)), Inst::end }
+	},
+	select_mulil = {
+		{ Quad::seti(RECORD|2, ISIMM|3), Quad::mul(RECORD|0, EQUAL|2, RECORD|1) },
+		{ Inst("\tmul R%0, R%1, #%2", pwrite(COPY|0), pread(COPY|1), pcst(COPY|3)), Inst::end }
+	},
+	select_mulir = {
+		{ Quad::seti(RECORD|2, ISIMM|3), Quad::mul(RECORD|0, RECORD|1, EQUAL|2) },
+		{ Inst("\tmul R%0, R%1, #%2", pwrite(COPY|0), pread(COPY|1), pcst(COPY|3)), Inst::end }
+	},
+	select_mulpow2l = {
+		{ Quad::seti(RECORD|2, POW2|3), Quad::mul(RECORD|0, EQUAL|2, RECORD|1) },
+		{ Inst("\tshl R%0, R%1, #%2", pwrite(COPY|0), pread(COPY|1), pcst(LOG2|3)), Inst::end }
+	},
+	select_mulpow2r = {
+		{ Quad::seti(RECORD|2, POW2|3), Quad::mul(RECORD|0, RECORD|1, EQUAL|2) },
+		{ Inst("\tshl R%0, R%1, #%2", pwrite(COPY|0), pread(COPY|1), pcst(LOG2|3)), Inst::end }
+	},
+
+	select_divpow2 = {
+		{ Quad::seti(RECORD|2, POW2|3), Quad::div(RECORD|0, RECORD|1, EQUAL|2) },
+		{ Inst("\tshr R%0, R%1, #%2", pwrite(COPY|0), pread(COPY|1), pcst(LOG2|3)), Inst::end }
+	},
+
+	select_shl = {
+		{ Quad::shl(RECORD|0, RECORD|1, RECORD|2) },
+		{ Inst("\tmul R%0, R%1, R%2", pwrite(COPY|0), pread(COPY|1), pread(COPY|2)), Inst::end }
+	},
+	select_shlil = {
+		{ Quad::seti(RECORD|2, ISIMM|3), Quad::shl(RECORD|0, EQUAL|2, RECORD|1) },
+		{ Inst("\tmul R%0, R%1, #%2", pwrite(COPY|0), pread(COPY|1), pcst(COPY|3)), Inst::end }
+	},
+	select_shlir = {
+		{ Quad::seti(RECORD|2, ISIMM|3), Quad::shl(RECORD|0, RECORD|1, EQUAL|2) },
+		{ Inst("\tmul R%0, R%1, #%2", pwrite(COPY|0), pread(COPY|1), pcst(COPY|3)), Inst::end }
+	},
+
+	select_shr = {
+		{ Quad::shr(RECORD|0, RECORD|1, RECORD|2) },
+		{ Inst("\tmul R%0, R%1, R%2", pwrite(COPY|0), pread(COPY|1), pread(COPY|2)), Inst::end }
+	},
+	select_shril = {
+		{ Quad::seti(RECORD|2, ISIMM|3), Quad::shr(RECORD|0, EQUAL|2, RECORD|1) },
+		{ Inst("\tmul R%0, R%1, #%2", pwrite(COPY|0), pread(COPY|1), pcst(COPY|3)), Inst::end }
+	},
+	select_shrir = {
+		{ Quad::seti(RECORD|2, ISIMM|3), Quad::shr(RECORD|0, RECORD|1, EQUAL|2) },
+		{ Inst("\tmul R%0, R%1, #%2", pwrite(COPY|0), pread(COPY|1), pcst(COPY|3)), Inst::end }
+	},
+
+	select_and = {
+		{ Quad::and_(RECORD|0, RECORD|1, RECORD|2) },
+		{ Inst("\tand R%0, R%1, R%2", pwrite(COPY|0), pread(COPY|1), pread(COPY|2)), Inst::end }
+	},
+	select_andil = {
+		{ Quad::seti(RECORD|2, ISIMM|3), Quad::and_(RECORD|0, EQUAL|2, RECORD|1) },
+		{ Inst("\tand R%0, R%1, #%2", pwrite(COPY|0), pread(COPY|1), pcst(COPY|3)), Inst::end }
+	},
+	select_andir = {
+		{ Quad::seti(RECORD|2, ISIMM|3), Quad::and_(RECORD|0, RECORD|1, EQUAL|2) },
+		{ Inst("\tand R%0, R%1, #%2", pwrite(COPY|0), pread(COPY|1), pcst(COPY|3)), Inst::end }
+	},
+
+	select_or = {
+		{ Quad::or_(RECORD|0, RECORD|1, RECORD|2) },
+		{ Inst("\torr R%0, R%1, R%2", pwrite(COPY|0), pread(COPY|1), pread(COPY|2)), Inst::end }
+	},
+	select_oril = {
+		{ Quad::seti(RECORD|2, ISIMM|3), Quad::or_(RECORD|0, EQUAL|2, RECORD|1) },
+		{ Inst("\torr R%0, R%1, #%2", pwrite(COPY|0), pread(COPY|1), pcst(COPY|3)), Inst::end }
+	},
+	select_orir = {
+		{ Quad::seti(RECORD|2, ISIMM|3), Quad::or_(RECORD|0, RECORD|1, EQUAL|2) },
+		{ Inst("\torr R%0, R%1, #%2", pwrite(COPY|0), pread(COPY|1), pcst(COPY|3)), Inst::end }
+	},
+
+	select_xor = {
+		{ Quad::xor_(RECORD|0, RECORD|1, RECORD|2) },
+		{ Inst("\teor R%0, R%1, R%2", pwrite(COPY|0), pread(COPY|1), pread(COPY|2)), Inst::end }
+	},
+	select_xoril = {
+		{ Quad::seti(RECORD|2, ISIMM|3), Quad::xor_(RECORD|0, EQUAL|2, RECORD|1) },
+		{ Inst("\teor R%0, R%1, #%2", pwrite(COPY|0), pread(COPY|1), pcst(COPY|3)), Inst::end }
+	},
+	select_xorir = {
+		{ Quad::seti(RECORD|2, ISIMM|3), Quad::xor_(RECORD|0, RECORD|1, EQUAL|2) },
+		{ Inst("\teor R%0, R%1, #%2", pwrite(COPY|0), pread(COPY|1), pcst(COPY|3)), Inst::end }
+	},
+
+	select_inv = {
+		{ Quad::inv(RECORD|0, RECORD|1) },
+		{ Inst("\trsb R%0, R%1, #0", pwrite(COPY|0), pread(COPY|1)), Inst::end }
+	},
+
+	select_load = {
+		{ Quad::load(RECORD|0, RECORD|1) },
+		{ Inst("\tldr R%0, [R%1]", pwrite(COPY|0), pread(COPY|1)), Inst::end }
+	},
+	select_loadi = {
+		{ Quad::seti(RECORD|1, ISIMM|2), Quad::load(RECORD|0, RECORD|1) },
+		{ Inst("\tldr R%0, [#%1]", pwrite(COPY|0), pread(COPY|2)), Inst::end }
+	},
+	select_loadoffset = {
+		{ Quad::add(RECORD|1, RECORD|2, RECORD|3) ,Quad::load(RECORD|0, RECORD|1) },
+		{ Inst("\tldr R%0, [R%1, R%2]", pwrite(COPY|0), pread(COPY|2), pread(COPY|3)), Inst::end }
+	},
+	select_loadoffsetimml = {
+		{ Quad::seti(RECORD|2, ISIMM|4), Quad::add(RECORD|1, EQUAL|2, RECORD|3) ,Quad::load(RECORD|0, RECORD|1) },
+		{ Inst("\tldr R%0, [R%1, R%2]", pwrite(COPY|0), pread(COPY|3), pcst(COPY|4)), Inst::end }
+	},
+	select_loadoffsetimmr = {
+		{ Quad::seti(RECORD|2, ISIMM|4), Quad::add(RECORD|1, RECORD|3, EQUAL|2) ,Quad::load(RECORD|0, RECORD|1) },
+		{ Inst("\tldr R%0, [R%1, R%2]", pwrite(COPY|0), pread(COPY|3), pcst(COPY|4)), Inst::end }
+	},
+	select_loadoffsetshiftimml = {
+		{ Quad::seti(RECORD|2, ISIMM|4), Quad::shl(RECORD|5, RECORD|6, EQUAL|2), Quad::add(RECORD|1, EQUAL|5, RECORD|3) ,Quad::load(RECORD|0, RECORD|1) },
+		{ Inst("\tldr R%0, [R%1, R%2, LSL#%3]", pwrite(COPY|0), pread(COPY|3), pread(COPY|6), pcst(COPY|4)), Inst::end }
+	}, //2 = #4 ; 5 = 6 << #4 ; 1 = 5 + 3 = 6 << #4 + 3 ; load 0 <- 1
+	select_loadoffsetshiftimmr = {
+		{ Quad::seti(RECORD|2, ISIMM|4), Quad::shl(RECORD|5, RECORD|6, EQUAL|2), Quad::add(RECORD|1, RECORD|3, EQUAL|5) ,Quad::load(RECORD|0, RECORD|1) },
+		{ Inst("\tldr R%0, [R%1, R%2, LSL#%3]", pwrite(COPY|0), pread(COPY|3), pread(COPY|6), pcst(COPY|4)), Inst::end }
+	}, //2 = #4 ; 5 = 6 << #4 ; 1 = 3 + 5 = 3 + 6 << #4 ; load 0 <- 1
+	//maintenant on peut faire le LSR et le post-increment :D
+
+	select_store = {
+		{ Quad::store(RECORD|0, RECORD|1) },
+		{ Inst("\tstr R%0, [R%1]", pread(COPY|0), pread(COPY|1)), Inst::end }
+	},
+	//et maintenant on refait tout pareil que pour ldr (pas besoin pour le TP)
+
+	select_gotouseless = {
+		{ Quad::goto_(RECORD|0), Quad::lab(EQUAL|0) },
+		{ Inst("L%0:", pcst(COPY|0)), Inst::end }
+	},
+
+	select_gotoeqinv = {
+		{ Quad::goto_eq(RECORD|0, RECORD|1, RECORD|2) },
+		{  }
 	},
 
 	select_label = {
 		{ Quad::lab(RECORD|0) },
 		{ Inst("L%0:", pcst(COPY|0)), Inst::end }
 	},
+	select_goto = {
+		{ Quad::goto_(RECORD|0) },
+		{ Inst("goto L%0", pcst(COPY|0)), Inst::end }
+	},
+
 	select_ldreq = {
 		{ Quad::seti(RECORD|0, RECORD|1) },
 		{ Inst("\tldr R%0, =%1", pwrite(COPY|0), pcst(COPY|1)), Inst::end }
@@ -119,16 +279,45 @@ select_t
 
 ;
 
-
 select_t *selectors[] = {
 	&select_add,
 	&select_addi,
 	&select_addi2,
+	&select_sub,
+	&select_subil,
+	&select_subir,
+	&select_mul,
+	&select_mulil,
+	&select_mulir,
+	&select_shl,
+	&select_shlil,
+	&select_shlir,
+	&select_shr,
+	&select_shril,
+	&select_shrir,
+	&select_and,
+	&select_andil,
+	&select_andir,
+	&select_or,
+	&select_oril,
+	&select_orir,
+	&select_inv,
+	&select_load,
+	&select_loadi,
+	&select_loadoffsetimml,
+	&select_loadoffsetimmr,
+	&select_loadoffset,
+	&select_loadoffsetshiftimml,
+	&select_loadoffsetshiftimmr,
+	&select_store,
 	&select_label,
+	&select_goto,
 	&select_mov,
 	&select_mov,
 	&select_movi,
 	&select_ldreq,
+	&select_return,
+
 	nullptr
 };
 

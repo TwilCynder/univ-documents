@@ -28,6 +28,7 @@ int main() {
 
 	GPIOA_MODER = REP_BITS(GPIOA_MODER, GPIO_IN*2, 2, GPIO_MODER_ANA);
 	ADC1_SQR3 = ADC_IN;
+	ADC1_SQR1 = 0;
 	ADC1_CR1 = 0;
 	ADC1_CR2 = ADC_ADON | ADC_SWSTART;
 
@@ -40,7 +41,7 @@ int main() {
 		ADC1_CR2 |= ADC_SWSTART;
 		while((ADC1_SR & ADC_EOC) == 0);
 		int value = ADC1_DR;
-
+		printf("%d\n", value);
 		GPIOD_ODR = ((value < THRESHOLD) ?  1 : 0 ) << LED;
 	}
 

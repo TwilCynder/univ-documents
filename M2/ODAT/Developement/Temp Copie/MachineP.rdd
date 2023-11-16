@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE Diagram SYSTEM "rtdsDiagram.dtd">
+
+<SdlFSMDiagram language="sdl" type="prcs" is_extract="FALSE" is_temporary="FALSE">
+<SdlFSMPartition name="" needs_cleanup="FALSE">
+<SdlFSMSymbol identifier="SYM1" type="sdlText" text="timer processPiece;" outline_color="-" background_color="-" center_coordinates="266 74" dimensions="158 40" attached_symbol_id=""/>
+<NonStateTransition top_left_coordinates="31 164">
+<SdlFSMSymbol identifier="SYM2" type="sdlStart" outline_color="-" background_color="-" center_coordinates="132 179" dimensions="60 30" attached_symbol_id=""/>
+<Transition>
+<SdlFSMSymbol identifier="SYM3" type="sdlState" text="ready" outline_color="-" background_color="-" center_coordinates="132 226" dimensions="60 40" attached_symbol_id=""/>
+</Transition>
+</NonStateTransition>
+<StateTransitionBlock top_left_coordinates="394 161">
+<SdlFSMSymbol identifier="SYM10" type="sdlState" text="busy" outline_color="-" background_color="-" center_coordinates="459 181" dimensions="60 40" attached_symbol_id=""/>
+<NormalStateTransition>
+<SdlFSMSymbol identifier="SYM11" type="sdlInputSig" text="processPiece" outline_color="-" background_color="-" center_coordinates="459 233" dimensions="110 40" attached_symbol_id=""/>
+<Transition>
+<SdlFSMSymbol identifier="SYM12" type="sdlSendSig" text="sPieceProcessed" outline_color="-" background_color="-" center_coordinates="459 285" dimensions="130 40" attached_symbol_id=""/>
+<SdlFSMSymbol identifier="SYM13" type="sdlState" text="waitingConveyor" outline_color="-" background_color="-" center_coordinates="459 337" dimensions="130 40" attached_symbol_id=""/>
+</Transition>
+</NormalStateTransition>
+</StateTransitionBlock>
+<StateTransitionBlock top_left_coordinates="402 419">
+<SdlFSMSymbol identifier="SYM14" type="sdlState" text="waitingConveyor" outline_color="-" background_color="-" center_coordinates="499 439" dimensions="130 40" attached_symbol_id=""/>
+<NormalStateTransition>
+<SdlFSMSymbol identifier="SYM15" type="sdlInputSig" text="sReturnPiece" outline_color="-" background_color="-" center_coordinates="499 491" dimensions="110 40" attached_symbol_id=""/>
+<Transition>
+<SdlFSMSymbol identifier="SYM16" type="sdlTask" text="/* on dépose la pièce */" outline_color="-" background_color="-" center_coordinates="499 543" dimensions="194 40" attached_symbol_id=""/>
+<SdlFSMSymbol identifier="SYM17" type="sdlState" text="ready" outline_color="-" background_color="-" center_coordinates="499 595" dimensions="60 40" attached_symbol_id=""/>
+</Transition>
+</NormalStateTransition>
+</StateTransitionBlock>
+<StateTransitionBlock top_left_coordinates="211 261">
+<SdlFSMSymbolReference identifier="SYM3"/>
+<NormalStateTransition>
+<SdlFSMSymbol identifier="SYM4" type="sdlInputSig" text="sPrepareMachine" outline_color="-" background_color="-" center_coordinates="132 278" dimensions="124 40" attached_symbol_id=""/>
+<Transition>
+<SdlFSMSymbol identifier="SYM5" type="sdlTask" text="/* on prend une pièce */" outline_color="-" background_color="-" center_coordinates="132 330" dimensions="188 40" attached_symbol_id=""/>
+<SdlFSMSymbol identifier="SYM6" type="sdlSendSig" text="sPieceTaken" outline_color="-" background_color="-" center_coordinates="132 382" dimensions="96 40" attached_symbol_id=""/>
+<SdlFSMSymbol identifier="SYM7" type="sdlTask" text="set(now + 1, processPiece)" outline_color="-" background_color="-" center_coordinates="132 434" dimensions="202 40" attached_symbol_id=""/>
+<SdlFSMSymbol identifier="SYM9" type="sdlState" text="busy" outline_color="-" background_color="-" center_coordinates="132 486" dimensions="60 40" attached_symbol_id=""/>
+</Transition>
+</NormalStateTransition>
+</StateTransitionBlock>
+<PageSpecification pageWidth="21.0" pageHeight="29.7" topMargin="1.0" bottomMargin="1.0" leftMargin="1.0" rightMargin="1.0" pageFooter="TRUE" scaleFactor="1.0"/>
+</SdlFSMPartition>
+</SdlFSMDiagram>

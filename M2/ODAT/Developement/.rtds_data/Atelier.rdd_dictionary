@@ -10,19 +10,19 @@
 <SymbolReference symbolId="SYMB34" positions="6,7"/>
 </DefiningSymbols>
 </Signal>
-<Signal id="SIG2" name="sFeedPiece">
-<DefiningSymbols>
-<SymbolReference symbolId="SYMB34" positions="7,7"/>
-</DefiningSymbols>
-</Signal>
-<Signal id="SIG3" name="sTakePieceAway">
+<Signal id="SIG2" name="sTakePieceAway">
 <DefiningSymbols>
 <SymbolReference symbolId="SYMB34" positions="10,24"/>
 </DefiningSymbols>
 </Signal>
-<Signal id="SIG4" name="sPieceTakenAway">
+<Signal id="SIG3" name="sPieceTakenAway">
 <DefiningSymbols>
 <SymbolReference symbolId="SYMB34" positions="10,7"/>
+</DefiningSymbols>
+</Signal>
+<Signal id="SIG4" name="sFeedPiece">
+<DefiningSymbols>
+<SymbolReference symbolId="SYMB34" positions="7,7"/>
 </DefiningSymbols>
 </Signal>
 <Signal id="SIG5" name="sReturnPiece">
@@ -60,11 +60,11 @@
 </SentSignals>
 </SignalWindow>
 <Channel name="userInput" fromSignalWindow="SIGWDW1" toSignalWindow="SIGWDW8"/>
-<Channel name="robotAlimControl" fromSignalWindow="SIGWDW2" toSignalWindow="SIGWDW6"/>
-<Channel name="robotWithdrawControl" fromSignalWindow="SIGWDW3" toSignalWindow="SIGWDW7"/>
+<Channel name="robotWithdrawControl" fromSignalWindow="SIGWDW2" toSignalWindow="SIGWDW6"/>
+<Channel name="robotAlimControl" fromSignalWindow="SIGWDW3" toSignalWindow="SIGWDW7"/>
 <Channel name="machineSuperviseur" fromSignalWindow="SIGWDW5" toSignalWindow="SIGWDW4"/>
 </Item>
-<Item id="ITEM2" type="type" name="PieceType" parentId="ITEM1" scope="global" defined="FALSE" anchorItemId="ITEM1" searchPolicy="-1" formalParameterOrder="-" isFormalParam="FALSE" isSyntype="FALSE">
+<Item id="ITEM2" type="type" name="PieceType" scope="global" defined="FALSE" anchorItemId="ITEM1" searchPolicy="-1" formalParameterOrder="-" isFormalParam="FALSE" isSyntype="FALSE">
 <UsingSymbols>
 <SymbolReference symbolId="SYMB34"/>
 </UsingSymbols>
@@ -97,19 +97,19 @@
 </ReceivedSignals>
 </SignalWindow>
 <SignalWindow id="SIGWDW2" insideDiagram="FALSE">
-<ConnectorReference linkId="LINK22" isFrom="TRUE"/>
+<ConnectorReference linkId="LINK24" isFrom="TRUE"/>
 <SentSignals>
 <SignalReference id="SIG2"/>
 </SentSignals>
+<ReceivedSignals>
+<SignalReference id="SIG3"/>
+</ReceivedSignals>
 </SignalWindow>
 <SignalWindow id="SIGWDW3" insideDiagram="FALSE">
-<ConnectorReference linkId="LINK24" isFrom="TRUE"/>
+<ConnectorReference linkId="LINK22" isFrom="TRUE"/>
 <SentSignals>
-<SignalReference id="SIG3"/>
-</SentSignals>
-<ReceivedSignals>
 <SignalReference id="SIG4"/>
-</ReceivedSignals>
+</SentSignals>
 </SignalWindow>
 </Item>
 <Item id="ITEM5" type="block" name="Machine" parentId="ITEM1" scope="none" minInstances="1" formalParameterOrder="-" isFormalParam="FALSE" isSyntype="FALSE">
@@ -131,34 +131,34 @@
 </ReceivedSignals>
 </SignalWindow>
 </Item>
-<Item id="ITEM6" type="block" name="Robot_alimentation" parentId="ITEM1" scope="none" minInstances="1" formalParameterOrder="-" isFormalParam="FALSE" isSyntype="FALSE">
+<Item id="ITEM6" type="block" name="Robot_Retrait_B" parentId="ITEM1" scope="none" minInstances="1" formalParameterOrder="-" isFormalParam="FALSE" isSyntype="FALSE">
 <DefiningSymbols>
-<SymbolReference symbolId="SYMB5"/>
+<SymbolReference symbolId="SYMB40"/>
 </DefiningSymbols>
 <UsingSymbols>
-<SymbolReference symbolId="SYMB5"/>
+<SymbolReference symbolId="SYMB40"/>
 </UsingSymbols>
 <SignalWindow id="SIGWDW6" insideDiagram="FALSE">
-<ConnectorReference linkId="LINK22" isFrom="FALSE"/>
+<ConnectorReference linkId="LINK24" isFrom="FALSE"/>
+<SentSignals>
+<SignalReference id="SIG3"/>
+</SentSignals>
 <ReceivedSignals>
 <SignalReference id="SIG2"/>
 </ReceivedSignals>
 </SignalWindow>
 </Item>
-<Item id="ITEM7" type="block" name="Robot_Retrait_B" parentId="ITEM1" scope="none" minInstances="1" formalParameterOrder="-" isFormalParam="FALSE" isSyntype="FALSE">
+<Item id="ITEM7" type="block" name="Robot_alimentation" parentId="ITEM1" scope="none" minInstances="1" formalParameterOrder="-" isFormalParam="FALSE" isSyntype="FALSE">
 <DefiningSymbols>
-<SymbolReference symbolId="SYMB40"/>
+<SymbolReference symbolId="SYMB5"/>
 </DefiningSymbols>
 <UsingSymbols>
-<SymbolReference symbolId="SYMB40"/>
+<SymbolReference symbolId="SYMB5"/>
 </UsingSymbols>
 <SignalWindow id="SIGWDW7" insideDiagram="FALSE">
-<ConnectorReference linkId="LINK24" isFrom="FALSE"/>
-<SentSignals>
-<SignalReference id="SIG4"/>
-</SentSignals>
+<ConnectorReference linkId="LINK22" isFrom="FALSE"/>
 <ReceivedSignals>
-<SignalReference id="SIG3"/>
+<SignalReference id="SIG4"/>
 </ReceivedSignals>
 </SignalWindow>
 </Item>
