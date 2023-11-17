@@ -245,20 +245,92 @@ select_t
 		{ Inst("L%0:", pcst(COPY|0)), Inst::end }
 	},
 
-	select_gotoeqinv = {
+	select_gotoeq = {
 		{ Quad::goto_eq(RECORD|0, RECORD|1, RECORD|2) },
-		{  }
+		{ Inst("cmp R%0, R%1", pread(COPY|1), pread(COPY|2)), Inst("beq L%0", pcst(COPY|0)) }
+	},
+	select_gotoeqimmr = {
+		{ Quad::goto_eq(RECORD|0, RECORD|1, ISIMM|2) },
+		{ Inst("cmp R%0, #%1", pread(COPY|1), pcst(COPY|2)), Inst("beq L%0", pcst(COPY|0)) }
+	},
+	select_gotoeqimml = {
+		{ Quad::goto_eq(RECORD|0, ISIMM|2, RECORD|1) },
+		{ Inst("cmp R%0, #%1", pread(COPY|1), pcst(COPY|2)), Inst("beq L%0", pcst(COPY|0)) }
 	},
 
-	select_label = {
-		{ Quad::lab(RECORD|0) },
-		{ Inst("L%0:", pcst(COPY|0)), Inst::end }
+	select_gotone = {
+		{ Quad::goto_eq(RECORD|0, RECORD|1, RECORD|2) },
+		{ Inst("cmp R%0, R%1", pread(COPY|1), pread(COPY|2)), Inst("bne L%0", pcst(COPY|0)) }
 	},
+	select_gotoneimmr = {
+		{ Quad::goto_eq(RECORD|0, RECORD|1, ISIMM|2) },
+		{ Inst("cmp R%0, #%1", pread(COPY|1), pcst(COPY|2)), Inst("bne L%0", pcst(COPY|0)) }
+	},
+	select_gotoneimml = {
+		{ Quad::goto_eq(RECORD|0, ISIMM|2, RECORD|1) },
+		{ Inst("cmp R%0, #%1", pread(COPY|1), pcst(COPY|2)), Inst("bne L%0", pcst(COPY|0)) }
+	},
+
+	select_gotolt = {
+		{ Quad::goto_eq(RECORD|0, RECORD|1, RECORD|2) },
+		{ Inst("cmp R%0, R%1", pread(COPY|1), pread(COPY|2)), Inst("blt L%0", pcst(COPY|0)) }
+	},
+	select_gotoltimmr = {
+		{ Quad::goto_eq(RECORD|0, RECORD|1, ISIMM|2) },
+		{ Inst("cmp R%0, #%1", pread(COPY|1), pcst(COPY|2)), Inst("blt L%0", pcst(COPY|0)) }
+	},
+	select_gotoltimml = {
+		{ Quad::goto_eq(RECORD|0, ISIMM|2, RECORD|1) },
+		{ Inst("cmp R%0, #%1", pread(COPY|1), pcst(COPY|2)), Inst("blt L%0", pcst(COPY|0)) }
+	},
+
+	select_gotole = {
+		{ Quad::goto_eq(RECORD|0, RECORD|1, RECORD|2) },
+		{ Inst("cmp R%0, R%1", pread(COPY|1), pread(COPY|2)), Inst("ble L%0", pcst(COPY|0)) }
+	},
+	select_gotoleimmr = {
+		{ Quad::goto_eq(RECORD|0, RECORD|1, ISIMM|2) },
+		{ Inst("cmp R%0, #%1", pread(COPY|1), pcst(COPY|2)), Inst("ble L%0", pcst(COPY|0)) }
+	},
+	select_gotoleimml = {
+		{ Quad::goto_eq(RECORD|0, ISIMM|2, RECORD|1) },
+		{ Inst("cmp R%0, #%1", pread(COPY|1), pcst(COPY|2)), Inst("ble L%0", pcst(COPY|0)) }
+	},
+
+	select_gotogt = {
+		{ Quad::goto_eq(RECORD|0, RECORD|1, RECORD|2) },
+		{ Inst("cmp R%0, R%1", pread(COPY|1), pread(COPY|2)), Inst("bgt L%0", pcst(COPY|0)) }
+	},
+	select_gotogtimmr = {
+		{ Quad::goto_eq(RECORD|0, RECORD|1, ISIMM|2) },
+		{ Inst("cmp R%0, #%1", pread(COPY|1), pcst(COPY|2)), Inst("bgt L%0", pcst(COPY|0)) }
+	},
+	select_gotogtimml = {
+		{ Quad::goto_eq(RECORD|0, ISIMM|2, RECORD|1) },
+		{ Inst("cmp R%0, #%1", pread(COPY|1), pcst(COPY|2)), Inst("bgt L%0", pcst(COPY|0)) }
+	},
+
+	select_gotoge = {
+		{ Quad::goto_eq(RECORD|0, RECORD|1, RECORD|2) },
+		{ Inst("cmp R%0, R%1", pread(COPY|1), pread(COPY|2)), Inst("bge L%0", pcst(COPY|0)) }
+	},
+	select_gotogeimmr = {
+		{ Quad::goto_eq(RECORD|0, RECORD|1, ISIMM|2) },
+		{ Inst("cmp R%0, #%1", pread(COPY|1), pcst(COPY|2)), Inst("bge L%0", pcst(COPY|0)) }
+	},
+	select_gotogeimml = {
+		{ Quad::goto_eq(RECORD|0, ISIMM|2, RECORD|1) },
+		{ Inst("cmp R%0, #%1", pread(COPY|1), pcst(COPY|2)), Inst("bge L%0", pcst(COPY|0)) }
+	},
+
 	select_goto = {
 		{ Quad::goto_(RECORD|0) },
 		{ Inst("goto L%0", pcst(COPY|0)), Inst::end }
 	},
-
+	select_label = {
+		{ Quad::lab(RECORD|0) },
+		{ Inst("L%0:", pcst(COPY|0)), Inst::end }
+	},
 	select_ldreq = {
 		{ Quad::seti(RECORD|0, RECORD|1) },
 		{ Inst("\tldr R%0, =%1", pwrite(COPY|0), pcst(COPY|1)), Inst::end }
@@ -270,6 +342,10 @@ select_t
 	select_movi = {
 		{ Quad::seti(RECORD|0, ISIMM|1) },
 		{ Inst("\tmov R%0, #%1", pwrite(COPY|0), pcst(COPY|1)), Inst::end }
+	},
+	select_call = {
+		{ Quad::call(RECORD|0) },
+		{ Inst("\tbl L%0", pcst(COPY|0)) }
 	},
 
 	select_return = {
@@ -310,8 +386,26 @@ select_t *selectors[] = {
 	&select_loadoffsetshiftimml,
 	&select_loadoffsetshiftimmr,
 	&select_store,
-	&select_label,
+	&select_gotoeq,
+	&select_gotoeqimml,
+	&select_gotoeqimmr,
+	&select_gotone,
+	&select_gotoneimml,
+	&select_gotoneimmr,
+	&select_gotolt,
+	&select_gotoltimml,
+	&select_gotoltimmr,
+	&select_gotole,
+	&select_gotoleimml,
+	&select_gotoleimmr,
+	&select_gotogt,
+	&select_gotogtimml,
+	&select_gotogtimmr,
+	&select_gotoge,
+	&select_gotogeimml,
+	&select_gotogeimmr,
 	&select_goto,
+	&select_label,
 	&select_mov,
 	&select_mov,
 	&select_movi,
