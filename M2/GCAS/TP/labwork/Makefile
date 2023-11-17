@@ -102,3 +102,21 @@ tp3:
 tp4:
 	tar cvfz $@-$(DATE).tgz $(TP4_FILES)
 
+
+# Autodoc
+autodoc:
+	doxygen
+
+TP4_FILES = \
+	Doxyfile \
+	Makefile \
+	main.cpp \
+	RegAlloc.hpp \
+	TP4.md
+pack_tp4:
+	-mkdir tp4
+	cp $(TP4_FILES) tp4
+	autofilter.py < RegAlloc.cpp> tp4/RegAlloc.cpp
+	tar cvfz tp4.tgz tp4
+
+

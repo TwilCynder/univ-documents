@@ -178,6 +178,26 @@ void CompCond::gen(Quad::lab_t lab_true, Quad::lab_t lab_false, QuadProgram& pro
 		prog.emit(Quad::goto_eq(lab_true, a1, a2)); 
 		prog.emit(Quad::goto_(lab_false));
 		break;
+	case NE: 
+		prog.emit(Quad::goto_ne(lab_true, a1, a2)); 
+		prog.emit(Quad::goto_(lab_false));
+		break;
+	case LT: 
+		prog.emit(Quad::goto_lt(lab_true, a1, a2)); 
+		prog.emit(Quad::goto_(lab_false));
+		break;
+	case LE: 
+		prog.emit(Quad::goto_le(lab_true, a1, a2)); 
+		prog.emit(Quad::goto_(lab_false));
+		break;
+	case GT: 
+		prog.emit(Quad::goto_gt(lab_true, a1, a2)); 
+		prog.emit(Quad::goto_(lab_false));
+		break;
+	case GE: 
+		prog.emit(Quad::goto_ge(lab_true, a1, a2)); 
+		prog.emit(Quad::goto_(lab_false));
+		break;
 	}
 }
 
@@ -282,14 +302,26 @@ void SetFieldStatement::gen(AutoDecl& automaton, QuadProgram& prog) const {
 	//auto r2 = prog.newReg();
 
 	prog.emit(Quad::seti(0, 1)); //r0 = 1
-	if (_hi == _lo && _expr->type() == Expression::CST){	
-		//todo ? simplification supplémentaire si l constant
-		prog.emit(Quad::shl(1, 0, l));	//r1 = 1 << l
-		if (static_cast<ConstExpr*>(_expr)->value() & 1 == 0){ //le & 1 peut être retiré si on ne prend pas en compte le cas où e est trop grand
-			prog.emit(Quad::inv(1, 1));	//r1 = ~(1 << l);
-			prog.emit(Quad::and_(0, i, 1));	//r0 = i & ~ (1 << l)
+	if (_hi == _lo){	
+
+		if ( _expr->type() == Expression::CST){
+			//todo ? simplification supplémentaire si l constant
+			prog.emit(Quad::shl(1, 0, l));	//r1 = 1 << l
+			if (static_cast<ConstExpr*>(_expr)->value() & 1 == 0){ //le & 1 peut être retiré si on ne prend pas en compte le cas où e est trop grand
+				prog.emit(Quad::inv(1, 1));	//r1 = ~(1 << l);
+				prog.emit(Quad::and_(0, i, 1));	//r0 = i & ~ (1 << l)
+			} else {
+				prog.emit(Quad::or_(0, i, 1));	//r0 = i | (1 << l)
+			}
+
 		} else {
-			prog.emit(Quad::or_(0, i, 1));	//r0 = i | (1 << l)
+			auto e = _expr->gen(prog);
+			prog.emit(Quad::and_(1, 0, e)); //r1 = e & 1
+			prog.emit(Quad::shl(1, 1, l)); 	//r1 = (e & 1) << l
+			prog.emit(Quad::shl(0, 0, l));	//r0 = 1 << l = mask
+			prog.emit(Quad::inv(0, 0)); 	//r0 = ~mask
+			prog.emit(Quad::and_(0, i, 0));	//r0 = i & ~mask (on met le bit l à 0);
+			prog.emit(Quad::or_(0, 0, 1)); 	//r0 = (i & ~mask) | (e << l)
 		}
 	} else {
 		auto e = _expr->gen(prog);

@@ -1,4 +1,5 @@
 #include <cassert>
+#include <vector>
 using namespace std;
 #include "RegAlloc.hpp"
 
@@ -56,7 +57,7 @@ void StackMapper::markGlobal() {
  */
 bool StackMapper::isGlobal(Quad::reg_t reg) {
 	auto p = _offsets.find(reg);
-	return p == _offsets.end() || (*p).second >= _global;
+	return p != _offsets.end() && (*p).second < _global;
 }
 
 /**
@@ -65,9 +66,12 @@ bool StackMapper::isGlobal(Quad::reg_t reg) {
  */
 void StackMapper::rewind() {
 	_offset = _global;
+	vector<int32_t> to_remove;
 	for(auto p: _offsets)
 		if(p.second < _global)
-			_offsets.erase(p.first);
+			to_remove.push_back(p.first);
+	for(auto v: to_remove)
+		_offsets.erase(v);
 }
 
 
@@ -93,6 +97,10 @@ RegAlloc::RegAlloc(StackMapper& mapper, list<Inst>& insts)
  * @param inst		Instruction sto process.
  */
 void RegAlloc::process(Inst inst) {
+
+	// add the fixed instruction
+	_insts.push_back(inst);
+	_fried.clear();
 }
 
 /**
@@ -106,6 +114,7 @@ void RegAlloc::complete() {
  * @param param		Parameter to fix.
  */
 void RegAlloc::processRead(Param& param) {
+	assert("parameter should be a read parameter!" && param.type() == Param::READ);
 }
 
 /**
@@ -120,35 +129,55 @@ void RegAlloc::processWrite(Param& param) {
  * to get a new free hardware register.
  */
 Quad::reg_t RegAlloc::allocate(Quad::reg_t reg) {
+	Quad::reg_t r;
 
+
+	return r;
 }
 
+/**
+ * Generate code to spill the given virtual register.
+ * @param reg	Virtual register to spill.
+ */
 void RegAlloc::spill(Quad::reg_t reg) {
-
+	store(reg);
+	_avail.push_front(_map[reg]);
+	_map.erase(reg);
 }
 
+/**
+ * Free the given virtual register.
+ * @param reg	Virtual register to free.
+ */
 void RegAlloc::free(Quad::reg_t reg) {
-
 }
-
 
 /**
  * Generate a store instruction to the stack.
- * @param reg		Hardware register to store.
- * @param offset	Offset in the stack to store to.
+ * @param reg		Virtual register to store.
  */
-void RegAlloc::store(Quad::reg_t reg, int offset) {
-	assert("stored register must be a virtual register" && reg >= Quad::HARD_COUNT);
-	_insts.push_back(Inst("str %0, [SP, #%1]", Param::read(reg), Param::cst(offset)));
+void RegAlloc::store(Quad::reg_t reg) {
+	auto hreg = _map[reg];
+	auto offset = _mapper.offsetOf(reg);
+	_insts.push_back(Inst("\tstr R%0, [SP, #%1]", Param::read(hreg), Param::cst(offset)));
 }
-
 
 /**
  * Generate a load from the stack.
- * @param reg		Hardware register to load to.
+ * @param reg		Virtual register to load to.
  * @param offset	Offset in the stack of the value to load.
  */
-void RegAlloc::load(Quad::reg_t reg, int offset) {
-	assert("loaded register must be an hardware register" && reg < Quad::HARD_COUNT);
-	_insts.push_back(Inst("ldr %0, [SP, #%1]", Param::write(reg), Param::cst(offset)));
+void RegAlloc::load(Quad::reg_t reg) {
+	auto hreg = _map[reg];
+	auto offset = _mapper.offsetOf(reg);
+	_insts.push_back(Inst("\tldr R%0, [SP, #%1]", Param::write(hreg), Param::cst(offset)));
+}
+
+/**
+ * Test if a virtual register contains a variable.
+ * @param reg	Virtual register to test.
+ * @return		True if reg contains a IOML variable false else.
+ */
+bool RegAlloc::isVar(Quad::reg_t reg) const {
+	return _mapper.isGlobal(reg);
 }

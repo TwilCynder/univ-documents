@@ -1,3 +1,4 @@
+#include <set>
 #include <vector>
 #include "AST.hpp"
 #include "parser.hpp"
@@ -60,10 +61,82 @@ void allocRegisters(CFG<Inst>& g, QuadProgram& prog) {
 
 	// allocate the registers
 	for(auto v: g.basicBlocks()) {
+		list<Inst> nlist;
+		RegAlloc alloc(map, nlist);
 		for(auto i: v->instructions())
-			;
+			alloc.process(i);
+		alloc.complete();
+		v->setInstructions(nlist);
 		map.rewind();
 	}
+}
+
+
+/**
+ * Output assembly from the CFG from the given stream.
+ * @param g		Instruction CFG to output.
+ * @param out	Output stream to output to.
+ */
+void outputAssembly(CFG<Inst>& g, ostream& out) {
+
+	// generate prolog
+	out << "\t.global main\n"
+		<< "\n"
+		<< "_main:" << endl;
+
+	// generate body
+	set<BB<Inst> *> todo, done;
+	todo.insert(g.entry());
+	while(!todo.empty()) {
+		auto bb = *todo.begin();
+		while(bb != nullptr) {
+			for(auto i: bb->instructions())
+				out << i << endl;
+			todo.erase(bb);
+			done.insert(bb);
+			if(bb->target() != nullptr
+			&& done.find(bb->target()) == done.end())
+				todo.insert(bb->target());
+			bb = bb->next();
+		}
+	}
+
+	// generate epilog
+	out << "\tbx LR" << endl;
+
+	// generate run-time
+	out << endl
+		<< "@ R0 = e, R1 = u, R2 = l\n"
+		<< "get_field:\n"
+		<< "L10000:\n"
+		<< "	stmfd sp!, {R1, R2}\n"
+		<< "	mov R0, R0, lsr R2\n"
+		<< "	sub R1, R1, R2\n"
+		<< "	add R1, R1, #1\n"
+		<< "	mov R2, #1\n"
+		<< "	mov R2, R2, lsl R1\n"
+		<< "	sub R2, R2, #1\n"
+		<< "	and R0, R0, R2\n"
+		<< "	ldmfd sp!, {R1, R2}\n"
+		<< "	bx  LR\n"
+		<< endl
+		<< "@ R0 = i, R1 = u, R2 = l, R3 = e\n"
+		<< "set_field:\n"
+		<< "L10001:\n"
+		<< "	stmfd sp!, {R1, R3, R4}\n"
+		<< "	sub R1, R1, R2\n"
+		<< "	add R1, R1, #1\n"
+		<< "	mov R4, #1\n"
+		<< "	mov R4, R4, lsl R1\n"
+		<< "	and R3, R3, R4\n"
+		<< "	mov R3, R3, lsl R2\n"
+		<< "	mov R4, R4, lsl R2\n"
+		<< "	mvn R4, R4\n"
+		<< "	and R0, R0, R4\n"
+		<< "	orr R0, R0, R3\n"
+		<< "	ldmfd sp!, {R1, R3, R4}\n"
+		<< "	bx  LR\n"
+	;
 }
 
 
@@ -73,12 +146,14 @@ void allocRegisters(CFG<Inst>& g, QuadProgram& prog) {
 void printHelp() {
 	cerr << "SYNTAX: ioc [options] FILE.ioc\n"
 		 << "Options may be:\n"
-		 << "-h, --help    - display this message.\n"
-		 << "-print-ast    - print AST and stop.\n"
-		 << "-print-cfg    - print quadruplet CFG.\n"
-		 << "-print-quads  - print the quadruplets.\n"
-		 << "-print-select - print the selected instructions.\n"
-		 << "-reduce-const - reduce constant expressions.\n";
+		 << "-h, --help     - display this message.\n"
+		 << "-S, --assembly - generate assembly.\n"
+		 << "-print-alloc   - print the instructions after register allocation.\n"
+		 << "-print-ast     - print AST and stop.\n"
+		 << "-print-cfg     - print quadruplet CFG.\n"
+		 << "-print-quads   - print the quadruplets.\n"
+		 << "-print-select  - print the selected instructions.\n"
+		 << "-reduce-const  - reduce constant expressions.\n";
 }
 
 /**
@@ -91,6 +166,8 @@ int main(int argc, const char **argv) {
 	bool print_quads = false;
 	bool print_cfg = false;
 	bool print_select = false;
+	bool print_alloc = false;
+	bool assembly = false;
 
 	// parse arguments
 	for(int i = 1; i < argc; i++) {
@@ -116,6 +193,10 @@ int main(int argc, const char **argv) {
 			print_cfg = true;
 		else if(arg == "-print-select")
 			print_select = true;
+		else if(arg == "-print-alloc")
+			print_alloc = true;
+		else if(arg == "-S" || arg == "--assembly")
+			assembly = true;
 		else if(arg == "-h" || arg == "--help") {
 			printHelp();
 			return 1;
@@ -184,10 +265,17 @@ int main(int argc, const char **argv) {
 
 	// select instructions
 	auto inst_cfg = selectInstructions(cfg);
-
-	// print instructions if needed
 	if(print_select)
 		inst_cfg->print(cout);
+
+	// allocate registers
+	allocRegisters(*inst_cfg, quads);
+	if(print_alloc)
+		inst_cfg->print(cout);
+
+	// output machine instructions
+	if(assembly)
+		outputAssembly(*inst_cfg, cout);
 
 	// clean all
 	Declaration::clearSymTab();

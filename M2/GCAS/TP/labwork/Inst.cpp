@@ -325,7 +325,7 @@ select_t
 
 	select_goto = {
 		{ Quad::goto_(RECORD|0) },
-		{ Inst("goto L%0", pcst(COPY|0)), Inst::end }
+		{ Inst("b L%0", pcst(COPY|0)), Inst::end }
 	},
 	select_label = {
 		{ Quad::lab(RECORD|0) },

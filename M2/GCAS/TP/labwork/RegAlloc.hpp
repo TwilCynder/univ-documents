@@ -32,17 +32,16 @@ private:
 	Quad::reg_t allocate(Quad::reg_t reg);
 	void spill(Quad::reg_t reg);
 	void free(Quad::reg_t reg);
-	void store(Quad::reg_t reg, int offset);
-	void load(Quad::reg_t reg, int offset);
+	void store(Quad::reg_t reg);
+	void load(Quad::reg_t reg);
+	bool isVar(Quad::reg_t reg) const;
 
 	map<Quad::reg_t, Quad::reg_t> _map;
 	list<Quad::reg_t> _written;
 	list<Quad::reg_t> _avail;
-	list<Quad::reg_t> _used;
 	StackMapper& _mapper;
 	list<Inst>& _insts;
-	Quad::reg_t _fried[Inst::param_num];
-	int _fried_top;
+	list<Quad::reg_t> _fried;
 };
 
 #endif	// IOC_REGALLOC_HPP
