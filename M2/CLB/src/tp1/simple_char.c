@@ -9,6 +9,8 @@ static char text[] = "SECIL";
 static size_t text_size = (sizeof(text) /sizeof(char)) - 1;
 //static char* end = text + (sizeof(text) /sizeof(char)) - 1;
 
+static int current_pos = 0;
+
 static dev_t dev;
 static struct cdev *my_cdev;
 static struct class *my_class; 
@@ -23,8 +25,8 @@ static int releasechar(struct inode *inode, struct file *file)
 	return 0;
 }
 
-//static char* str_ptr = text;
-static int current_pos = 0;
+
+
 static ssize_t readchar(struct file *filp, char *b, size_t len, loff_t *offset)
 {
 	printk(KERN_DEBUG "LENGTH %d", len);
@@ -37,21 +39,6 @@ static ssize_t readchar(struct file *filp, char *b, size_t len, loff_t *offset)
 	if (current_pos >= text_size) current_pos = 0;
 	return len;
 
-	/*
-	int remaining_len = len;
-	int output_offset = 0;
-
-	while (remaining_len > text_size - current_pos){
-		if (copy_to_user(b + output_offset, str_ptr, text_size - current_pos)) return -EFAULT;
-		output_offset += text_size - current_pos;
-		remaining_len -= text_size - current_pos;
-	}
-
-    if (copy_to_user(b + output_offset, str_ptr, remaining_len)) return -EFAULT;
-	current_pos += remaining_len;
-
-	return remaining_len;
-	*/
 }
 
 static ssize_t writechar(struct file *filp, const char *b, size_t len, loff_t *offset)
