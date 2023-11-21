@@ -13,3 +13,5 @@ M2/SE/labwork/.*
 mmd
 
 *.o
+
+*.tar.gz
