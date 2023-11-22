@@ -13,3 +13,6 @@
 [submodule "M1/S7/TL/coq/tl-coq-2022-TwilCynder"]
 	path = M1/S7/TL/coq/tl-coq-2022-TwilCynder
 	url = git@github.com:M1-TL-Coq/tl-coq-2022-TwilCynder.git
+[submodule "M1/S8/MACM"]
+	path = M1/S8/MACM
+	url = https://gitlab.com/TwilCynder/MACM-TP
