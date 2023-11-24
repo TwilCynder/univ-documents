@@ -16,17 +16,71 @@
 #define RED_LED		14
 #define BLUE_LED	15
 
-#define PSC 13 //14 - 1
-#define ARR 60000
- 
-#define SERVO_RANGE (ARR / 20)
-#define SERVO_OFFSET (ARR / 20)
+#define PWM_PSC 13 //14 - 1
+#define PWM_ARR 60000
+
+#define TIM_PSC 999
+#define TIM_ARR 42000 / 256 //interrupt every 256th of a second
+
+#define SERVO_RANGE (PWM_ARR / 20)
+#define SERVO_OFFSET (PWM_ARR / 20)
 
 #define OUT_PIN 6
 
+
 //x de 0 à 1
-void set_servo(int x){
+void set_servo(uint8_t x){
 	TIM3_CCR1 = SERVO_OFFSET + (SERVO_RANGE * x / 256);
+	printf("%d\n", SERVO_OFFSET + (SERVO_RANGE * x / 256));
+}
+
+void init_TIM3(){
+	TIM3_CR1 = 0;
+	TIM3_ARR = PWM_ARR;
+	TIM3_PSC = PWM_PSC;
+	TIM3_EGR = TIM_UG;
+	TIM3_CCMR1 = TIM_CCS1S_OUT|TIM_OC1M_PWM1;
+	TIM3_CCER = TIM_CC1E | TIM_CC1NP;
+	set_servo(0.0);
+	TIM3_SR = 0;
+	TIM3_CR1 = TIM_CEN | TIM_ARPE;
+}
+
+void init_TIM4(){
+	TIM4_CR1 = 0;
+	TIM4_ARR = TIM_ARR;
+	TIM4_PSC = TIM_PSC;
+	TIM4_EGR = TIM_UG;
+	TIM4_SR = 0;
+	//not enabled yet
+}
+
+int8_t increment = 1;
+uint8_t current_state = 20;
+void handle_TIM4()  {
+
+	set_servo(current_state);
+
+	current_state += increment;
+	if (current_state >= 220 || current_state <= 20){
+		increment = -increment;
+	}
+
+	printf("INTERRUPT %d %d\n", current_state, increment);
+
+}
+
+void init_TIM4_interrupts(){
+	DISABLE_IRQS;
+	NVIC_ICER(TIM4_IRQ >> 5) = 1 << (TIM4_IRQ & 0x1f); //clear en register
+	NVIC_IRQ(TIM4_IRQ) = (uint32_t)handle_TIM4;
+	NVIC_IPR(TIM4_IRQ) = 0;
+	NVIC_ICPR(TIM4_IRQ >> 5) = 1 << (TIM4_IRQ & 0x1f); //& 0b11111 to take only the first 5 bits 
+	TIM4_DIER = TIM_UIE;
+	NVIC_ISER(TIM4_IRQ >> 5) = 1 << (TIM4_IRQ & 0x1f);
+	ENABLE_IRQS;
+
+	TIM4_CR1 = TIM_CEN;
 }
 
 int main() {
@@ -36,21 +90,17 @@ int main() {
 	RCC_AHB1ENR |= RCC_GPIOAEN;
 	RCC_AHB1ENR |= RCC_GPIODEN;
 	RCC_APB1ENR |= RCC_TIM3EN;
+	RCC_APB1ENR |= RCC_TIM4EN;
 	RCC_APB2ENR |= RCC_ADC1EN;
 
 	// initialization
 	GPIOA_MODER = REP_BITS(GPIOA_MODER, 2 * OUT_PIN, 2, GPIO_MODER_ALT);
     GPIOA_AFRL = REP_BITS(GPIOA_AFRL, 4 * OUT_PIN, 4, 2);
 
-	TIM3_CR1 = 0;
-	TIM3_ARR = ARR;
-	TIM3_PSC = PSC;
-	TIM3_EGR = TIM_UG;
-	TIM3_CCMR1 = TIM_CCS1S_OUT|TIM_OC1M_PWM1;
-	TIM3_CCER = TIM_CC1E | TIM_CC1NP;
-	set_servo(0.0);
-	TIM3_SR = 0;
-	TIM3_CR1 = TIM_CEN | TIM_ARPE;
+
+	init_TIM3();
+	init_TIM4();
+	init_TIM4_interrupts();
 
 	// main loop
 	printf("Endless loop!\n");
