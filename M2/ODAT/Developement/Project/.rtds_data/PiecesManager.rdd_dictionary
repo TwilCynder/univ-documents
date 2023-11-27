@@ -49,15 +49,15 @@
 <SentSignals>
 <SignalReference id="SIG2"/>
 <SignalReference id="SIG3"/>
+<SignalReference id="SIG4"/>
 <SignalReference id="SIG5"/>
 <SignalReference id="SIG6"/>
-<SignalReference id="SIG4"/>
 </SentSignals>
 <ReceivedSignals>
 <SignalReference id="SIG1"/>
 <SignalReference id="SIG4"/>
-<SignalReference id="SIG8"/>
 <SignalReference id="SIG7"/>
+<SignalReference id="SIG8"/>
 </ReceivedSignals>
 </Body>
 </Item>
