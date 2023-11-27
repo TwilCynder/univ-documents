@@ -1,10 +1,11 @@
-name: PushGitlab
+name: Push to Gitlab
 
 on:
   push:
     branches: [ master ]
 
 jobs:
+  name: Push to Gitlab
   build:
     env: 
       token: ${{ secrets.GITLAB_PAT }}
