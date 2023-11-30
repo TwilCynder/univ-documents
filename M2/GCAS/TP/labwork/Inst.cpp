@@ -22,9 +22,9 @@ typedef struct select_t {
 } select_t;
 
 inline Param pread(uint32_t x) { return Param::read(x); }
-inline Param pwrite(uint32_t x) { return Param::read(x); }
+inline Param pwrite(uint32_t x) { return Param::write(x); }
 inline Param pcst(uint32_t x) { return Param::cst(x); }
-
+ 
 
 /**
  * @class Param

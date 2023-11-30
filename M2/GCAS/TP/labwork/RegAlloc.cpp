@@ -97,6 +97,22 @@ RegAlloc::RegAlloc(StackMapper& mapper, list<Inst>& insts)
  * @param inst		Instruction sto process.
  */
 void RegAlloc::process(Inst inst) {
+	for (int i = 0; i < Inst::param_num; i++){
+		Param& p = inst[i];
+		if (p.type() == Param::NONE){
+			break;
+		}
+
+		switch (p.type()){
+			case Param::READ:
+				processRead(p);
+				break;
+			case Param::WRITE:
+				processWrite(p);
+				break;
+		}
+		
+	}
 
 	// add the fixed instruction
 	_insts.push_back(inst);
@@ -107,6 +123,9 @@ void RegAlloc::process(Inst inst) {
  * Complete the allocation of a BB by generating store of modified global variables.
  */
 void RegAlloc::complete() {
+	for (auto reg : _written){
+		store(reg);
+	}
 }
 
 /**
@@ -115,6 +134,10 @@ void RegAlloc::complete() {
  */
 void RegAlloc::processRead(Param& param) {
 	assert("parameter should be a read parameter!" && param.type() == Param::READ);
+
+	Quad::reg_t vreg = param.value();
+	Quad::reg_t hreg = allocate(vreg);
+	param = Param::read(hreg);
 }
 
 /**
@@ -122,6 +145,11 @@ void RegAlloc::processRead(Param& param) {
  * @param param		Parameter to fix.
  */
 void RegAlloc::processWrite(Param& param) {
+	assert("parameter should be a write parameter!" && param.type() == Param::WRITE);
+
+	Quad::reg_t vreg = param.value();
+	Quad::reg_t hreg = allocate(vreg);
+	param = Param::write(hreg);
 }
 
 /**
@@ -131,6 +159,14 @@ void RegAlloc::processWrite(Param& param) {
 Quad::reg_t RegAlloc::allocate(Quad::reg_t reg) {
 	Quad::reg_t r;
 
+	auto it = _map.find(reg);
+	if (it == _map.end()){ //pas de registre !!
+		assert(!_avail.empty() || ("no more registers available!" && false));
+		r = _avail.front();
+		_avail.pop_front();	
+	} else {
+		r = it->second;
+	}
 
 	return r;
 }
@@ -150,6 +186,12 @@ void RegAlloc::spill(Quad::reg_t reg) {
  * @param reg	Virtual register to free.
  */
 void RegAlloc::free(Quad::reg_t reg) {
+
+	auto it = _map.find(reg);
+	if (it != _map.end()){
+		_avail.push_front(it->second);
+		_map.erase(it);
+	}
 }
 
 /**
@@ -181,3 +223,9 @@ void RegAlloc::load(Quad::reg_t reg) {
 bool RegAlloc::isVar(Quad::reg_t reg) const {
 	return _mapper.isGlobal(reg);
 }
+
+
+//questions : spill ou erreur si plus de registres hardware ?
+//est-ce que mes trucs sont suffisants ????
+//comment itérer correctement sur les paramètres d'une instruction
+//C QUOI CE MAKEFILE COMMEMNT IL COMPILE PUTAIN DE MERDE
