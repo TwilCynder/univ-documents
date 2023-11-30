@@ -50,24 +50,24 @@ architecture behaviour of pwm is
     -- signals declarations
     --signal freq_count : natural range 0 to FREQ_COUNT_MAX := 0;         -- frequency counter
     signal duty_threshold : natural range 0 to FREQ_COUNT_MAX := 0;     -- threshold between Ton/Toff
+    signal cpt: natural range 0 to FREQ_COUNT_MAX;
 begin
 
 ------------------------------------------------------------------
 -- Process P_PWM
 P_PWM:process(CLK)
-    variable cpt: natural range 0 to FREQ_COUNT_MAX;
+    
 begin
     -- check for active front
     if( rising_edge(CLK) ) then
         -- check for RST or not enabled
-        if( RST='0' ) then
-            cpt:=FREQ_COUNT_MAX;
+        if( RST='0' or EN='1' ) then
+            cpt<=FREQ_COUNT_MAX;
             P <= '0';
         elsif EN='0' then --actif
-            P <= '0';
+            P <= '1';
             if cpt >= FREQ_COUNT_MAX then --fin de période
-                cpt := 0;
-                P <= '1';
+                cpt <= 0;
                 --mise à jour threshold
                 
                 if (duty = DUTY_MAX) then
@@ -77,10 +77,10 @@ begin
                 end if;
                 
             else 
-                cpt := cpt + 1;
-                if cpt < duty_threshold then --on a dépassé le threshold
-                    P <= '1';
+                if cpt >= duty_threshold then
+                    P <= '0';
                 end if;
+                cpt <= cpt + 1;
             end if;
 
         end if; 

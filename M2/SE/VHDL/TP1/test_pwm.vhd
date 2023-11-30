@@ -59,11 +59,11 @@ end process P_TIMEOUT;
 
 --------------------------------------------------
 -- instantiation et mapping du composant registres
-pwm0 : entity work.pwm(behaviour) --behavioural simulation
-			generic map (sys_clk => sys_freq,
-                            pwm_freq => pwm_freq,
-                            duty_res => duty_res)
---pwm0 : entity work.pwm(structure) --post-synthesis functional simulation
+--pwm0 : entity work.pwm(behaviour) --behavioural simulation
+--			generic map (sys_clk => sys_freq,
+--                            pwm_freq => pwm_freq,
+--                            duty_res => duty_res)
+pwm0 : entity work.pwm(structure) --post-synthesis functional simulation
 			port map (CLK => E_CLK,
                         RST => E_RST,
                         EN => E_EN,
@@ -99,6 +99,7 @@ begin
     wait until E_CLK='1';
     wait for clkpulse/2;
     E_DUTY <= conv_std_logic_vector(1,duty_res);    -- set minimal value
+    wait for clkpulse*2;
     E_EN <= '0';
     wait until E_CLK='1';
     wait until E_P='1';
