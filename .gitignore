@@ -15,4 +15,5 @@ mmd
 *.o
 
 *.tar.gz
+*.tar.xz
 *.zip
