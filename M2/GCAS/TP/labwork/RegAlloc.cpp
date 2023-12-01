@@ -75,6 +75,7 @@ void StackMapper::rewind() {
 }
 
 
+
 /**
  * @class RegAlloc
  * Supports allocation of register for a BB.
@@ -177,8 +178,7 @@ Quad::reg_t RegAlloc::allocate(Quad::reg_t reg) {
  */
 void RegAlloc::spill(Quad::reg_t reg) {
 	store(reg);
-	_avail.push_front(_map[reg]);
-	_map.erase(reg);
+	_avail.push_front(_map.pop(reg));
 }
 
 /**
@@ -228,4 +228,56 @@ bool RegAlloc::isVar(Quad::reg_t reg) const {
 //questions : spill ou erreur si plus de registres hardware ?
 //est-ce que mes trucs sont suffisants ????
 //comment itérer correctement sur les paramètres d'une instruction
-//C QUOI CE MAKEFILE COMMEMNT IL COMPILE PUTAIN DE MERDE
+
+RegMap::RegMap() : _map()
+{
+}
+
+Quad::reg_t &RegMap::operator[](const Quad::reg_t reg)
+{
+    return _map[reg];
+}
+
+void RegMap::add(Quad::reg_t v, Quad::reg_t h)
+{
+	_map.try_emplace(v, h);
+}
+
+bool RegMap::empty() const
+{
+    return _map.empty();
+}
+
+const RegMap::_BaseMap::const_iterator RegMap::end() const
+{
+    return _map.end();
+}
+
+RegMap::_BaseMap::iterator RegMap::find(const Quad::reg_t reg)
+{
+    return _map.find(reg);
+}
+
+Quad::reg_t RegMap::get(const Quad::reg_t reg)
+{
+    auto it = find(reg);
+	assert(it != end() || ("Attempted to get register that is not present in the map" && false));
+	return it->second;
+}
+
+void RegMap::erase(const Quad::reg_t reg)
+{
+	_map.erase(reg);
+}
+
+void RegMap::erase(RegMap::_BaseMap::const_iterator it){
+	_map.erase(it);
+}
+
+Quad::reg_t RegMap::pop(const Quad::reg_t reg)
+{
+    auto it = find(reg);
+	Quad::reg_t hreg = it->second;
+	erase(it);
+	return hreg;
+}

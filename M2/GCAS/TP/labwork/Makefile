@@ -106,7 +106,7 @@ tp4:
 # Autodoc
 autodoc:
 	doxygen
-
+CXXFLAGS
 TP4_FILES = \
 	Doxyfile \
 	Makefile \
