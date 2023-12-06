@@ -2,8 +2,12 @@ import os
 import sys
 
 if len(sys.argv) < 2:
+    os.system("cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_max_freq")
+    exit(0)
+
+if sys.argv[1] == "-h":
     print("Usage : ", sys.argv[0], " min|max|<freq>")
-    exit(1)
+
 
 target = sys.argv[1]
 if not (target.isnumeric() or target == "min" or target == "max"):

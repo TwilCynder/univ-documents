@@ -291,7 +291,7 @@ of the loop at line 15 in `bubble.c` (taking into account the value of the paren
 	[=>]
 
 	[<<]	
-		Il y a une sacrée différence. 
+		Il y a une sacrée différence. Déjà, 
 	[>>]
 
 8. To fix the problem, change the loop bound in `bubble.ff` to add, after `max` _N_, the syntax `total` _M_ with _M_ being the total execution count of the loop computed in the previous question.

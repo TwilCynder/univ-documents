@@ -26,6 +26,6 @@ if len(sys.argv) < 2:
     exit(1)
 
 command = sys.argv[1]
-os.system(f"../mojitos/bin/mojitos -r -f 10 -o /tmp/data.csv & pid=$! ; {command}; sudo-g5k kill $pid")
+os.system(f"../mojitos/bin/mojitos -r -f 10 -o /tmp/data.csv & pid=$! ; {command}; kill $pid")
 
 sum_energy(_read_csv('/tmp/data.csv'))

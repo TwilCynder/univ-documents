@@ -7,9 +7,7 @@ ymin, ymax = -1, 1
 iterationmax = 100
 
 a = -0.8
-b = 0.156
-
-taille 
+b = 0.156 
 
 pixels = np.zeros((taille, taille, 3), dtype='i')
 
