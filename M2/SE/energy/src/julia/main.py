@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-taille = 400
+taille = 200
 xmin, xmax = -1, 1
 ymin, ymax = -1, 1
 iterationmax = 100
@@ -25,6 +25,6 @@ for line in range(taille):
             else:
                 pixels[col,line] = ((4*i)%256,2*i,(6*i)%256)
 
-pixels = pixels.transpose(2, 0, 1).reshape((taille * taille, 3))
+pixels = pixels.reshape((taille * taille, 3))
 
 np.savetxt("python_out.csv", pixels, fmt= "%d", delimiter='\t')
