@@ -76,15 +76,15 @@ P_TEST: process
 begin
 
 	-- initialisations
-	E_RST <= '0';
-    E_EN <= '1';
+	E_RST <= '1';
+    E_EN <= '0';
     E_DUTY <= (others=>'0');
     -- E_CLK <= '0'; DON'T DO THAT ... guess why ???
 
 	-- sequence RESET
-	E_RST <= '0';
-	wait for clkpulse*3;
 	E_RST <= '1';
+	wait for clkpulse*3;
+	E_RST <= '0';
 	wait for clkpulse/2;
 
     -- wait a bit before starting
@@ -95,12 +95,12 @@ begin
     -- with DUTY=min value
     wait until E_CLK='0';
     wait for clkpulse/2;
-    E_EN <= '1';
+    E_EN <= '0';
     wait until E_CLK='1';
     wait for clkpulse/2;
     E_DUTY <= conv_std_logic_vector(1,duty_res);    -- set minimal value
     wait for clkpulse*2;
-    E_EN <= '0';
+    E_EN <= '1';
     wait until E_CLK='1';
     wait until E_P='1';
 

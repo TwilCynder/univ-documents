@@ -2,7 +2,7 @@
 -- Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2023.1 (lin64) Build 3865809 Sun May  7 15:04:56 MDT 2023
--- Date        : Wed Nov 29 17:35:14 2023
+-- Date        : Wed Dec  6 15:01:03 2023
 -- Host        : secil1.siame.univ-tlse3.fr running 64-bit unknown
 -- Command     : write_vhdl -mode funcsim -nolib -force -file
 --               /nfs/home/camsi13/Documents/univ-documents/M2/SE/VHDL/TP1/TP1.sim/sim_1/synth/func/xsim/test_pwm_func_synth.vhd

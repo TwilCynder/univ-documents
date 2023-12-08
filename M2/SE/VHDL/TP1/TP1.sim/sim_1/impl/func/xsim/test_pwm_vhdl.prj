@@ -1,0 +1,7 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  \
+"test_pwm_func_impl.vhd" \
+"../../../../../test_pwm.vhd" \
+
+# Do not sort compile order
+nosort

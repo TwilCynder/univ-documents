@@ -1,5 +1,4 @@
 local Newcomplex = require("complex")
-
 local t = Newcomplex(-8, 0.7)
 
 print(t * t)
