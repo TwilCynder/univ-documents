@@ -4,12 +4,14 @@
 #include <linux/cdev.h>
 #include <linux/fs.h>
 #include <linux/uaccess.h>
+#include <linux/ioctl.h>
 
-static char text[] = "SECIL";
-static size_t text_size = (sizeof(text) /sizeof(char)) - 1;
+static const char base_text[] = "SECIL";
+static const size_t base_text_size = (sizeof(base_text) /sizeof(char)) - 1;
+
+static char* text = base_text;
+static size_t text_size = base_text_size;
 //static char* end = text + (sizeof(text) /sizeof(char)) - 1;
-
-static int current_pos = 0;
 
 static dev_t dev;
 static struct cdev *my_cdev;
@@ -25,12 +27,10 @@ static int releasechar(struct inode *inode, struct file *file)
 	return 0;
 }
 
-
-
+//static char* str_ptr = text;
+static int current_pos = 0;
 static ssize_t readchar(struct file *filp, char *b, size_t len, loff_t *offset)
 {
-	printk(KERN_DEBUG "LENGTH %d", len);
-
 	int remaining_len = text_size - current_pos;
 	if (len > remaining_len) len = remaining_len;
 	if (copy_to_user(b, text + current_pos, len)) return -EFAULT;
@@ -39,14 +39,42 @@ static ssize_t readchar(struct file *filp, char *b, size_t len, loff_t *offset)
 	if (current_pos >= text_size) current_pos = 0;
 	return len;
 
+	/*
+	int remaining_len = len;
+	int output_offset = 0;
+
+	while (remaining_len > text_size - current_pos){
+		if (copy_to_user(b + output_offset, str_ptr, text_size - current_pos)) return -EFAULT;
+		output_offset += text_size - current_pos;
+		remaining_len -= text_size - current_pos;
+	}
+
+    if (copy_to_user(b + output_offset, str_ptr, remaining_len)) return -EFAULT;
+	current_pos += remaining_len;
+
+	return remaining_len;
+	*/
 }
 
 static ssize_t writechar(struct file *filp, const char *b, size_t len, loff_t *offset)
 {
-	return -ENOSPC;
+	//on doit faire attention à un cas spécial : celui où le text actuel est toujours la string statique originelle
+	printk(KERN_DEBUG "LENGTH-- %d", len);
+	
+	if (text != base_text) kfree(text);
+	text = (char*)kmalloc(len, GFP_KERNEL);
+	if (copy_from_user(text, b, len) > 0) return -ENOSPC;
+	text_size = len;	
+
+	for (int i = 0; i < len; i++){
+		printk("%d-", (int)text[i]);
+	}
+	printk("\n");
+
+	return len;
 }
 
-#define IOCTL_RESET _IO(_IOC_NONE, 'x', 0)
+#define IOCTL_RESET _IO('x', 0)
 static long my_ioctl (struct file *filp, unsigned int command, unsigned long arg	) {
 	switch(command) {
     	case IOCTL_RESET:
@@ -137,5 +165,5 @@ module_init(char_init);
 module_exit(char_cleanup);
 
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Alban Gruin");
+MODULE_AUTHOR("Téo Tinarrage");
 MODULE_DESCRIPTION("Simple char device");

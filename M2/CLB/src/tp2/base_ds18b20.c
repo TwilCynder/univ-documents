@@ -82,7 +82,7 @@ u8 onewire_read_byte(void)
 		val |= onewire_read() << i;
 
 	return val;
-}
+}	
 
 static void onewire_write_zero(void)
 {
