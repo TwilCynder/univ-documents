@@ -9,11 +9,24 @@
 
 #include "base_ds18b20.h"
 
+#define FIRST_INTEGER_BIT 4
+#define LAST_INTEGER_BIT 10
+#define SIGN_BIT 15
+
+#define SIGN_BIT_MASK (1 << SIGN_BIT)
+#define WHOLE_PART_MASK ((1 << (LAST_INTEGER_BIT - FIRST_INTEGER_BIT + 1)) - 1)
+#define FRAC_PART_MASK ((1 << FIRST_INTEGER_BIT) - 1)
+
 static dev_t dev;
 static struct cdev *my_cdev;
 static struct class *my_class; 
 
-u8 buffer[DS18B20_NUM_REGS];
+u8 recv_buffer[DS18B20_NUM_REGS];
+char output_buffer[10];
+u8 output_buffer_length;
+
+u16 last_temp; //last temperature as read from the buffer
+u8 current_resolution = 3;
 
 static int open(struct inode *inode, struct file *file)
 {
@@ -25,10 +38,42 @@ static int release(struct inode *inode, struct file *file)
 	return 0;
 }
 
+static void add_char(char** buffer, char character){
+  *((*buffer)++) = character;  //god i love pointer shenanigans 
+}
+
+static char* temp_to_string(char* buffer, u16 temp, u8 resolution){
+	if (temp & SIGN_BIT_MASK) {
+		add_char(&buffer, '-');
+	}
+	u16 whole = (temp >> FIRST_INTEGER_BIT) & WHOLE_PART_MASK;
+	u16 frac = (temp & FRAC_PART_MASK);
+
+	printk(KERN_DEBUG "Whole : %d | Frac : %d\n", whole, frac);
+
+	//could use snprintf but would be a waste
+	if (whole > 99) {
+		add_char(&buffer, '0' + (whole / 100));
+		whole %= 100;
+	}
+	if (whole > 9) {
+		add_char(&buffer, '0' + (whole / 10));
+		whole %= 10;
+	}
+	add_char(&buffer, '0' + whole);
+
+	add_char(&buffer, '.');
+
+	add_char(&buffer, ' ');
+	add_char(&buffer, '\n');
+
+	return buffer;
+}
+
 static u8 check_crc(void){
-	u8 crc = onewire_crc8(buffer, DS18B20_REG_CRC);
-	printk(KERN_DEBUG "CRC calcule : %d | lu : %d\n", crc, buffer[DS18B20_REG_CRC]);
-	return crc == buffer[DS18B20_REG_CRC];
+	u8 crc = onewire_crc8(recv_buffer, DS18B20_REG_CRC);
+	printk(KERN_DEBUG "CRC calcule : %d | lu : %d\n", crc, recv_buffer[DS18B20_REG_CRC]);
+	return crc == recv_buffer[DS18B20_REG_CRC];
 }
 
 static void convert_temp(void){
@@ -40,23 +85,36 @@ static void updateBuffer(void){
 	onewire_write_u8(0xCC);
 	onewire_write_u8(0xBE);
 	for (int i = 0; i < DS18B20_NUM_REGS; i++){
-		buffer[i] = onewire_read_byte();
+		recv_buffer[i] = onewire_read_byte();
 	}
-	check_crc();
 }
 
-static void read_temp(void){
-	convert_temp();
-	usleep_range(750, 780);
-	updateBuffer();
+static void set_correctness_char(char character){
+	output_buffer[output_buffer_length - 2] = character;
 }
 
 static ssize_t read(struct file *filp, char *b, size_t len, loff_t *offset)
 {
+    onewire_reset();
+	convert_temp();
+	msleep(750);
 	onewire_reset();
-    read_temp();
-	printk(KERN_DEBUG "Read : %d\n", *(uint16_t*)buffer);
-	return 0;
+	updateBuffer();
+	printk(KERN_DEBUG "Read : %d\n", *(uint16_t*)recv_buffer);
+	u8 crc_correct = check_crc();
+	if (crc_correct){
+		if (*(uint16_t*)recv_buffer != last_temp){
+			last_temp = *(uint16_t*)recv_buffer;
+			output_buffer_length = temp_to_string(output_buffer, last_temp, current_resolution) - output_buffer;
+		} else {
+			set_correctness_char(' ');
+		}
+	} else {
+		set_correctness_char('*');
+	}
+	if (copy_to_user(b, output_buffer, output_buffer_length)) return -EFAULT;
+
+	return output_buffer_length;
 }
 
 static ssize_t write(struct file *filp, const char *b, size_t len, loff_t *offset)
