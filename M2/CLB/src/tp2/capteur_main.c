@@ -64,6 +64,15 @@ static char* temp_to_string(char* buffer, u16 temp, u8 resolution){
 
 	add_char(&buffer, '.');
 
+
+	while (frac > 0){
+	
+		frac *= 10;
+		add_char(&buffer, '0' + (frac >> 4));
+		frac &= FRAC_PART_MASK;
+	}
+
+
 	add_char(&buffer, ' ');
 	add_char(&buffer, '\n');
 
