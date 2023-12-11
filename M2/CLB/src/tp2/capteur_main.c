@@ -6,12 +6,15 @@
 #include <linux/uaccess.h>
 #include <linux/ioctl.h>
 #include <linux/delay.h>
+#include <linux/kstrtox.h>
 
 #include "base_ds18b20.h"
 
 #define FIRST_INTEGER_BIT 4
 #define LAST_INTEGER_BIT 10
 #define SIGN_BIT 15
+#define CONTROL_REG_BASE 0b00011111
+#define CONTROL_REG_RES_BIT0 5
 
 #define SIGN_BIT_MASK (1 << SIGN_BIT)
 #define WHOLE_PART_MASK ((1 << (LAST_INTEGER_BIT - FIRST_INTEGER_BIT + 1)) - 1)
@@ -47,8 +50,14 @@ static char* temp_to_string(char* buffer, u16 temp, u8 resolution){
 		add_char(&buffer, '-');
 	}
 	u16 whole = (temp >> FIRST_INTEGER_BIT) & WHOLE_PART_MASK;
-	u16 frac = (temp & FRAC_PART_MASK);
 
+	u8 invres = 3 - current_resolution;
+	u16 frac_mask = (current_resolution >= 3) ? FRAC_PART_MASK : FRAC_PART_MASK & ~((1 << invres) - 1);
+
+	u16 frac = (temp & frac_mask) >> invres;
+
+
+	printk(KERN_DEBUG "%d %d %d %d\n", FRAC_PART_MASK, frac_mask, invres, ~((1 << invres) - 1));
 	printk(KERN_DEBUG "Whole : %d | Frac : %d\n", whole, frac);
 
 	//could use snprintf but would be a waste
@@ -68,8 +77,8 @@ static char* temp_to_string(char* buffer, u16 temp, u8 resolution){
 	while (frac > 0){
 	
 		frac *= 10;
-		add_char(&buffer, '0' + (frac >> 4));
-		frac &= FRAC_PART_MASK;
+		add_char(&buffer, '0' + (frac >> (current_resolution + 1)));
+		frac &= frac_mask;
 	}
 
 
@@ -126,9 +135,31 @@ static ssize_t read(struct file *filp, char *b, size_t len, loff_t *offset)
 	return output_buffer_length;
 }
 
+static void set_resolution(u8 res){
+	current_resolution = res;
+
+	onewire_reset();
+	onewire_write_u8(0xCC);
+	onewire_write_u8(0x4E);
+	onewire_write_u8(0); //TH (osef)
+	onewire_write_u8(0); //TL (osef)	
+	onewire_write_u8(CONTROL_REG_BASE + ((res & 3) << CONTROL_REG_RES_BIT0));
+	onewire_write_u8(0x48);
+
+}
+
 static ssize_t write(struct file *filp, const char *b, size_t len, loff_t *offset)
 {
+	u8 res = simple_strtol(b, NULL, 10);
+
+	printk(KERN_DEBUG "Write %s %d", b, (int)res);
+
+	if (res < 1 || res > 4) return len; //si l'entrée n'a pas donné une résolution valide (en nombre de bits), on ne fait rien
+	
+	set_resolution(res - 1);
+
 	return len;
+
 }
 
 static struct file_operations fops = {
