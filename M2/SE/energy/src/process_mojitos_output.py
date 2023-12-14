@@ -9,7 +9,7 @@ def _read_csv(filename):
         df.drop(columns=df.columns[-1:], axis=1, inplace=True)
     return df
 
-def sum_energy(data):
+def sum_energy(data, csv_out):
     end_time = data["#timestamp"].max()
     start_time = data["#timestamp"].min()
     time = end_time - start_time
@@ -17,15 +17,21 @@ def sum_energy(data):
     cpu_sum = data["package-00"].sum()
     memory_sum = data["dram0"].sum()
     energy_sum_j = (cpu_sum + memory_sum) / 1000000
-    print("Execution time : ", time)
-    print("Consumed energy (Joules) : ", energy_sum_j)
-    print("Average Power : ", energy_sum_j / time)
+
+    if (csv_out):
+        print(str(time) + '\t' + str(energy_sum_j) + '\t' + str(energy_sum_j / time))
+    else:
+        print("Execution time : ", time)
+        print("Consumed energy (Joules) : ", energy_sum_j)
+        print("Average Power : ", energy_sum_j / time)
 
 if len(sys.argv) < 2:
     print("Usage : ", sys.argv[0], " command_line")
     exit(1)
 
 command = sys.argv[1]
-os.system(f"../mojitos/bin/mojitos -r -f 10 -o /tmp/data.csv & pid=$! ; {command}; kill $pid")
+csv_out = len(sys.argv) > 2 and sys.argv[2] == "-c"
 
-sum_energy(_read_csv('/tmp/data.csv'))
+os.system(f"../../mojitos/bin/mojitos -r -f 10 -o /tmp/data.csv & pid=$! ; {command}; kill $pid")
+
+sum_energy(_read_csv('/tmp/data.csv'), csv_out)

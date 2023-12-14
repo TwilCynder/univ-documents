@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 
-taille = 200
+taille = 500
 xmin, xmax = -1, 1
 ymin, ymax = -1, 1
 iterationmax = 100
@@ -27,4 +28,8 @@ for line in range(taille):
 
 pixels = pixels.reshape((taille * taille, 3))
 
-np.savetxt("python_out.csv", pixels, fmt= "%d", delimiter='\t')
+try:
+    os.mkdir("out")
+except:
+    pass
+np.savetxt("out/python_out.csv", pixels, fmt= "%d", delimiter='\t')

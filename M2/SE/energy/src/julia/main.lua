@@ -1,7 +1,7 @@
 local Newcomplex, check, complex = require ("lib.complex")
 local csv = require("lib.csv")
 
-local taille = 200
+local taille = 500
 local iterationmax = 100
 local minX = -1
 local maxX = 1
@@ -43,4 +43,5 @@ for y = maxY, minY, -stepY do
     table.insert(pixels, line)
 end
 
-csv.write_pixel_matrix("out.csv", pixels, '\t')
+os.execute("mkdir out")
+csv.write_pixel_matrix("out/lua_out.csv", pixels, '\t')
