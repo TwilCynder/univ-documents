@@ -291,14 +291,14 @@ of the loop at line 15 in `bubble.c` (taking into account the value of the paren
 	[=>]
 
 	[<<]	
-		Il y a une sacrée différence. Déjà, 
+		Il y a une sacrée différence. C'est principalement du au fait que la borne de la boucle interne (ligne 15), qui est éxécutée à chaque itération de celle de la ligne 12, évolue à chaque itération de celle-ci. Ca commence à length - 1, et diminue de 1 à chaque nouvelle éxécution ded la boucle, alors qu'otawa semble penser que la boucle fera toujours son nombre max d'itérations. De plus, il semblerait qu'otawa pense que la boulce extérieure va faire 8 itérations (je n'ai pas trop compris pourquoi, d'autant + que le total execution count de la tête de boucle, qui devrait être supérieur de 1 à celui du corps de la boucle, est de 8 aussi ?)
 	[>>]
 
 8. To fix the problem, change the loop bound in `bubble.ff` to add, after `max` _N_, the syntax `total` _M_ with _M_ being the total execution count of the loop computed in the previous question.
 
 9. Recompute the WCET with statistics and observe the reduction of the WCET.
 
-	[=>] new WCET =
+	[=>] new WCET = 2992
 
 ## Application with several tasks
 
@@ -325,7 +325,7 @@ loop):
 	$ owcet -s lpc2138 helico.elf doPWM
 	```
 
-	[=>] `doPWM()` WCET =
+	[=>] `doPWM()` WCET = 207
 	
 3. As `action()` task contains a loop, first generate and fix a flow fact file for `action()`:
 
