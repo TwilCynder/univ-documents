@@ -1,8 +1,8 @@
 local Newcomplex, check, complex = require ("lib.complex")
 local csv = require("lib.csv")
 
-local taille = 500
-local iterationmax = 100
+local taille = 10000
+local iterationmax = 1000
 local minX = -1
 local maxX = 1
 local minY = -1
@@ -17,7 +17,7 @@ local stepY = (maxY - minY) / taille
 local c = Newcomplex(a, b)
 
 local pixels =  {}
-
+local lineCount = 0
 for y = maxY, minY, -stepY do
     local line = {}
     
@@ -36,12 +36,16 @@ for y = maxY, minY, -stepY do
         if i > iterationmax then
             pixel = {0, 0, 0}
         else
-            pixel = {(4*i) % 256, 2*i, (6*i) % 256}
+            pixel = {(4*i) % 256, (2*i) % 256, (6*i) % 256}
         end
         table.insert(line, pixel)
     end
     table.insert(pixels, line)
+    lineCount = lineCount + 1
+    if lineCount % 100 == 0 then
+        print("Line "..lineCount)
+    end
 end
 
 os.execute("mkdir out")
-csv.write_pixel_matrix("out/lua_out.csv", pixels, '\t')
+csv.write_pixel_matrix(file, pixels, '\t')

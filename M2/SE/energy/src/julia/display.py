@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 
-taille = 200
+taille = 2000
 
 if len(sys.argv) < 2:
     print("Usage : ", sys.argv[0], " filename")
