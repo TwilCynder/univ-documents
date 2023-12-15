@@ -151,18 +151,20 @@ int getGyro(){
   return valsGyro[Gyro_index++];
 }
 
+/*
 int getValue(int channel){
-  if(currentChannel == GYRO_CHANNEL)
+  if(channel == GYRO_CHANNEL)
     return getGyro();
-  else if(currentChannel == currentChannel)
+  else if(channel == AROMX_CHANNEL)
 	return getAccX();
-  else if(currentChannel == AROMY_CHANNEL)
+  else if(channel == AROMY_CHANNEL)
     return getAccY();
-  else if(currentChannel == AROMZ_CHANNEL)
+  else if(channel == AROMZ_CHANNEL)
     return getAccZ();
   else
 	return 0;
 }
+*/
 
 //-------------------
 // Dump function for debug
@@ -457,12 +459,19 @@ void doAROMZChannel(void) {
     }
 }
 
+void updateAin(int value){
+  Ainlast = Ain;
+  Ain=value;
+}
+
+/*
 int updateADC(void){
 
   Ainlast = Ain;
   Ain=getValue(currentChannel);
 
   // each case occurs every fourth time
+  
   if(currentChannel == GYRO_CHANNEL)
 	doGyroChannel();
   else if(currentChannel == AROMX_CHANNEL)
@@ -476,8 +485,10 @@ int updateADC(void){
   else if(currentChannel == AROMZ_CHANNEL)
 	doAROMZChannel();
 
+  
   return 0;
 }
+*/
 
 void calibrateGyro(void){
   int i;
@@ -535,8 +546,31 @@ void doPWM(void) {
       }
 }
 
+void updateMotors(){
+  action();
+  doPWM();
+}
+
 void stabilize() {
 
+  updateAin(getGyro());
+  doGyroChannel();
+  updateMotors();
+
+  updateAin(getAccX());
+  doAROMXChannel();
+  updateMotors();
+  
+  updateAin(getAccY());
+  doAROMYChannel();
+  updateMotors();
+  
+  updateAin(getAccZ());
+  doAROMZChannel();
+  updateMotors();
+
+
+  /*
 	for(currentChannel = GYRO_CHANNEL;
 	currentChannel <= AROMZ_CHANNEL;
 	currentChannel++) {
@@ -548,6 +582,7 @@ void stabilize() {
 		doPWM();
 
 	}
+  */
 	
 }
 

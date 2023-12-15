@@ -268,9 +268,11 @@ Notice the difference between two types of bounds:
 
 	[=>] loop bounds
 
-	[>>] 	source		line	bound
-			bubble.c	12		7
-			bubble.c	15		7
+	[>>] 	  
+	 source   	| line 	| bound
+	----------	|------	|-------
+	 bubble.c 	| 12   	| 7
+	 bubble.c 	| 12   	| 7
 	[>>]
 
 4. Compute the WCET with statistics generation.
@@ -290,7 +292,7 @@ of the loop at line 15 in `bubble.c` (taking into account the value of the paren
 
 	[=>]
 
-	[<<]	
+	[<<]	  
 		Il y a une sacrée différence. C'est principalement du au fait que la borne de la boucle interne (ligne 15), qui est éxécutée à chaque itération de celle de la ligne 12, évolue à chaque itération de celle-ci. Ca commence à length - 1, et diminue de 1 à chaque nouvelle éxécution ded la boucle, alors qu'otawa semble penser que la boucle fera toujours son nombre max d'itérations. De plus, il semblerait qu'otawa pense que la boulce extérieure va faire 8 itérations (je n'ai pas trop compris pourquoi, d'autant + que le total execution count de la tête de boucle, qui devrait être supérieur de 1 à celui du corps de la boucle, est de 8 aussi ?)
 	[>>]
 
@@ -339,27 +341,27 @@ loop):
 	$ owcet -s lpc2138 helico.elf action -f action.ff
 	```
 
-	[=>] `action()` WCET =
+	[=>] `action()` WCET = 444
 
 5. Do the same with the task `updateADC()` using _oRange_ to compute the WCET
 
-	[=>] `updateADC()` WCET =
+	[=>] `updateADC()` WCET = 3067
 
 Function `stabilize()` is the main content of the endless loop implented in main. To test whether the real-time system meets its temporal constraint, we have to check that the execution of the loop (in fact that `stabilize()` takes less than 1ms).
 
 6. How many times the loop in `stabilize()` iterates?
 
-	[=>] `stabbilize()` loop bound = 
+	[=>] `stabbilize()` loop bound = 4
 
 7. Considering that the management code of the loop of `stabilize()` counts less than 50 cycles: what is the total execution time of `stabilize()`?
 
-	[=>] total execution time of `stablize()` =
+	[=>] total execution time of `stablize()` = 50 + (207 + 444 + 3067) * 4 = 14922
 
 8. How many cycles are available for one iteration of the stabilize function with an LPC2138 at a frequency of 8 MHz (i.e. cycles for a period of 1ms) ? From the WCET computed just above for stabilize, is it enough to use an LPC2138 to run `helico` code? Computes the smallest possible processor frequency to execute in time the function stabilize.
 
-	[=>] 1ms on the LPC2138 =    cycles
-	[=>] is LPC2138 powerful enough to run `helico`: [ ] yes / [ ] no
-	[=>] smallest possible frequency for LPC2138 :    Hz
+	[=>] 1ms on the LPC2138 = 8000 cycles  
+	[=>] is LPC2138 powerful enough to run `helico`: [ ] yes / [x] no   
+	[=>] smallest possible frequency for LPC2138 :  14922000  Hz (14.922 MHz)  
 
 
 
@@ -374,31 +376,31 @@ This exercice is the follow-up of the previous exercice, concerning the autopilo
 
 1. Considering that the main endless loop has a period of 1ms, look inside the function `doPMW()` to find what is the real period of function `updatePWM()` that performs the real work of `doPWM()`.
 
-	[=>] real period =
+	[=>] real period = 10ms
 
 2. Compute the WCET of the following functions using flow fact files computed by _oRange_:
   * `doAROMXChannel()`
   
-	[=>] WCET =
+	[=>] WCET = 266
   
   * `doAROMYChannel()`
 	
-	[=>] WCET =
+	[=>] WCET = 244
   
   * `doAROMZChannel()`
 	
-	[=>] WCET =
+	[=>] WCET = 241
   
   * `doGyroChannel()`
 	
-	[=>] WCET =
+	[=>] WCET = 2949
 
 	What do you observe about these WCETs?
 	
 	[=>]
 	
 	[<<]
-
+		doGyroChannel prend beaucoup + de temps que les autres channels
 	[>>]
 
 	
@@ -407,34 +409,33 @@ This exercice is the follow-up of the previous exercice, concerning the autopilo
 	[=>]
 	
 	[<<]
+		Yes : currently, updateADC can execute *either* doAROM{X|Y|Z}Channel or doGyroChannel ; we know that each one is called every fourth time but the WCET calculation does not take that in consideration, and takes the maximum execution time for each udateADC call ; but as we've seen in the previous question, one of the 4 possibilities takes way longer than the others, so the maximum duration of updateADC is higher than the average duration.  
 
+		Since we know that each channel function will be performed each time in the loop, we can calculate the average WCET for each update ADC call, which is (266 + 244 + 241 + 2949) / 4 = 925
 	[>>]
 
 4. Using the previous `updateADC()` approximation, compute the approximated total WCET for one call of `stabilize()`? Is there a difference with the WCET of the previous exercise?
 
-	[=>] approximated WCET =
+	[=>] approximated WCET = 6354
 	
 	[=>] difference
 	
 	[<<]
-
+		beaucoup
 	[>>]
 
 5. Rewrite the helico application in order to avoid the overestimation observed in the previous question and compute the new WCET.
 
-	[=>] new WCET =
+	[=>] new WCET = 6713
 
 6. Re-compute now the minimal processor frequency required for a processor to
 run this application. Is the LPC2138 at 8MHz is now enough?
 
-	[=>] new minimal frequency =
+	[=>] new minimal frequency = 6.173 MHz
 	
-	[=>] is LPC2138 anough: [ ] yes / [ ] no
+	[=>] is LPC2138 anough: [x] yes / [ ] no
 
 7. Deposit on Moodle’s repository your new version of `helico.c`.
-
-
-
 
 
 ## Complex control flow

@@ -1,0 +1,614 @@
+#Name: sem
+#Label: Semantic
+#Description: View the semantic instructions composing an instruction.
+0	1	00000e68	seti r15, 0xe68 (3688)
+0	1	00000e68	seti t2, 0x4 (4)
+0	1	00000e68	seti t1, 0x8 (8)
+0	1	00000e68	sub t1, r13, t1
+0	1	00000e68	set t3, t1
+0	1	00000e68	store r11, t1, uint32
+0	1	00000e68	add t1, t1, t2
+0	1	00000e68	store r14, t1, uint32
+0	1	00000e68	set r13, t3
+0	1	00000e6c	seti r15, 0xe6c (3692)
+0	1	00000e6c	seti t1, 0x4 (4)
+0	1	00000e6c	add r11, r13, t1
+0	1	00000e70	seti r15, 0xe70 (3696)
+0	1	00000e70	seti r15, 0xe78 (3704)
+0	1	00000e70	seti t2, 0x118 (280)
+0	1	00000e70	add t1, r15, t2
+0	1	00000e70	load r3, t1, uint32
+0	1	00000e74	seti r15, 0xe74 (3700)
+0	1	00000e74	seti t2, 0x0 (0)
+0	1	00000e74	add t1, r3, t2
+0	1	00000e74	load r3, t1, uint8
+0	1	00000e78	seti r15, 0xe78 (3704)
+0	1	00000e78	seti t1, 0x3 (3)
+0	1	00000e78	cmp sr, r3, t1
+0	1	00000e7c	seti r15, 0xe7c (3708)
+0	1	00000e7c	seti t1, 0xf80 (3968)
+0	1	00000e7c	if ne, sr, 1
+0	1	00000e7c	branch t1
+0	2	00000f80	seti r15, 0xf80 (3968)
+0	2	00000f80	set t1, r0
+0	2	00000f80	set r0, t1
+0	2	00000f84	seti r15, 0xf84 (3972)
+0	2	00000f84	seti t1, 0x4 (4)
+0	2	00000f84	sub r13, r11, t1
+0	2	00000f88	seti r15, 0xf88 (3976)
+0	2	00000f88	seti t2, 0x4 (4)
+0	2	00000f88	set t1, r13
+0	2	00000f88	seti t3, 0x8 (8)
+0	2	00000f88	add t3, t1, t3
+0	2	00000f88	load r11, t1, uint32
+0	2	00000f88	add t1, t1, t2
+0	2	00000f88	load r14, t1, uint32
+0	2	00000f88	set r13, t3
+0	2	00000f8c	seti r15, 0xf8c (3980)
+0	2	00000f8c	branch r14
+0	3	00000e80	seti r15, 0xe80 (3712)
+0	3	00000e80	seti r15, 0xe88 (3720)
+0	3	00000e80	seti t2, 0x10c (268)
+0	3	00000e80	add t1, r15, t2
+0	3	00000e80	load r3, t1, uint32
+0	3	00000e84	seti r15, 0xe84 (3716)
+0	3	00000e84	seti t2, 0x0 (0)
+0	3	00000e84	add t1, r3, t2
+0	3	00000e84	load r3, t1, uint8
+0	3	00000e88	seti r15, 0xe88 (3720)
+0	3	00000e88	set t1, r3
+0	3	00000e88	set r2, t1
+0	3	00000e8c	seti r15, 0xe8c (3724)
+0	3	00000e8c	seti r15, 0xe94 (3732)
+0	3	00000e8c	seti t2, 0x104 (260)
+0	3	00000e8c	add t1, r15, t2
+0	3	00000e8c	load r1, t1, uint32
+0	3	00000e90	seti r15, 0xe90 (3728)
+0	3	00000e90	seti r0, 0x7 (7)
+0	3	00000e94	seti r15, 0xe94 (3732)
+0	3	00000e94	seti t1, 0x600 (1536)
+0	3	00000e94	seti r14, 0xe98 (3736)
+0	3	00000e94	branch t1
+0	4	00000e98	seti r15, 0xe98 (3736)
+0	4	00000e98	seti r15, 0xea0 (3744)
+0	4	00000e98	seti t2, 0xf8 (248)
+0	4	00000e98	add t1, r15, t2
+0	4	00000e98	load r1, t1, uint32
+0	4	00000e9c	seti r15, 0xe9c (3740)
+0	4	00000e9c	seti r0, 0x7 (7)
+0	4	00000ea0	seti r15, 0xea0 (3744)
+0	4	00000ea0	seti t1, 0x548 (1352)
+0	4	00000ea0	seti r14, 0xea4 (3748)
+0	4	00000ea0	branch t1
+0	5	00000ea4	seti r15, 0xea4 (3748)
+0	5	00000ea4	set t1, r0
+0	5	00000ea4	set r3, t1
+0	5	00000ea8	seti r15, 0xea8 (3752)
+0	5	00000ea8	set t1, r3
+0	5	00000ea8	set r2, t1
+0	5	00000eac	seti r15, 0xeac (3756)
+0	5	00000eac	seti r15, 0xeb4 (3764)
+0	5	00000eac	seti t2, 0xe8 (232)
+0	5	00000eac	add t1, r15, t2
+0	5	00000eac	load r3, t1, uint32
+0	5	00000eb0	seti r15, 0xeb0 (3760)
+0	5	00000eb0	seti t2, 0x0 (0)
+0	5	00000eb0	add t1, r3, t2
+0	5	00000eb0	store r2, t1, uint8
+0	5	00000eb4	seti r15, 0xeb4 (3764)
+0	5	00000eb4	seti r15, 0xebc (3772)
+0	5	00000eb4	seti t2, 0xe0 (224)
+0	5	00000eb4	add t1, r15, t2
+0	5	00000eb4	load r3, t1, uint32
+0	5	00000eb8	seti r15, 0xeb8 (3768)
+0	5	00000eb8	seti t2, 0x0 (0)
+0	5	00000eb8	add t1, r3, t2
+0	5	00000eb8	load r3, t1, uint8
+0	5	00000ebc	seti r15, 0xebc (3772)
+0	5	00000ebc	set t1, r3
+0	5	00000ebc	set r2, t1
+0	5	00000ec0	seti r15, 0xec0 (3776)
+0	5	00000ec0	seti r15, 0xec8 (3784)
+0	5	00000ec0	seti t2, 0xd8 (216)
+0	5	00000ec0	add t1, r15, t2
+0	5	00000ec0	load r3, t1, uint32
+0	5	00000ec4	seti r15, 0xec4 (3780)
+0	5	00000ec4	seti t2, 0x0 (0)
+0	5	00000ec4	add t1, r3, t2
+0	5	00000ec4	load r3, t1, uint8
+0	5	00000ec8	seti r15, 0xec8 (3784)
+0	5	00000ec8	seti t1, 0x3 (3)
+0	5	00000ec8	add r3, r3, t1
+0	5	00000ecc	seti r15, 0xecc (3788)
+0	5	00000ecc	set t1, r3
+0	5	00000ecc	cmp sr, r2, t1
+0	5	00000ed0	seti r15, 0xed0 (3792)
+0	5	00000ed0	seti t1, 0xf20 (3872)
+0	5	00000ed0	if le, sr, 1
+0	5	00000ed0	branch t1
+0	6	00000f20	seti r15, 0xf20 (3872)
+0	6	00000f20	seti r15, 0xf28 (3880)
+0	6	00000f20	seti t2, 0x74 (116)
+0	6	00000f20	add t1, r15, t2
+0	6	00000f20	load r3, t1, uint32
+0	6	00000f24	seti r15, 0xf24 (3876)
+0	6	00000f24	seti t2, 0x0 (0)
+0	6	00000f24	add t1, r3, t2
+0	6	00000f24	load r2, t1, uint8
+0	6	00000f28	seti r15, 0xf28 (3880)
+0	6	00000f28	seti r15, 0xf30 (3888)
+0	6	00000f28	seti t2, 0x70 (112)
+0	6	00000f28	add t1, r15, t2
+0	6	00000f28	load r3, t1, uint32
+0	6	00000f2c	seti r15, 0xf2c (3884)
+0	6	00000f2c	seti t2, 0x0 (0)
+0	6	00000f2c	add t1, r3, t2
+0	6	00000f2c	load r3, t1, uint8
+0	6	00000f30	seti r15, 0xf30 (3888)
+0	6	00000f30	set t1, r3
+0	6	00000f30	cmp sr, r2, t1
+0	6	00000f34	seti r15, 0xf34 (3892)
+0	6	00000f34	seti t1, 0xf80 (3968)
+0	6	00000f34	if ne, sr, 1
+0	6	00000f34	branch t1
+0	7	00000f38	seti r15, 0xf38 (3896)
+0	7	00000f38	seti r15, 0xf40 (3904)
+0	7	00000f38	seti t2, 0x64 (100)
+0	7	00000f38	add t1, r15, t2
+0	7	00000f38	load r3, t1, uint32
+0	7	00000f3c	seti r15, 0xf3c (3900)
+0	7	00000f3c	seti t2, 0x0 (0)
+0	7	00000f3c	add t1, r3, t2
+0	7	00000f3c	load r3, t1, uint32
+0	7	00000f40	seti r15, 0xf40 (3904)
+0	7	00000f40	seti t1, 0x6100 (24832)
+0	7	00000f40	cmp sr, r3, t1
+0	7	00000f44	seti r15, 0xf44 (3908)
+0	7	00000f44	seti t1, 0xf5c (3932)
+0	7	00000f44	if ge, sr, 1
+0	7	00000f44	branch t1
+0	8	00000f5c	seti r15, 0xf5c (3932)
+0	8	00000f5c	seti r15, 0xf64 (3940)
+0	8	00000f5c	seti t2, 0x44 (68)
+0	8	00000f5c	add t1, r15, t2
+0	8	00000f5c	load r3, t1, uint32
+0	8	00000f60	seti r15, 0xf60 (3936)
+0	8	00000f60	seti t2, 0x0 (0)
+0	8	00000f60	add t1, r3, t2
+0	8	00000f60	load r3, t1, uint32
+0	8	00000f64	seti r15, 0xf64 (3940)
+0	8	00000f64	seti t1, 0x6100 (24832)
+0	8	00000f64	cmp sr, r3, t1
+0	8	00000f68	seti r15, 0xf68 (3944)
+0	8	00000f68	seti t1, 0xf80 (3968)
+0	8	00000f68	if ge, sr, 1
+0	8	00000f68	branch t1
+0	9	00000f6c	seti r15, 0xf6c (3948)
+0	9	00000f6c	seti r15, 0xf74 (3956)
+0	9	00000f6c	seti t2, 0x34 (52)
+0	9	00000f6c	add t1, r15, t2
+0	9	00000f6c	load r3, t1, uint32
+0	9	00000f70	seti r15, 0xf70 (3952)
+0	9	00000f70	seti t2, 0x0 (0)
+0	9	00000f70	add t1, r3, t2
+0	9	00000f70	load r3, t1, uint32
+0	9	00000f74	seti r15, 0xf74 (3956)
+0	9	00000f74	seti t1, 0x5 (5)
+0	9	00000f74	add r3, r3, t1
+0	9	00000f78	seti r15, 0xf78 (3960)
+0	9	00000f78	seti r15, 0xf80 (3968)
+0	9	00000f78	seti t2, 0x28 (40)
+0	9	00000f78	add t1, r15, t2
+0	9	00000f78	load r2, t1, uint32
+0	9	00000f7c	seti r15, 0xf7c (3964)
+0	9	00000f7c	seti t2, 0x0 (0)
+0	9	00000f7c	add t1, r2, t2
+0	9	00000f7c	store r3, t1, uint32
+0	10	00000f48	seti r15, 0xf48 (3912)
+0	10	00000f48	seti r15, 0xf50 (3920)
+0	10	00000f48	seti t2, 0x54 (84)
+0	10	00000f48	add t1, r15, t2
+0	10	00000f48	load r3, t1, uint32
+0	10	00000f4c	seti r15, 0xf4c (3916)
+0	10	00000f4c	seti t2, 0x0 (0)
+0	10	00000f4c	add t1, r3, t2
+0	10	00000f4c	load r3, t1, uint32
+0	10	00000f50	seti r15, 0xf50 (3920)
+0	10	00000f50	seti t1, 0x5 (5)
+0	10	00000f50	add r3, r3, t1
+0	10	00000f54	seti r15, 0xf54 (3924)
+0	10	00000f54	seti r15, 0xf5c (3932)
+0	10	00000f54	seti t2, 0x48 (72)
+0	10	00000f54	add t1, r15, t2
+0	10	00000f54	load r2, t1, uint32
+0	10	00000f58	seti r15, 0xf58 (3928)
+0	10	00000f58	seti t2, 0x0 (0)
+0	10	00000f58	add t1, r2, t2
+0	10	00000f58	store r3, t1, uint32
+0	11	00000ed4	seti r15, 0xed4 (3796)
+0	11	00000ed4	seti r15, 0xedc (3804)
+0	11	00000ed4	seti t2, 0xc8 (200)
+0	11	00000ed4	add t1, r15, t2
+0	11	00000ed4	load r3, t1, uint32
+0	11	00000ed8	seti r15, 0xed8 (3800)
+0	11	00000ed8	seti t2, 0x0 (0)
+0	11	00000ed8	add t1, r3, t2
+0	11	00000ed8	load r3, t1, uint32
+0	11	00000edc	seti r15, 0xedc (3804)
+0	11	00000edc	seti t1, 0x0 (0)
+0	11	00000edc	cmp sr, r3, t1
+0	11	00000ee0	seti r15, 0xee0 (3808)
+0	11	00000ee0	seti t1, 0xef8 (3832)
+0	11	00000ee0	if le, sr, 1
+0	11	00000ee0	branch t1
+0	12	00000ef8	seti r15, 0xef8 (3832)
+0	12	00000ef8	seti r15, 0xf00 (3840)
+0	12	00000ef8	seti t2, 0xa8 (168)
+0	12	00000ef8	add t1, r15, t2
+0	12	00000ef8	load r3, t1, uint32
+0	12	00000efc	seti r15, 0xefc (3836)
+0	12	00000efc	seti t2, 0x0 (0)
+0	12	00000efc	add t1, r3, t2
+0	12	00000efc	load r3, t1, uint32
+0	12	00000f00	seti r15, 0xf00 (3840)
+0	12	00000f00	seti t1, 0x0 (0)
+0	12	00000f00	cmp sr, r3, t1
+0	12	00000f04	seti r15, 0xf04 (3844)
+0	12	00000f04	seti t1, 0xf80 (3968)
+0	12	00000f04	if le, sr, 1
+0	12	00000f04	branch t1
+0	13	00000f08	seti r15, 0xf08 (3848)
+0	13	00000f08	seti r15, 0xf10 (3856)
+0	13	00000f08	seti t2, 0x98 (152)
+0	13	00000f08	add t1, r15, t2
+0	13	00000f08	load r3, t1, uint32
+0	13	00000f0c	seti r15, 0xf0c (3852)
+0	13	00000f0c	seti t2, 0x0 (0)
+0	13	00000f0c	add t1, r3, t2
+0	13	00000f0c	load r3, t1, uint32
+0	13	00000f10	seti r15, 0xf10 (3856)
+0	13	00000f10	seti t1, 0x2 (2)
+0	13	00000f10	sub r3, r3, t1
+0	13	00000f14	seti r15, 0xf14 (3860)
+0	13	00000f14	seti r15, 0xf1c (3868)
+0	13	00000f14	seti t2, 0x8c (140)
+0	13	00000f14	add t1, r15, t2
+0	13	00000f14	load r2, t1, uint32
+0	13	00000f18	seti r15, 0xf18 (3864)
+0	13	00000f18	seti t2, 0x0 (0)
+0	13	00000f18	add t1, r2, t2
+0	13	00000f18	store r3, t1, uint32
+0	13	00000f1c	seti r15, 0xf1c (3868)
+0	13	00000f1c	seti t1, 0xf80 (3968)
+0	13	00000f1c	branch t1
+0	14	00000ee4	seti r15, 0xee4 (3812)
+0	14	00000ee4	seti r15, 0xeec (3820)
+0	14	00000ee4	seti t2, 0xb8 (184)
+0	14	00000ee4	add t1, r15, t2
+0	14	00000ee4	load r3, t1, uint32
+0	14	00000ee8	seti r15, 0xee8 (3816)
+0	14	00000ee8	seti t2, 0x0 (0)
+0	14	00000ee8	add t1, r3, t2
+0	14	00000ee8	load r3, t1, uint32
+0	14	00000eec	seti r15, 0xeec (3820)
+0	14	00000eec	seti t1, 0x2 (2)
+0	14	00000eec	sub r3, r3, t1
+0	14	00000ef0	seti r15, 0xef0 (3824)
+0	14	00000ef0	seti r15, 0xef8 (3832)
+0	14	00000ef0	seti t2, 0xac (172)
+0	14	00000ef0	add t1, r15, t2
+0	14	00000ef0	load r2, t1, uint32
+0	14	00000ef4	seti r15, 0xef4 (3828)
+0	14	00000ef4	seti t2, 0x0 (0)
+0	14	00000ef4	add t1, r2, t2
+0	14	00000ef4	store r3, t1, uint32
+1	1	00000600	seti r15, 0x600 (1536)
+1	1	00000600	seti t2, 0xfffffffc (4294967292)
+1	1	00000600	add t1, r13, t2
+1	1	00000600	store r11, t1, uint32
+1	1	00000600	set r13, t1
+1	1	00000604	seti r15, 0x604 (1540)
+1	1	00000604	seti t1, 0x0 (0)
+1	1	00000604	add r11, r13, t1
+1	1	00000608	seti r15, 0x608 (1544)
+1	1	00000608	seti t1, 0x1c (28)
+1	1	00000608	sub r13, r13, t1
+1	1	0000060c	seti r15, 0x60c (1548)
+1	1	0000060c	seti t2, 0xfffffff0 (4294967280)
+1	1	0000060c	add t1, r11, t2
+1	1	0000060c	store r0, t1, uint32
+1	1	00000610	seti r15, 0x610 (1552)
+1	1	00000610	seti t2, 0xffffffec (4294967276)
+1	1	00000610	add t1, r11, t2
+1	1	00000610	store r1, t1, uint32
+1	1	00000614	seti r15, 0x614 (1556)
+1	1	00000614	set t1, r2
+1	1	00000614	set r3, t1
+1	1	00000618	seti r15, 0x618 (1560)
+1	1	00000618	seti t2, 0xffffffeb (4294967275)
+1	1	00000618	add t1, r11, t2
+1	1	00000618	store r3, t1, uint8
+1	1	0000061c	seti r15, 0x61c (1564)
+1	1	0000061c	seti r2, 0x1 (1)
+1	1	00000620	seti r15, 0x620 (1568)
+1	1	00000620	seti t2, 0xfffffff0 (4294967280)
+1	1	00000620	add t1, r11, t2
+1	1	00000620	load r3, t1, uint32
+1	1	00000624	seti r15, 0x624 (1572)
+1	1	00000624	shl t1, r2, r3
+1	1	00000624	set r3, t1
+1	1	00000628	seti r15, 0x628 (1576)
+1	1	00000628	seti t2, 0xfffffff4 (4294967284)
+1	1	00000628	add t1, r11, t2
+1	1	00000628	store r3, t1, uint32
+1	1	0000062c	seti r15, 0x62c (1580)
+1	1	0000062c	seti r3, 0x0 (0)
+1	1	00000630	seti r15, 0x630 (1584)
+1	1	00000630	seti t2, 0xfffffff8 (4294967288)
+1	1	00000630	add t1, r11, t2
+1	1	00000630	store r3, t1, uint32
+1	1	00000634	seti r15, 0x634 (1588)
+1	1	00000634	seti t1, 0x668 (1640)
+1	1	00000634	branch t1
+1	2	00000668	seti r15, 0x668 (1640)
+1	2	00000668	seti t2, 0xfffffff4 (4294967284)
+1	2	00000668	add t1, r11, t2
+1	2	00000668	load r3, t1, uint32
+1	2	0000066c	seti r15, 0x66c (1644)
+1	2	0000066c	seti t1, 0x1 (1)
+1	2	0000066c	sub r3, r3, t1
+1	2	00000670	seti r15, 0x670 (1648)
+1	2	00000670	seti t2, 0xfffffff8 (4294967288)
+1	2	00000670	add t1, r11, t2
+1	2	00000670	load r2, t1, uint32
+1	2	00000674	seti r15, 0x674 (1652)
+1	2	00000674	set t1, r3
+1	2	00000674	cmp sr, r2, t1
+1	2	00000678	seti r15, 0x678 (1656)
+1	2	00000678	seti t1, 0x638 (1592)
+1	2	00000678	if lt, sr, 1
+1	2	00000678	branch t1
+1	3	00000638	seti r15, 0x638 (1592)
+1	3	00000638	seti t2, 0xfffffff8 (4294967288)
+1	3	00000638	add t1, r11, t2
+1	3	00000638	load r3, t1, uint32
+1	3	0000063c	seti r15, 0x63c (1596)
+1	3	0000063c	seti t1, 0x1 (1)
+1	3	0000063c	add r3, r3, t1
+1	3	00000640	seti r15, 0x640 (1600)
+1	3	00000640	seti t2, 0xffffffec (4294967276)
+1	3	00000640	add t1, r11, t2
+1	3	00000640	load r2, t1, uint32
+1	3	00000644	seti r15, 0x644 (1604)
+1	3	00000644	set t1, r3
+1	3	00000644	add r2, r2, t1
+1	3	00000648	seti r15, 0x648 (1608)
+1	3	00000648	seti t2, 0xfffffff8 (4294967288)
+1	3	00000648	add t1, r11, t2
+1	3	00000648	load r3, t1, uint32
+1	3	0000064c	seti r15, 0x64c (1612)
+1	3	0000064c	seti t2, 0xffffffec (4294967276)
+1	3	0000064c	add t1, r11, t2
+1	3	0000064c	load r1, t1, uint32
+1	3	00000650	seti r15, 0x650 (1616)
+1	3	00000650	set t1, r3
+1	3	00000650	add r3, r1, t1
+1	3	00000654	seti r15, 0x654 (1620)
+1	3	00000654	seti t2, 0x0 (0)
+1	3	00000654	add t1, r2, t2
+1	3	00000654	load r2, t1, uint8
+1	3	00000658	seti r15, 0x658 (1624)
+1	3	00000658	seti t2, 0x0 (0)
+1	3	00000658	add t1, r3, t2
+1	3	00000658	store r2, t1, uint8
+1	3	0000065c	seti r15, 0x65c (1628)
+1	3	0000065c	seti t2, 0xfffffff8 (4294967288)
+1	3	0000065c	add t1, r11, t2
+1	3	0000065c	load r3, t1, uint32
+1	3	00000660	seti r15, 0x660 (1632)
+1	3	00000660	seti t1, 0x1 (1)
+1	3	00000660	add r3, r3, t1
+1	3	00000664	seti r15, 0x664 (1636)
+1	3	00000664	seti t2, 0xfffffff8 (4294967288)
+1	3	00000664	add t1, r11, t2
+1	3	00000664	store r3, t1, uint32
+1	4	0000067c	seti r15, 0x67c (1660)
+1	4	0000067c	seti t2, 0xfffffff4 (4294967284)
+1	4	0000067c	add t1, r11, t2
+1	4	0000067c	load r3, t1, uint32
+1	4	00000680	seti r15, 0x680 (1664)
+1	4	00000680	seti t1, 0x1 (1)
+1	4	00000680	sub r3, r3, t1
+1	4	00000684	seti r15, 0x684 (1668)
+1	4	00000684	seti t2, 0xffffffec (4294967276)
+1	4	00000684	add t1, r11, t2
+1	4	00000684	load r2, t1, uint32
+1	4	00000688	seti r15, 0x688 (1672)
+1	4	00000688	set t1, r3
+1	4	00000688	add r3, r2, t1
+1	4	0000068c	seti r15, 0x68c (1676)
+1	4	0000068c	seti t2, 0xffffffeb (4294967275)
+1	4	0000068c	add t1, r11, t2
+1	4	0000068c	load r2, t1, uint8
+1	4	00000690	seti r15, 0x690 (1680)
+1	4	00000690	seti t2, 0x0 (0)
+1	4	00000690	add t1, r3, t2
+1	4	00000690	store r2, t1, uint8
+1	4	00000694	seti r15, 0x694 (1684)
+1	4	00000694	set t1, r0
+1	4	00000694	set r0, t1
+1	4	00000698	seti r15, 0x698 (1688)
+1	4	00000698	seti t1, 0x0 (0)
+1	4	00000698	add r13, r11, t1
+1	4	0000069c	seti r15, 0x69c (1692)
+1	4	0000069c	seti t2, 0x4 (4)
+1	4	0000069c	set t1, r13
+1	4	0000069c	load r11, t1, uint32
+1	4	0000069c	add r13, t1, t2
+1	4	000006a0	seti r15, 0x6a0 (1696)
+1	4	000006a0	branch r14
+2	1	00000548	seti r15, 0x548 (1352)
+2	1	00000548	seti t2, 0xfffffffc (4294967292)
+2	1	00000548	add t1, r13, t2
+2	1	00000548	store r11, t1, uint32
+2	1	00000548	set r13, t1
+2	1	0000054c	seti r15, 0x54c (1356)
+2	1	0000054c	seti t1, 0x0 (0)
+2	1	0000054c	add r11, r13, t1
+2	1	00000550	seti r15, 0x550 (1360)
+2	1	00000550	seti t1, 0x14 (20)
+2	1	00000550	sub r13, r13, t1
+2	1	00000554	seti r15, 0x554 (1364)
+2	1	00000554	seti t2, 0xfffffff0 (4294967280)
+2	1	00000554	add t1, r11, t2
+2	1	00000554	store r0, t1, uint32
+2	1	00000558	seti r15, 0x558 (1368)
+2	1	00000558	seti t2, 0xffffffec (4294967276)
+2	1	00000558	add t1, r11, t2
+2	1	00000558	store r1, t1, uint32
+2	1	0000055c	seti r15, 0x55c (1372)
+2	1	0000055c	seti r3, 0x0 (0)
+2	1	00000560	seti r15, 0x560 (1376)
+2	1	00000560	seti t2, 0xfffffff8 (4294967288)
+2	1	00000560	add t1, r11, t2
+2	1	00000560	store r3, t1, uint32
+2	1	00000564	seti r15, 0x564 (1380)
+2	1	00000564	seti r2, 0x1 (1)
+2	1	00000568	seti r15, 0x568 (1384)
+2	1	00000568	seti t2, 0xfffffff0 (4294967280)
+2	1	00000568	add t1, r11, t2
+2	1	00000568	load r3, t1, uint32
+2	1	0000056c	seti r15, 0x56c (1388)
+2	1	0000056c	shl t1, r2, r3
+2	1	0000056c	set r3, t1
+2	1	00000570	seti r15, 0x570 (1392)
+2	1	00000570	seti t2, 0xfffffff4 (4294967284)
+2	1	00000570	add t1, r11, t2
+2	1	00000570	store r3, t1, uint32
+2	1	00000574	seti r15, 0x574 (1396)
+2	1	00000574	seti r15, 0x57c (1404)
+2	1	00000574	seti t2, 0x80 (128)
+2	1	00000574	add t1, r15, t2
+2	1	00000574	load r3, t1, uint32
+2	1	00000578	seti r15, 0x578 (1400)
+2	1	00000578	seti r2, 0x0 (0)
+2	1	0000057c	seti r15, 0x57c (1404)
+2	1	0000057c	seti t2, 0x0 (0)
+2	1	0000057c	add t1, r3, t2
+2	1	0000057c	store r2, t1, uint32
+2	1	00000580	seti r15, 0x580 (1408)
+2	1	00000580	seti t1, 0x5c0 (1472)
+2	1	00000580	branch t1
+2	2	000005c0	seti r15, 0x5c0 (1472)
+2	2	000005c0	seti r15, 0x5c8 (1480)
+2	2	000005c0	seti t2, 0x34 (52)
+2	2	000005c0	add t1, r15, t2
+2	2	000005c0	load r3, t1, uint32
+2	2	000005c4	seti r15, 0x5c4 (1476)
+2	2	000005c4	seti t2, 0x0 (0)
+2	2	000005c4	add t1, r3, t2
+2	2	000005c4	load r3, t1, uint32
+2	2	000005c8	seti r15, 0x5c8 (1480)
+2	2	000005c8	seti t2, 0xfffffff4 (4294967284)
+2	2	000005c8	add t1, r11, t2
+2	2	000005c8	load r2, t1, uint32
+2	2	000005cc	seti r15, 0x5cc (1484)
+2	2	000005cc	set t1, r3
+2	2	000005cc	cmp sr, r2, t1
+2	2	000005d0	seti r15, 0x5d0 (1488)
+2	2	000005d0	seti t1, 0x584 (1412)
+2	2	000005d0	if gt, sr, 1
+2	2	000005d0	branch t1
+2	3	00000584	seti r15, 0x584 (1412)
+2	3	00000584	seti r15, 0x58c (1420)
+2	3	00000584	seti t2, 0x70 (112)
+2	3	00000584	add t1, r15, t2
+2	3	00000584	load r3, t1, uint32
+2	3	00000588	seti r15, 0x588 (1416)
+2	3	00000588	seti t2, 0x0 (0)
+2	3	00000588	add t1, r3, t2
+2	3	00000588	load r3, t1, uint32
+2	3	0000058c	seti r15, 0x58c (1420)
+2	3	0000058c	set t1, r3
+2	3	0000058c	set r2, t1
+2	3	00000590	seti r15, 0x590 (1424)
+2	3	00000590	seti t2, 0xffffffec (4294967276)
+2	3	00000590	add t1, r11, t2
+2	3	00000590	load r3, t1, uint32
+2	3	00000594	seti r15, 0x594 (1428)
+2	3	00000594	set t1, r2
+2	3	00000594	add r3, r3, t1
+2	3	00000598	seti r15, 0x598 (1432)
+2	3	00000598	seti t2, 0x0 (0)
+2	3	00000598	add t1, r3, t2
+2	3	00000598	load r3, t1, uint8
+2	3	0000059c	seti r15, 0x59c (1436)
+2	3	0000059c	set t1, r3
+2	3	0000059c	set r2, t1
+2	3	000005a0	seti r15, 0x5a0 (1440)
+2	3	000005a0	seti t2, 0xfffffff8 (4294967288)
+2	3	000005a0	add t1, r11, t2
+2	3	000005a0	load r3, t1, uint32
+2	3	000005a4	seti r15, 0x5a4 (1444)
+2	3	000005a4	set t1, r2
+2	3	000005a4	add r3, r3, t1
+2	3	000005a8	seti r15, 0x5a8 (1448)
+2	3	000005a8	seti t2, 0xfffffff8 (4294967288)
+2	3	000005a8	add t1, r11, t2
+2	3	000005a8	store r3, t1, uint32
+2	3	000005ac	seti r15, 0x5ac (1452)
+2	3	000005ac	seti r15, 0x5b4 (1460)
+2	3	000005ac	seti t2, 0x48 (72)
+2	3	000005ac	add t1, r15, t2
+2	3	000005ac	load r3, t1, uint32
+2	3	000005b0	seti r15, 0x5b0 (1456)
+2	3	000005b0	seti t2, 0x0 (0)
+2	3	000005b0	add t1, r3, t2
+2	3	000005b0	load r3, t1, uint32
+2	3	000005b4	seti r15, 0x5b4 (1460)
+2	3	000005b4	seti t1, 0x1 (1)
+2	3	000005b4	add r3, r3, t1
+2	3	000005b8	seti r15, 0x5b8 (1464)
+2	3	000005b8	seti r15, 0x5c0 (1472)
+2	3	000005b8	seti t2, 0x3c (60)
+2	3	000005b8	add t1, r15, t2
+2	3	000005b8	load r2, t1, uint32
+2	3	000005bc	seti r15, 0x5bc (1468)
+2	3	000005bc	seti t2, 0x0 (0)
+2	3	000005bc	add t1, r2, t2
+2	3	000005bc	store r3, t1, uint32
+2	4	000005d4	seti r15, 0x5d4 (1492)
+2	4	000005d4	seti t2, 0xfffffff8 (4294967288)
+2	4	000005d4	add t1, r11, t2
+2	4	000005d4	load r2, t1, uint32
+2	4	000005d8	seti r15, 0x5d8 (1496)
+2	4	000005d8	seti t2, 0xfffffff0 (4294967280)
+2	4	000005d8	add t1, r11, t2
+2	4	000005d8	load r3, t1, uint32
+2	4	000005dc	seti r15, 0x5dc (1500)
+2	4	000005dc	asr t1, r2, r3
+2	4	000005dc	set r3, t1
+2	4	000005e0	seti r15, 0x5e0 (1504)
+2	4	000005e0	seti t2, 0xfffffff8 (4294967288)
+2	4	000005e0	add t1, r11, t2
+2	4	000005e0	store r3, t1, uint32
+2	4	000005e4	seti r15, 0x5e4 (1508)
+2	4	000005e4	seti t2, 0xfffffff8 (4294967288)
+2	4	000005e4	add t1, r11, t2
+2	4	000005e4	load r3, t1, uint32
+2	4	000005e8	seti r15, 0x5e8 (1512)
+2	4	000005e8	seti t1, 0xff (255)
+2	4	000005e8	and r3, r3, t1
+2	4	000005ec	seti r15, 0x5ec (1516)
+2	4	000005ec	set t1, r3
+2	4	000005ec	set r0, t1
+2	4	000005f0	seti r15, 0x5f0 (1520)
+2	4	000005f0	seti t1, 0x0 (0)
+2	4	000005f0	add r13, r11, t1
+2	4	000005f4	seti r15, 0x5f4 (1524)
+2	4	000005f4	seti t2, 0x4 (4)
+2	4	000005f4	set t1, r13
+2	4	000005f4	load r11, t1, uint32
+2	4	000005f4	add r13, t1, t2
+2	4	000005f8	seti r15, 0x5f8 (1528)
+2	4	000005f8	branch r14

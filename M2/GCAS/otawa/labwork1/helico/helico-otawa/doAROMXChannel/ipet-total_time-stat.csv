@@ -1,0 +1,37 @@
+#Label: Total Execution Time
+#Unit: cycle
+#Total: 266
+#LineOp: sum
+#ConcatOp: sum
+#ContextOp: sum
+#Description: Represents the total number of cycles the code takes during the execution of the worst case execution path.
+#Time: 5.32 us
+#WCET: 266 cycles
+16	00000b28	24	[]
+12	00000b40	24	[]
+7	00000b58	12	[]
+23	00000b64	40	[]
+0	00000b8c	16	[]
+0	00000b9c	20	[]
+0	00000bb0	16	[]
+0	00000bc0	20	[]
+0	00000bd4	16	[]
+0	00000be4	24	[]
+10	00000cb0	16	[]
+19	00000bfc	32	[]
+9	00000c1c	16	[]
+12	00000c2c	20	[]
+9	00000c40	16	[]
+12	00000c50	20	[]
+9	00000c64	16	[]
+13	00000c74	24	[]
+0	00000c8c	16	[]
+0	00000c9c	20	[]
+24	00000600	56	[FUN(00000b28), CALL(00000b54)]
+12	00000668	20	[FUN(00000b28), CALL(00000b54)]
+19	0000067c	40	[FUN(00000b28), CALL(00000b54)]
+0	00000638	48	[FUN(00000b28), CALL(00000b54)]
+27	00000548	60	[FUN(00000b28), CALL(00000b60)]
+14	000005c0	20	[FUN(00000b28), CALL(00000b60)]
+19	000005d4	40	[FUN(00000b28), CALL(00000b60)]
+0	00000584	60	[FUN(00000b28), CALL(00000b60)]

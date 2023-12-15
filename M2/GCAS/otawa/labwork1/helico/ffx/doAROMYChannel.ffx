@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<flowfacts>
+    <function name="doAROMYChannel" executed="true" extern="false">
+        <conditional id="IF-36"> <condition line="410" source="helico.c" executed="true"> </condition>
+            <case cond="1" executed="false" line="411" source="helico.c">
+                <call name="recordSample" numcall="13" line="411" source="helico.c" executed="false" extern="false">
+                    <function name="recordSample">
+                        <loop loopId="3" line="200" source="helico.c" exact="true" maxcount="0" totalcount="0">
+                        </loop>
+                    </function>
+                </call>
+                <call name="FixFilter" numcall="14" line="412" source="helico.c" executed="false" extern="false">
+                    <function name="FixFilter">
+                        <loop loopId="2" line="186" source="helico.c" exact="true" maxcount="0" totalcount="0">
+                        </loop>
+                    </function>
+                </call>
+            </case>
+            <case cond="0" executed="true" >
+            </case>
+        </conditional>
+        <loop source="helico.c" line="186" max="0"  min="0">
+        </loop>
+        <loop source="helico.c" line="200" max="0"  min="0">
+        </loop>
+    </function>
+</flowfacts>
+
