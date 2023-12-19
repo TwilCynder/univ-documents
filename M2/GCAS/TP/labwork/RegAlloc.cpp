@@ -98,21 +98,27 @@ RegAlloc::RegAlloc(StackMapper& mapper, list<Inst>& insts)
  * @param inst		Instruction sto process.
  */
 void RegAlloc::process(Inst inst) {
+
 	for (int i = 0; i < Inst::param_num; i++){
 		Param& p = inst[i];
 		if (p.type() == Param::NONE){
 			break;
+		} else if (p.type() == Param::READ){
+			processRead(p);
 		}
+	}
 
-		switch (p.type()){
-			case Param::READ:
-				processRead(p);
-				break;
-			case Param::WRITE:
-				processWrite(p);
-				break;
+	for (auto reg : _fried){
+		free(reg);
+	}
+
+	for (int i = 0; i < Inst::param_num; i++){
+		Param& p = inst[i];
+		if (p.type() == Param::NONE){
+			break;
+		} else if (p.type() == Param::WRITE){
+			processWrite(p);
 		}
-		
 	}
 
 	// add the fixed instruction
@@ -125,6 +131,7 @@ void RegAlloc::process(Inst inst) {
  */
 void RegAlloc::complete() {
 	for (auto reg : _written){
+		assert("Apparently we put a non-variable vreg in _written. Oops." && isVar(reg));
 		store(reg);
 	}
 }
@@ -137,8 +144,32 @@ void RegAlloc::processRead(Param& param) {
 	assert("parameter should be a read parameter!" && param.type() == Param::READ);
 
 	Quad::reg_t vreg = param.value();
-	Quad::reg_t hreg = allocate(vreg);
+	Quad::reg_t hreg;
+
+	hreg = allocateForRead(vreg);
+	if (!isVar(vreg)){
+		_fried.push_front(vreg);
+	}
+
 	param = Param::read(hreg);
+
+	/*
+	if (isVar(vreg)){
+		allocateForRead(vreg);
+	} else {
+		auto it = _map.find(vreg);
+
+		if (it == _map.end()){
+			//on part du principe que le registre avait été alloué et a été spill, 
+			//vu que les vreg ne peuvent pas exister sans avoir été écrits  
+			allocateForRead(vreg);
+		}
+		//assert("reg should already be allocated!" && it != _map.end());
+
+		hreg = it->second;
+		free(vreg);
+	}
+	*/
 }
 
 /**
@@ -148,9 +179,15 @@ void RegAlloc::processRead(Param& param) {
 void RegAlloc::processWrite(Param& param) {
 	assert("parameter should be a write parameter!" && param.type() == Param::WRITE);
 
+	//TODO : C PAS SI SIMPLE faut gérer le cas où c'est un registre lié à une variable et le cas où le registre a été spilled
+
+	
 	Quad::reg_t vreg = param.value();
 	Quad::reg_t hreg = allocate(vreg);
 	param = Param::write(hreg);
+	if (isVar(vreg)){
+		_written.push_front(vreg);
+	}
 }
 
 /**
@@ -165,6 +202,24 @@ Quad::reg_t RegAlloc::allocate(Quad::reg_t reg) {
 		assert(!_avail.empty() || ("no more registers available!" && false));
 		r = _avail.front();
 		_avail.pop_front();	
+		_map.add(reg, r);
+	} else {
+		r = it->second;
+	}
+
+	return r;
+}
+
+Quad::reg_t RegAlloc::allocateForRead(Quad::reg_t reg) {
+	Quad::reg_t r;
+
+	auto it = _map.find(reg);
+	if (it == _map.end()){ //pas de registre !! a priori c'est soit une variable soit un temp qui a été spill
+		assert(!_avail.empty() || ("no more registers available!" && false));
+		r = _avail.front();
+		_avail.pop_front();	
+		_map.add(reg, r);
+		load(reg);
 	} else {
 		r = it->second;
 	}
@@ -188,6 +243,15 @@ void RegAlloc::spill(Quad::reg_t reg) {
 void RegAlloc::free(Quad::reg_t reg) {
 
 	auto it = _map.find(reg);
+	free(it);
+}
+
+/**
+ * Free the given virtual register (given an iterator already found in the map).  
+ * @param reg	Virtual register to free.
+ */
+void RegAlloc::free(RegMap::iterator it) {
+
 	if (it != _map.end()){
 		_avail.push_front(it->second);
 		_map.erase(it);
@@ -241,6 +305,7 @@ Quad::reg_t &RegMap::operator[](const Quad::reg_t reg)
 void RegMap::add(Quad::reg_t v, Quad::reg_t h)
 {
 	_map.try_emplace(v, h);
+	allocQ.push_front(v);
 }
 
 bool RegMap::empty() const
@@ -265,12 +330,23 @@ Quad::reg_t RegMap::get(const Quad::reg_t reg)
 	return it->second;
 }
 
+void RegMap::eraseFromQ(Quad::reg_t vreg){
+	for (auto it = allocQ.begin(); it != allocQ.end(); it++){
+		if (*it == vreg){
+			allocQ.erase(it);
+			return;
+		}	
+	}
+}
+
 void RegMap::erase(const Quad::reg_t reg)
 {
 	_map.erase(reg);
+	eraseFromQ(reg);
 }
 
 void RegMap::erase(RegMap::_BaseMap::const_iterator it){
+	eraseFromQ(it->second);
 	_map.erase(it);
 }
 

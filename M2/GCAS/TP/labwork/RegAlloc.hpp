@@ -25,12 +25,13 @@ class RegMap {
 	public:
 	RegMap();
 	Quad::reg_t& operator[](const Quad::reg_t);
-
+	
 	using _BaseMap = map<Quad::reg_t, Quad::reg_t>;
+	using iterator = _BaseMap::iterator;
 	void add(Quad::reg_t v, Quad::reg_t h);
 	bool empty() const;
 	const _BaseMap::const_iterator end() const;
-	_BaseMap::iterator find(const Quad::reg_t reg);
+	iterator find(const Quad::reg_t reg);
 	Quad::reg_t get(const Quad::reg_t reg);
 	void erase(const Quad::reg_t reg);
 	void erase(_BaseMap::const_iterator);
@@ -38,6 +39,8 @@ class RegMap {
 
 	private:
 	_BaseMap _map;
+	list<Quad::reg_t> allocQ;
+	void eraseFromQ(Quad::reg_t vreg);
 };
 
 class RegAlloc {
@@ -49,8 +52,10 @@ private:
 	void processRead(Param& param);
 	void processWrite(Param& param);
 	Quad::reg_t allocate(Quad::reg_t reg);
+	Quad::reg_t allocateForRead(Quad::reg_t reg);
 	void spill(Quad::reg_t reg);
 	void free(Quad::reg_t reg);
+	void free(RegMap::iterator);
 	void store(Quad::reg_t reg);
 	void load(Quad::reg_t reg);
 	bool isVar(Quad::reg_t reg) const;
