@@ -19,8 +19,11 @@
 #define PWM_PSC 13 //14 - 1
 #define PWM_ARR 60000
 
+#define ANGLE_MIN 20
+#define ANGLE_MAX 220
+
 #define TIM_PSC 999
-#define TIM_ARR 42000 / 256 //interrupt every 256th of a second
+#define TIM_ARR 42000 / ((ANGLE_MAX - ANGLE_MIN) / 2) //interrupt every 256th of a second
 
 #define SERVO_RANGE (PWM_ARR / 20)
 #define SERVO_OFFSET (PWM_ARR / 20)
@@ -28,10 +31,10 @@
 #define OUT_PIN 6
 
 
-//x de 0 à 1
-void set_servo(uint8_t x){
-	TIM3_CCR1 = SERVO_OFFSET + (SERVO_RANGE * x / 256);
-	printf("%d\n", SERVO_OFFSET + (SERVO_RANGE * x / 256));
+//x de 0 à 255
+void set_servo(int x){
+	TIM3_CCR1 = SERVO_OFFSET + ((SERVO_RANGE * x) / 256);
+	printf("%d\n", SERVO_OFFSET + ((SERVO_RANGE * x) / 256));
 }
 
 void init_TIM3(){
@@ -41,7 +44,7 @@ void init_TIM3(){
 	TIM3_EGR = TIM_UG;
 	TIM3_CCMR1 = TIM_CCS1S_OUT|TIM_OC1M_PWM1;
 	TIM3_CCER = TIM_CC1E | TIM_CC1NP;
-	set_servo(0.0);
+	set_servo(0);
 	TIM3_SR = 0;
 	TIM3_CR1 = TIM_CEN | TIM_ARPE;
 }
@@ -55,18 +58,30 @@ void init_TIM4(){
 	//not enabled yet
 }
 
-int8_t increment = 1;
-uint8_t current_state = 20;
+const int min = 20;
+const int max = 220;
+
+const range = max - min;
 void handle_TIM4()  {
+	static int current_state = min;
+	static int increment = 1;
 
-	set_servo(current_state);
+	//set_servo(current_state);
 
-	current_state += increment;
-	if (current_state >= 220 || current_state <= 20){
-		increment = -increment;
+	if ((TIM4_SR & TIM_UIF) != 0){
+		TIM4_SR = 0;
+		printf("INTERRUPT %d %d\n", current_state, increment);
+		set_servo(min + current_state);
+		//current_state = range - current_state;
+		
+		//current_state += 1;
+		//if (current_state > max) current_state = min;
+		
+		current_state += increment;
+		if (current_state > max || current_state < min) increment = -increment;
+		
+		NVIC_ICPR(TIM4_IRQ) = 1 << (TIM4_IRQ & 0x1f);
 	}
-
-	printf("INTERRUPT %d %d\n", current_state, increment);
 
 }
 
@@ -101,6 +116,8 @@ int main() {
 	init_TIM3();
 	init_TIM4();
 	init_TIM4_interrupts();
+
+	//set_servo(200);
 
 	// main loop
 	printf("Endless loop!\n");

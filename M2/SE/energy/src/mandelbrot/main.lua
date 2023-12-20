@@ -61,15 +61,15 @@ end
 
 math.i = Newcomplex(0, 1)
 
-local step = 0.001
+local step = 0.0005
 local minX = -1
-local maxX = 1
+local maxX = 1 - step
 local minY = -1
-local maxY = 1
+local maxY = 1 - step
 
 local max_tries = 20
 
-function calc_point(x, y)
+local function calc_point(x, y)
     local c = Newcomplex(x, y)
     local z = Newcomplex(0, 0)
   

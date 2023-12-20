@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<flowfacts>
+    <function name="doGyroChannel" executed="true" extern="false">
+        <call name="recordSample" numcall="9" line="359" source="helico.c" executed="true" extern="false">
+            <function name="recordSample">
+                <loop loopId="3" line="200" source="helico.c" exact="true" maxcount="31" totalcount="31">
+                </loop>
+            </function>
+        </call>
+        <call name="FixFilter" numcall="10" line="360" source="helico.c" executed="true" extern="false">
+            <function name="FixFilter">
+                <loop loopId="2" line="186" source="helico.c" exact="true" maxcount="32" totalcount="32">
+                </loop>
+            </function>
+        </call>
+        <loop source="helico.c" line="186" max="32"  min="32">
+        </loop>
+        <loop source="helico.c" line="200" max="31"  min="31">
+        </loop>
+    </function>
+</flowfacts>
+

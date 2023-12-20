@@ -1,0 +1,6 @@
+checksum "helico.elf" 0x93475eaa;
+
+// Function action (helico.c:244)
+loop "action" + 0x54 8 ; // 0x6f8 (helico.c:257)
+
+

@@ -1,0 +1,1 @@
+Bound des boucles de crc.c: pour la dernière, len sera égal à 40 puis 42 (appels dans main) 

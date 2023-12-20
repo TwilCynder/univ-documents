@@ -1,0 +1,1454 @@
+
+typedef unsigned long int size_t;
+
+typedef int wchar_t;
+
+typedef struct  {
+	int quot;
+	int rem;
+} div_t;
+
+typedef struct  {
+	long int quot;
+	long int rem;
+} ldiv_t;
+
+__extension__ typedef struct  {
+	long long int quot;
+	long long int rem;
+} lldiv_t;
+
+size_t __ctype_get_mb_cur_max(void ) __attribute__ ((__leaf__, __nothrow__)) ;
+double atof(char  const *__nptr) __attribute__ ((__nonnull__(1), __pure__,
+	__leaf__, __nothrow__)) ;
+int atoi(char  const *__nptr) __attribute__ ((__nonnull__(1), __pure__,
+	__leaf__, __nothrow__)) ;
+long int atol(char  const *__nptr) __attribute__ ((__nonnull__(1), __pure__,
+	__leaf__, __nothrow__)) ;
+long long int atoll(char  const *__nptr) __attribute__ ((__nonnull__(1),
+	__pure__, __leaf__, __nothrow__)) ;
+double strtod(char  const * __restrict __nptr, char ** __restrict
+	__endptr) __attribute__ ((__nonnull__(1), __leaf__, __nothrow__)) ;
+float strtof(char  const * __restrict __nptr, char ** __restrict
+	__endptr) __attribute__ ((__nonnull__(1), __leaf__, __nothrow__)) ;
+long double strtold(char  const * __restrict __nptr, char ** __restrict
+	__endptr) __attribute__ ((__nonnull__(1), __leaf__, __nothrow__)) ;
+long int strtol(char  const * __restrict __nptr, char ** __restrict __endptr,
+	int __base) __attribute__ ((__nonnull__(1), __leaf__, __nothrow__)) ;
+unsigned long int strtoul(char  const * __restrict __nptr, char ** __restrict
+	__endptr, int __base) __attribute__ ((__nonnull__(1), __leaf__,
+	__nothrow__)) ;
+long long int strtoq(char  const * __restrict __nptr, char ** __restrict
+	__endptr, int __base) __attribute__ ((__nonnull__(1), __leaf__,
+	__nothrow__)) ;
+unsigned long long int strtouq(char  const * __restrict __nptr, char
+	** __restrict __endptr, int __base) __attribute__ ((__nonnull__(1),
+	__leaf__, __nothrow__)) ;
+long long int strtoll(char  const * __restrict __nptr, char ** __restrict
+	__endptr, int __base) __attribute__ ((__nonnull__(1), __leaf__,
+	__nothrow__)) ;
+unsigned long long int strtoull(char  const * __restrict __nptr, char
+	** __restrict __endptr, int __base) __attribute__ ((__nonnull__(1),
+	__leaf__, __nothrow__)) ;
+char *l64a(long int __n) __attribute__ ((__leaf__, __nothrow__)) ;
+long int a64l(char  const *__s) __attribute__ ((__nonnull__(1), __pure__,
+	__leaf__, __nothrow__)) ;
+
+typedef unsigned char __u_char;
+
+typedef unsigned short int __u_short;
+
+typedef unsigned int __u_int;
+
+typedef unsigned long int __u_long;
+
+typedef signed char __int8_t;
+
+typedef unsigned char __uint8_t;
+
+typedef signed short int __int16_t;
+
+typedef unsigned short int __uint16_t;
+
+typedef signed int __int32_t;
+
+typedef unsigned int __uint32_t;
+
+typedef signed long int __int64_t;
+
+typedef unsigned long int __uint64_t;
+
+typedef __int8_t __int_least8_t;
+
+typedef __uint8_t __uint_least8_t;
+
+typedef __int16_t __int_least16_t;
+
+typedef __uint16_t __uint_least16_t;
+
+typedef __int32_t __int_least32_t;
+
+typedef __uint32_t __uint_least32_t;
+
+typedef __int64_t __int_least64_t;
+
+typedef __uint64_t __uint_least64_t;
+
+typedef long int __quad_t;
+
+typedef unsigned long int __u_quad_t;
+
+typedef long int __intmax_t;
+
+typedef unsigned long int __uintmax_t;
+
+typedef unsigned long int __dev_t;
+
+typedef unsigned int __uid_t;
+
+typedef unsigned int __gid_t;
+
+typedef unsigned long int __ino_t;
+
+typedef unsigned long int __ino64_t;
+
+typedef unsigned int __mode_t;
+
+typedef unsigned long int __nlink_t;
+
+typedef long int __off_t;
+
+typedef long int __off64_t;
+
+typedef int __pid_t;
+
+typedef struct  {
+	int __val[2];
+} __fsid_t;
+
+typedef long int __clock_t;
+
+typedef unsigned long int __rlim_t;
+
+typedef unsigned long int __rlim64_t;
+
+typedef unsigned int __id_t;
+
+typedef long int __time_t;
+
+typedef unsigned int __useconds_t;
+
+typedef long int __suseconds_t;
+
+typedef long int __suseconds64_t;
+
+typedef int __daddr_t;
+
+typedef int __key_t;
+
+typedef int __clockid_t;
+
+typedef void *__timer_t;
+
+typedef long int __blksize_t;
+
+typedef long int __blkcnt_t;
+
+typedef long int __blkcnt64_t;
+
+typedef unsigned long int __fsblkcnt_t;
+
+typedef unsigned long int __fsblkcnt64_t;
+
+typedef unsigned long int __fsfilcnt_t;
+
+typedef unsigned long int __fsfilcnt64_t;
+
+typedef long int __fsword_t;
+
+typedef long int __ssize_t;
+
+typedef long int __syscall_slong_t;
+
+typedef unsigned long int __syscall_ulong_t;
+
+typedef __off64_t __loff_t;
+
+typedef char *__caddr_t;
+
+typedef long int __intptr_t;
+
+typedef unsigned int __socklen_t;
+
+typedef int __sig_atomic_t;
+
+typedef __u_char u_char;
+
+typedef __u_short u_short;
+
+typedef __u_int u_int;
+
+typedef __u_long u_long;
+
+typedef __quad_t quad_t;
+
+typedef __u_quad_t u_quad_t;
+
+typedef __fsid_t fsid_t;
+
+typedef __loff_t loff_t;
+
+typedef __ino_t ino_t;
+
+typedef __dev_t dev_t;
+
+typedef __gid_t gid_t;
+
+typedef __mode_t mode_t;
+
+typedef __nlink_t nlink_t;
+
+typedef __uid_t uid_t;
+
+typedef __off_t off_t;
+
+typedef __pid_t pid_t;
+
+typedef __id_t id_t;
+
+typedef __ssize_t ssize_t;
+
+typedef __daddr_t daddr_t;
+
+typedef __caddr_t caddr_t;
+
+typedef __key_t key_t;
+
+typedef __clock_t clock_t;
+
+typedef __clockid_t clockid_t;
+
+typedef __time_t time_t;
+
+typedef __timer_t timer_t;
+
+typedef unsigned long int ulong;
+
+typedef unsigned short int ushort;
+
+typedef unsigned int uint;
+
+typedef __int8_t int8_t;
+
+typedef __int16_t int16_t;
+
+typedef __int32_t int32_t;
+
+typedef __int64_t int64_t;
+
+typedef __uint8_t u_int8_t;
+
+typedef __uint16_t u_int16_t;
+
+typedef __uint32_t u_int32_t;
+
+typedef __uint64_t u_int64_t;
+
+typedef int register_t __attribute__ ((__mode__(__word__))) ;
+
+static  __attribute__ ((__inline__)) __uint16_t __bswap_16(__uint16_t __bsx)
+{
+# 37 "/usr/include/bits/byteswap.h"
+	return __builtin_bswap16(__bsx);
+}
+
+static  __attribute__ ((__inline__)) __uint32_t __bswap_32(__uint32_t __bsx_0)
+{
+# 52 "/usr/include/bits/byteswap.h"
+	return __builtin_bswap32(__bsx_0);
+}
+
+static  __attribute__ ((__inline__)) __uint64_t __bswap_64(__uint64_t __bsx_1)
+{
+# 73 "/usr/include/bits/byteswap.h"
+	return __builtin_bswap64(__bsx_1);
+}
+
+static  __attribute__ ((__inline__)) __uint16_t __uint16_identity(__uint16_t
+	__x)
+{
+# 35 "/usr/include/bits/uintn-identity.h"
+	return __x;
+}
+
+static  __attribute__ ((__inline__)) __uint32_t __uint32_identity(__uint32_t
+	__x_0)
+{
+# 41 "/usr/include/bits/uintn-identity.h"
+	return __x_0;
+}
+
+static  __attribute__ ((__inline__)) __uint64_t __uint64_identity(__uint64_t
+	__x_1)
+{
+# 47 "/usr/include/bits/uintn-identity.h"
+	return __x_1;
+}
+
+typedef struct  {
+	unsigned long int __val[1024 / ((8 * sizeof(unsigned long int)))];
+} __sigset_t;
+
+typedef __sigset_t sigset_t;
+
+struct timeval {
+	__time_t tv_sec;
+	__suseconds_t tv_usec;
+} ;
+
+struct timespec {
+	__time_t tv_sec;
+	__syscall_slong_t tv_nsec;
+} ;
+
+typedef __suseconds_t suseconds_t;
+
+typedef long int __fd_mask;
+
+typedef struct  {
+	__fd_mask __fds_bits[1024 / ((8 * (int)sizeof(__fd_mask)))];
+} fd_set;
+
+typedef __fd_mask fd_mask;
+
+int select(int __nfds, fd_set * __restrict __readfds, fd_set * __restrict
+	__writefds, fd_set * __restrict __exceptfds, struct timeval * __restrict
+	__timeout);
+int pselect(int __nfds, fd_set * __restrict __readfds, fd_set * __restrict
+	__writefds, fd_set * __restrict __exceptfds, struct timespec
+	 const * __restrict __timeout, __sigset_t  const * __restrict
+	__sigmask);
+
+typedef __blksize_t blksize_t;
+
+typedef __blkcnt_t blkcnt_t;
+
+typedef __fsblkcnt_t fsblkcnt_t;
+
+typedef __fsfilcnt_t fsfilcnt_t;
+
+typedef union  {
+	unsigned long long int __value64;
+	struct  {
+		unsigned int __low;
+		unsigned int __high;
+	} __value32;
+} __atomic_wide_counter;
+
+typedef struct __pthread_internal_list {
+	struct __pthread_internal_list *__prev;
+	struct __pthread_internal_list *__next;
+} __pthread_list_t;
+
+typedef struct __pthread_internal_slist {
+	struct __pthread_internal_slist *__next;
+} __pthread_slist_t;
+
+struct __pthread_mutex_s {
+	int __lock;
+	unsigned int __count;
+	int __owner;
+	unsigned int __nusers;
+	int __kind;
+	short int __spins;
+	short int __elision;
+	__pthread_list_t __list;
+} ;
+
+struct __pthread_rwlock_arch_t {
+	unsigned int __readers;
+	unsigned int __writers;
+	unsigned int __wrphase_futex;
+	unsigned int __writers_futex;
+	unsigned int __pad3;
+	unsigned int __pad4;
+	int __cur_writer;
+	int __shared;
+	signed char __rwelision;
+	unsigned char __pad1[7];
+	unsigned long int __pad2;
+	unsigned int __flags;
+} ;
+
+struct __pthread_cond_s {
+	__atomic_wide_counter __wseq;
+	__atomic_wide_counter __g1_start;
+	unsigned int __g_refs[2];
+	unsigned int __g_size[2];
+	unsigned int __g1_orig_size;
+	unsigned int __wrefs;
+	unsigned int __g_signals[2];
+} ;
+
+typedef unsigned int __tss_t;
+
+typedef unsigned long int __thrd_t;
+
+typedef struct  {
+	int __data;
+} __once_flag;
+
+typedef unsigned long int pthread_t;
+
+typedef union  {
+	char __size[4];
+	int __align;
+} pthread_mutexattr_t;
+
+typedef union  {
+	char __size[4];
+	int __align;
+} pthread_condattr_t;
+
+typedef unsigned int pthread_key_t;
+
+typedef int pthread_once_t;
+
+union pthread_attr_t {
+	char __size[56];
+	long int __align;
+} ;
+
+typedef union pthread_attr_t pthread_attr_t;
+
+typedef union  {
+	struct __pthread_mutex_s __data;
+	char __size[40];
+	long int __align;
+} pthread_mutex_t;
+
+typedef union  {
+	struct __pthread_cond_s __data;
+	char __size[48];
+	long long int __align;
+} pthread_cond_t;
+
+typedef union  {
+	struct __pthread_rwlock_arch_t __data;
+	char __size[56];
+	long int __align;
+} pthread_rwlock_t;
+
+typedef union  {
+	char __size[8];
+	long int __align;
+} pthread_rwlockattr_t;
+
+typedef int  volatile pthread_spinlock_t;
+
+typedef union  {
+	char __size[32];
+	long int __align;
+} pthread_barrier_t;
+
+typedef union  {
+	char __size[4];
+	int __align;
+} pthread_barrierattr_t;
+
+long int random(void ) __attribute__ ((__leaf__, __nothrow__)) ;
+void srandom(unsigned int __seed) __attribute__ ((__leaf__, __nothrow__)) ;
+char *initstate(unsigned int __seed, char *__statebuf, size_t
+	__statelen) __attribute__ ((__nonnull__(2), __leaf__, __nothrow__)) ;
+char *setstate(char *__statebuf) __attribute__ ((__nonnull__(1), __leaf__,
+	__nothrow__)) ;
+
+struct random_data {
+	int32_t *fptr;
+	int32_t *rptr;
+	int32_t *state;
+	int rand_type;
+	int rand_deg;
+	int rand_sep;
+	int32_t *end_ptr;
+} ;
+
+int random_r(struct random_data * __restrict __buf, int32_t * __restrict
+	__result) __attribute__ ((__nonnull__(1, 2), __leaf__, __nothrow__)) ;
+int srandom_r(unsigned int __seed, struct random_data
+	*__buf) __attribute__ ((__nonnull__(2), __leaf__, __nothrow__)) ;
+int initstate_r(unsigned int __seed, char * __restrict __statebuf, size_t
+	__statelen, struct random_data * __restrict
+	__buf) __attribute__ ((__nonnull__(2, 4), __leaf__, __nothrow__)) ;
+int setstate_r(char * __restrict __statebuf, struct random_data * __restrict
+	__buf) __attribute__ ((__nonnull__(1, 2), __leaf__, __nothrow__)) ;
+int rand(void ) __attribute__ ((__leaf__, __nothrow__)) ;
+void srand(unsigned int __seed) __attribute__ ((__leaf__, __nothrow__)) ;
+int rand_r(unsigned int *__seed) __attribute__ ((__leaf__, __nothrow__)) ;
+double drand48(void ) __attribute__ ((__leaf__, __nothrow__)) ;
+double erand48(unsigned short int __xsubi[3]) __attribute__ ((__nonnull__(1),
+	__leaf__, __nothrow__)) ;
+long int lrand48(void ) __attribute__ ((__leaf__, __nothrow__)) ;
+long int nrand48(unsigned short int __xsubi[3]) __attribute__ ((__nonnull__(1),
+	__leaf__, __nothrow__)) ;
+long int mrand48(void ) __attribute__ ((__leaf__, __nothrow__)) ;
+long int jrand48(unsigned short int __xsubi[3]) __attribute__ ((__nonnull__(1),
+	__leaf__, __nothrow__)) ;
+void srand48(long int __seedval) __attribute__ ((__leaf__, __nothrow__)) ;
+unsigned short int *seed48(unsigned short int
+	__seed16v[3]) __attribute__ ((__nonnull__(1), __leaf__, __nothrow__)) ;
+void lcong48(unsigned short int __param[7]) __attribute__ ((__nonnull__(1),
+	__leaf__, __nothrow__)) ;
+
+struct drand48_data {
+	unsigned short int __x[3];
+	unsigned short int __old_x[3];
+	unsigned short int __c;
+	unsigned short int __init;
+	unsigned long long int __a;
+} ;
+
+int drand48_r(struct drand48_data * __restrict __buffer, double * __restrict
+	__result) __attribute__ ((__nonnull__(1, 2), __leaf__, __nothrow__)) ;
+int erand48_r(unsigned short int __xsubi[3], struct drand48_data * __restrict
+	__buffer, double * __restrict __result) __attribute__ ((__nonnull__(1,
+	2), __leaf__, __nothrow__)) ;
+int lrand48_r(struct drand48_data * __restrict __buffer, long int * __restrict
+	__result) __attribute__ ((__nonnull__(1, 2), __leaf__, __nothrow__)) ;
+int nrand48_r(unsigned short int __xsubi[3], struct drand48_data * __restrict
+	__buffer, long int * __restrict __result) __attribute__ ((__nonnull__(1,
+	2), __leaf__, __nothrow__)) ;
+int mrand48_r(struct drand48_data * __restrict __buffer, long int * __restrict
+	__result) __attribute__ ((__nonnull__(1, 2), __leaf__, __nothrow__)) ;
+int jrand48_r(unsigned short int __xsubi[3], struct drand48_data * __restrict
+	__buffer, long int * __restrict __result) __attribute__ ((__nonnull__(1,
+	2), __leaf__, __nothrow__)) ;
+int srand48_r(long int __seedval, struct drand48_data
+	*__buffer) __attribute__ ((__nonnull__(2), __leaf__, __nothrow__)) ;
+int seed48_r(unsigned short int __seed16v[3], struct drand48_data
+	*__buffer) __attribute__ ((__nonnull__(1, 2), __leaf__, __nothrow__)) ;
+int lcong48_r(unsigned short int __param[7], struct drand48_data
+	*__buffer) __attribute__ ((__nonnull__(1, 2), __leaf__, __nothrow__)) ;
+__uint32_t arc4random(void ) __attribute__ ((__leaf__, __nothrow__)) ;
+void arc4random_buf(void *__buf, size_t __size) __attribute__ ((__nonnull__(1),
+	__leaf__, __nothrow__)) ;
+__uint32_t arc4random_uniform(__uint32_t
+	__upper_bound) __attribute__ ((__leaf__, __nothrow__)) ;
+void *malloc(size_t __size) __attribute__ ((__alloc_size__(1), __malloc__,
+	__leaf__, __nothrow__)) ;
+void *calloc(size_t __nmemb, size_t __size) __attribute__ ((__alloc_size__(1,
+	2), __malloc__, __leaf__, __nothrow__)) ;
+void *realloc(void *__ptr, size_t __size) __attribute__ ((__alloc_size__(2),
+	__warn_unused_result__, __leaf__, __nothrow__)) ;
+void free(void *__ptr) __attribute__ ((__leaf__, __nothrow__)) ;
+void *reallocarray(void *__ptr, size_t __nmemb, size_t
+	__size) __attribute__ ((__malloc__(__builtin_free, 1), __alloc_size__(2,
+	3), __warn_unused_result__, __leaf__, __nothrow__)) ;
+void *alloca(size_t __size) __attribute__ ((__leaf__, __nothrow__)) ;
+void *valloc(size_t __size) __attribute__ ((__alloc_size__(1), __malloc__,
+	__leaf__, __nothrow__)) ;
+int posix_memalign(void **__memptr, size_t __alignment, size_t
+	__size) __attribute__ ((__nonnull__(1), __leaf__, __nothrow__)) ;
+void *aligned_alloc(size_t __alignment, size_t
+	__size) __attribute__ ((__alloc_size__(2), __alloc_align__(1),
+	__malloc__, __leaf__, __nothrow__)) ;
+void abort(void ) __attribute__ ((__noreturn__, __leaf__, __nothrow__)) ;
+int atexit(void (*__func)(void )) __attribute__ ((__nonnull__(1), __leaf__,
+	__nothrow__)) ;
+int at_quick_exit(void (*__func)(void )) __attribute__ ((__nonnull__(1),
+	__leaf__, __nothrow__)) ;
+int on_exit(void (*__func)(int __status, void *__arg), void
+	*__arg) __attribute__ ((__nonnull__(1), __leaf__, __nothrow__)) ;
+void exit(int __status) __attribute__ ((__noreturn__, __leaf__, __nothrow__)) ;
+void quick_exit(int __status) __attribute__ ((__noreturn__, __leaf__,
+	__nothrow__)) ;
+void _Exit(int __status) __attribute__ ((__noreturn__, __leaf__, __nothrow__)) ;
+char *getenv(char  const *__name) __attribute__ ((__nonnull__(1), __leaf__,
+	__nothrow__)) ;
+int putenv(char *__string) __attribute__ ((__nonnull__(1), __leaf__,
+	__nothrow__)) ;
+int setenv(char  const *__name, char  const *__value, int
+	__replace) __attribute__ ((__nonnull__(2), __leaf__, __nothrow__)) ;
+int unsetenv(char  const *__name) __attribute__ ((__nonnull__(1), __leaf__,
+	__nothrow__)) ;
+int clearenv(void ) __attribute__ ((__leaf__, __nothrow__)) ;
+char *mktemp(char *__template) __attribute__ ((__nonnull__(1), __leaf__,
+	__nothrow__)) ;
+int mkstemp(char *__template) __attribute__ ((__nonnull__(1))) ;
+int mkstemps(char *__template, int
+	__suffixlen) __attribute__ ((__nonnull__(1))) ;
+char *mkdtemp(char *__template) __attribute__ ((__nonnull__(1), __leaf__,
+	__nothrow__)) ;
+int system(char  const *__command);
+char *realpath(char  const * __restrict __name, char * __restrict
+	__resolved) __attribute__ ((__leaf__, __nothrow__)) ;
+
+typedef int (*__compar_fn_t)(void  const *, void  const *);
+
+void *bsearch(void  const *__key, void  const *__base, size_t __nmemb, size_t
+	__size, __compar_fn_t __compar) __attribute__ ((__nonnull__(1, 2, 5))) ;
+void qsort(void *__base, size_t __nmemb, size_t __size, __compar_fn_t
+	__compar) __attribute__ ((__nonnull__(1, 4))) ;
+int abs(int __x) __attribute__ ((__const__, __leaf__, __nothrow__)) ;
+long int labs(long int __x) __attribute__ ((__const__, __leaf__, __nothrow__)) ;
+long long int llabs(long long int __x) __attribute__ ((__const__, __leaf__,
+	__nothrow__)) ;
+div_t div(int __numer, int __denom) __attribute__ ((__const__, __leaf__,
+	__nothrow__)) ;
+ldiv_t ldiv(long int __numer, long int __denom) __attribute__ ((__const__,
+	__leaf__, __nothrow__)) ;
+lldiv_t lldiv(long long int __numer, long long int
+	__denom) __attribute__ ((__const__, __leaf__, __nothrow__)) ;
+char *ecvt(double __value, int __ndigit, int * __restrict __decpt, int
+	* __restrict __sign) __attribute__ ((__nonnull__(3, 4), __leaf__,
+	__nothrow__)) ;
+char *fcvt(double __value, int __ndigit, int * __restrict __decpt, int
+	* __restrict __sign) __attribute__ ((__nonnull__(3, 4), __leaf__,
+	__nothrow__)) ;
+char *gcvt(double __value, int __ndigit, char
+	*__buf) __attribute__ ((__nonnull__(3), __leaf__, __nothrow__)) ;
+char *qecvt(long double __value, int __ndigit, int * __restrict __decpt, int
+	* __restrict __sign) __attribute__ ((__nonnull__(3, 4), __leaf__,
+	__nothrow__)) ;
+char *qfcvt(long double __value, int __ndigit, int * __restrict __decpt, int
+	* __restrict __sign) __attribute__ ((__nonnull__(3, 4), __leaf__,
+	__nothrow__)) ;
+char *qgcvt(long double __value, int __ndigit, char
+	*__buf) __attribute__ ((__nonnull__(3), __leaf__, __nothrow__)) ;
+int ecvt_r(double __value, int __ndigit, int * __restrict __decpt, int
+	* __restrict __sign, char * __restrict __buf, size_t
+	__len) __attribute__ ((__nonnull__(3, 4, 5), __leaf__, __nothrow__)) ;
+int fcvt_r(double __value, int __ndigit, int * __restrict __decpt, int
+	* __restrict __sign, char * __restrict __buf, size_t
+	__len) __attribute__ ((__nonnull__(3, 4, 5), __leaf__, __nothrow__)) ;
+int qecvt_r(long double __value, int __ndigit, int * __restrict __decpt, int
+	* __restrict __sign, char * __restrict __buf, size_t
+	__len) __attribute__ ((__nonnull__(3, 4, 5), __leaf__, __nothrow__)) ;
+int qfcvt_r(long double __value, int __ndigit, int * __restrict __decpt, int
+	* __restrict __sign, char * __restrict __buf, size_t
+	__len) __attribute__ ((__nonnull__(3, 4, 5), __leaf__, __nothrow__)) ;
+int mblen(char  const *__s, size_t __n) __attribute__ ((__leaf__,
+	__nothrow__)) ;
+int mbtowc(wchar_t * __restrict __pwc, char  const * __restrict __s, size_t
+	__n) __attribute__ ((__leaf__, __nothrow__)) ;
+int wctomb(char *__s, wchar_t __wchar) __attribute__ ((__leaf__, __nothrow__)) ;
+size_t mbstowcs(wchar_t * __restrict __pwcs, char  const * __restrict __s,
+	size_t __n) __attribute__ ((__access__(__read_only__, 2), __leaf__,
+	__nothrow__)) ;
+size_t wcstombs(char * __restrict __s, wchar_t  const * __restrict __pwcs,
+	size_t __n) __attribute__ ((__access__(__read_only__, 2),
+	__access__(__write_only__, 1, 3), __leaf__, __nothrow__)) ;
+int rpmatch(char  const *__response) __attribute__ ((__nonnull__(1), __leaf__,
+	__nothrow__)) ;
+int getsubopt(char ** __restrict __optionp, char * const * __restrict __tokens,
+	char ** __restrict __valuep) __attribute__ ((__nonnull__(1, 2, 3),
+	__leaf__, __nothrow__)) ;
+int getloadavg(double __loadavg[], int __nelem) __attribute__ ((__nonnull__(1),
+	__leaf__, __nothrow__)) ;
+
+typedef __builtin_va_list __gnuc_va_list;
+
+typedef struct  {
+	int __count;
+	union  {
+		unsigned int __wch;
+		char __wchb[4];
+	} __value;
+} __mbstate_t;
+
+typedef struct _G_fpos_t {
+	__off_t __pos;
+	__mbstate_t __state;
+} __fpos_t;
+
+typedef struct _G_fpos64_t {
+	__off64_t __pos;
+	__mbstate_t __state;
+} __fpos64_t;
+
+struct _IO_FILE ;
+
+typedef struct _IO_FILE __FILE;
+
+struct _IO_FILE ;
+
+typedef struct _IO_FILE FILE;
+
+struct _IO_FILE ;
+
+struct _IO_marker ;
+
+struct _IO_codecvt ;
+
+struct _IO_wide_data ;
+
+typedef void _IO_lock_t;
+
+struct _IO_FILE {
+	int _flags;
+	char *_IO_read_ptr;
+	char *_IO_read_end;
+	char *_IO_read_base;
+	char *_IO_write_base;
+	char *_IO_write_ptr;
+	char *_IO_write_end;
+	char *_IO_buf_base;
+	char *_IO_buf_end;
+	char *_IO_save_base;
+	char *_IO_backup_base;
+	char *_IO_save_end;
+	struct _IO_marker *_markers;
+	struct _IO_FILE *_chain;
+	int _fileno;
+	int _flags2;
+	__off_t _old_offset;
+	unsigned short int _cur_column;
+	signed char _vtable_offset;
+	char _shortbuf[1];
+	_IO_lock_t *_lock;
+	__off64_t _offset;
+	struct _IO_codecvt *_codecvt;
+	struct _IO_wide_data *_wide_data;
+	struct _IO_FILE *_freeres_list;
+	void *_freeres_buf;
+	size_t __pad5;
+	int _mode;
+	char _unused2[15 * sizeof(int) - 4 * sizeof(void*) - sizeof(size_t)];
+} ;
+
+typedef __gnuc_va_list va_list;
+
+typedef __fpos_t fpos_t;
+
+FILE *stdin;
+FILE *stdout;
+FILE *stderr;
+int remove(char  const *__filename) __attribute__ ((__leaf__, __nothrow__)) ;
+int rename(char  const *__old, char  const *__new) __attribute__ ((__leaf__,
+	__nothrow__)) ;
+int renameat(int __oldfd, char  const *__old, int __newfd, char
+	 const *__new) __attribute__ ((__leaf__, __nothrow__)) ;
+int fclose(FILE *__stream);
+FILE *tmpfile(void ) __attribute__ ((__malloc__(fclose, 1), __malloc__)) ;
+char *tmpnam(char [20]) __attribute__ ((__leaf__, __nothrow__)) ;
+char *tmpnam_r(char __s[20]) __attribute__ ((__leaf__, __nothrow__)) ;
+char *tempnam(char  const *__dir, char
+	 const *__pfx) __attribute__ ((__malloc__(__builtin_free, 1),
+	__malloc__, __leaf__, __nothrow__)) ;
+int fflush(FILE *__stream);
+int fflush_unlocked(FILE *__stream);
+FILE *fopen(char  const * __restrict __filename, char  const * __restrict
+	__modes) __attribute__ ((__malloc__(fclose, 1), __malloc__)) ;
+FILE *freopen(char  const * __restrict __filename, char  const * __restrict
+	__modes, FILE * __restrict __stream);
+FILE *fdopen(int __fd, char  const *__modes) __attribute__ ((__malloc__(fclose,
+	1), __malloc__, __leaf__, __nothrow__)) ;
+FILE *fmemopen(void *__s, size_t __len, char
+	 const *__modes) __attribute__ ((__malloc__(fclose, 1), __malloc__,
+	__leaf__, __nothrow__)) ;
+FILE *open_memstream(char **__bufloc, size_t
+	*__sizeloc) __attribute__ ((__malloc__(fclose, 1), __malloc__, __leaf__,
+	__nothrow__)) ;
+void setbuf(FILE * __restrict __stream, char * __restrict
+	__buf) __attribute__ ((__leaf__, __nothrow__)) ;
+int setvbuf(FILE * __restrict __stream, char * __restrict __buf, int __modes,
+	size_t __n) __attribute__ ((__leaf__, __nothrow__)) ;
+void setbuffer(FILE * __restrict __stream, char * __restrict __buf, size_t
+	__size) __attribute__ ((__leaf__, __nothrow__)) ;
+void setlinebuf(FILE *__stream) __attribute__ ((__leaf__, __nothrow__)) ;
+int fprintf(FILE * __restrict __stream, char  const * __restrict __format, ...);
+int printf(char  const * __restrict __format, ...);
+int sprintf(char * __restrict __s, char  const * __restrict
+	__format, ...) __attribute__ ((__nothrow__)) ;
+int vfprintf(FILE * __restrict __s, char  const * __restrict __format,
+	__gnuc_va_list __arg);
+int vprintf(char  const * __restrict __format, __gnuc_va_list __arg);
+int vsprintf(char * __restrict __s, char  const * __restrict __format,
+	__gnuc_va_list __arg) __attribute__ ((__nothrow__)) ;
+int snprintf(char * __restrict __s, size_t __maxlen, char  const * __restrict
+	__format, ...) __attribute__ ((__format__(__printf__, 3, 4),
+	__nothrow__)) ;
+int vsnprintf(char * __restrict __s, size_t __maxlen, char  const * __restrict
+	__format, __gnuc_va_list __arg) __attribute__ ((__format__(__printf__,
+	3, 0), __nothrow__)) ;
+int vdprintf(int __fd, char  const * __restrict __fmt, __gnuc_va_list
+	__arg) __attribute__ ((__format__(__printf__, 2, 0))) ;
+int dprintf(int __fd, char  const * __restrict
+	__fmt, ...) __attribute__ ((__format__(__printf__, 2, 3))) ;
+int fscanf(FILE * __restrict __stream, char  const * __restrict __format, ...);
+int scanf(char  const * __restrict __format, ...);
+int sscanf(char  const * __restrict __s, char  const * __restrict
+	__format, ...) __attribute__ ((__leaf__, __nothrow__)) ;
+int vfscanf(FILE * __restrict __s, char  const * __restrict __format,
+	__gnuc_va_list __arg) __attribute__ ((__format__(__scanf__, 2, 0))) ;
+int vscanf(char  const * __restrict __format, __gnuc_va_list
+	__arg) __attribute__ ((__format__(__scanf__, 1, 0))) ;
+int vsscanf(char  const * __restrict __s, char  const * __restrict __format,
+	__gnuc_va_list __arg) __attribute__ ((__format__(__scanf__, 2, 0),
+	__leaf__, __nothrow__)) ;
+int fgetc(FILE *__stream);
+int getc(FILE *__stream);
+int getchar(void );
+int getc_unlocked(FILE *__stream);
+int getchar_unlocked(void );
+int fgetc_unlocked(FILE *__stream);
+int fputc(int __c, FILE *__stream);
+int putc(int __c, FILE *__stream);
+int putchar(int __c);
+int fputc_unlocked(int __c, FILE *__stream);
+int putc_unlocked(int __c, FILE *__stream);
+int putchar_unlocked(int __c);
+int getw(FILE *__stream);
+int putw(int __w, FILE *__stream);
+char *fgets(char * __restrict __s, int __n, FILE * __restrict
+	__stream) __attribute__ ((__access__(__write_only__, 1, 2))) ;
+__ssize_t __getdelim(char ** __restrict __lineptr, size_t * __restrict __n, int
+	__delimiter, FILE * __restrict __stream);
+__ssize_t getdelim(char ** __restrict __lineptr, size_t * __restrict __n, int
+	__delimiter, FILE * __restrict __stream);
+__ssize_t getline(char ** __restrict __lineptr, size_t * __restrict __n, FILE
+	* __restrict __stream);
+int fputs(char  const * __restrict __s, FILE * __restrict __stream);
+int puts(char  const *__s);
+int ungetc(int __c, FILE *__stream);
+size_t fread(void * __restrict __ptr, size_t __size, size_t __n, FILE
+	* __restrict __stream);
+size_t fwrite(void  const * __restrict __ptr, size_t __size, size_t __n, FILE
+	* __restrict __s);
+size_t fread_unlocked(void * __restrict __ptr, size_t __size, size_t __n, FILE
+	* __restrict __stream);
+size_t fwrite_unlocked(void  const * __restrict __ptr, size_t __size, size_t
+	__n, FILE * __restrict __stream);
+int fseek(FILE *__stream, long int __off, int __whence);
+long int ftell(FILE *__stream);
+void rewind(FILE *__stream);
+int fseeko(FILE *__stream, __off_t __off, int __whence);
+__off_t ftello(FILE *__stream);
+int fgetpos(FILE * __restrict __stream, fpos_t * __restrict __pos);
+int fsetpos(FILE *__stream, fpos_t  const *__pos);
+void clearerr(FILE *__stream) __attribute__ ((__leaf__, __nothrow__)) ;
+int feof(FILE *__stream) __attribute__ ((__leaf__, __nothrow__)) ;
+int ferror(FILE *__stream) __attribute__ ((__leaf__, __nothrow__)) ;
+void clearerr_unlocked(FILE *__stream) __attribute__ ((__leaf__, __nothrow__)) ;
+int feof_unlocked(FILE *__stream) __attribute__ ((__leaf__, __nothrow__)) ;
+int ferror_unlocked(FILE *__stream) __attribute__ ((__leaf__, __nothrow__)) ;
+void perror(char  const *__s);
+int fileno(FILE *__stream) __attribute__ ((__leaf__, __nothrow__)) ;
+int fileno_unlocked(FILE *__stream) __attribute__ ((__leaf__, __nothrow__)) ;
+int pclose(FILE *__stream);
+FILE *popen(char  const *__command, char
+	 const *__modes) __attribute__ ((__malloc__(pclose, 1), __malloc__)) ;
+char *ctermid(char *__s) __attribute__ ((__access__(__write_only__, 1),
+	__leaf__, __nothrow__)) ;
+void flockfile(FILE *__stream) __attribute__ ((__leaf__, __nothrow__)) ;
+int ftrylockfile(FILE *__stream) __attribute__ ((__leaf__, __nothrow__)) ;
+void funlockfile(FILE *__stream) __attribute__ ((__leaf__, __nothrow__)) ;
+int __uflow(FILE *);
+int __overflow(FILE *, int );
+int main();
+
+void _start(void )
+{
+# 15 "helico.c"
+	main();
+# 16 "helico.c"
+	while(1)
+# 16 "helico.c"
+		;
+}
+
+int valsGyro[100], valsZ[100], valsY[100], valsX[100];
+char heliState = 0;
+int ticks = 0;
+int marks = 0;
+int msec = 0;
+int sec = 0;
+int topRotorSpeed = 0;
+int bottomRotorSpeed = 0;
+int motorStable1 = 0;
+int motorStable2 = 0;
+int motorStable3 = 0;
+int i = 0;
+char k;
+char temp;
+char Ain = 0;
+char Ainlast = 0;
+char first = 0;
+char gyroCalibrate = 0;
+char gyro[32];
+char lastG = 0;
+char aromXCalibrate = 0;
+char aromX[128];
+char aromYCalibrate = 0;
+char aromY[128];
+char aromZCalibrate = 0;
+char aromZ[128];
+char currentChannel = 0;
+char PORTC[5];
+char USART_TXB;
+void updatePWM(void );
+int updateADC(void );
+void calibrateGyro(void );
+void calibrateArom(void );
+char FixFilter(int length_log, char *f);
+char FixFilter32(char f[32]);
+char FixFilter64(char f[64]);
+char FixFilter128(char f[128]);
+char FixFilter256(char f[256]);
+void recordSample(int length_log, char *f, char new_sample);
+char aromZfilter(char f[256]);
+int X_index = 0;
+int Y_index = 0;
+int Z_index = 0;
+int Gyro_index = 0;
+
+int getAccX()
+{
+# 139 "helico.c"
+	return valsX[X_index++];
+}
+
+int getAccY()
+{
+# 143 "helico.c"
+	return valsY[Y_index++];
+}
+
+int getAccZ()
+{
+# 147 "helico.c"
+	return valsZ[Z_index++];
+}
+
+int getGyro()
+{
+# 151 "helico.c"
+	return valsGyro[Gyro_index++];
+}
+
+char FixFilter(int length_log, char *f)
+{
+	int sum = 0;
+	int length = 1 << length_log;
+# 188 "helico.c"
+	for(i = 0; i < length; i++)
+# 188 "helico.c"
+	{
+# 189 "helico.c"
+		sum = sum + f[i];
+	}
+# 192 "helico.c"
+	sum = sum >> length_log;
+# 193 "helico.c"
+	return sum;
+}
+
+void recordSample(int length_log_0, char *f_0, char new_sample)
+{
+	int i_0;
+	int length_0 = 1 << length_log_0;
+# 202 "helico.c"
+	for(i_0 = 0; i_0 < length_0 - 1; i_0++)
+# 202 "helico.c"
+	{
+# 203 "helico.c"
+		f_0[i_0] = f_0[i_0 + 1];
+	}
+# 205 "helico.c"
+	f_0[length_0 - 1] = new_sample;
+}
+
+int action(void _0)
+{
+	int i_1;
+	union  {
+		struct  {
+			int top;
+			int bottom;
+		} data;
+		char buf[8];
+	} m;
+# 257 "helico.c"
+	(m.data).top = topRotorSpeed;
+# 258 "helico.c"
+	(m.data).bottom = bottomRotorSpeed;
+# 259 "helico.c"
+	for(i_1 = 0; i_1 < 8; i_1++)
+# 260 "helico.c"
+		USART_TXB = (m.buf)[i_1];
+# 266 "helico.c"
+	if(sec <= 5)
+# 266 "helico.c"
+	{
+# 267 "helico.c"
+		heliState = 2;
+# 268 "helico.c"
+		if(topRotorSpeed < (int)95 << 8)
+# 269 "helico.c"
+			topRotorSpeed += 16;
+# 270 "helico.c"
+		if(bottomRotorSpeed < (int)95 << 8)
+# 271 "helico.c"
+			bottomRotorSpeed += 16;
+	}
+# 277 "helico.c"
+	if(sec == 23)
+# 277 "helico.c"
+	{
+# 278 "helico.c"
+		heliState = 3;
+	}
+# 285 "helico.c"
+	if(sec == 299)
+# 285 "helico.c"
+	{
+# 286 "helico.c"
+		heliState = 1;
+# 287 "helico.c"
+		motorStable1 = 0;
+# 288 "helico.c"
+		motorStable2 = 0;
+# 289 "helico.c"
+		motorStable3 = 0;
+	}
+# 293 "helico.c"
+	if(sec >= 300 && sec <= 400)
+# 293 "helico.c"
+	{
+# 294 "helico.c"
+		if(topRotorSpeed > (int)50 << 8)
+# 295 "helico.c"
+			topRotorSpeed -= 1;
+# 296 "helico.c"
+		if(bottomRotorSpeed > (int)50 << 8)
+# 297 "helico.c"
+			bottomRotorSpeed -= 1;
+	}
+# 304 "helico.c"
+	if(sec >= 410)
+# 304 "helico.c"
+	{
+# 305 "helico.c"
+		heliState = 0;
+	}
+# 307 "helico.c"
+	return 0;
+}
+
+void updatePWM()
+{
+	int tempTick;
+# 312 "helico.c"
+	tempTick = (int)ticks << 8;
+# 315 "helico.c"
+	if(tempTick > topRotorSpeed)
+# 316 "helico.c"
+		PORTC[0] = 0;
+	else
+# 317 "helico.c"
+# 318 "helico.c"
+		PORTC[0] = 1;
+# 321 "helico.c"
+	if(tempTick > bottomRotorSpeed)
+# 322 "helico.c"
+		PORTC[1] = 0;
+	else
+# 323 "helico.c"
+# 324 "helico.c"
+		PORTC[1] = 1;
+# 327 "helico.c"
+	if(tempTick > (signed char)((motorStable1 >> 8)))
+# 328 "helico.c"
+		PORTC[2] = 0;
+	else
+# 329 "helico.c"
+# 330 "helico.c"
+		PORTC[2] = 1;
+# 333 "helico.c"
+	if(tempTick > motorStable2)
+# 334 "helico.c"
+		PORTC[3] = 0;
+	else
+# 335 "helico.c"
+# 336 "helico.c"
+		PORTC[3] = 1;
+# 339 "helico.c"
+	if(tempTick > motorStable3)
+# 340 "helico.c"
+		PORTC[4] = 0;
+	else
+# 341 "helico.c"
+# 342 "helico.c"
+		PORTC[4] = 1;
+# 345 "helico.c"
+	if(ticks == 100)
+# 345 "helico.c"
+	{
+# 346 "helico.c"
+		ticks = 0;
+	}
+}
+
+void doGyroChannel(void _1)
+{
+# 361 "helico.c"
+	recordSample(5, gyro, Ain);
+# 362 "helico.c"
+	temp = FixFilter(5, gyro);
+# 366 "helico.c"
+	if(temp < gyroCalibrate - 1)
+# 366 "helico.c"
+	{
+# 367 "helico.c"
+		if(topRotorSpeed < (int)100 << 8)
+# 368 "helico.c"
+			topRotorSpeed += 8;
+# 369 "helico.c"
+		if(bottomRotorSpeed > (int)0 << 8)
+# 370 "helico.c"
+			bottomRotorSpeed -= 8;
+	}
+	else
+	{
+# 372 "helico.c"
+# 373 "helico.c"
+		if(temp > gyroCalibrate + 1)
+# 373 "helico.c"
+		{
+# 374 "helico.c"
+			if(topRotorSpeed > (int)0 << 8)
+# 375 "helico.c"
+				topRotorSpeed -= 8;
+# 376 "helico.c"
+			if(bottomRotorSpeed < (int)100 << 8)
+# 377 "helico.c"
+				bottomRotorSpeed += 8;
+		}
+	}
+}
+
+void doAROMXChannel(void _2)
+{
+# 382 "helico.c"
+	if(heliState == 3)
+# 382 "helico.c"
+	{
+# 383 "helico.c"
+		recordSample(7, aromX, Ain);
+# 384 "helico.c"
+		temp = FixFilter(7, aromX);
+# 386 "helico.c"
+		if(temp < aromXCalibrate)
+# 386 "helico.c"
+		{
+# 387 "helico.c"
+			if(motorStable1 > 0)
+# 388 "helico.c"
+				motorStable1 -= 256 * 2;
+# 389 "helico.c"
+			if(motorStable2 < (int)60 << 8)
+# 390 "helico.c"
+				motorStable2 += 256 * 2;
+# 391 "helico.c"
+			if(motorStable3 < (int)60 << 8)
+# 392 "helico.c"
+				motorStable3 += 256 * 2;
+		}
+		else
+# 394 "helico.c"
+# 394 "helico.c"
+		{
+# 395 "helico.c"
+			if(temp > aromXCalibrate + 1)
+# 395 "helico.c"
+			{
+# 396 "helico.c"
+				if(motorStable1 < (int)60 << 8)
+# 397 "helico.c"
+					motorStable1 += 256 * 2;
+# 398 "helico.c"
+				if(motorStable2 > 0)
+# 399 "helico.c"
+					motorStable2 -= 256 * 2;
+# 400 "helico.c"
+				if(motorStable3 > 0)
+# 401 "helico.c"
+					motorStable3 -= 256 * 2;
+			}
+			else
+# 403 "helico.c"
+# 403 "helico.c"
+			{
+# 404 "helico.c"
+				if(motorStable1 > 0)
+# 405 "helico.c"
+					motorStable1 -= 256 * 2;
+			}
+		}
+	}
+}
+
+void doAROMYChannel(void _3)
+{
+# 412 "helico.c"
+	if(heliState == 3)
+# 412 "helico.c"
+	{
+# 413 "helico.c"
+		recordSample(7, aromY, Ain);
+# 414 "helico.c"
+		temp = FixFilter(7, aromY);
+# 415 "helico.c"
+		if(temp < aromYCalibrate)
+# 415 "helico.c"
+		{
+# 416 "helico.c"
+			if(motorStable2 < (int)60 << 8)
+# 417 "helico.c"
+				motorStable2 += 256 * 4;
+# 418 "helico.c"
+			if(motorStable3 > 0)
+# 419 "helico.c"
+				motorStable3 -= 256 * 2;
+		}
+		else
+# 421 "helico.c"
+# 421 "helico.c"
+		{
+# 422 "helico.c"
+			if(temp > aromYCalibrate)
+# 422 "helico.c"
+			{
+# 423 "helico.c"
+				if(motorStable2 > 0)
+# 424 "helico.c"
+					motorStable2 -= 256 * 2;
+# 425 "helico.c"
+				if(motorStable3 < (int)60 << 8)
+# 426 "helico.c"
+					motorStable3 += 256 * 4;
+			}
+			else
+# 428 "helico.c"
+# 428 "helico.c"
+			{
+# 429 "helico.c"
+				if(motorStable2 > 0)
+# 430 "helico.c"
+					motorStable2 -= 256;
+# 431 "helico.c"
+				if(motorStable3 > 0)
+# 432 "helico.c"
+					motorStable3 -= 256;
+			}
+		}
+	}
+}
+
+void doAROMZChannel(void _4)
+{
+# 439 "helico.c"
+	if(heliState == 3)
+# 439 "helico.c"
+	{
+# 440 "helico.c"
+		recordSample(7, aromZ, Ain);
+# 441 "helico.c"
+		temp = FixFilter(7, aromZ);
+# 446 "helico.c"
+		if(temp > aromZCalibrate + 3)
+# 446 "helico.c"
+		{
+# 447 "helico.c"
+			if(topRotorSpeed > (int)0 << 8)
+# 448 "helico.c"
+				topRotorSpeed -= 2;
+# 449 "helico.c"
+			if(bottomRotorSpeed > (int)0 << 8)
+# 450 "helico.c"
+				bottomRotorSpeed -= 2;
+		}
+		else
+		{
+# 452 "helico.c"
+# 453 "helico.c"
+			if(temp == aromZCalibrate)
+# 453 "helico.c"
+			{
+# 454 "helico.c"
+				if(topRotorSpeed < (int)((100 - 3)) << 8)
+# 455 "helico.c"
+					topRotorSpeed += 5;
+# 456 "helico.c"
+				if(bottomRotorSpeed < (int)((100 - 3)) << 8)
+# 457 "helico.c"
+					bottomRotorSpeed += 5;
+			}
+		}
+	}
+}
+
+void updateAin(int value)
+{
+# 463 "helico.c"
+	Ainlast = Ain;
+# 464 "helico.c"
+	Ain = value;
+}
+
+void calibrateGyro(void _5)
+{
+	int i_2;
+# 495 "helico.c"
+	for(i_2 = 0; i_2 < 32; i_2++)
+# 495 "helico.c"
+	{
+# 496 "helico.c"
+		gyro[i_2] = getGyro();
+	}
+# 498 "helico.c"
+	gyroCalibrate = FixFilter(5, gyro);
+}
+
+void calibrateArom(void _6)
+{
+# 502 "helico.c"
+	for(i = 0; i < 128; i++)
+# 502 "helico.c"
+	{
+# 503 "helico.c"
+		aromX[i] = getAccX();
+	}
+# 505 "helico.c"
+	aromXCalibrate = FixFilter(7, aromX);
+# 507 "helico.c"
+	for(i = 0; i < 128; i++)
+# 507 "helico.c"
+	{
+# 508 "helico.c"
+		aromY[i] = getAccY();
+	}
+# 510 "helico.c"
+	aromYCalibrate = FixFilter(7, aromY);
+# 512 "helico.c"
+	for(i = 0; i < 128; i++)
+# 512 "helico.c"
+	{
+# 513 "helico.c"
+		aromZ[i] = getAccZ();
+	}
+# 515 "helico.c"
+	aromZCalibrate = FixFilter(7, aromZ);
+}
+
+void timer_interrupt()
+{
+# 520 "helico.c"
+	ticks++;
+# 521 "helico.c"
+	marks++;
+# 522 "helico.c"
+	if(marks == 350)
+# 522 "helico.c"
+	{
+# 523 "helico.c"
+		marks = 0;
+# 524 "helico.c"
+		msec++;
+# 528 "helico.c"
+		if(msec == 10)
+# 528 "helico.c"
+		{
+# 529 "helico.c"
+			msec = 0;
+# 530 "helico.c"
+			sec++;
+		}
+	}
+# 534 "helico.c"
+	updatePWM();
+}
+
+void doPWM(void _7)
+{
+# 538 "helico.c"
+	msec++;
+# 539 "helico.c"
+	if(msec == 10)
+# 539 "helico.c"
+	{
+# 540 "helico.c"
+		updatePWM();
+# 541 "helico.c"
+		msec = 0;
+# 542 "helico.c"
+		sec++;
+	}
+}
+
+void updateMotors()
+{
+# 550 "helico.c"
+	action();
+# 551 "helico.c"
+	doPWM();
+}
+
+void stabilize()
+{
+# 556 "helico.c"
+	updateAin(getGyro());
+# 557 "helico.c"
+	doGyroChannel();
+# 558 "helico.c"
+	updateMotors();
+# 560 "helico.c"
+	updateAin(getAccX());
+# 561 "helico.c"
+	doAROMXChannel();
+# 562 "helico.c"
+	updateMotors();
+# 564 "helico.c"
+	updateAin(getAccY());
+# 565 "helico.c"
+	doAROMYChannel();
+# 566 "helico.c"
+	updateMotors();
+# 568 "helico.c"
+	updateAin(getAccZ());
+# 569 "helico.c"
+	doAROMZChannel();
+# 570 "helico.c"
+	updateMotors();
+}
+
+int main(void _8)
+{
+# 595 "helico.c"
+	calibrateGyro();
+# 596 "helico.c"
+	calibrateArom();
+# 601 "helico.c"
+	sec = 0;
+# 603 "helico.c"
+	while(1)
+# 603 "helico.c"
+	{
+# 604 "helico.c"
+		ticks++;
+# 605 "helico.c"
+		marks++;
+# 606 "helico.c"
+		if(marks == 350)
+# 606 "helico.c"
+		{
+# 607 "helico.c"
+			marks = 0;
+# 608 "helico.c"
+			stabilize();
+		}
+	}
+# 611 "helico.c"
+	return 0;
+}
+

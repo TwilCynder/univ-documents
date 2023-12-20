@@ -21,5 +21,3 @@ Host *.g5k
 ## Principes
 Les fichiers de /home sont partagés à l'échelle d'un site (NFS). Donc si je me connecte à la frontale d'un site, je peux déjà accéder à tous mes fichiers.  
 Par contre, pour faire tourner quoi que ce soit je dois utiliser une machine réservée avec oarsub
-
-## Travailler avec VSCode SSH

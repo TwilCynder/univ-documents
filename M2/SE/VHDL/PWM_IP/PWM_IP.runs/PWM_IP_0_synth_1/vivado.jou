@@ -1,0 +1,14 @@
+#-----------------------------------------------------------
+# Vivado v2023.1 (64-bit)
+# SW Build 3865809 on Sun May  7 15:04:56 MDT 2023
+# IP Build 3864474 on Sun May  7 20:36:21 MDT 2023
+# SharedData Build 3865790 on Sun May 07 13:33:03 MDT 2023
+# Start of session at: Wed Dec 13 15:36:39 2023
+# Process ID: 76728
+# Current directory: /nfs/home/camsi13/Documents/univ-documents/M2/SE/VHDL/PWM_IP/PWM_IP.runs/PWM_IP_0_synth_1
+# Command line: vivado -log PWM_IP_0.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source PWM_IP_0.tcl
+# Log file: /nfs/home/camsi13/Documents/univ-documents/M2/SE/VHDL/PWM_IP/PWM_IP.runs/PWM_IP_0_synth_1/PWM_IP_0.vds
+# Journal file: /nfs/home/camsi13/Documents/univ-documents/M2/SE/VHDL/PWM_IP/PWM_IP.runs/PWM_IP_0_synth_1/vivado.jou
+# Running On: secil1.siame.univ-tlse3.fr, OS: Linux, CPU Frequency: 3889.375 MHz, CPU Physical cores: 8, Host memory: 16464 MB
+#-----------------------------------------------------------
+source PWM_IP_0.tcl -notrace

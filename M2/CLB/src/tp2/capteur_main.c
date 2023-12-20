@@ -250,7 +250,6 @@ static __init int capteur_init(void)
         res = ds18b20_search(&roms);
     } while (retries++ < NUM_RETRIES && res == -EAGAIN);
 
-
 	if (err != 0) {
 		printk(KERN_ALERT "Failed to search for sensors\n");
 		goto error_pin;
