@@ -1,7 +1,7 @@
 local Newcomplex, check, complex = require ("lib.complex")
 local csv = require("lib.csv")
 
-local taille = 10000
+local taille = 1000
 local iterationmax = 1000
 local minX = -1
 local maxX = 1
