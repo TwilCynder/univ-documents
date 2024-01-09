@@ -13,16 +13,16 @@
         "C_S00_AXI_BASEADDR": [ { "value": "0xFFFFFFFF", "resolve_type": "user", "format": "bitString", "enabled": false, "usage": "all" } ],
         "C_S00_AXI_HIGHADDR": [ { "value": "0x00000000", "resolve_type": "user", "format": "bitString", "enabled": false, "usage": "all" } ],
         "Component_Name": [ { "value": "design_1_PWM_IP_0_0", "resolve_type": "user", "usage": "all" } ],
-        "sys_clk": [ { "value": "1000000", "resolve_type": "user", "format": "long", "usage": "all" } ],
-        "pwm_freq": [ { "value": "100000", "resolve_type": "user", "format": "long", "usage": "all" } ],
-        "duty_res": [ { "value": "8", "resolve_type": "user", "format": "long", "usage": "all" } ]
+        "sys_clk": [ { "value": "50000000", "value_src": "user", "resolve_type": "user", "format": "long", "usage": "all" } ],
+        "pwm_freq": [ { "value": "1", "value_src": "user", "resolve_type": "user", "format": "long", "usage": "all" } ],
+        "duty_res": [ { "value": "4", "value_src": "user", "resolve_type": "user", "format": "long", "usage": "all" } ]
       },
       "model_parameters": {
         "C_S00_AXI_DATA_WIDTH": [ { "value": "32", "resolve_type": "generated", "format": "long", "usage": "all" } ],
         "C_S00_AXI_ADDR_WIDTH": [ { "value": "4", "resolve_type": "generated", "format": "long", "usage": "all" } ],
-        "sys_clk": [ { "value": "1000000", "resolve_type": "generated", "format": "long", "usage": "all" } ],
-        "pwm_freq": [ { "value": "100000", "resolve_type": "generated", "format": "long", "usage": "all" } ],
-        "duty_res": [ { "value": "8", "resolve_type": "generated", "format": "long", "usage": "all" } ]
+        "sys_clk": [ { "value": "50000000", "resolve_type": "generated", "format": "long", "usage": "all" } ],
+        "pwm_freq": [ { "value": "1", "resolve_type": "generated", "format": "long", "usage": "all" } ],
+        "duty_res": [ { "value": "4", "resolve_type": "generated", "format": "long", "usage": "all" } ]
       },
       "project_parameters": {
         "ARCHITECTURE": [ { "value": "zynq" } ],

@@ -1,13 +1,14 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0xBEC5D2D8474B8FD8",
+      "boundary_crc": "0xBEC5D2D88300A8E9",
       "device": "xc7z020clg400-1",
       "gen_directory": "../../../../PWM_IP.gen/sources_1/bd/design_1",
       "name": "design_1",
       "rev_ctrl_bd_flag": "RevCtrlBdOff",
       "synth_flow_mode": "Hierarchical",
-      "tool_version": "2023.1"
+      "tool_version": "2023.1",
+      "validated": "true"
     },
     "design_tree": {
       "processing_system7_0": "",
@@ -340,7 +341,18 @@
         "vlnv": "twilcynder.net:gmb:PWM_IP:1.0",
         "xci_name": "design_1_PWM_IP_0_0",
         "xci_path": "ip/design_1_PWM_IP_0_0/design_1_PWM_IP_0_0.xci",
-        "inst_hier_path": "PWM_IP_0"
+        "inst_hier_path": "PWM_IP_0",
+        "parameters": {
+          "duty_res": {
+            "value": "4"
+          },
+          "pwm_freq": {
+            "value": "1"
+          },
+          "sys_clk": {
+            "value": "50000000"
+          }
+        }
       },
       "ps7_0_axi_periph": {
         "vlnv": "xilinx.com:ip:axi_interconnect:2.1",

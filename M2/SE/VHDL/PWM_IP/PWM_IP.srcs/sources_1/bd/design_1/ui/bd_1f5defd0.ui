@@ -12,10 +12,10 @@ preplace inst processing_system7_0 -pg 1 -lvl 1 -x 450 -y -100 -defaultsOSRD
 preplace inst PWM_IP_0 -pg 1 -lvl 3 -x 1200 -y -20 -defaultsOSRD
 preplace inst ps7_0_axi_periph -pg 1 -lvl 3 -x 1200 -y -260 -defaultsOSRD
 preplace inst rst_ps7_0_50M -pg 1 -lvl 2 -x 840 -y 10 -defaultsOSRD
+preplace netloc PWM_IP_0_P 1 3 1 N -20
 preplace netloc processing_system7_0_FCLK_CLK0 1 0 3 260 0 650 -90 1030
 preplace netloc processing_system7_0_FCLK_RESET0_N 1 1 1 640 -60n
 preplace netloc rst_ps7_0_50M_peripheral_aresetn 1 2 1 1040 -280n
-preplace netloc PWM_IP_0_P 1 3 1 N -20
 preplace netloc processing_system7_0_DDR 1 1 3 NJ -140 N -140 1360
 preplace netloc processing_system7_0_FIXED_IO 1 1 3 NJ -120 N -120 N
 preplace netloc processing_system7_0_M_AXI_GP0 1 1 2 650J -150 1020

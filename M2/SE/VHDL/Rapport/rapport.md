@@ -6,4 +6,3 @@ Il faudrait passer le RST en "reset à 1"
 
 Pour la synthèse, le slack et tout c'est basé sur le délai dans les portes mais sans délai dans les connexions  
 
-je vais tuer thiebolt

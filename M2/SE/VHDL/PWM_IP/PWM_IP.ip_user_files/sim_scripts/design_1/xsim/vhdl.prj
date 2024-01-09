@@ -1,0 +1,10 @@
+vhdl xil_defaultlib  \
+"../../../bd/design_1/ipshared/11df/hdl/PWM_IP_v1_0_S00_AXI.vhd" \
+"../../../bd/design_1/ipshared/11df/hdl/PWM_IP_v1_0.vhd" \
+"../../../bd/design_1/ipshared/11df/src/pwm.vhd" \
+"../../../bd/design_1/ip/design_1_PWM_IP_0_0/sim/design_1_PWM_IP_0_0.vhd" \
+"../../../bd/design_1/ip/design_1_rst_ps7_0_50M_0/sim/design_1_rst_ps7_0_50M_0.vhd" \
+"../../../bd/design_1/sim/design_1.vhd" \
+
+# Do not sort compile order
+nosort
