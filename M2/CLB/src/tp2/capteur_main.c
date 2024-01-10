@@ -1,6 +1,5 @@
 #include <linux/init.h>
 #include <linux/module.h>
-#include <linux/moduleparam.h>
 #include <linux/kernel.h>
 #include <linux/cdev.h>
 #include <linux/fs.h>
@@ -20,10 +19,6 @@
 #define SIGN_BIT_MASK (1 << SIGN_BIT)
 #define WHOLE_PART_MASK ((1 << (LAST_INTEGER_BIT - FIRST_INTEGER_BIT + 1)) - 1)
 #define FRAC_PART_MASK ((1 << FIRST_INTEGER_BIT) - 1)
-
-static int bus_pin = 0;
-module_param(bus_pin, int, 0664);
-MODULE_PARM_DESC(bus_pin, "GPIO pin to use");
 
 static dev_t dev;
 static struct cdev *my_cdev;
@@ -79,17 +74,15 @@ static char* temp_to_string(char* buffer, u16 temp, u8 resolution){
 	add_char(&buffer, '.');
 
 
-	if (frac == 0){
-		add_char(&buffer, '0');
-	} else {
-		do {
-			frac *= 10;
-			add_char(&buffer, '0' + (frac >> (current_resolution + 1)));
-			frac &= (frac_mask >> invres);
-		} while (frac > 0);
+	while (frac > 0){
+	
+		frac *= 10;
+		add_char(&buffer, '0' + (frac >> (current_resolution + 1)));
+		frac &= frac_mask;
 	}
 
-	add_char(&buffer, ' '); //correctness char
+
+	add_char(&buffer, ' ');
 	add_char(&buffer, '\n');
 
 	return buffer;
@@ -120,10 +113,9 @@ static void set_correctness_char(char character){
 
 static ssize_t read(struct file *filp, char *b, size_t len, loff_t *offset)
 {
-
     onewire_reset();
 	convert_temp();
-	msleep(ds18b20_conv_time[current_resolution]);
+	msleep(750);
 	onewire_reset();
 	updateBuffer();
 	printk(KERN_DEBUG "Read : %d\n", *(uint16_t*)recv_buffer);
@@ -138,17 +130,14 @@ static ssize_t read(struct file *filp, char *b, size_t len, loff_t *offset)
 	} else {
 		set_correctness_char('*');
 	}
+	if (copy_to_user(b, output_buffer, output_buffer_length)) return -EFAULT;
 
-	if (len > output_buffer_length){
-		len = output_buffer_length;
-	}
-
-	if (copy_to_user(b, output_buffer, len)) return -EFAULT;
-
-	return len;
+	return output_buffer_length;
 }
 
-static void change_resolution(u8 res){
+static void set_resolution(u8 res){
+	current_resolution = res;
+
 	onewire_reset();
 	onewire_write_u8(0xCC);
 	onewire_write_u8(0x4E);
@@ -156,11 +145,7 @@ static void change_resolution(u8 res){
 	onewire_write_u8(0); //TL (osef)	
 	onewire_write_u8(CONTROL_REG_BASE + ((res & 3) << CONTROL_REG_RES_BIT0));
 	onewire_write_u8(0x48);
-}
 
-static void set_resolution(u8 res){
-	current_resolution = res;
-	change_resolution(res);
 }
 
 static ssize_t write(struct file *filp, const char *b, size_t len, loff_t *offset)
@@ -184,10 +169,6 @@ static struct file_operations fops = {
 	.read = read,
 	.write = write
 };
-
-void init_onewire(void){
-	
-}
 
 static __init int capteur_init(void)
 {
@@ -232,19 +213,11 @@ static __init int capteur_init(void)
 		goto error;
 	}
 
-	printk(KERN_DEBUG "Pin : %d\n", bus_pin);
-
-	if (bus_pin < 0 || bus_pin > 31) goto error;
-
-	err = init_base_ds18b20(bus_pin, my_device);
+	err = init_base_ds18b20(17, my_device);
 	if (err != 0) goto error;
 
-	//Partie recherche de capteur; inutilisée car on reste sur la partie 1 (un seul capteur)
-	/*
 	u64* roms = NULL;
     int res, retries = 0;
-
-	onewire_reset();
 
     do {
         res = ds18b20_search(&roms);
@@ -265,11 +238,13 @@ static __init int capteur_init(void)
 		roms++;
 	}
 
-		*/
-
     printk(KERN_DEBUG "Allocated (major, minor) = (%d, %d)\n", MAJOR(dev), MINOR(dev));
 
 	return 0;
+
+
+error_pin:
+	deinit_base_ds18b20();
 
 error:
 	cdev_del(my_cdev);

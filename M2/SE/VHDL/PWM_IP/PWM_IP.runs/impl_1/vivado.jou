@@ -1,0 +1,23 @@
+#-----------------------------------------------------------
+# Vivado v2023.1 (64-bit)
+# SW Build 3865809 on Sun May  7 15:04:56 MDT 2023
+# IP Build 3864474 on Sun May  7 20:36:21 MDT 2023
+# SharedData Build 3865790 on Sun May 07 13:33:03 MDT 2023
+<<<<<<< HEAD
+# Start of session at: Wed Jan 10 15:48:10 2024
+# Process ID: 133247
+=======
+# Start of session at: Wed Jan 10 14:13:57 2024
+# Process ID: 52135
+>>>>>>> 173e8f2 (vdhl tp)
+# Current directory: /nfs/home/camsi13/Documents/univ-documents/M2/SE/VHDL/PWM_IP/PWM_IP.runs/impl_1
+# Command line: vivado -log design_1_wrapper.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source design_1_wrapper.tcl -notrace
+# Log file: /nfs/home/camsi13/Documents/univ-documents/M2/SE/VHDL/PWM_IP/PWM_IP.runs/impl_1/design_1_wrapper.vdi
+# Journal file: /nfs/home/camsi13/Documents/univ-documents/M2/SE/VHDL/PWM_IP/PWM_IP.runs/impl_1/vivado.jou
+<<<<<<< HEAD
+# Running On: secil1.siame.univ-tlse3.fr, OS: Linux, CPU Frequency: 4185.783 MHz, CPU Physical cores: 8, Host memory: 16464 MB
+=======
+# Running On: secil1.siame.univ-tlse3.fr, OS: Linux, CPU Frequency: 4140.206 MHz, CPU Physical cores: 8, Host memory: 16464 MB
+>>>>>>> 173e8f2 (vdhl tp)
+#-----------------------------------------------------------
+source design_1_wrapper.tcl -notrace

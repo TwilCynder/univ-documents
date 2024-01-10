@@ -1,0 +1,27 @@
+{
+   "ActiveEmotionalView":"Default View",
+   "Default View_ScaleFactor":"1.0",
+   "Default View_TopLeft":"-513,-157",
+   "ExpandedHierarchyInLayout":"",
+   "guistr":"# # String gsaved with Nlview 7.5.8 2022-09-21 7111 VDI=41 GEI=38 GUI=JA:10.0 TLS
+#  -string -flagsOSRD
+preplace port S00_AXI -pg 1 -lvl 0 -x -30 -y 50 -defaultsOSRD
+preplace port M00_AXI -pg 1 -lvl 2 -x 250 -y 90 -defaultsOSRD
+preplace port port-id_ACLK -pg 1 -lvl 0 -x -30 -y 20 -defaultsOSRD
+preplace port port-id_ARESETN -pg 1 -lvl 0 -x -30 -y 200 -defaultsOSRD
+preplace port port-id_S00_ACLK -pg 1 -lvl 0 -x -30 -y 140 -defaultsOSRD
+preplace port port-id_S00_ARESETN -pg 1 -lvl 0 -x -30 -y 170 -defaultsOSRD
+preplace port port-id_M00_ACLK -pg 1 -lvl 0 -x -30 -y 80 -defaultsOSRD
+preplace port port-id_M00_ARESETN -pg 1 -lvl 0 -x -30 -y 110 -defaultsOSRD
+preplace inst s00_couplers -pg 1 -lvl 1 -x 120 -y 90 -defaultsOSRD
+preplace netloc ps7_0_axi_periph_ACLK_net 1 0 1 -10J 70n
+preplace netloc ps7_0_axi_periph_ARESETN_net 1 0 1 -10J 90n
+preplace netloc S00_ACLK_1 1 0 1 0J 110n
+preplace netloc S00_ARESETN_1 1 0 1 10J 130n
+preplace netloc ps7_0_axi_periph_to_s00_couplers 1 0 1 NJ 50
+preplace netloc s00_couplers_to_ps7_0_axi_periph 1 1 1 N 90
+levelinfo -pg 1 -30 120 250
+pagesize -pg 1 -db -bbox -sgen -180 -10 360 220
+"
+}
+
