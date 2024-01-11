@@ -3,14 +3,16 @@
 # SW Build 3865809 on Sun May  7 15:04:56 MDT 2023
 # IP Build 3864474 on Sun May  7 20:36:21 MDT 2023
 # SharedData Build 3865790 on Sun May 07 13:33:03 MDT 2023
-# Start of session at: Wed Jan 10 16:25:20 2024
-# Process ID: 171972
+# Start of session at: Wed Jan 10 16:13:31 2024
+# Process ID: 169701
 # Current directory: /nfs/home/camsi13/Documents/univ-documents/M2/SE/VHDL
 # Command line: vivado
 # Log file: /nfs/home/camsi13/Documents/univ-documents/M2/SE/VHDL/vivado.log
 # Journal file: /nfs/home/camsi13/Documents/univ-documents/M2/SE/VHDL/vivado.jou
-# Running On: secil1.siame.univ-tlse3.fr, OS: Linux, CPU Frequency: 3758.125 MHz, CPU Physical cores: 8, Host memory: 16464 MB
+# Running On: secil1.siame.univ-tlse3.fr, OS: Linux, CPU Frequency: 3696.868 MHz, CPU Physical cores: 8, Host memory: 16464 MB
 #-----------------------------------------------------------
 start_gui
+open_project /nfs/home/camsi13/Documents/univ-documents/M2/SE/VHDL/PWM_IP/PWM_IP.xpr
+open_project /nfs/home/camsi13/Documents/univ-documents/M2/SE/VHDL/PWM_IP/PWM_IP.xpr
 open_project /nfs/home/camsi13/Documents/univ-documents/M2/SE/VHDL/PWM_IP/PWM_IP.xpr
 open_project /nfs/home/camsi13/Documents/univ-documents/M2/SE/VHDL/PWM_IP/PWM_IP.xpr
