@@ -1,0 +1,156 @@
+#Name: sem
+#Label: Semantic
+#Description: View the semantic instructions composing an instruction.
+0	1	00000478	seti r15, 0x478 (1144)
+0	1	00000478	seti t2, 0x4 (4)
+0	1	00000478	seti t1, 0x8 (8)
+0	1	00000478	sub t1, r13, t1
+0	1	00000478	set t3, t1
+0	1	00000478	store r11, t1, uint32
+0	1	00000478	add t1, t1, t2
+0	1	00000478	store r14, t1, uint32
+0	1	00000478	set r13, t3
+0	1	0000047c	seti r15, 0x47c (1148)
+0	1	0000047c	seti t1, 0x4 (4)
+0	1	0000047c	add r11, r13, t1
+0	1	00000480	seti r15, 0x480 (1152)
+0	1	00000480	seti t1, 0x10 (16)
+0	1	00000480	sub r13, r13, t1
+0	1	00000484	seti r15, 0x484 (1156)
+0	1	00000484	seti t2, 0xfffffff0 (4294967280)
+0	1	00000484	add t1, r11, t2
+0	1	00000484	store r0, t1, uint32
+0	1	00000488	seti r15, 0x488 (1160)
+0	1	00000488	seti t2, 0xffffffec (4294967276)
+0	1	00000488	add t1, r11, t2
+0	1	00000488	store r1, t1, uint32
+0	1	0000048c	seti r15, 0x48c (1164)
+0	1	0000048c	seti t2, 0xfffffff0 (4294967280)
+0	1	0000048c	add t1, r11, t2
+0	1	0000048c	load r3, t1, uint32
+0	1	00000490	seti r15, 0x490 (1168)
+0	1	00000490	seti t1, 0x0 (0)
+0	1	00000490	cmp sr, r3, t1
+0	1	00000494	seti r15, 0x494 (1172)
+0	1	00000494	seti t1, 0x4a0 (1184)
+0	1	00000494	if ne, sr, 1
+0	1	00000494	branch t1
+0	2	000004a0	seti r15, 0x4a0 (1184)
+0	2	000004a0	seti t2, 0xfffffff0 (4294967280)
+0	2	000004a0	add t1, r11, t2
+0	2	000004a0	load r3, t1, uint32
+0	2	000004a4	seti r15, 0x4a4 (1188)
+0	2	000004a4	seti t1, 0x1 (1)
+0	2	000004a4	cmp sr, r3, t1
+0	2	000004a8	seti r15, 0x4a8 (1192)
+0	2	000004a8	seti t1, 0x4b8 (1208)
+0	2	000004a8	if gt, sr, 1
+0	2	000004a8	branch t1
+0	3	000004b8	seti r15, 0x4b8 (1208)
+0	3	000004b8	seti r15, 0x4c0 (1216)
+0	3	000004b8	seti t2, 0x28 (40)
+0	3	000004b8	add t1, r15, t2
+0	3	000004b8	load r3, t1, uint32
+0	3	000004bc	seti r15, 0x4bc (1212)
+0	3	000004bc	seti t2, 0xfffffff8 (4294967288)
+0	3	000004bc	add t1, r11, t2
+0	3	000004bc	store r3, t1, uint32
+0	4	000004cc	seti r15, 0x4cc (1228)
+0	4	000004cc	seti t2, 0xfffffff4 (4294967284)
+0	4	000004cc	add t1, r11, t2
+0	4	000004cc	store r0, t1, uint32
+0	4	000004d0	seti r15, 0x4d0 (1232)
+0	4	000004d0	seti t2, 0xfffffff4 (4294967284)
+0	4	000004d0	add t1, r11, t2
+0	4	000004d0	load r3, t1, uint32
+0	4	000004d4	seti r15, 0x4d4 (1236)
+0	4	000004d4	set t1, r3
+0	4	000004d4	set r0, t1
+0	4	000004d8	seti r15, 0x4d8 (1240)
+0	4	000004d8	seti t1, 0x4 (4)
+0	4	000004d8	sub r13, r11, t1
+0	4	000004dc	seti r15, 0x4dc (1244)
+0	4	000004dc	seti t2, 0x4 (4)
+0	4	000004dc	set t1, r13
+0	4	000004dc	seti t3, 0x8 (8)
+0	4	000004dc	add t3, t1, t3
+0	4	000004dc	load r11, t1, uint32
+0	4	000004dc	add t1, t1, t2
+0	4	000004dc	load r14, t1, uint32
+0	4	000004dc	set r13, t3
+0	4	000004e0	seti r15, 0x4e0 (1248)
+0	4	000004e0	branch r14
+0	5	000004ac	seti r15, 0x4ac (1196)
+0	5	000004ac	seti r15, 0x4b4 (1204)
+0	5	000004ac	seti t2, 0x30 (48)
+0	5	000004ac	add t1, r15, t2
+0	5	000004ac	load r3, t1, uint32
+0	5	000004b0	seti r15, 0x4b0 (1200)
+0	5	000004b0	seti t2, 0xfffffff8 (4294967288)
+0	5	000004b0	add t1, r11, t2
+0	5	000004b0	store r3, t1, uint32
+0	5	000004b4	seti r15, 0x4b4 (1204)
+0	5	000004b4	seti t1, 0x4c0 (1216)
+0	5	000004b4	branch t1
+0	6	000004c0	seti r15, 0x4c0 (1216)
+0	6	000004c0	seti t2, 0xfffffff8 (4294967288)
+0	6	000004c0	add t1, r11, t2
+0	6	000004c0	load r3, t1, uint32
+0	6	000004c4	seti r15, 0x4c4 (1220)
+0	6	000004c4	seti r15, 0x4cc (1228)
+0	6	000004c4	set t1, r15
+0	6	000004c4	set r14, t1
+0	6	000004c8	seti r15, 0x4c8 (1224)
+0	6	000004c8	branch r3
+0	7	00000498	seti r15, 0x498 (1176)
+0	7	00000498	seti r0, 0x1 (1)
+0	7	0000049c	seti r15, 0x49c (1180)
+0	7	0000049c	seti t1, 0x400 (1024)
+0	7	0000049c	seti r14, 0x4a0 (1184)
+0	7	0000049c	branch t1
+1	1	0000045c	seti r15, 0x45c (1116)
+1	1	0000045c	seti t2, 0xfffffffc (4294967292)
+1	1	0000045c	add t1, r13, t2
+1	1	0000045c	store r11, t1, uint32
+1	1	0000045c	set r13, t1
+1	1	00000460	seti r15, 0x460 (1120)
+1	1	00000460	seti t1, 0x0 (0)
+1	1	00000460	add r11, r13, t1
+1	1	00000464	seti r15, 0x464 (1124)
+1	1	00000464	seti r3, 0x0 (0)
+1	1	00000468	seti r15, 0x468 (1128)
+1	1	00000468	set t1, r3
+1	1	00000468	set r0, t1
+1	1	0000046c	seti r15, 0x46c (1132)
+1	1	0000046c	seti t1, 0x0 (0)
+1	1	0000046c	add r13, r11, t1
+1	1	00000470	seti r15, 0x470 (1136)
+1	1	00000470	seti t2, 0x4 (4)
+1	1	00000470	set t1, r13
+1	1	00000470	load r11, t1, uint32
+1	1	00000470	add r13, t1, t2
+1	1	00000474	seti r15, 0x474 (1140)
+1	1	00000474	branch r14
+2	1	00000440	seti r15, 0x440 (1088)
+2	1	00000440	seti t2, 0xfffffffc (4294967292)
+2	1	00000440	add t1, r13, t2
+2	1	00000440	store r11, t1, uint32
+2	1	00000440	set r13, t1
+2	1	00000444	seti r15, 0x444 (1092)
+2	1	00000444	seti t1, 0x0 (0)
+2	1	00000444	add r11, r13, t1
+2	1	00000448	seti r15, 0x448 (1096)
+2	1	00000448	seti r3, 0x1 (1)
+2	1	0000044c	seti r15, 0x44c (1100)
+2	1	0000044c	set t1, r3
+2	1	0000044c	set r0, t1
+2	1	00000450	seti r15, 0x450 (1104)
+2	1	00000450	seti t1, 0x0 (0)
+2	1	00000450	add r13, r11, t1
+2	1	00000454	seti r15, 0x454 (1108)
+2	1	00000454	seti t2, 0x4 (4)
+2	1	00000454	set t1, r13
+2	1	00000454	load r11, t1, uint32
+2	1	00000454	add r13, t1, t2
+2	1	00000458	seti r15, 0x458 (1112)
+2	1	00000458	branch r14

@@ -471,12 +471,12 @@ This exercise shows that, even if the control flow of a program is too complex t
 
   a. The call of the function pointer at line 32 has not been resolved by **OTAWA**.
 
-  [=>] BB address containing this call =
+  [=>] BB address containing this call = 0x4c0
 
 
   b. The CFG of the function `exit()` is disconnected: this comes from the last instruction of `exit()`, `SWI` that performs a system call to the OS at end of program to exit (_enable disassembly view_).
 
-	[=>] SWI address =
+	[=>] SWI address = 0x400
 
   We have to help OTAWA to manage these issues.
 
@@ -484,13 +484,13 @@ This exercise shows that, even if the control flow of a program is too complex t
 
   a. The first command is `multicall` and represents the call to a function pointer call: you have to replace the `?` with a comma-separated list of quoted names of the functions that may be called through the pointer (look to the sources).
 
-	[=>] called functions = 
+	[=>] called functions = one, zero
 
   b. The second entry concernes the `SWI` instruction of `exit()`. `mkff` proposes to consider this function as either a non-returning instruction, or a call to multiple functions. Just remove the bad line.
 
 	[=>] Which line do you keep?
 	
-	[=>] [ ] non-return function
+	[=>] [x] non-return function
 	
 	[=>] [ ] multi-call
 
@@ -498,7 +498,7 @@ This exercise shows that, even if the control flow of a program is too complex t
 
 6. Now, you can compute the WCET.
 
-	[=>] WCET =
+	[=>] WCET = 66
 
 
 

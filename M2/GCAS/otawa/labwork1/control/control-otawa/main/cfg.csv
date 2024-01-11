@@ -1,0 +1,39 @@
+#Task: main
+#Exec: control.elf
+G	main	00000478	[]
+N
+B	00000478	32
+B	000004a0	12
+B	000004b8	8
+B	000004cc	24
+B	000004ac	12
+B	000004c0	12
+B	00000498	8
+C	1
+C	2
+X
+E	0	1	N
+E	1	2	T
+E	1	7	N
+E	2	3	T
+E	2	5	N
+E	3	6	N
+E	4	10	T
+E	5	6	T
+E	6	9	T
+E	6	8	T
+E	7	10	T
+E	8	4	N
+E	9	4	N
+G	zero	0000045c	[]
+N
+B	0000045c	28
+X
+E	0	1	N
+E	1	2	T
+G	one	00000440	[]
+N
+B	00000440	28
+X
+E	0	1	N
+E	1	2	T

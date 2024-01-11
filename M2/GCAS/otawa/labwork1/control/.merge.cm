@@ -1,0 +1,48 @@
+int main();
+
+void _exit(int )
+{
+	asm("\"\"\"\"\"\"");
+}
+
+void _start(void _0)
+{
+	int r = main();
+# 7 "control.c"
+	_exit(r);
+}
+
+int one(void _1)
+{
+# 12 "control.c"
+	return 1;
+}
+
+int zero(void _2)
+{
+# 16 "control.c"
+	return 0;
+}
+
+int main(int argc, char **argv)
+{
+	int r_0;
+	int (*f)(void );
+# 24 "control.c"
+	if(argc == 0)
+# 25 "control.c"
+		_exit(1);
+# 28 "control.c"
+	if(argc <= 1)
+# 29 "control.c"
+		f = one;
+	else
+# 30 "control.c"
+# 31 "control.c"
+		f = zero;
+# 32 "control.c"
+	r_0 = f();
+# 33 "control.c"
+	return r_0;
+}
+

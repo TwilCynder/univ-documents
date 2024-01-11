@@ -1,0 +1,47 @@
+#Name: disassembly
+#Label: Disassembly
+#Description: Machine instructions composing the program.
+0	1	00000478	main:
+0	1	00000478	stmdb sp!, {fp, lr}
+0	1	0000047c	add fp, sp, #4
+0	1	00000480	sub sp, sp, #16
+0	1	00000484	str r0, [fp, -#16]
+0	1	00000488	str r1, [fp, -#20]
+0	1	0000048c	ldr r3, [fp, -#16]
+0	1	00000490	cmp r3, #0
+0	1	00000494	bne 000004a0
+0	2	000004a0	ldr r3, [fp, -#16]
+0	2	000004a4	cmp r3, #1
+0	2	000004a8	bgt 000004b8
+0	3	000004b8	ldr r3, [pc, #40]
+0	3	000004bc	str r3, [fp, -#8]
+0	4	000004cc	str r0, [fp, -#12]
+0	4	000004d0	ldr r3, [fp, -#12]
+0	4	000004d4	mov r0, r3
+0	4	000004d8	sub sp, fp, #4
+0	4	000004dc	ldmia sp!, {fp, lr}
+0	4	000004e0	bx lr
+0	5	000004ac	ldr r3, [pc, #48]
+0	5	000004b0	str r3, [fp, -#8]
+0	5	000004b4	b 000004c0
+0	6	000004c0	ldr r3, [fp, -#8]
+0	6	000004c4	mov lr, pc
+0	6	000004c8	bx r3
+0	7	00000498	mov r0, #1
+0	7	0000049c	bl 00000400
+1	1	0000045c	zero:
+1	1	0000045c	str fp, [sp, -#4]!
+1	1	00000460	add fp, sp, #0
+1	1	00000464	mov r3, #0
+1	1	00000468	mov r0, r3
+1	1	0000046c	add sp, fp, #0
+1	1	00000470	ldr fp, [sp], #4
+1	1	00000474	bx lr
+2	1	00000440	one:
+2	1	00000440	str fp, [sp, -#4]!
+2	1	00000444	add fp, sp, #0
+2	1	00000448	mov r3, #1
+2	1	0000044c	mov r0, r3
+2	1	00000450	add sp, fp, #0
+2	1	00000454	ldr fp, [sp], #4
+2	1	00000458	bx lr

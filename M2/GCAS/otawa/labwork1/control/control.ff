@@ -1,0 +1,10 @@
+checksum "control.elf" 0x930a4bed;
+
+// Low-level flow facts
+multicall "main" + 0x50 to "one","zero";	// 0x000004c8 (control.c:32) indirect call in "main"
+
+noreturn "_exit";
+//multibranch "_exit" + 0x10 to ?;	// 0x00000410 (control.c:3) switch-like branch in "_exit"
+
+
+

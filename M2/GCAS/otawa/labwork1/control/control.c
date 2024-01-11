@@ -1,6 +1,6 @@
 int main();
 
-void _exit(int r);
+void _exit(int) { asm("swi 10"); }
 
 void _start(void) {
 	int r = main();
