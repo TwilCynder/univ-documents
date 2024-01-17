@@ -58,11 +58,14 @@ log:
 
 
 # exercises
-ex%.elf: $(ADD_OBJECTS) ex%.o 
+%.elf: $(ADD_OBJECTS) %.o 
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
+
+#robot.o: robot.cpp
+#	$(CC) $(CFLAGS) -c $< -o $@
 
 %.o: %.s
 	$(AS) $(ASFLAGS) -c $< -o $@
@@ -70,8 +73,8 @@ ex%.elf: $(ADD_OBJECTS) ex%.o
 %.s: %.c
 	$(CC) $(CFLAGS) -c $< -o $@ -S
 
-debug_ex%: ex%.elf
-	$(GDB) $(GDB_FLAGS) ex$*.elf
+debug_%: %.elf
+	$(GDB) $(GDB_FLAGS) $*.elf
 
 
 # build distribution

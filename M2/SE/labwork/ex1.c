@@ -24,6 +24,7 @@ int main() {
 		
 	// GPIO init
 
+	printf("%d!\n", sizeof(int));
 	printf("Endless loop!\n");
 
 	for (int i = GREEN_LED; i <= BLUE_LED; i++){
