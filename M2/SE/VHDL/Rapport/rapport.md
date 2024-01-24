@@ -163,8 +163,76 @@ set_property IOSTANDARD LVCMOS33 [get_ports P]
 Pour l'implémentation, on s'apperçoit que les boutons, que l'on va utiliser pour le reset et le enable, sont en "normalement à 0", c'est à dire que le signal qu'on va recevoir est à 0 si le bouton n'est pas appuyé. Cela impliquerait que le PWM fonctionne tant que le bouton enable n'est pas appuyé, et reset tant que le bouton reset n'est pas appuyé (donc on doit appuyer pour que ça fonctionne, ce qui manque de sens)  
 On change le code de pwm.vhd pour que le reset n'ait lieu que si le bouton reset est appuyé ("reset à 1"). On pourrait laisser le enable tel quel (auquel cas le PWM fonctionnerait tant que rien n'est appuyé), mais je décide de ne le faire fonctionner que tant que le bouton est appuyé, on passer donc en "enable à 1".  
 
-pour le constraint file avec IP, j'ai mis le même que précédemment, aucune idée de si c'est bon
+### Bistream generation
+Il ne reste plus qu'à générer le bitstream et le transférer sur la carte. 
 
-Trouver comment afficher le diagramme page 56 du sujet  
+Le génération du bitstream se fait sans problème. Je suis juste un peu confus par le log, qui semble indiquer que tous les éléments ont supprimés à l'optimisation : 
 
-j'ai du corriger le #include en PWM_IP.h, et globalements tous les myAXIpwm en PWM_IP
+```
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+|  Optimization                                     |  Added Cells  |  Removed Cells  |  Optimized Cells/Nets  |  Dont Touch  |  Iterations  |  Elapsed   |
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+|  LUT Combining                                    |            0  |             16  |                    16  |           0  |           1  |  00:00:00  |
+|  Retime                                           |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  Very High Fanout                                 |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  DSP Register                                     |            0  |              0  |                     0  |           0  |           0  |  00:00:00  |
+|  Shift Register to Pipeline                       |            0  |              0  |                     0  |           0  |           0  |  00:00:00  |
+|  Shift Register                                   |            0  |              0  |                     0  |           0  |           0  |  00:00:00  |
+|  BRAM Register                                    |            0  |              0  |                     0  |           0  |           0  |  00:00:00  |
+|  URAM Register                                    |            0  |              0  |                     0  |           0  |           0  |  00:00:00  |
+|  Dynamic/Static Region Interface Net Replication  |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  Total                                            |            0  |             16  |                    16  |           0  |           4  |  00:00:00  |
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+```
+... mais on verra bien si ça marche toujours sur la carte.  
+
+
+Après une petite galère causée par le fait que je n'avais pas réalisé que je n'avais pas branché la carte, le bitstream est transféré : le PWN fonctionne correctement !
+
+[La preuve en images](https://www.youtube.com/watch?v=_yh0mEVPNJ8)
+
+## Partie 2 - IP Block
+On passe donc à la création d'un bloc IP. Pour cela, je crée d'abord un nouveau projet dans lequel je pourrai utilise le bloc IP (que j'appelle PWM_IP), puis je je le crée en passant par l'option "Create and Package New IP" dans vivado. Je l'appelle PWM_IP (je m'apercevrai un peu plus tard que donner le même nom au projet et au bloc IP était une mauvaise idée, entermes de clarté)
+
+![Alt text](image-1.png)
+
+J'ajoute le code source de mon PWN précédemment développé. 
+
+Une fois l'IP PWN terminé, on peut repasser au projet PWM_IP, auquel on ajoute le bloc IP.
+
+![Alt text](image-2.png)
+
+Block design : 
+
+![Alt text](image-3.png)
+
+(Il a juste fallu ajouter manuellement le port de sortie "P", connecté à la sortie du bloc IP).
+
+Je lance ensuite l'implémentation, avec le même fichier de contraintes xdc que précédemment, de manière à bien router mes entrées/sorties (notament ma sortie P) aux pins de la carte.  
+
+La génération de bitstream se passe normalement ; cette fois au lieu de transférer vers la carte on export en fichier xsa. 
+
+### Vitis
+
+On lance ensuite l'IDE vitis, afin de pouvoir utiliser mon PWN directement via du code C. J'importe le xsa exporté précédemment en tant que hardware platform dans une nouvelle application (empty c++ app, standalone/bare-metal).  
+Comme fichier source, j'utilise le myAXIpwm.c fourni.  
+
+La première tentative de build ne marche pas : en effet, le fichier aprt du principe que j'ai utilisé le même nom que sur le sujet pour mon bloc IP.
+
+![](./vitis%20build%20fail.png).  
+
+Il faut donc que je corrige tous les "myAXIpwm" en "PWM_IP" (dont au niveau du `#include "myAXIpwm.h"`).  
+
+Cette fois le build fonctionne. 
+
+![](./vitis%20build%20réussi.png)
+
+On n'oublie pas de bouger le bridge sur les pins de configuratiton du Programming Mode de la carte pour passer en JTAG.  
+
+Il ne reste plus qu'a uploader depuis Vitis ... 
+
+
+... et ça ne fonctionne pas. Malheureusement, l'IDE ne me donne aucun message d'erreur, la console reste entièrement vide.  
+Après un certain temps à essayer de trouver une solution, j'ai malheureusement fini par capitulier, ne trouvant pas la source du problème.  
